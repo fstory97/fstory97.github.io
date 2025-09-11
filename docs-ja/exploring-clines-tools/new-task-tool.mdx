@@ -1,0 +1,386 @@
+---
+title: "新しいタスクツール"
+---
+
+### `new_task`ツールとコンテキスト管理戦略
+
+#### 概要
+
+Clineには、特に複雑または長時間実行されるタスクにおいて、ワークフローの継続性とコンテキスト保存を管理するために設計された強力な内部ツール`new_task`が含まれています。このツールは、Cline自体のコンテキストウィンドウ使用量の認識と`.clinerules`の柔軟性と組み合わせることで、作業の分割とタスクセッション間のシームレスな移行を確保する洗練された戦略を可能にします。
+
+この機能を効果的に活用するには、コア機能とカスタムルールとの相互作用を理解することが重要です。
+
+#### コア機能
+
+高度なコンテキスト管理を可能にする2つの基本機能：
+
+1. **`new_task`ツール：**
+    - **機能：** ユーザーの承認により、Clineが現在のタスクセッションを終了し、すぐに新しいセッションを開始できます。
+    - **コンテキスト事前読み込み：** 重要なことは、Clineがツールの`<context>`ブロック内で提供された特定のコンテキストで、この新しいタスクセッションを**事前読み込み**できることです。このコンテキストは、Clineまたは`.clinerules`ファイルが定義するもの（要約、コードスニペット、次のステップ、プロジェクト状態など）であることができます。
+2. **コンテキストウィンドウ認識：**
+    - **追跡：** Clineは、タスク中に現在使用されている利用可能なコンテキストウィンドウのパーセンテージを内部的に追跡します。
+    - **可視性：** この情報は、Clineのプロンプトで提供される`environment_details`で確認できます。
+
+#### `/newtask`スラッシュコマンドの使用
+
+Clineが`newtask`ツールを提案したり複雑なルールを定義したりする代わりに、スラッシュコマンドを使用してプロセスを直接開始することができます。
+
+-   **方法：** チャット入力フィールドに単に`/newtask`と入力します。
+-   **動作：** Clineは新しいタスクの作成を提案し、通常は現在のセッションに基づいたコンテキストを提案します（ツールを使用する際のデフォルト動作と同様）。新しいタスクが作成される前に、コンテキストを確認し潜在的に修正するための`ask_followup_question`プロンプトが表示されます。
+-   **利点：** Clineが提案するのを待つことなく、分岐探索や長時間セッションの管理のために`new_task`機能を活用する、ユーザー主導の高速な方法を提供します。
+
+<Note>
+	`/newtask`スラッシュコマンドの使用に関する詳細については、[新しいタスクコマンド](/features/slash-commands/new-task)
+	ドキュメントを参照してください。
+</Note>
+
+#### デフォルトの動作（`.clinerules`なし）
+
+デフォルトでは、特定の`.clinerules`がその動作を指示していない場合：
+
+-   **ツールの利用可能性：** `new_task`ツールが存在し、Clineはそれを使用することを_選択できます_。
+-   **コンテキスト認識：** Clineは、そのコンテキスト使用率のパーセンテージを_認識しています_。
+-   **自動トリガーなし：** Clineは、コンテキスト使用量が特定のパーセンテージ（50%など）に達することだけに基づいて、タスクハンドオフを自動的に開始することは**ありません**。`new_task`の使用を提案する決定は、全体的なタスクの進行とプロンプト指示に基づくAIモデルの推論から来ます。
+-   **基本的なコンテキスト事前読み込み：** `<context>`ブロック構造を定義する特定のルールなしで`new_task`が使用される場合、Clineは現在の理解に基づいて関連情報を事前読み込みしようとします（例：進捗と次のステップの基本的な要約）が、これはルール駆動のアプローチよりも包括的でない場合があります。
+
+#### `.clinerules`の力：カスタムワークフローの有効化
+
+コア機能はデフォルトで存在しますが、真の力、自動化、カスタマイゼーションは、`new_task`とコンテキスト認識を`.clinerules`で定義されたカスタムワークフローと組み合わせる際に現れます。これにより、Clineがコンテキストとタスクの継続性を管理する_タイミング_と_方法_を正確に制御できます。
+
+`.clinerules`を`new_task`で使用する主な利点：
+
+-   **自動コンテキスト管理：** 特定のコンテキストパーセンテージ（例：>50%、>70%）またはトークン数で自動的にハンドオフをトリガーするルールを定義し、最適なパフォーマンスを確保してコンテキスト損失を防ぎます。
+-   **モデル固有の最適化：** 異なるLLMの既知のしきい値に基づいてハンドオフトリガーを調整します（例：特定のトークン数を過ぎると劣化することが知られているモデルに対して早期にトリガー）。
+-   **インテリジェントなブレークポイント：** コンテキストしきい値を通過した_後に_、論理的な停止点（例：関数またはテストの完了後）を見つけるようルールを介してClineに指示し、よりクリーンなハンドオフを確保します。
+-   **構造化されたタスク分解：** プランモードを使用してサブタスクを定義し、`.clinerules`を使用して各サブタスクの完了時にClineが`new_task`を介して自動的に新しいタスクを作成し、_次の_サブタスクのコンテキストを事前読み込みします。
+-   **カスタムコンテキストパッケージング：** 非常に詳細で一貫性のあるハンドオフのために、`.clinerules`で`<context>`ブロックの正確な構造と内容を義務付けます（以下の例を参照）。
+-   **改善されたメモリ永続性：** セッション間で情報を永続化する主要な統合方法として`new_task`コンテキストブロックを使用し、ファイルベースのメモリシステムを潜在的に置き換えるか補完します。
+-   **ワークフロー自動化：** 特定の種類のタスクを開始する際に、常に特定のセットアップ指示またはプロジェクトボイラープレートを事前読み込みするなど、特定のシナリオのルールを定義します。
+
+#### ルール駆動ワークフローの例：タスクハンドオフプロセス
+
+以下の例のような**特定の`.clinerules`によって駆動される**一般的なワークフローには、以下のステップが含まれます：
+
+1. **トリガー識別（ルールベース）：** Clineは、ルールで定義されたハンドオフポイント（例：コンテキスト使用量 > 50%、タスク完了）を監視します。
+2. **ユーザー確認：** Clineは`ask_followup_question`を使用して新しいタスクの作成を提案し、しばしばルールで定義された意図されたコンテキストを表示します。
+
+    ```xml
+    <ask_followup_question>
+    <question>[特定の成果]を完了し、コンテキスト使用量が高く（XX%）なっています。[残りの作業]を続行するために新しいタスクを作成し、以下のコンテキストを事前読み込みしますか？</question>
+    <options>["はい、新しいタスクを作成", "最初にコンテキストを修正", "いいえ、このセッションを続行"]</options>
+    </ask_followup_question>
+    ```
+
+3. **ユーザー制御：** 新しいタスクが作成される前に、承認、拒否、またはコンテキストの修正をClineに求めることができます。
+4. **コンテキストパッケージング（`new_task`ツール）：** 承認された場合、Clineは`new_task`を使用し、`.clinerules`で義務付けられた構造に従ってコンテキストをパッケージ化します。
+5. **新しいタスクの作成：** 現在のタスクが終了し、指定されたコンテキストで事前読み込みされた新しいセッションがすぐに開始されます。
+
+#### ハンドオフコンテキストブロック（ルール定義構造）
+
+ルール駆動ハンドオフの効果は、`.clinerules`が`<context>`ブロックをどのように定義するかに大きく依存します。包括的な構造には通常以下が含まれます：
+
+-   **`## 完了した作業`**: 成果、変更/作成されたファイル、重要な決定の詳細なリスト。
+-   **`## 現在の状態`**: プロジェクトの状況、実行中のプロセス、主要なファイルの状態。
+-   **`## 次のステップ`**: 残りのタスク、実装詳細、既知の課題の明確で優先順位付けられたリスト。
+-   **`## 参考情報`**: リンク、コードスニペット、パターン、ユーザー設定。
+-   **実行可能な開始**: 次の即座のアクションに対する明確な指示。
+
+#### 潜在的な使用例とワークフロー
+
+`new_task`と`.clinerules`の組み合わせの柔軟性により、多くの可能性が開かれます：
+
+-   **プロアクティブなコンテキストウィンドウ管理**: 最適なパフォーマンスを維持するために、特定のパーセンテージ（例：50%、70%）またはトークン数でハンドオフを自動的にトリガー。
+-   **インテリジェントなブレークポイント**: コンテキストしきい値を通過した_後に_、論理的な停止点（例：関数またはテストの完了後）を見つけるようClineに指示し、よりクリーンなハンドオフを確保。
+-   **構造化されたタスク分解**: プランモードを使用してサブタスクを定義し、`.clinerules`を使用して各サブタスクの完了時にClineが`new_task`を介して自動的に新しいタスクを作成。
+-   **自動化されたセッション要約**: 以前のセッションの主要な議論点の要約を常に含むように`<context>`ブロックを設定。
+-   **ボイラープレート/セットアップの事前読み込み**: 標準的なセットアップ指示またはファイルテンプレートで事前読み込みされた特定のプロジェクトに関連する新しいタスクを開始。
+-   **「メモリバンク」の代替**: セッション間で情報を永続化する主要な方法として`new_task`コンテキストブロックを使用し、ファイルベースのメモリシステムを潜在的に置き換え。
+
+あなたのニーズに最も適したワークフローを発見するために、`.clinerules`での実験をお勧めします！
+
+#### Example `.clinerules`: Task Handoff Strategy Guide
+
+Below is an example `.clinerules` file focused specifically on using `new_task` for context window management. **Remember, this is just one specific strategy; the core `new_task` tool can be used differently with other custom rules.**
+
+````markdown
+# You MUST use the `new_task` tool: Task Handoff Strategy Guide
+
+**⚠️ CRITICAL INSTRUCTIONS - YOU MUST FOLLOW THESE GUIDELINES ⚠️**
+
+This guide provides **MANDATORY** instructions for effectively breaking down complex tasks and implementing a smooth handoff process between tasks. You **MUST** follow these guidelines to ensure continuity, context preservation, and efficient task completion.
+
+## ⚠️ CONTEXT WINDOW MONITORING - MANDATORY ACTION REQUIRED ⚠️
+
+You **MUST** monitor the context window usage displayed in the environment details. When usage exceeds 50% of the available context window, you **MUST** initiate a task handoff using the `new_task` tool.
+
+Example of context window usage over 50% with a 200K context window:
+
+\`\`\`text
+
+# Context Window Usage
+
+105,000 / 200,000 tokens (53%)
+Model: anthropic/claude-sonnet-4 (200K context window)
+\`\`\`
+
+**IMPORTANT**: When you see context window usage at or above 50%, you MUST:
+
+1. Complete your current logical step
+2. Use the `ask_followup_question` tool to offer creating a new task
+3. If approved, use the `new_task` tool with comprehensive handoff instructions
+
+## Task Breakdown in Plan Mode - REQUIRED PROCESS
+
+Plan Mode is specifically designed for analyzing complex tasks and breaking them into manageable subtasks. When in Plan Mode, you **MUST**:
+
+### 1. Initial Task Analysis - REQUIRED
+
+-   **MUST** begin by thoroughly understanding the full scope of the user's request
+-   **MUST** identify all major components and dependencies of the task
+-   **MUST** consider potential challenges, edge cases, and prerequisites
+
+### 2. Strategic Task Decomposition - REQUIRED
+
+-   **MUST** break the overall task into logical, discrete subtasks
+-   **MUST** prioritize subtasks based on dependencies (what must be completed first)
+-   **MUST** aim for subtasks that can be completed within a single session (15-30 minutes of work)
+-   **MUST** consider natural breaking points where context switching makes sense
+
+### 3. Creating a Task Roadmap - REQUIRED
+
+-   **MUST** present a clear, numbered list of subtasks to the user
+-   **MUST** explain dependencies between subtasks
+-   **MUST** provide time estimates for each subtask when possible
+-   **MUST** use Mermaid diagrams to visualize task flow and dependencies when helpful
+
+\`\`\`mermaid
+graph TD
+A[Main Task] --> B[Subtask 1: Setup]
+A --> C[Subtask 2: Core Implementation]
+A --> D[Subtask 3: Testing]
+A --> E[Subtask 4: Documentation]
+B --> C
+C --> D
+\`\`\`
+
+### 4. Getting User Approval - REQUIRED
+
+-   **MUST** ask for user feedback on the proposed task breakdown
+-   **MUST** adjust the plan based on user priorities or additional requirements
+-   **MUST** confirm which subtask to begin with
+-   **MUST** request the user to toggle to Act Mode when ready to implement
+
+## Task Implementation and Handoff Process - MANDATORY PROCEDURES
+
+When implementing tasks in Act Mode, you **MUST** follow these guidelines for effective task handoff:
+
+### 1. Focused Implementation - REQUIRED
+
+-   **MUST** focus on completing the current subtask fully
+-   **MUST** document progress clearly through comments and commit messages
+-   **MUST** create checkpoints at logical completion points
+
+### 2. Recognizing Completion Points - CRITICAL
+
+You **MUST** identify natural handoff points when:
+
+-   The current subtask is fully completed
+-   You've reached a logical stopping point in a larger subtask
+-   The implementation is taking longer than expected and can be continued later
+-   The task scope has expanded beyond the original plan
+-   **CRITICAL**: The context window usage exceeds 50% (e.g., 100,000+ tokens for a 200K context window)
+
+### 3. Initiating the Handoff Process - MANDATORY ACTION
+
+When you've reached a completion point, you **MUST**:
+
+1. Summarize what has been accomplished so far
+2. Clearly state what remains to be done
+3. **MANDATORY**: Use the `ask_followup_question` tool to offer creating a new task:
+
+\`\`\`xml
+<ask_followup_question>
+<question>I've completed [specific accomplishment]. Would you like me to create a new task to continue with [remaining work]?</question>
+<options>["Yes, create a new task", "No, continue in this session", "Let me think about it"]</options>
+</ask_followup_question>
+\`\`\`
+
+### 4. Creating a New Task with Context - REQUIRED ACTION
+
+If the user agrees to create a new task, you **MUST** use the `new_task` tool with comprehensive handoff instructions:
+
+\`\`\`xml
+<new_task>
+<context>
+
+# Task Continuation: [Brief Task Title]
+
+## Completed Work
+
+-   [Detailed list of completed items]
+-   [Include specific files modified/created]
+-   [Note any important decisions made]
+
+## Current State
+
+-   [Description of the current state of the project]
+-   [Any running processes or environment setup]
+-   [Key files and their current state]
+
+## Next Steps
+
+-   [Detailed list of remaining tasks]
+-   [Specific implementation details to address]
+-   [Any known challenges to be aware of]
+
+## Reference Information
+
+-   [Links to relevant documentation]
+-   [Important code snippets or patterns to follow]
+-   [Any user preferences noted during the current session]
+
+Please continue the implementation by [specific next action].
+</context>
+</new_task>
+\`\`\`
+
+### 5. Detailed Context Transfer - MANDATORY COMPONENTS
+
+When creating a new task, you **MUST** always include:
+
+#### Project Context - REQUIRED
+
+-   **MUST** include the overall goal and purpose of the project
+-   **MUST** include key architectural decisions and patterns
+-   **MUST** include technology stack and dependencies
+
+#### Implementation Details - REQUIRED
+
+-   **MUST** list files created or modified in the current session
+-   **MUST** describe specific functions, classes, or components implemented
+-   **MUST** explain design patterns being followed
+-   **MUST** outline testing approach
+
+#### Progress Tracking - REQUIRED
+
+-   **MUST** provide checklist of completed items
+-   **MUST** provide checklist of remaining items
+-   **MUST** note any blockers or challenges encountered
+
+#### User Preferences - REQUIRED
+
+-   **MUST** note coding style preferences mentioned by the user
+-   **MUST** document specific approaches requested by the user
+-   **MUST** highlight priority areas identified by the user
+
+## Best Practices for Effective Handoffs - MANDATORY GUIDELINES
+
+### 1. Maintain Continuity - REQUIRED
+
+-   **MUST** use consistent terminology between tasks
+-   **MUST** reference previous decisions and their rationale
+-   **MUST** maintain the same architectural approach unless explicitly changing direction
+
+### 2. Preserve Context - REQUIRED
+
+-   **MUST** include relevant code snippets in the handoff
+-   **MUST** summarize key discussions from the previous session
+-   **MUST** reference specific files and line numbers when applicable
+
+### 3. Set Clear Next Actions - REQUIRED
+
+-   **MUST** begin the handoff with a clear, actionable next step
+-   **MUST** prioritize remaining tasks
+-   **MUST** highlight any decisions that need to be made
+
+### 4. Document Assumptions - REQUIRED
+
+-   **MUST** clearly state any assumptions made during implementation
+-   **MUST** note areas where user input might be needed
+-   **MUST** identify potential alternative approaches
+
+### 5. Optimize for Resumability - REQUIRED
+
+-   **MUST** structure the handoff so the next session can begin working immediately
+-   **MUST** include setup instructions if environment configuration is needed
+-   **MUST** provide a quick summary at the top for rapid context restoration
+
+## Example Task Handoff
+
+### Example #1 of an effective task handoff:
+
+\`\`\`xml
+<new_task>
+<context>
+
+# Task Continuation: Implement User Authentication System
+
+## Completed Work
+
+-   Created basic Express.js server structure
+-   Implemented MongoDB connection and user schema
+-   Completed user registration endpoint with password hashing
+-   Added input validation using Joi
+-   Created initial test suite for registration endpoint
+
+## Current State
+
+-   Server runs successfully on port 3000
+-   MongoDB connection is established
+-   Registration endpoint (/api/users/register) is fully functional
+-   Test suite passes for all registration scenarios
+
+## Next Steps
+
+1. Implement login endpoint (/api/users/login)
+    - Use bcrypt to compare passwords
+    - Generate JWT token upon successful login
+    - Add proper error handling for invalid credentials
+2. Create authentication middleware
+    - Verify JWT tokens
+    - Extract user information
+    - Handle expired tokens
+3. Add protected routes that require authentication
+4. Implement password reset functionality
+
+## Reference Information
+
+-   JWT secret should be stored in .env file
+-   Follow the existing error handling pattern in routes/users.js
+-   User schema is defined in models/User.js
+-   Test patterns are established in tests/auth.test.js
+
+Please continue by implementing the login endpoint following the same patterns established in the registration endpoint.
+</context>
+</new_task>
+\`\`\`
+
+### Example #2 of an ineffective task handoff:
+
+_(Note: The example provided in the original rules showing "YOLO MODE Implementation" seems less like a direct handoff context block and more like a general status update with future considerations. A true ineffective handoff might lack detail in 'Current State' or 'Next Steps')._
+
+## When to Use Task Handoffs - MANDATORY TRIGGERS
+
+You **MUST** initiate task handoffs in these scenarios:
+
+1. **CRITICAL**: When context window usage exceeds 50% (e.g., 100,000+ tokens for a 200K context window)
+2. **Long-running projects** that exceed a single session
+3. **Complex implementations** with multiple distinct phases
+4. **When context window limitations** are approaching
+5. **When switching focus areas** within a larger project
+6. **When different expertise** might be beneficial for different parts of the task
+
+**⚠️ FINAL REMINDER - CRITICAL INSTRUCTION ⚠️**
+
+You **MUST** monitor the context window usage in the environment details section. When it exceeds 50% (e.g., "105,000 / 200,000 tokens (53%)"), you **MUST** proactively initiate the task handoff process using the `ask_followup_question` tool followed by the `new_task` tool. You MUST use the `new_task` tool.
+
+By strictly following these guidelines, you'll ensure smooth transitions between tasks, maintain project momentum, and provide the best possible experience for users working on complex, multi-session projects.
+
+```markdown
+## ユーザー対話とワークフローの考慮事項
+
+-   **リニアフロー**: 現在、`new_task`の使用はリニアシーケンスを作成します。古いタスクが終了し、新しいタスクが開始されます。古いタスク履歴はバックトラッキングのためにアクセス可能であり続けます。
+-   **ユーザー承認**: いつでも制御でき、ハンドオフを承認し、Clineが引き継ぐことを提案するコンテキストを修正する機会があります。
+-   **柔軟性**: コア`new_task`ツールは柔軟なビルディングブロックです。`.clinerules`で実験して、厳格なコンテキスト管理、タスク分解、またはその他の創造的な使用など、あなたのニーズに最適なワークフローを作成してください。
+```
+````

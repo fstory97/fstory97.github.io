@@ -1,0 +1,43 @@
+---
+title: "CLI 프로필 (SSO)"
+sidebarTitle: "CLI 프로필 (SSO)"
+description: "Cline으로 인증을 위해 AWS CLI 프로필을 사용하도록 AWS Bedrock을 구성합니다. SSO/연합 역할 및 안전한 엔터프라이즈 액세스에 가장 적합합니다."
+---
+
+### 개요
+
+Cline은 AWS Bedrock 서비스에 액세스하기 위해 AWS 자격 증명 또는 AWS 프로필을 활용하는 옵션을 제공합니다. 레거시 IAM 구성보다 SSO/연합 역할이 권장됩니다. 이 가이드는 Cline이 인증을 위해 SSO 역할을 사용하도록 환경을 구성하는 방법을 설명합니다.
+
+---
+
+### 구성 단계
+
+1.  AWS CLI의 [최신 버전](https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html) 설치
+
+    -   AWS 문서를 따라 OS별 AWS CLI 버전을 설치합니다.
+
+2.  AWS CLI로 [IAM 인증 구성](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-sso.html)
+
+    -   IAM Identity Center를 통해 AWS 액세스 권한이 아직 없는 경우 [IAM 사용자 가이드](https://docs.aws.amazon.com/singlesignon/latest/userguide/getting-started.html)를 따라 IAM 사용자 및 역할을 설정합니다. `PowerUserAccess` 역할이 있는지 확인합니다.
+    -   고용주를 통해 AWS에 액세스하는 경우 AWS 액세스 포털을 열고 적절한 계정을 찾습니다. `PowerUserAccess` 권한이 있는지 확인합니다.
+    -   `액세스 키` 링크를 열고 다음 단계에 필요한 `SSO 시작 URL` 및 `SSO 지역`을 기록합니다.
+
+3.  [`aws configure sso` CLI 마법사](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-sso.html#cli-configure-sso-configure)를 사용하여 프로필 구성 계속
+
+    -   구성되면 다음 명령을 사용하여 AWS CLI를 인증합니다. `aws sso login --profile <AWS-프로필-이름>`
+    -   AWS 계정에 연결하는 프로필 이름을 기록합니다. 이는 다음 단계에서 Cline을 구성하는 데 필요합니다.
+
+4.  아직 설치하지 않았다면 VSCode 및 Cline 확장을 설치합니다. 지침은 [시작하기](/getting-started) 페이지를 참조하십시오.
+
+5.  Cline 확장을 열고 설정 버튼 ⚙️을 클릭하여 API 공급자를 선택합니다.
+    -   API 공급자 드롭다운에서 AWS Bedrock을 선택합니다.
+    -   AWS 프로필 라디오 버튼을 선택한 다음 3단계의 AWS 프로필 이름을 입력합니다.
+    -   드롭다운 메뉴에서 AWS 지역을 선택합니다.
+    -   일부 모델에는 교차 지역 추론 확인란을 선택해야 합니다.
+
+<Frame>
+	<img
+		src="https://storage.googleapis.com/cline_public_images/docs/assets/cline-aws-setup-markup%20(1).png"
+		alt="프로필 인증 설정을 보여주는 Cline 설정의 AWS Bedrock 구성"
+	/>
+</Frame>

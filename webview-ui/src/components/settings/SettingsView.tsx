@@ -79,18 +79,14 @@ export const getSettingsTabs = (): SettingsTab[] => [
 		headerText: t("tabs.terminal.header", "settings"),
 		icon: SquareTerminal,
 	},
-	// Only show in dev mode
-	...(IS_DEV
-		? [
-				{
-					id: "debug",
-					name: t("tabs.debug.name", "settings"),
-					tooltipText: t("tabs.debug.tooltip", "settings"),
-					headerText: t("tabs.debug.header", "settings"),
-					icon: FlaskConical,
-				},
-			]
-		: []),
+	// CARET MODIFICATION: Always show debug section (removed IS_DEV condition)
+	{
+		id: "debug",
+		name: t("tabs.debug.name", "settings"),
+		tooltipText: t("tabs.debug.tooltip", "settings"),
+		headerText: t("tabs.debug.header", "settings"),
+		icon: FlaskConical,
+	},
 	// CARET MODIFICATION: Add About tab (restored from caret-main)
 	{
 		id: "about",
@@ -318,8 +314,8 @@ const SettingsView = ({ onDone, targetSection }: SettingsViewProps) => {
 							{/* Terminal Settings Tab */}
 							{activeTab === "terminal" && <TerminalSettingsSection renderSectionHeader={renderSectionHeader} />}
 
-							{/* Debug Tab (only in dev mode) */}
-							{IS_DEV && activeTab === "debug" && (
+							{/* Debug Tab - CARET MODIFICATION: Always show (removed IS_DEV condition) */}
+							{activeTab === "debug" && (
 								<DebugSection onResetState={handleResetState} renderSectionHeader={renderSectionHeader} />
 							)}
 

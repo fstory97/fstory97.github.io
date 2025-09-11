@@ -1,0 +1,62 @@
+---
+title: "Anthropic"
+description: "Cline과 함께 Anthropic Claude 모델을 구성하고 사용하는 방법을 알아보십시오. API 키 설정, 모델 선택 및 프롬프트 캐싱과 같은 고급 기능을 다룹니다."
+---
+
+**웹사이트:** [https://www.anthropic.com/](https://www.anthropic.com/)
+
+### API 키 얻기
+
+1.  **가입/로그인:** [Anthropic 콘솔](https://console.anthropic.com/)로 이동합니다. 계정을 생성하거나 로그인합니다.
+2.  **API 키로 이동:** [API 키](https://console.anthropic.com/settings/keys) 섹션으로 이동합니다.
+3.  **키 생성:** "키 생성"을 클릭합니다. 키에 설명적인 이름(예: "Cline")을 지정합니다.
+4.  **키 복사:** **중요:** API 키를 _즉시_ 복사하십시오. 다시 볼 수 없습니다. 안전하게 저장하십시오.
+
+### 지원되는 모델
+
+Cline은 다음 Anthropic Claude 모델을 지원합니다.
+
+-   `claude-opus-4-1-20250805`
+-   `claude-opus-4-20250514`
+-   `claude-opus-4-20250514:thinking` (확장 사고 변형)
+-   `claude-sonnet-4-20250514` (권장)
+-   `claude-sonnet-4-20250514:thinking` (확장 사고 변형)
+-   `claude-3-7-sonnet-20250219`
+-   `claude-3-7-sonnet-20250219:thinking` (확장 사고 변형)
+-   `claude-3-5-sonnet-20241022`
+-   `claude-3-5-haiku-20241022`
+-   `claude-3-opus-20240229`
+-   `claude-3-haiku-20240307`
+
+각 모델의 기능에 대한 자세한 내용은 [Anthropic의 모델 문서](https://docs.anthropic.com/en/docs/about-claude/models)를 참조하십시오.
+
+### Cline 구성
+
+1.  **Cline 설정 열기:** Cline 패널에서 설정 아이콘(⚙️)을 클릭합니다.
+2.  **공급자 선택:** "API 공급자" 드롭다운에서 "Anthropic"을 선택합니다.
+3.  **API 키 입력:** Anthropic API 키를 "Anthropic API 키" 필드에 붙여넣습니다.
+4.  **모델 선택:** "모델" 드롭다운에서 원하는 Claude 모델을 선택합니다.
+5.  **(선택 사항) 사용자 지정 기본 URL:** Anthropic API에 사용자 지정 기본 URL을 사용해야 하는 경우 "사용자 지정 기본 URL 사용"을 선택하고 URL을 입력합니다. 대부분의 사용자는 이 설정을 조정할 필요가 없습니다.
+
+### 확장 사고
+
+Anthropic 모델은 복잡한 작업에 대한 추론 기능을 향상시키도록 설계된 "확장 사고" 기능을 제공합니다. 이 기능을 통해 모델은 최종 답변을 제공하기 전에 단계별 사고 프로세스를 출력하여 투명성을 제공하고 어려운 프롬프트에 대한 더 철저한 분석을 가능하게 합니다.
+
+확장 사고가 Cline에 있을 때 모델은 내부 추론을 자세히 설명하는 `thinking` 콘텐츠 블록을 생성합니다. 이러한 통찰력은 최종 응답에 통합됩니다.
+Cline 사용자는 모든 공급자에서 Claude 모델을 선택한 후 모델 선택 메뉴 아래의 `확장 사고 활성화` 상자를 선택하여 이를 활용할 수 있습니다.
+
+**확장 사고의 주요 측면:**
+
+-   **지원되는 모델:** 이 기능은 Claude Opus 4, Claude Sonnet 4 및 Claude Sonnet 3.7의 변형을 포함한 일부 모델에서 사용할 수 있습니다. 위에 나열된 `:thinking` 접미사가 있는 특정 모델은 이를 활용하도록 Cline에 사전 구성되어 있습니다.
+-   **요약된 사고 (Claude 4):** Claude 4 모델의 경우 API는 통찰력과 효율성의 균형을 맞추고 오용을 방지하기 위해 전체 사고 프로세스 요약을 반환합니다. 요약뿐만 아니라 전체 사고 토큰에 대해 요금이 청구됩니다.
+-   **스트리밍:** `thinking` 블록을 포함한 확장 사고 응답은 스트리밍될 수 있습니다.
+-   **도구 사용 및 프롬프트 캐싱:** 확장 사고는 도구 사용(사고 블록을 다시 전달해야 함) 및 프롬프트 캐싱(캐시 무효화 및 컨텍스트에 대한 특정 동작 포함)과 상호 작용합니다.
+
+확장 사고 작동 방식에 대한 포괄적인 세부 정보(API 예시, 도구 사용과의 상호 작용, 프롬프트 캐싱 및 가격 책정 포함)는 [확장 사고에 대한 공식 Anthropic 문서](https://docs.anthropic.com/en/docs/build-with-claude/extended-thinking)를 참조하십시오.
+
+### 팁 및 참고 사항
+
+-   **프롬프트 캐싱:** Claude 3 모델은 반복되는 프롬프트에 대한 비용과 지연 시간을 크게 줄일 수 있는 [프롬프트 캐싱](https://docs.anthropic.com/en/docs/build-with-claude/prompt-caching)을 지원합니다.
+-   **컨텍스트 창:** Claude 모델은 큰 컨텍스트 창(200,000 토큰)을 가지고 있어 프롬프트에 상당한 양의 코드와 컨텍스트를 포함할 수 있습니다.
+-   **가격 책정:** 최신 가격 정보는 [Anthropic 가격 책정](https://www.anthropic.com/pricing) 페이지를 참조하십시오.
+-   **속도 제한:** Anthropic은 [사용량 계층](https://docs.anthropic.com/en/api/rate-limits#requirements-to-advance-tier)을 기반으로 엄격한 속도 제한을 가집니다. 반복적으로 속도 제한에 도달하는 경우 Anthropic 영업팀에 문의하거나 [OpenRouter](/provider-config/openrouter) 또는 [Requesty](/provider-config/requesty)와 같은 다른 공급자를 통해 Claude에 액세스하는 것을 고려하십시오.

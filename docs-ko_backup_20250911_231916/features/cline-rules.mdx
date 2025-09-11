@@ -1,0 +1,174 @@
+Cline 규칙을 사용하면 Cline에 시스템 수준 지침을 제공할 수 있습니다. 프로젝트 또는 모든 대화에 대해 전역적으로 컨텍스트 및 기본 설정을 포함하는 영구적인 방법이라고 생각하십시오.
+
+## 규칙 생성
+
+규칙 탭에서 `+` 버튼을 클릭하여 규칙을 생성할 수 있습니다. 그러면 IDE에 새 파일이 열리고 이 파일을 사용하여 규칙을 작성할 수 있습니다.
+
+<Frame>
+	<img src="https://storage.googleapis.com/cline_public_images/docs/assets/cline-rules.png" alt="규칙 생성" />
+</Frame>
+
+파일을 저장하면:
+
+-   규칙은 프로젝트의 `.clinerules/` 디렉토리에 저장됩니다(작업 공간 규칙인 경우).
+-   또는 전역 규칙 디렉토리에 저장됩니다(전역 규칙인 경우).
+
+### 전역 규칙 디렉토리 위치
+
+전역 규칙 디렉토리의 위치는 운영 체제에 따라 다릅니다.
+
+| 운영 체제 | 기본 위치 | 참고 |
+|---|---|---|
+| **Windows** | `Documents\Cline\Rules` | 시스템 문서 폴더 사용 |
+| **macOS** | `~/Documents/Cline/Rules` | 사용자 문서 폴더 사용 |
+| **Linux/WSL** | `~/Documents/Cline/Rules` | 일부 시스템에서는 `~/Cline/Rules`로 대체될 수 있습니다. |
+
+> **Linux/WSL 사용자 참고**: `~/Documents/Cline/Rules`에서 전역 규칙을 찾을 수 없는 경우, `~/Cline/Rules`를 확인하십시오. 위치는 시스템 구성 및 문서 디렉토리 존재 여부에 따라 달라질 수 있습니다.
+
+채팅에서 [`/newrule` 슬래시 명령](/features/slash-commands/new-rule)을 사용하여 Cline이 규칙을 생성하도록 할 수도 있습니다.
+
+```markdown 예시 Cline 규칙 구조 [확장 가능]
+# 프로젝트 지침
+
+## 문서 요구 사항
+
+-   기능 수정 시 /docs의 관련 문서 업데이트
+-   README.md를 새 기능과 동기화 유지
+-   CHANGELOG.md에 변경 로그 항목 유지
+
+## 아키텍처 결정 기록
+
+다음과 같은 경우 /docs/adr에 ADR 생성:
+
+-   주요 종속성 변경
+-   아키텍처 패턴 변경
+-   새로운 통합 패턴
+-   데이터베이스 스키마 변경
+    /docs/adr/template.md의 템플릿 따르기
+
+## 코드 스타일 및 패턴
+
+-   OpenAPI Generator를 사용하여 API 클라이언트 생성
+-   TypeScript axios 템플릿 사용
+-   생성된 코드를 /src/generated에 배치
+-   상속보다 구성을 선호
+-   데이터 액세스에 리포지토리 패턴 사용
+-   /src/utils/errors.ts의 오류 처리 패턴 따르기
+
+## 테스트 표준
+
+-   비즈니스 로직에 대한 단위 테스트 필요
+-   API 엔드포인트에 대한 통합 테스트
+-   중요한 사용자 흐름에 대한 E2E 테스트
+```
+
+### 주요 이점
+
+1.  **버전 관리**: `.clinerules` 파일이 프로젝트의 소스 코드의 일부가 됩니다.
+2.  **팀 일관성**: 모든 팀 구성원에게 일관된 동작을 보장합니다.
+3.  **프로젝트별**: 각 프로젝트의 필요에 맞게 조정된 규칙 및 표준
+4.  **기관 지식**: 코드에서 프로젝트 표준 및 관행을 유지합니다.
+
+`.clinerules` 파일을 프로젝트의 루트 디렉토리에 배치하십시오.
+
+```
+your-project/
+├── .clinerules
+├── src/
+├── docs/
+└── ...
+```
+
+반면에 Cline의 시스템 프롬프트는 사용자가 편집할 수 없습니다([여기에서 찾을 수 있습니다](https://github.com/cline/cline/blob/main/src/core/prompts/system.ts)). 프롬프트 엔지니어링 모범 사례에 대한 더 넓은 시야를 보려면 [이 리소스](https://docs.anthropic.com/en/docs/build-with-claude/prompt-engineering/overview)를 확인하십시오.
+
+### 효과적인 Cline 규칙 작성을 위한 팁
+
+-   명확하고 간결하게: 간단한 언어를 사용하고 모호함을 피하십시오.
+-   원하는 결과에 집중: 원하는 결과를 설명하고 특정 단계를 설명하지 마십시오.
+-   테스트 및 반복: 워크플로에 가장 적합한 것을 찾기 위해 실험하십시오.
+
+### .clinerules/ 폴더 시스템
+
+```
+your-project/
+├── .clinerules/              # 활성 규칙을 포함하는 폴더
+│   ├── 01-coding.md          # 핵심 코딩 표준
+│   ├── 02-documentation.md   # 문서 요구 사항
+│   └── current-sprint.md     # 현재 작업에 특정한 규칙
+├── src/
+└── ...
+```
+
+Cline은 `.clinerules/` 디렉토리 내의 **모든 Markdown 파일**을 자동으로 처리하여 통합된 규칙 세트로 결합합니다. 숫자 접두사(선택 사항)는 파일을 논리적 순서로 구성하는 데 도움이 됩니다.
+
+#### 규칙 뱅크 사용
+
+여러 컨텍스트 또는 팀이 있는 프로젝트의 경우 규칙 뱅크 디렉토리를 유지하십시오.
+
+```
+your-project/
+├── .clinerules/              # 활성 규칙 - 자동으로 적용됨
+│   ├── 01-coding.md
+│   └── client-a.md
+│
+├── clinerules-bank/          # 사용 가능하지만 비활성 규칙 저장소
+│   ├── clients/              # 클라이언트별 규칙 세트
+│   │   ├── client-a.md
+│   │   └── client-b.md
+│   ├── frameworks/           # 프레임워크별 규칙
+│   │   ├── react.md
+│   │   └── vue.md
+│   └── project-types/        # 프로젝트 유형 표준
+│       ├── api-service.md
+│       └── frontend-app.md
+└── ...
+```
+
+#### 폴더 접근 방식의 이점
+
+1.  **컨텍스트 활성화**: 뱅크에서 활성 폴더로 관련 규칙만 복사
+2.  **쉬운 유지 관리**: 다른 파일에 영향을 주지 않고 개별 규칙 파일 업데이트
+3.  **팀 유연성**: 다른 팀 구성원이 현재 작업에 특정한 규칙을 활성화할 수 있습니다.
+4.  **노이즈 감소**: 활성 규칙 세트를 집중적이고 관련성 있게 유지
+
+#### 사용 예시
+
+클라이언트 프로젝트 간 전환:
+
+```bash
+# 클라이언트 B 프로젝트로 전환
+rm .clinerules/client-a.md
+cp clinerules-bank/clients/client-b.md .clinerules/
+```
+
+다른 기술 스택에 적응:
+
+```bash
+# 프론트엔드 React 프로젝트
+cp clinerules-bank/frameworks/react.md .clinerules/
+```
+
+#### 구현 팁
+
+-   개별 규칙 파일은 특정 관심사에 집중하도록 유지
+-   규칙의 목적을 명확하게 나타내는 설명적인 파일 이름 사용
+-   `clinerules-bank/`를 추적하면서 활성 `.clinerules/` 폴더를 git-ignore하는 것을 고려
+-   일반적인 규칙 조합을 빠르게 활성화하는 팀 스크립트 생성
+
+폴더 시스템은 Cline 규칙을 정적 문서에서 팀의 변화하는 컨텍스트 및 요구 사항에 적응하는 동적 지식 시스템으로 변환합니다.
+
+### 토글 가능한 팝오버로 규칙 관리
+
+단일 `.clinerules` 파일과 폴더 시스템을 모두 더 쉽게 관리할 수 있도록 Cline v3.13은 채팅 인터페이스에서 직접 액세스할 수 있는 전용 팝오버 UI를 도입합니다.
+
+채팅 입력 필드 아래에 편리하게 위치한 이 팝오버를 통해 다음을 수행할 수 있습니다.
+
+-   **활성 규칙 즉시 확인**: 현재 활성화된 전역 규칙(사용자 설정에서) 및 작업 공간 규칙(`.clinerules` 파일 또는 폴더 내용)을 봅니다.
+-   **규칙 빠르게 토글**: 작업 공간 `.clinerules/` 폴더 내의 특정 규칙 파일을 한 번의 클릭으로 활성화 또는 비활성화합니다. 이는 필요할 때만 컨텍스트별 규칙(예: `react-rules.md` 또는 `memory-bank.md`)을 활성화하는 데 적합합니다.
+-   **규칙 쉽게 추가/관리**: 작업 공간 `.clinerules` 파일 또는 폴더가 없는 경우 빠르게 생성하거나 기존 폴더에 새 규칙 파일을 추가합니다.
+
+이 UI는 대화 중에 파일을 수동으로 편집하거나 구성을 변경할 필요 없이 컨텍스트를 전환하고 다른 지침 세트를 관리하는 것을 크게 단순화합니다.
+
+<Frame>
+	<img src="https://storage.googleapis.com/cline_public_images/docs/assets/image%20(1).png" alt="Cline 로고" />
+</Frame>

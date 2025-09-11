@@ -1,0 +1,41 @@
+---
+title: "클라우드 공급자 통합"
+---
+
+Cline은 AWS Bedrock 및 Google Cloud Vertex와 같은 주요 클라우드 공급자를 지원합니다. 팀에서 현재 사용하고 있는 공급자를 그대로 사용하면 되며, Cline의 기능을 활용하기 위해 공급자를 변경할 필요는 없습니다.
+
+이 문서의 목적을 위해, 귀하의 조직이 클라우드 기반의 최첨단 모델을 사용할 것이라고 가정합니다. 클라우드 추론 공급자는 최첨단 기능과 팀의 요구에 가장 적합한 모델을 선택할 수 있는 유연성을 제공합니다.
+
+매우 민감한 데이터 처리, 일관된 낮은 지연 시간 응답이 필요한 애플리케이션, 또는 엄격한 데이터 주권 요구 사항 준수와 같은 특정 시나리오에서는 로컬 모델 사용이 필요할 수 있습니다. 팀에서 로컬 모델을 사용해야 하는 경우, Cline과 함께 [로컬 모델 실행](/running-models-locally/read-me-first.mdx)을 참조하십시오.
+
+---
+
+## AWS Bedrock 설정 가이드
+
+#### [IAM 보안 모범 사례](https://docs.aws.amazon.com/IAM/latest/UserGuide/best-practices.html) (관리자용)
+
+#### [API 키를 위한 AWS Bedrock 설정](/provider-config/aws-bedrock-with-apikey-authentication)
+
+#### [레거시 IAM(AWS 자격 증명)을 위한 AWS Bedrock 설정](/provider-config/aws-bedrock-with-credentials-authentication)
+
+#### [SSO 토큰(AWS 프로필)을 위한 AWS Bedrock 설정](/provider-config/aws-bedrock-with-profile-authentication)
+
+#### VPC 엔드포인트 설정
+
+팀의 데이터를 보호하기 위해 Cline은 VPC(Virtual Private Cloud) 엔드포인트를 지원하며, 이는 데이터와 AWS Bedrock 간에 프라이빗 연결을 생성합니다. AWS VPC는 공용 IP 주소, 네트워크 게이트웨이 또는 복잡한 방화벽 규칙의 필요성을 없애 보안을 강화합니다. 본질적으로 공용 인터넷을 완전히 우회하는 데이터 전용 프라이빗 고속도로를 생성합니다. 트래픽을 AWS의 프라이빗 네트워크 내에 유지함으로써 팀은 AWS Bedrock 또는 사용자 지정 API와 같은 서비스에 액세스할 때 더 낮은 지연 시간과 더 예측 가능한 성능의 이점을 얻습니다. 기밀 정보를 다루거나 의료 또는 금융과 같이 엄격하게 규제되는 산업에서 운영하는 경우, VPC는 클라우드 서비스의 접근성과 프라이빗 인프라의 보안 사이에서 완벽한 균형을 제공합니다.
+
+---
+
+1. VPC 엔드포인트 생성에 대한 [AWS 가이드](https://docs.aws.amazon.com/bedrock/latest/userguide/vpc-interface-endpoints.html)를 참조하십시오. 이 문서는 VPC 엔드포인트 생성에 필요한 사전 요구 사항과 구문을 설명합니다.
+2. AWS 콘솔에서 [VPC 엔드포인트 생성](https://docs.aws.amazon.com/vpc/latest/privatelink/create-interface-endpoint.html#create-interface-endpoint-aws) 지침을 따르십시오. 아래 이미지는 위에 링크된 AWS 가이드의 4단계와 5단계에 해당합니다.
+
+<figure>
+	<img src="https://storage.googleapis.com/cline_public_images/docs/assets/vpc-console.png" alt="VPC 콘솔" />
+</figure>
+
+3. VPC 엔드포인트의 IP 주소를 기록하고, Cline의 설정 메뉴를 열고, API 공급자 드롭다운에서 `AWS Bedrock`을 선택하십시오.
+4. `사용자 지정 VPC 엔드포인트 사용` 확인란을 클릭하고 VPC 엔드포인트의 IP 주소를 입력하십시오.
+
+<figure>
+	<img src="https://storage.googleapis.com/cline_public_images/docs/assets/vpc-settings-menu.png" alt="VPC 설정 메뉴" />
+</figure>

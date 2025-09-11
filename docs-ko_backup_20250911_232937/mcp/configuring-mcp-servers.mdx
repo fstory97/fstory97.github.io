@@ -1,0 +1,166 @@
+---
+title: "MCP 서버 구성"
+---
+
+## 전역 MCP 서버 포함 모드
+
+MCP 서버를 활용하면 토큰 사용량이 증가합니다. Cline은 원하는 대로 MCP 서버 기능을 제한하거나 비활성화할 수 있는 기능을 제공합니다.
+
+1.  Cline 확장 프로그램의 상단 탐색 모음에서 "MCP 서버" 아이콘을 클릭합니다.
+2.  "설치됨" 탭을 선택한 다음 해당 창 하단의 "고급 MCP 설정" 링크를 클릭합니다.
+3.  Cline이 새 설정 창을 엽니다. `Cline>Mcp:Mode`를 찾아 드롭다운 메뉴에서 선택합니다.
+
+<Frame>
+	<img
+		src="https://storage.googleapis.com/cline_public_images/docs/assets/MCP-settings-edit%20(1).png"
+		alt="MCP 설정 편집"
+	/>
+</Frame>
+
+## 개별 MCP 서버 관리
+
+각 MCP 서버에는 설정을 수정하고, 도구를 관리하고, 작동을 제어할 수 있는 자체 구성 패널이 있습니다. 이러한 설정에 액세스하려면:
+
+1.  Cline 확장 프로그램의 상단 탐색 모음에서 "MCP 서버" 아이콘을 클릭합니다.
+2.  목록에서 관리하려는 MCP 서버를 찾아 이름을 클릭하여 엽니다.
+
+<Frame>
+	<img
+		src="https://storage.googleapis.com/cline_public_images/docs/assets/MCP-settings-individual.png"
+		alt="개별 MCP 설정"
+	/>
+</Frame>
+
+### 서버 삭제
+
+1.  삭제하려는 MCP 서버 옆의 휴지통 아이콘을 클릭하거나 MCP 서버 구성 상자 하단의 빨간색 서버 삭제 버튼을 클릭합니다.
+
+**참고:** 삭제 확인 대화 상자가 없습니다.
+
+### 서버 다시 시작
+
+1.  다시 시작하려는 MCP 서버 옆의 다시 시작 버튼을 클릭하거나 MCP 서버 구성 상자 하단의 회색 서버 다시 시작 버튼을 클릭합니다.
+
+### 서버 활성화 또는 비활성화
+
+1.  MCP 서버 옆의 토글 스위치를 클릭하여 서버를 개별적으로 활성화/비활성화합니다.
+
+### 네트워크 시간 초과
+
+MCP 서버에 대한 도구 호출 후 응답을 기다릴 최대 시간을 설정하려면:
+
+1.  개별 MCP 서버의 구성 상자 하단에 있는 `네트워크 시간 초과` 드롭다운을 클릭하고 시간을 변경합니다. 기본값은 1분이지만 30초에서 1시간 사이로 설정할 수 있습니다.
+
+## MCP 설정 파일 편집
+
+설치된 모든 MCP 서버에 대한 설정은 `cline_mcp_settings.json` 파일에 있습니다.
+
+1.  Cline 창의 상단 탐색 모음에서 MCP 서버 아이콘을 클릭합니다.
+2.  "설치됨" 탭을 선택합니다.
+3.  창 하단의 "MCP 서버 구성" 버튼을 클릭합니다.
+
+파일은 명명된 서버 구성이 포함된 `mcpServers` 객체가 있는 JSON 형식을 사용합니다.
+
+```json
+{
+	"mcpServers": {
+		"server1": {
+			"command": "python",
+			"args": ["/path/to/server.py"],
+			"env": {
+				"API_KEY": "your_api_key"
+			},
+			"alwaysAllow": ["tool1", "tool2"],
+			"disabled": false
+		}
+	}
+}
+```
+
+_Cline의 MCP 서버 구성 예시 (STDIO 전송)_
+
+---
+
+## 전송 유형 이해
+
+MCP는 서버 통신을 위해 두 가지 전송 유형을 지원합니다.
+
+### STDIO 전송
+
+머신에서 실행되는 로컬 서버에 사용됩니다.
+
+-   표준 입출력 스트림을 통해 통신
+-   낮은 지연 시간(네트워크 오버헤드 없음)
+-   더 나은 보안(네트워크 노출 없음)
+-   간단한 설정(HTTP 서버 필요 없음)
+-   머신에서 자식 프로세스로 실행
+
+STDIO 전송 작동 방식에 대한 자세한 내용은 [MCP 전송 메커니즘](/mcp/mcp-transport-mechanisms)을 참조하십시오.
+
+STDIO 구성 예시:
+
+```json
+{
+	"mcpServers": {
+		"local-server": {
+			"command": "node",
+			"args": ["/path/to/server.js"],
+			"env": {
+				"API_KEY": "your_api_key"
+			},
+			"alwaysAllow": ["tool1", "tool2"],
+			"disabled": false
+		}
+	}
+}
+```
+
+### SSE 전송
+
+HTTP/HTTPS를 통해 액세스되는 원격 서버에 사용됩니다.
+
+-   Server-Sent Events 프로토콜을 통해 통신
+-   다른 머신에서 호스팅 가능
+-   여러 클라이언트 연결 지원
+-   네트워크 액세스 필요
+-   중앙 집중식 배포 및 관리 허용
+
+SSE 전송 작동 방식에 대한 자세한 내용은 [MCP 전송 메커니즘](/mcp/mcp-transport-mechanisms)을 참조하십시오.
+
+SSE 구성 예시:
+
+```json
+{
+	"mcpServers": {
+		"remote-server": {
+			"url": "https://your-server-url.com/mcp",
+			"headers": {
+				"Authorization": "Bearer your-token"
+			},
+			"alwaysAllow": ["tool3"],
+			"disabled": false
+		}
+	}
+}
+```
+
+---
+
+## 워크플로에서 MCP 도구 사용
+
+MCP 서버를 구성한 후 Cline은 사용 가능한 도구 및 리소스를 자동으로 감지합니다. 사용하려면:
+
+1.  Cline의 대화 창에 요청을 입력합니다.
+2.  Cline은 MCP 도구가 작업에 도움이 될 수 있는 시기를 식별합니다.
+3.  프롬프트가 표시되면 도구 사용을 승인합니다(또는 자동 승인 사용).
+
+예시: "내 API의 성능 분석"은 API 엔드포인트를 테스트하는 MCP 도구를 사용할 수 있습니다.
+
+## MCP 서버 문제 해결
+
+일반적인 문제 및 해결책:
+
+-   **서버 응답 없음:** 서버 프로세스가 실행 중인지 확인하고 네트워크 연결을 확인하십시오.
+-   **권한 오류:** `mcp_settings.json` 파일에 적절한 API 키 및 자격 증명이 구성되어 있는지 확인하십시오.
+-   **도구 사용 불가:** 서버가 도구를 올바르게 구현하고 설정에서 비활성화되지 않았는지 확인하십시오.
+-   **느린 성능:** 특정 MCP 서버에 대한 네트워크 시간 초과 값을 조정해 보십시오.

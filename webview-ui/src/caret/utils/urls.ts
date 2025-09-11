@@ -26,13 +26,13 @@ export const CARET_URLS = {
  * 언어별 링크 상수
  * 각 언어코드(ko, en, ja, zh)에 따라 다른 링크를 제공
  */
-export const CARET_LOCALIZED_URLS = {	
+export const CARET_LOCALIZED_URLS = {
 	// Gemini 크레딧 가이드
 	GEMINI_CREDIT_GUIDE: {
 		ko: "https://github.com/aicoding-caret/caret/blob/main/caret-docs/posting/ko/gemini-credit-guide.ko.md",
 		en: "https://github.com/aicoding-caret/caret/blob/main/caret-docs/posting/en/gemini-credit-guide.en.md",
 		ja: "https://github.com/aicoding-caret/caret/blob/main/caret-docs/posting/ja/gemini-credit-guide.ja.md",
-        zh: "https://github.com/aicoding-caret/caret/blob/main/caret-docs/posting/zh/gemini-credit-guide.zh.md",
+		zh: "https://github.com/aicoding-caret/caret/blob/main/caret-docs/posting/zh/gemini-credit-guide.zh.md",
 	},
 
 	// Caret GitHub (README 언어별)

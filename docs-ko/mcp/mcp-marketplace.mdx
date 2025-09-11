@@ -1,0 +1,199 @@
+---
+title: "MCP를 쉽게"
+description: "Cline의 기능을 추가 도구 및 리소스로 향상시키는 MCP 서버를 검색, 설치 및 구성하기 위해 MCP 마켓플레이스를 사용하는 방법을 알아보십시오."
+---
+
+## MCP 서버란 무엇인가요?
+
+MCP 서버는 Cline의 기능을 향상시키는 특수 확장입니다. 웹 페이지 가져오기, 이미지 처리, API 액세스 등과 같은 추가 작업을 수행할 수 있도록 Cline을 활성화합니다.
+
+## MCP 마켓플레이스 둘러보기
+
+MCP 마켓플레이스는 다양한 범주의 수백 가지 MCP 서버에 대한 원클릭 설치 경험을 제공합니다.
+
+### 1. 마켓플레이스 액세스
+
+-   Cline에서 상단 도구 모음의 "확장" 버튼(사각형 아이콘)을 클릭합니다.
+-   MCP 마켓플레이스가 열리고 범주별로 사용 가능한 서버가 표시됩니다.
+
+### 2. 서버 찾아보기 및 선택
+
+-   범주별로 서버 찾아보기(검색, 파일 시스템, 브라우저 자동화, 연구 데이터 등)
+-   서버를 클릭하여 기능 및 요구 사항에 대한 세부 정보 보기
+
+### 3. 설치 및 구성
+
+-   선택한 서버에 대한 설치 버튼을 클릭합니다.
+-   서버에 API 키가 필요한 경우(대부분 그렇습니다), Cline은 다음을 안내할 것입니다.
+    -   API 키를 얻는 방법
+    -   안전하게 입력하는 방법
+-   서버는 MCP 설정에 자동으로 추가됩니다.
+
+### 4. 설치 확인
+
+-   설치가 완료되면 Cline이 확인 메시지를 표시합니다.
+-   Cline의 MCP 설정 UI에서 서버 상태를 확인합니다.
+
+### 5. 새 서버 사용
+
+-   성공적으로 설치되면 Cline은 서버의 기능을 자동으로 통합합니다.
+-   Cline의 시스템 프롬프트에서 새로운 도구 및 리소스를 사용할 수 있습니다.
+-   새 서버의 기능을 사용하도록 Cline에 요청하기만 하면 됩니다.
+-   예시: "Perplexity를 사용하여 최근 React 업데이트를 웹에서 검색해줘"
+
+**기업 사용자:** 기업 환경에서 Cline을 사용하는 경우 조직의 보안 정책에 따라 타사 MCP 서버를 설치할 권한이 있는지 확인하십시오.
+
+## 내부 작동 방식
+
+MCP 서버를 설치하면 여러 가지 일이 자동으로 발생합니다.
+
+### 1. 설치 프로세스
+
+-   서버 코드는 `/Users/<사용자 이름>/Documents/Cline/MCP/`에 복제/설치됩니다.
+-   종속성이 설치됩니다.
+-   서버가 빌드됩니다(TypeScript/JavaScript 컴파일 또는 Python 패키지 설치).
+
+### 2. 구성
+
+-   MCP 설정 파일이 서버 구성으로 업데이트됩니다.
+-   이 파일은 `/Users/<사용자 이름>/Library/Application Support/Code/User/globalStorage/saoudrizwan.claude-dev/settings/cline_mcp_settings.json`에 있습니다.
+-   환경 변수(API 키 등)가 안전하게 저장됩니다.
+-   서버 경로가 등록됩니다.
+
+### 3. 서버 시작
+
+-   Cline이 구성 변경을 감지합니다.
+-   Cline은 서버를 별도의 프로세스로 시작합니다.
+-   stdio 또는 HTTP를 통해 통신이 설정됩니다.
+
+### 4. Cline과의 통합
+
+-   서버의 기능이 Cline의 시스템 프롬프트에 추가됩니다.
+-   도구는 `use_mcp_tool` 명령을 통해 사용할 수 있습니다.
+-   리소스는 `access_mcp_resource` 명령을 통해 사용할 수 있습니다.
+-   Cline은 이제 사용자의 요청에 따라 이러한 기능을 사용할 수 있습니다.
+
+## 문제 해결
+
+### 시스템 요구 사항
+
+시스템이 다음 요구 사항을 충족하는지 확인하십시오.
+
+-   **Node.js 18.x 이상**
+    -   다음 명령을 실행하여 확인: `node --version`
+    -   다음에서 설치: https://nodejs.org/
+    -   JavaScript/TypeScript 구현에 필요합니다.
+-   **Python 3.10 이상**
+    -   다음 명령을 실행하여 확인: `python --version`
+    -   다음에서 설치: https://python.org/
+    -   참고: 일부 특수 구현에는 Python 3.11+가 필요할 수 있습니다.
+-   **UV 패키지 관리자**
+    -   종속성 격리를 위한 최신 Python 패키지 관리자
+    -   다음 명령을 사용하여 설치:
+        ```bash
+        curl -LsSf https://astral.sh/uv/install.sh | sh
+        ```
+        또는: `pip install uv`
+    -   다음 명령으로 확인: `uv --version`
+
+이러한 명령 중 하나라도 실패하거나 이전 버전을 표시하면 계속하기 전에 설치/업데이트하십시오!
+
+### 일반적인 설치 문제
+
+-   인터넷 연결이 안정적인지 확인하십시오.
+-   새 소프트웨어를 설치할 필요한 권한이 있는지 확인하십시오.
+-   API 키가 올바르게 입력되었는지 확인하십시오(필요한 경우).
+-   MCP 설정 UI에서 서버 상태에 오류 메시지가 있는지 확인하십시오.
+
+### MCP 서버 제거 방법
+
+오류가 있는 MCP 서버를 완전히 제거하려면:
+
+1.  MCP 설정 파일 열기: `/Users/<사용자 이름>/Library/Application Support/Code/User/globalStorage/saoudrizwan.claude-dev/settings/cline_mcp_settings.json`
+2.  `mcpServers` 객체에서 서버에 대한 전체 항목 삭제
+3.  파일 저장
+4.  Cline 다시 시작
+
+### 여전히 오류가 발생합니다.
+
+MCP 서버를 사용할 때 오류가 발생하는 경우 다음을 시도할 수 있습니다.
+
+-   MCP 설정 파일에서 오류 확인
+-   설치에 Claude Sonnet 모델 사용
+-   서버 파일 경로가 올바른지 확인
+-   필요한 모든 환경 변수가 설정되었는지 확인
+-   다른 프로세스가 동일한 포트를 사용하고 있는지 확인(HTTP 기반 서버의 경우)
+-   서버를 제거하고 다시 설치해 보십시오(`cline_mcp_settings.json` 파일과 `/Users/<사용자 이름>/Documents/Cline/MCP/` 디렉토리 모두에서 제거).
+-   터미널을 사용하고 명령과 인수를 직접 실행합니다. 이렇게 하면 Cline이 보는 것과 동일한 오류를 볼 수 있습니다.
+
+## MCP 서버 규칙
+
+Cline은 이미 활성 MCP 서버와 그 용도를 알고 있지만, 많은 MCP 서버가 활성화되어 있을 때 각 서버를 언제 사용해야 하는지 정의하는 것이 유용할 수 있습니다.
+
+키워드 기반 트리거를 통해 지능적인 MCP 서버 활성화를 지원하도록 `.clinerules` 파일 또는 사용자 지정 지침을 활용하여 Cline의 도구 선택을 더 직관적이고 컨텍스트 인식적으로 만드십시오.
+
+### MCP 규칙 작동 방식
+
+MCP 규칙은 연결된 MCP 서버를 기능 범주로 그룹화하고 Cline과의 대화에서 감지될 때 자동으로 활성화되는 트리거 키워드를 정의합니다.
+
+```json
+{
+	"mcpRules": {
+		"webInteraction": {
+			"servers": ["firecrawl-mcp-server", "fetch-mcp"],
+			"triggers": ["web", "scrape", "browse", "website"],
+			"description": "웹 브라우징 및 스크래핑 도구"
+		}
+	}
+}
+```
+
+### 구성 구조
+
+1.  **범주**: 관련 서버 그룹화(예: "webInteraction", "mediaAndDesign")
+2.  **서버**: 각 범주의 서버 이름 나열
+3.  **트리거**: 이러한 서버를 활성화하는 키워드
+4.  **설명**: 사람이 읽을 수 있는 범주 설명
+
+### MCP 규칙의 이점
+
+-   **컨텍스트별 도구 선택**: Cline은 대화 컨텍스트를 기반으로 적절한 도구를 선택합니다.
+-   **마찰 감소**: 사용할 도구를 수동으로 지정할 필요 없음
+-   **체계적인 기능**: 관련 도구 및 서버를 논리적으로 그룹화
+-   **우선순위 지정**: 명시적인 우선순위 순서로 모호한 사례 처리
+
+### 사용 예시
+
+"이 웹사이트를 스크랩해 줄 수 있니?"라고 입력하면 Cline은 "scrape" 및 "website"를 트리거로 감지하여 웹 관련 MCP 서버를 자동으로 선택합니다.
+
+"Apple의 주가는 얼마인가요?"와 같은 금융 작업의 경우 "stock" 및 "price"와 같은 키워드가 금융 관련 서버를 트리거합니다.
+
+### 빠른 시작 템플릿
+
+```json
+{
+	"mcpRules": {
+		"category1": {
+			"servers": ["server-name-1", "server-name-2"],
+			"triggers": ["keyword1", "keyword2", "phrase1", "phrase2"],
+			"description": "이 도구들이 수행하는 작업에 대한 설명"
+		},
+		"category2": {
+			"servers": ["server-name-3"],
+			"triggers": ["keyword3", "keyword4", "phrase3"],
+			"description": "이 도구들이 수행하는 작업에 대한 설명"
+		},
+		"category3": {
+			"servers": ["server-name-4", "server-name-5"],
+			"triggers": ["keyword5", "keyword6", "phrase4"],
+			"description": "이 도구들이 수행하는 작업에 대한 설명"
+		}
+	},
+	"defaultBehavior": {
+		"priorityOrder": ["category1", "category2", "category3"],
+		"fallbackBehavior": "어떤 도구가 가장 적절한지 사용자에게 묻습니다."
+	}
+}
+```
+
+Cline의 MCP 서버 선택을 더 직관적이고 컨텍스트 인식적으로 만들려면 이를 `.clinerules` 파일 또는 사용자 지정 지침에 추가하십시오.

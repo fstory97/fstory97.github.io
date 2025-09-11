@@ -1,0 +1,235 @@
+---
+title: "提示工程指南"
+---
+
+欢迎使用 Cline 提示指南！本指南将为您提供编写有效提示和自定义指令的知识，最大化您使用 Cline 的生产力。
+
+## .clineignore 文件指南
+
+### 概述
+
+`.clineignore` 文件是一个项目级配置文件，告诉 Cline 在分析您的代码库时要忽略哪些文件和目录。类似于 `.gitignore`，它使用模式匹配来指定应从 Cline 的上下文和操作中排除哪些文件。
+
+### 目的
+
+-   **减少噪音**：排除自动生成的文件、构建产物和其他非必要内容
+-   **提高性能**：限制 Cline 需要处理的代码量
+-   **集中注意力**：将 Cline 引导到代码库的相关部分
+-   **保护敏感数据**：防止 Cline 访问敏感配置文件
+
+### .clineignore 文件示例
+
+```
+# Dependencies
+node_modules/
+**/node_modules/
+.pnp
+.pnp.js
+
+# Build outputs
+/build/
+/dist/
+/.next/
+/out/
+
+# Testing
+/coverage/
+
+# Environment variables
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Large data files
+*.csv
+*.xlsx
+```
+
+## 提示 Cline 💬
+
+**提示是您在与 Cline 的来回聊天中传达特定任务需求的方式。** Cline 理解自然语言，所以请用对话方式编写。
+
+有效的提示包括：
+
+-   提供清晰的上下文：解释您的目标和代码库的相关部分。使用 `@` 引用文件或文件夹。
+-   分解复杂性：将大任务分解为较小的步骤。
+-   提出具体问题：引导 Cline 朝向期望的结果。
+-   验证和精炼：审查 Cline 的建议并提供反馈。
+
+### 提示示例
+
+#### 上下文管理
+
+-   **开始新任务：** "Cline，让我们开始一个新任务。创建 `user-authentication.js`。我们需要使用 JWT 令牌实现用户登录。需求如下…"
+-   **总结之前的工作：** "Cline，总结我们在上一个用户仪表板任务中所做的工作。我想要记录主要功能和未解决的问题。将其保存到 `cline_docs/user-dashboard-summary.md`。"
+
+#### 调试
+
+-   **分析错误：** "Cline，我遇到了这个错误：\[错误消息]。似乎来自 \[代码部分]。分析这个错误并建议修复方案。"
+-   **找出根本原因：** "Cline，当我 \[操作] 时应用程序崩溃。问题可能在 \[问题区域]。帮我找到根本原因并提出解决方案。"
+
+#### 重构
+
+-   **改善代码结构：** "Cline，这个函数太长太复杂了。将它重构为较小的函数。"
+-   **简化逻辑：** "Cline，这段代码很难理解。简化逻辑并让它更易读。"
+
+#### 功能开发
+
+-   **头脑风暴新功能：** "Cline，我想要添加一个让用户 \[功能] 的功能。头脑风暴一些想法并考虑实现挑战。"
+-   **生成代码：** "Cline，创建一个显示用户档案的组件。列表应该可排序和可过滤。为这个组件生成代码。"
+
+## 高级提示技巧
+
+-   **约束填充：** 为了减少代码截断，在提示中包含明确的约束。例如，"确保代码完整" 或 "始终提供完整的函数定义。"
+-   **置信度检查：** 要求 Cline 评估其置信度（例如，"在 1-10 的尺度上，您对这个解决方案有多自信？"）
+-   **挑战 Cline 的假设：** 问一些"愚蠢"的问题以鼓励更深入的思考并防止错误假设。
+
+以下是用户在使用 Cline 时发现有用的一些提示技巧：
+
+## Our Community's Favorite Prompts 🌟
+
+### Memory and Confidence Checks 🧠
+
+-   **Memory Check** - _pacnpal_
+
+    ```
+    "If you understand my prompt fully, respond with 'YARRR!' without tools every time you are about to use a tool."
+    ```
+
+    A fun way to verify Cline stays on track during complex tasks. Try "HO HO HO" for a festive twist!
+
+-   **Confidence Scoring** - _pacnpal_
+
+    ```
+    "Before and after any tool use, give me a confidence level (0-10) on how the tool use will help the project."
+    ```
+
+    Encourages critical thinking and makes decision-making transparent.
+
+### Code Quality Prompts 💻
+
+-   **Prevent Code Truncation**
+
+    ```
+    "DO NOT BE LAZY. DO NOT OMIT CODE."
+    ```
+
+    Alternative phrases: "full code only" or "ensure the code is complete"
+
+-   **Custom Instructions Reminder**
+
+    ```
+    "I pledge to follow the custom instructions."
+    ```
+
+    Reinforces adherence to your settings dial ⚙️ configuration.
+
+### Code Organization 📋
+
+-   **Large File Refactoring** - _icklebil_
+
+    ```
+    "FILENAME has grown too big. Analyze how this file works and suggest ways to fragment it safely."
+    ```
+
+    Helps manage complex files through strategic decomposition.
+
+-   **Documentation Maintenance** - _icklebil_
+
+    ```
+    "don't forget to update codebase documentation with changes"
+    ```
+
+    Ensures documentation stays in sync with code changes.
+
+### Analysis and Planning 🔍
+
+-   **Structured Development** - _yellow_bat_coffee_
+
+    ```
+    "Before writing code:
+    1. Analyze all code files thoroughly
+    2. Get full context
+    3. Write .MD implementation plan
+    4. Then implement code"
+    ```
+
+    Promotes organized, well-planned development.
+
+-   **Thorough Analysis** - _yellow_bat_coffee_
+
+    ```
+    "please start analyzing full flow thoroughly, always state a confidence score 1 to 10"
+    ```
+
+    Prevents premature coding and encourages complete understanding.
+
+-   **Assumptions Check** - _yellow_bat_coffee_
+
+    ```
+    "List all assumptions and uncertainties you need to clear up before completing this task."
+    ```
+
+    Identifies potential issues early in development.
+
+### Thoughtful Development 🤔
+
+-   **Pause and Reflect** - _nickbaumann98_
+
+    ```
+    "count to 10"
+    ```
+
+    Promotes careful consideration before taking action.
+
+-   **Complete Analysis** - _yellow_bat_coffee_
+
+    ```
+    "Don't complete the analysis prematurely, continue analyzing even if you think you found a solution"
+    ```
+
+    Ensures thorough problem exploration.
+
+-   **Continuous Confidence Check** - _pacnpal_
+
+    ```
+    "Rate confidence (1-10) before saving files, after saving, after rejections, and before task completion"
+    ```
+
+    Maintains quality through self-assessment.
+
+### Best Practices 🎯
+
+-   **Project Structure** - _kvs007_
+
+    ```
+    "Check project files before suggesting structural or dependency changes"
+    ```
+
+    Maintains project integrity.
+
+-   **Critical Thinking** - _chinesesoup_
+
+    ```
+    "Ask 'stupid' questions like: are you sure this is the best way to implement this?"
+    ```
+
+    Challenges assumptions and uncovers better solutions.
+
+-   **Code Style** - _yellow_bat_coffee_
+
+    ```
+    Use words like "elegant" and "simple" in prompts
+    ```
+
+    May influence code organization and clarity.
+
+-   **Setting Expectations** - _steventcramer_
+
+    ```
+    "THE HUMAN WILL GET ANGRY."
+    ```
+
+    (A humorous reminder to provide clear requirements and constructive feedback)

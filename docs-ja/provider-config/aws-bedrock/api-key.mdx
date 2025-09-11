@@ -1,0 +1,136 @@
+---
+title: "API キー（簡単セットアップ）"
+sidebarTitle: "API キー"
+description: "Bedrock API キーを使用して AWS Bedrock を Cline でセットアップします。個人開発者が最先端モデルにアクセスするための最も簡単な設定です。"
+---
+
+### 概要
+
+-   **AWS Bedrock:** AWS を通じて主要な生成 AI モデル（例：Anthropic Claude、Amazon Nova）へのアクセスを提供する完全マネージドサービス。\
+    [AWS Bedrock の詳細を確認](https://docs.aws.amazon.com/bedrock/latest/userguide/what-is-bedrock.html)
+-   **Cline:** AI モデルと統合してコード生成、デバッグ、データ分析を可能にする VS Code 拡張機能であるコーディングアシスタント。
+-   **開発者向け:** このガイドは API キーを使用した簡略化されたセットアップで、AWS Bedrock 経由で最先端モデルへのアクセスを有効にしたい個人開発者向けです。
+
+---
+
+### ステップ 1: AWS 環境の準備
+
+#### 1.1 個人ユーザー設定 - Bedrock API キーの作成
+
+より詳細な手順については、[ドキュメント](https://docs.aws.amazon.com/bedrock/latest/userguide/api-keys.html)を確認してください。
+
+1. **AWS Management Console にサインイン:**\
+   [AWS Console](https://aws.amazon.com/console/)
+2. **Bedrock Console にアクセス:**
+    - [Bedrock Console](https://console.aws.amazon.com/bedrock)
+    - 新しい Long Lived API Key を作成します。この API キーにはデフォルトで `AmazonBedrockLimitedAccess` IAM ポリシーが設定されます
+      [AmazonBedrockLimitedAccess ポリシーの詳細を確認](https://docs.aws.amazon.com/bedrock/latest/userguide/security-iam.html)
+
+#### 1.2 ポリシーの作成または変更
+
+Cline が AWS Bedrock と連携できるように、IAM ユーザーまたはロールには特定の権限が必要です。`AmazonBedrockLimitedAccess` マネージドポリシーは包括的なアクセスを提供しますが、最小権限の原則に従ったより制限的で安全な設定のために、以下の最小権限が Cline のコアモデル呼び出し機能に十分です：
+
+-   `bedrock:InvokeModel`
+-   `bedrock:InvokeModelWithResponseStream`
+-   `bedrock:CallWithBearerToken`
+
+これらの権限を持つカスタム IAM ポリシーを作成し、IAM ユーザーまたはロールにアタッチできます。
+
+1.  AWS IAM コンソールで新しいポリシーを作成します。
+2.  JSON エディターを使用して以下のポリシードキュメントを追加します：
+    ```json
+    {
+    	"Version": "2012-10-17",
+    	"Statement": [
+    		{
+    			"Effect": "Allow",
+    			"Action": ["bedrock:InvokeModel", "bedrock:InvokeModelWithResponseStream", "bedrock:CallWithBearerToken"],
+    			"Resource": "*" // セキュリティ強化のため、可能であれば特定のモデル ARN に範囲を限定してください。
+    		}
+    	]
+    }
+    ```
+3.  ポリシーに名前を付け（例：`ClineBedrockInvokeAccess`）、作成したキーに関連付けられた IAM ユーザーにアタッチします。IAM ユーザーと API キーは同じプリフィックスを持っています。
+
+**重要な考慮事項:**
+
+-   **Cline でのモデルリスト:** 最小権限（`bedrock:InvokeModel`、`bedrock:InvokeModelWithResponseStream`）は、Cline の設定でモデル ID を直接指定する場合の Cline のモデル _使用_ に十分です。Cline が利用可能な Bedrock モデルを動的にリストすることに依存する場合、`bedrock:ListFoundationModels` などの追加権限が必要になる場合があります。
+-   **AWS Marketplace サブスクリプション:** サードパーティモデル（例：Anthropic Claude）について、**`AmazonBedrockLimitedAccess`** ポリシーは AWS Marketplace 経由でサブスクライブするための必要な権限を付与します。明示的に有効にするアクセスはありません。Anthropic モデルについては、コンソール経由で初回使用（FTU）フォームを提出する必要があります。Cline チャットで `[ERROR] Failed to process response: Model use case details have not been submitted for this account. Fill out the Anthropic use case details form before using the model.` というメッセージが表示された場合は、[AWS Bedrock Console の Playground](https://console.aws.amazon.com/bedrock/home?#/text-generation-playground) を開いて任意の Anthropic モデルを選択し、フォームに記入してください（最初にプロンプトを送信する必要があるかもしれません）
+
+---
+
+### ステップ 2: 地域とモデルアクセスの確認
+
+#### 2.1 地域の選択と確認
+
+1. **地域を選択:**\
+   AWS Bedrock は複数の地域（例：米国東部、ヨーロッパ、アジア太平洋）で利用可能です。レイテンシとコンプライアンスのニーズに合う地域を選択してください。\
+   [AWS グローバルインフラストラクチャ](https://aws.amazon.com/about-aws/global-infrastructure/regions_az/)
+2. **モデルアクセスの確認:**
+    - **注意:** 一部のモデルは [推論プロファイル](https://docs.aws.amazon.com/bedrock/latest/userguide/inference-profiles-support.html) 経由でのみアクセス可能です。その場合は「Cross Region Inference」ボックスをチェックしてください。
+
+---
+
+### ステップ 3: Cline VS Code 拡張機能の設定
+
+#### 3.1 Cline のインストールと開き方
+
+1. **VS Code のインストール:**\
+   [VS Code ウェブサイト](https://code.visualstudio.com/)からダウンロードしてください。
+2. **Cline 拡張機能のインストール:**
+    - VS Code を開きます。
+    - 拡張機能マーケットプレイスに移動します（`Ctrl+Shift+X` または `Cmd+Shift+X`）。
+    - **Cline** を検索してインストールします。
+
+#### 3.2 Cline 設定の構成
+
+1. **Cline 設定を開く:**
+    - 設定 ⚙️ をクリックして API プロバイダーを選択します。
+2. **AWS Bedrock を API プロバイダーとして選択:**
+    - API Provider ドロップダウンから **AWS Bedrock** を選択します。
+3. **AWS API キーを入力:**
+    - **API Key** を入力します
+    - 正しい **AWS Region**（例：`us-east-1` または企業承認の地域）を指定します。
+4. **モデルを選択:**
+    - オンデマンドモデル（例：**anthropic.claude-3-5-sonnet-20241022-v2:0**）を選択します。
+5. **保存とテスト:**
+    - **Done/Save** をクリックして設定を適用します。
+    - 簡単なプロンプト（例：「数値が素数かどうかをチェックする Python 関数を生成して」）を送信して統合をテストします。
+
+---
+
+### ステップ 4: セキュリティ、モニタリング、ベストプラクティス
+
+1. **安全なアクセス:**
+    - 可能な限り、長期間有効な API キーよりも AWS SSO/連邦ロールを優先してください。
+    - [AWS IAM ベストプラクティス](https://docs.aws.amazon.com/IAM/latest/UserGuide/best-practices.html)
+2. **ネットワークセキュリティの強化:**
+    - Bedrock に安全に接続するため、[AWS PrivateLink](https://docs.aws.amazon.com/vpc/latest/userguide/endpoint-services-overview.html) の設定を検討してください。
+3. **アクティビティの監視とログ記録:**
+    - AWS CloudTrail を有効にして Bedrock API 呼び出しをログに記録します。
+    - CloudWatch を使用して呼び出し回数、レイテンシ、トークン使用量などのメトリクスを監視します。
+    - 異常なアクティビティのアラートを設定します。
+4. **エラー処理とコスト管理:**
+    - スロットリングエラーのための指数バックオフを実装します。
+    - AWS Cost Explorer を使用し、請求アラートを設定して使用量を追跡します。\
+      [AWS Cost Management](https://docs.aws.amazon.com/cost-management/latest/userguide/what-is-aws-cost-management.html)
+5. **定期監査とコンプライアンス:**
+    - IAM ロールと CloudTrail ログを定期的にレビューします。
+    - 内部のデータプライバシーとガバナンスポリシーに従ってください。
+
+---
+
+### 結論
+
+これらの手順に従うことで、AWS Bedrock を Cline VS Code 拡張機能と統合して開発を加速できます：
+
+1. **AWS 環境の準備:** 必要な権限を持つ Bedrock API キーを作成します。
+2. **地域とモデルアクセスの確認:** 選択した地域が必要なモデルをサポートしていることを確認します。
+3. **VS Code での Cline 設定:** AWS API キーで Cline をインストール・設定し、適切なモデルを選択します。
+4. **セキュリティとモニタリングの実装:** IAM、ネットワークセキュリティ、モニタリング、コスト管理のベストプラクティスを使用します。
+
+さらなる詳細については、[AWS Bedrock ドキュメント](https://docs.aws.amazon.com/bedrock/latest/userguide/what-is-bedrock.html)を参照してください。ハッピーコーディング！
+
+---
+
+_このガイドは AWS Bedrock と Cline の進化に合わせて更新されます。最新のプラクティスについては、常に最新のドキュメントと内部ポリシーを参照してください。_

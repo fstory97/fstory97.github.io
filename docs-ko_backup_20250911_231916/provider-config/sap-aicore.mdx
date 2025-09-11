@@ -1,0 +1,74 @@
+---
+title: "SAP AI Core"
+description: "Cline과 함께 SAP AI Core의 Generative AI Hub에서 LLM 모델을 구성하고 사용하는 방법을 알아보세요."
+---
+
+SAP AI Core 및 Generative AI Hub는 LLM 및 AI를 새로운 비즈니스 프로세스에 비용 효율적인 방식으로 통합하는 데 도움이 됩니다.
+
+**웹사이트:** [SAP Help Portal](https://help.sap.com/docs/sap-ai-core/sap-ai-core-service-guide/what-is-sap-ai-core)
+
+> 💡 **정보**
+>
+> SAP AI Core 및 Generative AI Hub는 SAP BTP에서 제공하는 서비스입니다.
+> 이 단계를 수행하려면 활성 SAP BTP 계약과 `extended` 서비스 플랜이 있는 SAP AI Core 인스턴스가 있는 기존 서브계정이 필요합니다(SAP AI Core 서비스 플랜 및 기능에 대한 자세한 내용은 [서비스 플랜 문서](https://help.sap.com/docs/sap-ai-core/sap-ai-core-service-guide/service-plans) 참조).
+
+### 서비스 바인딩 얻기
+
+1. **액세스:** [BTP Cloud Cockpit](cockpit.btp.cloud.sap/cockpit)을 통해 서브계정으로 이동합니다.
+2. **서비스 바인딩 생성:** "인스턴스 및 구독"으로 이동하여 SAP AI Core 서비스 인스턴스를 선택하고 서비스 바인딩 > 생성을 클릭합니다.
+3. **서비스 바인딩 복사:** 서비스 바인딩 값을 복사합니다.
+
+### 지원되는 모델
+
+SAP AI Core는 방대하고 계속 증가하는 수의 모델을 지원합니다.
+완전하고 최신 목록은 [Generative AI Hub 지원 모델 페이지](https://me.sap.com/notes/3437766)를 참조하세요.
+
+### Cline에서 구성
+
+1.  **Cline 설정 열기:** Cline 패널에서 설정 아이콘(⚙️)을 클릭하세요.
+2.  **공급자 선택:** "API 공급자" 드롭다운에서 "SAP AI Core"를 선택하세요.
+3.  **클라이언트 ID 입력:** 서비스 바인딩의 `.clientid` 필드를 "AI Core 클라이언트 ID" 필드에 추가합니다.
+4.  **클라이언트 시크릿 입력:** 서비스 바인딩의 `.clientsecret` 필드를 "AI Core 클라이언트 시크릿" 필드에 추가합니다.
+5.  **기본 URL 입력:** 서비스 바인딩의 `.serviceurls.AI_API_URL` 필드를 "AI Core 기본 URL" 필드에 추가합니다.
+6.  **인증 URL 입력:** 서비스 바인딩의 `.url` 필드를 "AI Core 인증 URL" 필드에 추가합니다.
+7.  **리소스 그룹 입력:** 모델 배포가 있는 리소스 그룹을 추가합니다. [생성형 AI 모델 배포 생성](https://help.sap.com/docs/sap-ai-core/sap-ai-core-service-guide/create-deployment-for-generative-ai-model-in-sap-ai-core)을 참조하세요.
+8.  **오케스트레이션 모드 구성:** `extended` 서비스 플랜이 있는 경우 "오케스트레이션 모드" 확인란이 자동으로 나타납니다.
+9.  **모델 선택:** "모델" 드롭다운에서 원하는 모델을 선택하세요.
+
+### 오케스트레이션 모드 vs 네이티브 API
+
+**오케스트레이션 모드:**
+- **간소화된 사용:** [조화된 API](https://help.sap.com/docs/sap-ai-core/sap-ai-core-service-guide/harmonized-api)를 사용하여 개별 배포 없이 사용 가능한 모든 모델에 액세스 제공
+
+**네이티브 API 모드:**
+- **수동 배포:** SAP AI Core 서비스 인스턴스에서 수동 모델 배포 및 관리가 필요
+
+### 팁 및 참고 사항
+
+- **서비스 플랜 요구 사항:** Cline과 함께 LLM을 사용하려면 SAP AI Core `extended` 서비스 플랜이 있어야 합니다. 다른 서비스 플랜은 Generative AI Hub에 대한 액세스를 제공하지 않습니다.
+
+- **오케스트레이션 모드 (권장):** 가장 간단한 설정을 위해 오케스트레이션 모드를 활성화된 상태로 유지하세요. 수동 배포 없이 사용 가능한 모든 모델에 대한 자동 액세스를 제공합니다.
+
+- **네이티브 API 모드:** AI Core API에 직접 액세스해야 하거나 오케스트레이션 모드에서 지원되지 않는 특정 요구 사항이 있는 경우에만 오케스트레이션 모드를 비활성화하세요.
+
+- **네이티브 API 모드 사용 시:**
+    -   **모델 선택:** 모델 드롭다운에는 두 개의 별도 목록으로 모델이 표시됩니다.
+        -   **배포된 모델:** 이 모델은 지정된 리소스 그룹에 이미 배포되어 있으며 즉시 사용할 수 있습니다.
+        -   **배포되지 않은 모델:** 이 모델은 지정된 리소스 그룹에 활성 배포가 없습니다. SAP AI Core에서 배포를 생성하기 전까지는 이 모델을 사용할 수 없습니다.
+    -   **배포 생성:** 아직 배포되지 않은 모델을 사용하려면 SAP AI Core 서비스 인스턴스에서 배포를 생성해야 합니다. 지침은 [생성형 AI 모델 배포 생성](https://help.sap.com/docs/sap-ai-core/sap-ai-core-service-guide/create-deployment-for-generative-ai-model-in-sap-ai-core)을 참조하세요.
+
+#### OpenAI 모델의 추론 노력 구성
+
+SAP AI Core를 통해 OpenAI 추론 모델(o1, o3, o3-mini, o4-mini 등)을 사용할 때 성능과 비용의 균형을 맞추기 위해 추론 노력을 제어할 수 있습니다.
+
+1. **Cline 설정 열기:** Cline 패널에서 설정 아이콘(⚙️)을 클릭하세요.
+2. **기능으로 이동:** 설정에서 "기능" 섹션으로 이동합니다.
+3. **OpenAI 추론 노력 찾기:** "OpenAI 추론 노력" 설정을 찾습니다.
+4. **노력 수준 선택:** 다음 중에서 선택합니다.
+   - **낮음:** 더 간단한 작업에 적합하며 토큰 사용량이 적고 응답 속도가 빠릅니다.
+   - **중간:** 대부분의 작업에 대해 균형 잡힌 성능과 토큰 사용량
+   - **높음:** 더 복잡한 추론 작업에 더 적합하며 토큰 사용량이 많고 더 철저한 분석을 제공합니다.
+
+> 💡 **참고**
+>
+> 이 설정은 SAP AI Core를 통해 배포된 OpenAI 추론 모델(o1, o3, o3-mini, o4-mini, gpt-5 등)을 사용할 때만 적용됩니다. 다른 모델은 이 설정을 무시합니다.

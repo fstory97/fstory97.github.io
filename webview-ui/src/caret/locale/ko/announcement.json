@@ -3,15 +3,32 @@
 	"previousHeader": "이전 업데이트:",
 	"bullets": {
 		"current": {
-			"1": "GPT-5 모델 패밀리 지원",
-			"2": "15개 새 프로바이더 추가, 274개 AI 모델 통합"
+			"1": "Cline v3.26.6 병합",
+			"1-desc": "최신 GPT-5, Claude 4, Grok 모델 지원 및 아키텍처 개선",
+			"2": "15+ 새로운 API 제공업체",
+			"2-desc": "Hugging Face, Groq 등 15개 이상의 새로운 서비스 통합",
+			"3": "작업 관리 (Focus Chain)",
+			"3-desc": "복잡한 작업을 위한 자동 할 일 목록 생성 및 추적",
+			"4": "4개국어 사용자 메뉴얼",
+			"4-desc": "메뉴얼 신규 오픈",
+			"5": "편의 기능 강화",
+			"5-desc": "자동 대화 압축, 체크포인트 개선, Mermaid 다이어그램 미리보기"
+		},
+		"previous": {
+			"1": "개인화된 AI 페르소나",
+			"1-desc": "Caret, Oh Sarang, Madobe Ichika, Cyan Macin, Tando Ubuntu 지원",
+			"2": "Cline/Caret 모드 토글",
+			"2-desc": "언제든지 원래 Cline 방식으로 전환 가능",
+			"3": "완벽한 4개국어 지원",
+			"3-desc": "한국어, 영어, 일본어, 중국어 지원",
+			"4": "300개 모델 지원",
+			"4-desc": "36개 제공업체를 통한 300개 AI 모델 지원"
 		}
 	},
 	"links": {
-		"intro": "커뮤니티는",
-		"and": "및",
-		"facebook": "페이스북 그룹",
-		"github": "GitHub",
-		"outro": "에서 만나보세요!"
+		"korean": "한국어",
+		"japanese": "일본어",
+		"chinese": "중국어",
+		"english": "영어"
 	}
 }

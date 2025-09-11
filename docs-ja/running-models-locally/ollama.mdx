@@ -1,0 +1,88 @@
+---
+title: "Ollama"
+description: "ClineでローカルAIモデル実行のためのOllama設定の簡単ガイド。"
+---
+
+### 📋 前提条件
+
+-   Windows、macOS、またはLinuxコンピューター
+-   VS CodeにClineがインストール済み
+
+### 🚀 設定手順
+
+#### 1. Ollamaをインストール
+
+-   [ollama.com](https://ollama.com)にアクセス
+-   お使いのオペレーティングシステム用をダウンロードしてインストール
+
+<Frame>
+	<img
+		src="https://storage.googleapis.com/cline_public_images/docs/assets/image%20(2)%20(1)%20(1).png"
+		alt="Ollamaダウンロードページ"
+	/>
+</Frame>
+
+#### 2. モデルを選択してダウンロード
+
+-   [ollama.com/search](https://ollama.com/search)でモデルを閲覧
+-   モデルを選択してコマンドをコピー：
+
+    ```bash
+    ollama run [モデル名]
+    ```
+
+<Frame>
+	<img
+		src="https://storage.googleapis.com/cline_public_images/docs/assets/ollama-model-grab%20(2).gif"
+		alt="Ollamaでモデルを選択"
+	/>
+</Frame>
+
+-   ターミナルを開いてコマンドを実行：
+
+    -   例：
+
+        ```bash
+        ollama run llama2
+        ```
+
+<Frame>
+	<img
+		src="https://storage.googleapis.com/cline_public_images/docs/assets/starting-ollama-terminal%20(2).gif"
+		alt="ターミナルでOllamaを実行"
+	/>
+</Frame>
+
+**✨ モデルがCline内で使用できるようになりました！**
+
+#### 3. Clineを設定
+
+1. VS Codeを開く
+2. Cline設定アイコンをクリック
+3. APIプロバイダーとして「Ollama」を選択
+4. 設定を入力：
+    - Base URL: `http://localhost:11434/`（デフォルト値、そのままで可）
+    - 利用可能なオプションからモデルを選択
+
+<Frame>
+	<img
+		src="https://storage.googleapis.com/cline_public_images/docs/assets/selecting-ollama-model-cline%20(3).gif"
+		alt="OllamaでClineを設定"
+	/>
+</Frame>
+
+### ⚠️ 重要な注意事項
+
+-   Clineで使用する前にOllamaを開始
+-   Ollamaをバックグラウンドで実行し続ける
+-   初回モデルダウンロードは数分かかる場合があります
+
+### 🔧 トラブルシューティング
+
+ClineがOllamaに接続できない場合：
+
+1. Ollamaが実行中であることを確認
+2. ベースURLが正しいことを確認
+3. モデルがダウンロード済みであることを確認
+
+詳細情報が必要ですか？[Ollama Docs](https://github.com/ollama/ollama/blob/main/docs/api.md)をお読みください。

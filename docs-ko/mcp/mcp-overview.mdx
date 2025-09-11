@@ -1,0 +1,107 @@
+---
+title: "MCP 개요"
+description: "MCP(Model Context Protocol) 서버, 기능 및 Cline이 이를 구축하고 사용하는 데 어떻게 도움이 되는지 알아보십시오. MCP는 애플리케이션이 LLM에 컨텍스트를 제공하는 방식을 표준화하여 AI 애플리케이션을 위한 USB-C 포트처럼 작동합니다."
+---
+
+## 빠른 링크
+
+-   [GitHub에서 MCP 서버 구축](/mcp/adding-mcp-servers-from-github)
+-   [처음부터 사용자 지정 MCP 서버 구축](/mcp/mcp-server-development-protocol)
+
+## 개요
+
+MCP(Model Context Protocol)는 애플리케이션이 LLM에 컨텍스트를 제공하는 방식을 표준화하는 개방형 프로토콜입니다. MCP를 AI 애플리케이션을 위한 USB-C 포트처럼 생각하십시오. AI 모델을 다양한 데이터 소스 및 도구에 연결하는 표준화된 방법을 제공합니다. MCP 서버는 Claude와 같은 대규모 언어 모델(LLM)과 외부 도구 또는 데이터 소스 간의 중개자 역할을 합니다. 이들은 MCP를 통해 외부 세계와 상호 작용할 수 있도록 LLM에 기능을 노출하는 작은 프로그램입니다. MCP 서버는 본질적으로 LLM이 사용할 수 있는 API와 같습니다.
+
+<Frame>
+	<img
+		src="https://storage.googleapis.com/cline_public_images/docs/assets/mcp-diagram.png"
+		alt="MCP 서버가 LLM을 외부 도구 및 데이터 소스에 연결하는 방법을 보여주는 MCP 다이어그램"
+	/>
+</Frame>
+
+## 주요 개념
+
+MCP 서버는 LLM이 실행할 수 있는 함수인 "**도구**" 세트를 정의합니다. 이러한 도구는 광범위한 기능을 제공합니다.
+
+**MCP 작동 방식은 다음과 같습니다.**
+
+-   **MCP 호스트**는 연결된 서버의 기능을 검색하고 도구, 프롬프트 및 리소스를 로드합니다.
+-   **리소스**는 파일 경로 또는 데이터베이스 쿼리와 유사하게 읽기 전용 데이터에 대한 일관된 액세스를 제공합니다.
+-   서버가 자격 증명 및 민감한 데이터를 격리하므로 **보안**이 보장됩니다. 상호 작용에는 명시적인 사용자 승인이 필요합니다.
+
+## 사용 사례
+
+MCP 서버의 잠재력은 방대합니다. 다양한 목적으로 사용될 수 있습니다.
+
+**MCP 서버를 사용할 수 있는 구체적인 예시는 다음과 같습니다.**
+
+-   **웹 서비스 및 API 통합:**
+    -   새로운 문제에 대해 GitHub 저장소 모니터링
+    -   특정 트리거를 기반으로 Twitter에 업데이트 게시
+    -   위치 기반 서비스에 대한 실시간 날씨 데이터 검색
+-   **브라우저 자동화:**
+    -   웹 애플리케이션 테스트 자동화
+    -   가격 비교를 위해 전자 상거래 사이트 스크래핑
+    -   웹사이트 모니터링을 위한 스크린샷 생성
+-   **데이터베이스 쿼리:**
+    -   주간 판매 보고서 생성
+    -   고객 행동 패턴 분석
+    -   비즈니스 메트릭을 위한 실시간 대시보드 생성
+-   **프로젝트 및 작업 관리:**
+    -   코드 커밋을 기반으로 Jira 티켓 자동 생성
+    -   주간 진행 보고서 생성
+    -   프로젝트 요구 사항을 기반으로 작업 종속성 생성
+-   **코드베이스 문서화:**
+    -   코드 주석에서 API 문서 생성
+    -   코드 구조에서 아키텍처 다이어그램 생성
+    -   최신 README 파일 유지
+
+## 시작하기
+
+Cline은 사전 설치된 MCP 서버와 함께 제공되지 않습니다. 별도로 찾아 설치해야 합니다.
+
+**필요에 맞는 올바른 접근 방식을 선택하십시오.**
+
+-   **커뮤니티 저장소:** GitHub에서 커뮤니티에서 유지 관리하는 MCP 서버 목록을 확인하십시오. [GitHub에서 MCP 서버 추가](/mcp/adding-mcp-servers-from-github) 참조
+-   **Cline 마켓플레이스:** Cline의 [MCP 마켓플레이스](/mcp/mcp-marketplace)에서 설치하십시오.
+-   **Cline에게 문의:** Cline에게 MCP 서버를 찾거나 생성하는 데 도움을 요청할 수 있습니다.
+-   **직접 구축:** [MCP SDK](https://github.com/modelcontextprotocol/)를 사용하여 사용자 지정 MCP 서버를 생성하십시오.
+-   **기존 서버 사용자 지정:** 특정 요구 사항에 맞게 기존 서버를 수정하십시오.
+
+## Cline과의 통합
+
+Cline은 AI 기능을 통해 MCP 서버 구축 및 사용을 단순화합니다.
+
+### MCP 서버 구축
+
+-   **자연어 이해:** 자연어로 Cline에 MCP 서버를 구축하도록 지시하여 기능을 설명합니다. Cline은 지침을 해석하고 필요한 코드를 생성합니다.
+-   **서버 복제 및 구축:** Cline은 GitHub에서 기존 MCP 서버 저장소를 복제하고 자동으로 구축할 수 있습니다.
+-   **구성 및 종속성 관리:** Cline은 구성 파일, 환경 변수 및 종속성을 처리합니다.
+-   **문제 해결 및 디버깅:** Cline은 개발 중에 오류를 식별하고 해결하는 데 도움을 줍니다.
+
+### MCP 서버 사용
+
+-   **도구 실행:** Cline은 MCP 서버와 원활하게 통합되어 정의된 도구를 실행할 수 있습니다.
+-   **컨텍스트 인식 상호 작용:** Cline은 대화 컨텍스트를 기반으로 관련 도구 사용을 지능적으로 제안할 수 있습니다.
+-   **동적 통합:** 복잡한 작업을 위해 여러 MCP 서버 기능을 결합합니다. 예를 들어, Cline은 GitHub 서버를 사용하여 데이터를 가져오고 Notion 서버를 사용하여 서식 지정된 보고서를 생성할 수 있습니다.
+
+## 보안 고려 사항
+
+MCP 서버로 작업할 때 보안 모범 사례를 따르는 것이 중요합니다.
+
+-   **인증:** API 액세스에 항상 안전한 인증 방법을 사용하십시오.
+-   **환경 변수:** 민감한 정보를 환경 변수에 저장하십시오.
+-   **액세스 제어:** 승인된 사용자에게만 서버 액세스를 제한하십시오.
+-   **데이터 유효성 검사:** 주입 공격을 방지하기 위해 모든 입력을 유효성 검사하십시오.
+-   **로깅:** 민감한 데이터를 노출하지 않고 안전한 로깅 관행을 구현하십시오.
+
+## 리소스
+
+MCP 서버를 찾고 배우는 데 사용할 수 있는 다양한 리소스가 있습니다.
+
+**MCP 서버를 찾고 배우는 데 사용할 수 있는 리소스 링크는 다음과 같습니다.**
+
+-   **GitHub 저장소:** [https://github.com/modelcontextprotocol/servers](https://github.com/modelcontextprotocol/servers) 및 [https://github.com/punkpeye/awesome-mcp-servers](https://github.com/punkpeye/awesome-mcp-servers)
+-   **온라인 디렉토리:** [https://mcpservers.org/](https://mcpservers.org/), [https://mcp.so/](https://mcp.so/), 및 [https://glama.ai/mcp/servers](https://glama.ai/mcp/servers)
+-   **PulseMCP:** [https://www.pulsemcp.com/](https://www.pulsemcp.com/)
+-   **YouTube 튜토리얼 (AI 기반 코더):** MCP 서버 구축 및 사용에 대한 비디오 가이드: [https://www.youtube.com/watch?v=b5pqTNiuuJg](https://www.youtube.com/watch?v=b5pqTNiuuJg)

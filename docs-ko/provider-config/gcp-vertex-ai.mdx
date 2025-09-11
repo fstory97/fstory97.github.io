@@ -1,0 +1,209 @@
+---
+title: "GCP Vertex AI"
+description: "Cline과 함께 GCP Vertex AI를 구성하여 Claude 3.5 Sonnet v2와 같은 선도적인 생성형 AI 모델에 액세스하는 방법을 알아보세요. 이 가이드는 GCP 환경 설정, 인증 및 엔터프라이즈 팀을 위한 보안 통합을 다룹니다."
+---
+
+### 개요
+
+**GCP Vertex AI:**\
+Google Cloud를 통해 Anthropic의 Claude 3.5 Sonnet v2와 같은 선도적인 생성형 AI 모델에 액세스할 수 있는 완전 관리형 서비스입니다.\
+[GCP Vertex AI에 대해 자세히 알아보기](https://cloud.google.com/vertex-ai).
+
+이 가이드는 보안 및 규정 준수 사용을 보장하기 위해 기존 GCP 환경(IAM 역할, 서비스 계정 및 리소스 관리 모범 사례 활용)을 갖춘 조직에 맞춰져 있습니다.
+
+---
+
+### 1단계: GCP 환경 준비
+
+#### 1.1 GCP 프로젝트 생성 또는 사용
+
+-   **GCP 콘솔에 로그인:**\
+    [Google Cloud Console](https://console.cloud.google.com/)
+-   **프로젝트 선택 또는 생성:**\
+    기존 프로젝트를 사용하거나 Vertex AI 전용 새 프로젝트를 생성하세요.
+
+#### 1.2 IAM 권한 및 서비스 계정 설정
+
+-   **필수 역할 할당:**
+
+    -   사용자(또는 서비스 계정)에게 **Vertex AI 사용자** 역할(`roles/aiplatform.user`)을 부여하세요.
+    -   서비스 계정의 경우 특정 작업을 활성화하기 위해 **Vertex AI 서비스 에이전트** 역할(`roles/aiplatform.serviceAgent`)도 연결하세요.
+    -   필요에 따라 추가 사전 정의된 역할을 고려하세요.
+        -   Vertex AI Platform Express Admin
+        -   Vertex AI Platform Express User
+        -   Vertex AI Migration Service User
+
+-   **교차 프로젝트 리소스 액세스:**
+    -   다른 프로젝트의 BigQuery 테이블의 경우 **BigQuery 데이터 뷰어** 역할을 할당하세요.
+    -   다른 프로젝트의 Cloud Storage 버킷의 경우 **Storage 객체 뷰어** 역할을 할당하세요.
+    -   외부 데이터 소스의 경우 [GCP Vertex AI 액세스 제어 문서](https://cloud.google.com/vertex-ai/docs/general/access-control)를 참조하세요.
+
+---
+
+### 2단계: 지역 및 모델 액세스 확인
+
+#### 2.1 지역 선택 및 확인
+
+Vertex AI는 여러 지역을 지원합니다. 지연 시간, 규정 준수 및 용량 요구 사항을 충족하는 지역을 선택하세요. 예시는 다음과 같습니다.
+
+-   **us-east5 (오하이오주 콜럼버스)**
+-   **us-central1 (아이오와)**
+-   **europe-west1 (벨기에)**
+-   **europe-west4 (네덜란드)**
+-   **asia-southeast1 (싱가포르)**
+-   **global (글로벌)**
+
+글로벌 엔드포인트는 더 높은 가용성을 제공하고 리소스 소진 오류를 줄일 수 있습니다. Gemini 모델만 지원됩니다.
+
+#### 2.2 Claude 3.5 Sonnet v2 모델 활성화
+
+-   **Vertex AI 모델 가든 열기:**\
+    Cloud Console에서 **Vertex AI → 모델 가든**으로 이동하세요.
+-   **Claude 3.5 Sonnet v2 활성화:**\
+    Claude 3.5 Sonnet v2 모델 카드를 찾아 **활성화**를 클릭하세요.
+
+---
+
+### 3단계: Cline VS Code 확장 프로그램 구성
+
+#### 3.1 Cline 설치 및 열기
+
+-   **VS Code 다운로드:**\
+    [Visual Studio Code 다운로드](https://code.visualstudio.com/)
+-   **Cline 확장 프로그램 설치:**
+    -   VS Code를 엽니다.
+    -   확장 프로그램 마켓플레이스(Ctrl+Shift+X 또는 Cmd+Shift+X)로 이동합니다.
+    -   **Cline**을 검색하여 확장 프로그램을 설치합니다.
+
+<Frame>
+	<img
+		src="https://storage.googleapis.com/cline_public_images/docs/assets/cline-extension-arrow.png"
+		alt="VS Code의 Cline 확장 프로그램"
+	/>
+</Frame>
+
+#### 3.2 Cline 설정 구성
+
+-   **Cline 설정 열기:**\
+    Cline 확장 프로그램 내의 설정 ⚙️ 아이콘을 클릭합니다.
+-   **API 공급자 설정:**\
+    API 공급자 드롭다운에서 **GCP Vertex AI**를 선택합니다.
+-   **Google Cloud 프로젝트 ID 입력:**\
+    이전에 설정한 프로젝트 ID를 제공합니다.
+-   **지역 선택:**\
+    지원되는 지역 중 하나를 선택합니다(예: `us-east5`).
+-   **모델 선택:**\
+    사용 가능한 목록에서 **Claude 3.5 Sonnet v2**를 선택합니다.
+-   **저장 및 테스트:**\
+    설정을 저장하고 간단한 프롬프트(예: "숫자가 소수인지 확인하는 Python 함수를 생성해 주세요.")를 전송하여 테스트합니다.
+
+---
+
+### 4단계: 인증 및 자격 증명 설정
+
+#### 옵션 A: Google 계정 사용 (사용자 자격 증명)
+
+1. **Google Cloud CLI 설치:**\
+   [설치 가이드](https://cloud.google.com/sdk/docs/install)를 따르세요.
+2. **초기화 및 인증:**
+
+    ```bash
+    gcloud init
+    gcloud auth application-default login
+    ```
+
+    - 이는 Google 계정을 사용하여 애플리케이션 기본 자격 증명(ADC)을 설정합니다.
+
+3. **VS Code 다시 시작:**\
+   Cline 확장 프로그램이 새 자격 증명을 인식하도록 VS Code를 다시 시작해야 합니다.
+
+#### 옵션 B: 서비스 계정 사용 (JSON 키)
+
+1. **서비스 계정 생성:**
+
+    - GCP 콘솔에서 **IAM 및 관리자 > 서비스 계정**으로 이동합니다.
+    - 새 서비스 계정을 생성합니다(예: "vertex-ai-client").
+
+2. **역할 할당:**
+
+    - **Vertex AI 사용자**(`roles/aiplatform.user`)를 연결합니다.
+    - **Vertex AI 서비스 에이전트**(`roles/aiplatform.serviceAgent`)를 연결합니다.
+    - 선택적으로 필요에 따라 다른 역할을 추가합니다.
+
+3. **JSON 키 생성:**
+
+    - 서비스 계정 섹션에서 서비스 계정의 키를 관리하고 JSON 키를 다운로드합니다.
+
+4. **환경 변수 설정:**
+
+    ```bash
+    export GOOGLE_APPLICATION_CREDENTIALS="/path/to/your/service-account-key.json"
+    ```
+
+    - 이는 Google Cloud 클라이언트 라이브러리(및 Cline)가 이 키를 사용하도록 지시합니다.
+
+5. **VS Code 다시 시작:**\
+   `GOOGLE_APPLICATION_CREDENTIALS` 변수가 설정된 터미널에서 VS Code를 시작합니다.
+
+---
+
+### 5단계: 보안, 모니터링 및 모범 사례
+
+#### 5.1 최소 권한 적용
+
+-   **최소 권한 원칙:**\
+    최소한의 필수 권한만 부여합니다. 사용자 정의 역할은 광범위한 사전 정의된 역할에 비해 더 세밀한 제어를 제공할 수 있습니다.
+-   **모범 사례:**\
+    [GCP IAM 모범 사례](https://cloud.google.com/iam/docs/best-practices)를 참조하세요.
+
+#### 5.2 리소스 액세스 관리
+
+-   **프로젝트 대 리소스 수준 액세스:**\
+    액세스는 두 수준에서 모두 관리할 수 있습니다. 리소스 수준 권한(예: BigQuery 또는 Cloud Storage)은 프로젝트 수준 정책에 추가되지만 재정의하지는 않습니다.
+
+#### 5.3 사용량 및 할당량 모니터링
+
+-   **모델 관찰 가능성 대시보드:**
+
+    -   Vertex AI 콘솔에서 **모델 관찰 가능성** 대시보드로 이동합니다.
+    -   요청 처리량, 지연 시간 및 오류율(429 할당량 오류 포함)과 같은 지표를 모니터링합니다.
+
+-   **할당량 관리:**
+    -   429 오류가 발생하면 **IAM 및 관리자 > 할당량** 페이지를 확인합니다.
+    -   필요한 경우 할당량 증가를 요청합니다.\
+        [GCP Vertex AI 할당량에 대해 자세히 알아보기](https://cloud.google.com/vertex-ai/docs/quotas)
+
+#### 5.4 서비스 에이전트 및 교차 프로젝트 고려 사항
+
+-   **서비스 에이전트:**\
+    다음과 같은 다양한 서비스 에이전트를 숙지하세요.
+
+    -   Vertex AI 서비스 에이전트
+    -   Vertex AI RAG 데이터 서비스 에이전트
+    -   Vertex AI Custom Code 서비스 에이전트
+    -   Vertex AI Extension 서비스 에이전트
+
+-   **교차 프로젝트 액세스:**\
+    다른 프로젝트의 리소스(예: BigQuery, Cloud Storage)의 경우 적절한 역할(BigQuery 데이터 뷰어, Storage 객체 뷰어)이 할당되었는지 확인합니다.
+
+---
+
+### 결론
+
+다음 단계를 따르면 엔터프라이즈 팀은 GCP Vertex AI를 Cline VS Code 확장 프로그램과 안전하게 통합하여 **Claude 3.5 Sonnet v2**의 기능을 활용할 수 있습니다.
+
+-   **GCP 환경 준비:**\
+    프로젝트를 생성하거나 사용하고, 최소 권한으로 IAM을 구성하고, 필요한 역할(Vertex AI 서비스 에이전트 역할 포함)이 연결되었는지 확인합니다.
+-   **지역 및 모델 액세스 확인:**\
+    선택한 지역이 Claude 3.5 Sonnet v2를 지원하고 모델이 활성화되었는지 확인합니다.
+-   **VS Code에서 Cline 구성:**\
+    Cline을 설치하고, 프로젝트 ID를 입력하고, 적절한 지역을 선택하고, 모델을 선택합니다.
+-   **인증 설정:**\
+    사용자 자격 증명(`gcloud auth application-default login`을 통해) 또는 JSON 키가 있는 서비스 계정을 사용합니다.
+-   **보안 및 모니터링 구현:**\
+    IAM에 대한 모범 사례를 준수하고, 리소스 액세스를 신중하게 관리하고, 모델 관찰 가능성 대시보드를 사용하여 사용량을 모니터링합니다.
+
+자세한 내용은 [GCP Vertex AI 문서](https://cloud.google.com/vertex-ai/docs) 및 내부 보안 정책을 참조하세요.\
+즐거운 코딩 되세요!
+
+_이 가이드는 GCP Vertex AI 및 Cline이 발전함에 따라 업데이트될 예정입니다. 항상 최신 문서를 참조하여 현재 관행을 확인하세요._

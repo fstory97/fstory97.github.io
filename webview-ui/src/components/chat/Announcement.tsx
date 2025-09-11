@@ -45,20 +45,34 @@ const Announcement = ({ version, hideAnnouncement }: AnnouncementProps) => {
 			<h3 style={h3TitleStyle}>{t("announcement.newVersion", "common", { version: minorVersion })}</h3>
 			<ul style={ulStyle}>
 				<li>
-					<b>{t("announcement.features.freeStealth.title", "common")}</b>{" "}
-					{t("announcement.features.freeStealth.description", "common")}
+					<b>{t("bullets.current.1", "announcement")}:</b> {t("bullets.current.1-desc", "announcement")}
 				</li>
 				<li>
-					<b>{t("announcement.features.focusChain.title", "common")}:</b>{" "}
-					{t("announcement.features.focusChain.description", "common")}
+					<b>{t("bullets.current.2", "announcement")}:</b> {t("bullets.current.2-desc", "announcement")}
 				</li>
 				<li>
-					<b>{t("announcement.features.autoCompact.title", "common")}:</b>{" "}
-					{t("announcement.features.autoCompact.description", "common")}
+					<b>{t("bullets.current.3", "announcement")}:</b> {t("bullets.current.3-desc", "announcement")}
 				</li>
 				<li>
-					<b>{t("announcement.features.deepPlanning.title", "common")}:</b>{" "}
-					{t("announcement.features.deepPlanning.description", "common")}
+					<b>{t("bullets.current.4", "announcement")}:</b>{" "}
+					<VSCodeLink href="http://docs.caret.team/ko" style={linkStyle}>
+						{t("links.korean", "announcement")}
+					</VSCodeLink>
+					{" / "}
+					<VSCodeLink href="http://docs.caret.team/ja" style={linkStyle}>
+						{t("links.japanese", "announcement")}
+					</VSCodeLink>
+					{" / "}
+					<VSCodeLink href="http://docs.caret.team/zh" style={linkStyle}>
+						{t("links.chinese", "announcement")}
+					</VSCodeLink>
+					{" / "}
+					<VSCodeLink href="http://docs.caret.team/en" style={linkStyle}>
+						{t("links.english", "announcement")}
+					</VSCodeLink>					
+				</li>
+				<li>
+					<b>{t("bullets.current.5", "announcement")}:</b> {t("bullets.current.5-desc", "announcement")}
 				</li>
 			</ul>
 			<Accordion className="pl-0">
@@ -74,35 +88,21 @@ const Announcement = ({ version, hideAnnouncement }: AnnouncementProps) => {
 					title={t("announcement.previousUpdates", "common")}>
 					<ul style={ulStyle}>
 						<li>
-							<b>{t("announcement.previousFeatures.claude1M.title", "common")}:</b>{" "}
-							{t("announcement.previousFeatures.claude1M.description", "common")}
+							<b>{t("bullets.previous.1", "announcement")}:</b> {t("bullets.previous.1-desc", "announcement")}
 						</li>
 						<li>
-							<b>{t("announcement.previousFeatures.optimizedClaude4.title", "common")}:</b>{" "}
-							{t("announcement.previousFeatures.optimizedClaude4.description", "common")}
+							<b>{t("bullets.previous.2", "announcement")}:</b> {t("bullets.previous.2-desc", "announcement")}
 						</li>
 						<li>
-							<b>{t("announcement.previousFeatures.workflows.title", "common")}:</b>{" "}
-							{t("announcement.previousFeatures.workflows.description", "common")}
+							<b>{t("bullets.previous.3", "announcement")}:</b> {t("bullets.previous.3-desc", "announcement")}
+						</li>
+						<li>
+							<b>{t("bullets.previous.4", "announcement")}:</b> {t("bullets.previous.4-desc", "announcement")}
 						</li>
 					</ul>
 				</AccordionItem>
 			</Accordion>
 			<div style={hrStyle} />
-			<p style={linkContainerStyle}>
-				{t("announcement.joinUs", "common")}{" "}
-				<VSCodeLink href="https://x.com/cline" style={linkStyle}>
-					X,
-				</VSCodeLink>{" "}
-				<VSCodeLink href="https://discord.gg/cline" style={linkStyle}>
-					discord,
-				</VSCodeLink>{" "}
-				or{" "}
-				<VSCodeLink href="https://www.reddit.com/r/cline/" style={linkStyle}>
-					r/cline
-				</VSCodeLink>
-				{t("announcement.forMoreUpdates", "common")}
-			</p>
 		</div>
 	)
 }

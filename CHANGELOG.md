@@ -20,7 +20,7 @@
         </a>
       </td>
     </tr>
-  </table>ㅍ
+  </table>
 </div>
 
 # Changelog

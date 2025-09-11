@@ -3,15 +3,32 @@
 	"previousHeader": "以前的更新:",
 	"bullets": {
 		"current": {
-			"1": "支持 GPT-5 模型家族",
-			"2": "新增 15 个提供商，集成 274 个人工智能模型"
+			"1": "Cline v3.26.6 合并",
+			"1.desc": "最新GPT-5、Claude 4、Grok模型支持及架构改进",
+			"2": "15+新API提供商",
+			"2.desc": "集成Hugging Face、Groq等15个以上新服务",
+			"3": "任务管理 (Focus Chain)",
+			"3.desc": "为复杂任务自动生成待办事项列表并进行跟踪",
+			"4": "4语言用户手册",
+			"4.desc": "手册新发布",
+			"5": "便利功能增强",
+			"5.desc": "自动会话压缩、检查点改进、Mermaid图表预览"
+		},
+		"previous": {
+			"1": "个性化AI角色",
+			"1.desc": "支持Caret、Oh Sarang、Madobe Ichika、Cyan Macin、Tando Ubuntu",
+			"2": "Cline/Caret模式切换",
+			"2.desc": "随时切换到原始Cline方式",
+			"3": "完美4语言支持",
+			"3.desc": "支持韩语、英语、日语、中文",
+			"4": "300模型支持",
+			"4.desc": "通过36个提供商支持300个AI模型"
 		}
 	},
 	"links": {
-		"intro": "在",
-		"and": "和",
-		"facebook": "Facebook 群组",
-		"github": "GitHub",
-		"outro": "上认识社区！"
+		"korean": "韩语",
+		"japanese": "日语",
+		"chinese": "中文",
+		"english": "英语"
 	}
 }

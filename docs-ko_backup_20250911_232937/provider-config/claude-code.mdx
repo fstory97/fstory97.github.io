@@ -1,0 +1,93 @@
+---
+title: "Claude 코드"
+description: "토큰당 비용을 지불하는 대신 Cline으로 Claude Max 또는 Pro 구독을 사용하십시오. Claude 코드 공급자를 설정하고 구성하는 방법을 알아보십시오."
+---
+
+**웹사이트:** [https://docs.anthropic.com/en/docs/claude-code/setup](https://docs.anthropic.com/en/docs/claude-code/setup)
+
+Claude 코드 공급자를 사용하면 기존 Claude 구독을 Cline과 함께 사용할 수 있습니다. Claude Max 또는 Pro가 있는 경우 Cline에서 추가 API 비용을 지불하지 않고 Claude를 사용할 수 있습니다.
+
+<Frame>
+	<img
+		src="https://storage.googleapis.com/cline_public_images/docs/assets/claude-code-use-opus.gif"
+		alt="Opus 모델과 함께 Cline에서 Claude 코드 공급자 사용"
+	/>
+</Frame>
+
+## 설정
+
+먼저 시스템에 Claude 코드를 설치하고 인증해야 합니다.
+
+1.  **Claude 코드 설치**: Anthropic의 [공식 설정 가이드](https://docs.anthropic.com/en/docs/claude-code/setup)를 따라 Claude CLI를 설치하고 인증합니다.
+
+2.  **Cline에서 구성**:
+    -   Cline 설정(⚙️ 아이콘) 열기
+    -   **API 공급자** 드롭다운에서 **Claude 코드** 선택
+    -   Claude CLI 실행 파일 경로 설정(PATH에 있는 경우 일반적으로 `claude`만 해당)
+
+<Frame>
+	<img
+		src="https://storage.googleapis.com/cline_public_images/docs/assets/claude-code-setup.gif"
+		alt="Cline에서 Claude 코드 공급자 설정"
+	/>
+</Frame>
+
+<br />
+
+<Accordion title="Windows 설정">
+	Anthropic은 Windows에서 Claude 코드에 대한 완전한 지원을 도입했습니다. [Claude 코드를 정상적으로 설정하는 방법에 대한 지침](#setup)을 따르고 최신 Claude 코드 및 Cline 버전을 가지고 있는지 확인하십시오.
+</Accordion>
+
+### Claude 코드 경로 찾기
+
+Claude 코드가 어디에 설치되었는지 확실하지 않은 경우:
+
+-   **macOS / Linux**: 터미널에서 `which claude` 실행
+-   **Windows (명령 프롬프트)**: `where claude` 실행
+-   **Windows (PowerShell)**: `Get-Command claude` 실행
+
+## 지원되는 모델
+
+Claude 코드 공급자는 다음 모델을 지원합니다.
+
+-   `claude-sonnet-4-20250514` (권장)
+-   `claude-opus-4-1-20250805`
+-   `claude-opus-4-20250514`
+-   `claude-3-7-sonnet-20250219`
+-   `claude-3-5-sonnet-20241022`
+-   `claude-3-5-haiku-20241022`
+
+## 작동 방식
+
+Cline과 함께 Claude 코드를 사용하면 내부적으로 다음과 같은 일이 발생합니다.
+
+Cline은 Claude 코드 CLI를 래핑하여 요청을 처리합니다. 메시지를 보낼 때마다 Cline은 새 `claude` 프로세스를 시작하고 대화를 보내고 응답을 다시 스트리밍합니다. AI 추론은 Claude 코드에서 나오지만 실제 파일 편집, 터미널 명령 및 기타 도구는 모두 Cline에서 처리합니다.
+
+주요 차이점은 다른 공급자처럼 응답이 문자 단위로 스트리밍되지 않는다는 것입니다. 대신 Claude 코드는 전체 요청을 처리한 다음 완전한 응답을 다시 보냅니다.
+
+## 제한 사항
+
+Claude 코드에는 몇 가지 유의할 점이 있습니다.
+
+-   Claude 코드는 CLI를 통한 이미지 업로드를 지원하지 않으므로 메시지의 이미지는 텍스트 자리 표시자로 변환됩니다.
+-   이 공급자에서는 프롬프트 캐싱을 사용할 수 없습니다.
+-   다른 공급자처럼 응답이 실시간으로 스트리밍되지 않습니다.
+
+## 문제 해결
+
+문제가 발생하면:
+
+**인증 문제**: 구독 계정으로 Claude 코드에 로그인했는지 확인하십시오. `claude auth status`를 실행하여 확인하십시오.
+
+**경로 문제**: Cline 설정의 Claude CLI 경로가 올바른지 다시 확인하십시오. 터미널에서 `claude --version`을 실행하여 작동하는지 확인해 보십시오.
+
+**여전히 문제가 있나요?** 이 통합을 적극적으로 개선하고 있습니다. [GitHub](https://github.com/cline/cline/issues)에 문제를 보고하거나 [Discord](https://discord.gg/cline)에서 도움을 요청하십시오.
+
+## 구독과 함께 사용
+
+Claude Max 구독이 있는 경우 추가 API 비용을 지불하지 않으므로 Cline의 사용량이 청구 인터페이스에 $0.00으로 표시됩니다. 사용량은 구독 제한에 계속 포함되지만 토큰당 요금은 표시되지 않습니다.
+
+구독과 함께 Claude 코드를 사용하는 방법에 대한 자세한 내용은 Anthropic 문서를 확인하십시오.
+
+-   [Claude 코드 설정 가이드](https://docs.anthropic.com/en/docs/claude-code/setup)
+-   [Pro/Max 플랜과 함께 Claude 코드 사용](https://support.anthropic.com/en/articles/11145838-using-claude-code-with-your-pro-or-max-plan)

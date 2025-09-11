@@ -1,0 +1,51 @@
+---
+title: "터미널 빠른 수정"
+sidebarTitle: "터미널 빠른 수정"
+description: "일반적인 터미널 문제에 대한 빠른 해결책"
+---
+
+**가장 적절한 것부터 시작하여 일반적인 수정 사항 목록입니다.**
+
+-   **bash로 전환** (대부분의 경우 해결)
+
+    1. Cline에서 채팅 창 오른쪽 상단 모서리에 있는 **설정** 버튼을 왼쪽 클릭
+    2. **설정** 창에서 왼쪽 열의 **"터미널 설정"** 탭을 왼쪽 클릭
+    3. **"기본 터미널 프로필"**로 이동하여 드롭다운에서 **"bash"** 선택
+
+-   **시간 초과 증가**
+
+    1. Cline에서 채팅 창 오른쪽 상단 모서리에 있는 **설정** 버튼을 왼쪽 클릭
+    2. **설정** 창에서 왼쪽 열의 **"터미널 설정"** 탭을 왼쪽 클릭
+    3. "셸 통합 시간 초과(초)"로 이동하여 텍스트 필드에 **"10"** 입력
+
+-   **터미널 재사용 비활성화**
+    1. Cline에서 채팅 창 오른쪽 상단 모서리에 있는 **설정** 버튼을 왼쪽 클릭
+    2. **설정** 창에서 왼쪽 열의 **"터미널 설정"** 탭을 왼쪽 클릭
+    3. **"공격적인 터미널 재사용 활성화"**를 찾아 이 옵션을 **선택 취소**
+
+## 플랫폼별 수정 사항
+
+### macOS + Oh-My-Zsh
+
+```bash
+# VSCode용 최소 구성 생성
+echo 'export TERM=xterm-256color' > ~/.zshrc-vscode
+echo 'export PAGER=cat' >> ~/.zshrc-vscode
+```
+
+### Windows PowerShell
+
+```powershell
+# 관리자 권한으로 실행
+Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
+```
+
+### WSL
+
+-   WSL에서 폴더 열기: `code .`
+-   Cline 설정의 **"터미널 설정"**에서 **"WSL Bash"** 선택
+-   **"셸 통합 시간 초과(초)"**를 **15**로 증가
+
+## 전체 가이드
+
+자세한 문제 해결은 [전체 터미널 문제 해결 가이드](/troubleshooting/terminal-integration-guide)를 참조하세요.

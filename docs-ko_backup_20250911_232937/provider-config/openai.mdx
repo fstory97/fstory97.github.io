@@ -1,0 +1,47 @@
+---
+title: "OpenAI"
+description: "Cline과 함께 공식 OpenAI 모델을 구성하고 사용하는 방법을 알아보세요."
+---
+
+Cline은 공식 OpenAI API를 통해 모델에 직접 액세스하는 것을 지원합니다.
+
+**웹사이트:** [https://openai.com/](https://openai.com/)
+
+### API 키 얻기
+
+1.  **가입/로그인:** [OpenAI 플랫폼](https://platform.openai.com/)을 방문하세요. 계정을 만들거나 이미 계정이 있는 경우 로그인해야 합니다.
+2.  **API 키로 이동:** 로그인한 후 계정의 [API 키 섹션](https://platform.openai.com/api-keys)으로 이동하세요.
+3.  **키 생성:** "새 비밀 키 생성"을 클릭하세요. 키에 설명적인 이름(예: "Cline API 키")을 지정하는 것이 좋습니다.
+4.  **키 복사:** **중요:** 생성된 API 키를 즉시 복사하세요. 보안상의 이유로 OpenAI는 다시 표시하지 않습니다. 이 키를 안전하고 보안된 위치에 보관하세요.
+
+### 지원되는 모델
+
+Cline은 다음을 포함하되 이에 국한되지 않는 다양한 OpenAI 모델과 호환됩니다.
+
+-   'o3'
+-   `o3-mini` (중간 추론 노력)
+-   'o4-mini'
+-   `o3-mini-high` (높은 추론 노력)
+-   `o3-mini-low` (낮은 추론 노력)
+-   `o1`
+-   `o1-preview`
+-   `o1-mini`
+-   `gpt-4o`
+-   `gpt-4o-mini`
+-   'gpt-4.1'
+-   'gpt-4.1-mini'
+
+사용 가능한 모델 및 기능에 대한 최신 목록은 공식 [OpenAI 모델 문서](https://platform.openai.com/docs/models)를 참조하세요.
+
+### Cline에서 구성
+
+1.  **Cline 설정 열기:** Cline 패널에서 설정 톱니바퀴 아이콘(⚙️)을 클릭하세요.
+2.  **공급자 선택:** "API 공급자" 드롭다운 메뉴에서 "OpenAI"를 선택하세요.
+3.  **API 키 입력:** "OpenAI API 키" 필드에 OpenAI API 키를 붙여넣으세요.
+4.  **모델 선택:** "모델" 드롭다운 목록에서 원하는 모델을 선택하세요.
+5.  **(선택 사항) 기본 URL:** OpenAI API에 프록시 또는 사용자 지정 기본 URL을 사용해야 하는 경우 여기에 입력할 수 있습니다. 대부분의 사용자는 기본값을 변경할 필요가 없습니다.
+
+### 팁 및 참고 사항
+
+-   **가격:** 다양한 모델과 관련된 비용에 대한 자세한 정보는 [OpenAI 가격 책정 페이지](https://openai.com/pricing)를 검토하세요.
+-   **Azure OpenAI 서비스:** Azure OpenAI 서비스를 사용하려는 경우 Cline과 함께 Azure OpenAI에 대한 특정 문서는 별도로 찾을 수 있거나, Cline이 사용자 지정 구성을 지원하는 경우 OpenAI 호환 엔드포인트로 구성해야 할 수 있습니다.

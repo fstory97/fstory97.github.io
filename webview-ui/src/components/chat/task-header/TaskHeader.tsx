@@ -458,7 +458,8 @@ const TaskHeader: React.FC<TaskHeaderProps> = ({
 								</div>
 								{!shouldShowPromptCacheInfo() && (
 									<div className="flex items-center flex-wrap">
-										{IS_DEV === '"true"' && <OpenDiskTaskHistoryButton taskId={currentTaskItem?.id} />}
+										{/* CARET MODIFICATION: Always show disk task history button (removed IS_DEV condition) */}
+										<OpenDiskTaskHistoryButton taskId={currentTaskItem?.id} />
 										<CopyTaskButton taskText={task.text} />
 										<DeleteTaskButton
 											taskId={currentTaskItem?.id}
@@ -517,7 +518,8 @@ const TaskHeader: React.FC<TaskHeaderProps> = ({
 										)}
 									</div>
 									<div className="flex items-center flex-wrap">
-										{IS_DEV === '"true"' && <OpenDiskTaskHistoryButton taskId={currentTaskItem?.id} />}
+										{/* CARET MODIFICATION: Always show disk task history button (removed IS_DEV condition) */}
+										<OpenDiskTaskHistoryButton taskId={currentTaskItem?.id} />
 										<CopyTaskButton taskText={task.text} />
 										<DeleteTaskButton
 											taskId={currentTaskItem?.id}
