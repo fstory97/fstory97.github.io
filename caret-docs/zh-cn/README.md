@@ -1,30 +1,29 @@
+
 <div align="center">
-  <table>
+<table>
     <tr>
       <td align="center">
-        <a href="../../README.md">
-          <img src="https://img.shields.io/badge/English-2563eb?style=for-the-badge&labelColor=1e40af" alt="English"/>
+        <a href="https://github.com/aicoding-caret/caret/blob/main/README.md">
+            <img src="https://img.shields.io/badge/English-2563eb?style=for-the-badge&labelColor=1e40af" alt="English"/>
         </a>
       </td>
       <td align="center">
-        <a href="../ko/README.md">
+        <a href="https://github.com/aicoding-caret/caret/blob/main/caret-docs/ko/README.md">
           <img src="https://img.shields.io/badge/한국어-16a34a?style=for-the-badge&labelColor=15803d" alt="한국어"/>
         </a>
       </td>
       <td align="center">
-        <a href="../ja/README.md">
+        <a href="https://github.com/aicoding-caret/caret/blob/main/caret-docs/ja/README.md">
           <img src="https://img.shields.io/badge/日本語-ea580c?style=for-the-badge&labelColor=c2410c" alt="日本語"/>
         </a>
       </td>
       <td align="center">
-        <img src="https://img.shields.io/badge/中文-dc2626?style=for-the-badge&labelColor=b91c1c" alt="中文"/>
+        <a href="https://github.com/aicoding-caret/caret/blob/main/caret-docs/zh-cn/README.md">
+          <img src="https://img.shields.io/badge/中文-dc2626?style=for-the-badge&labelColor=b91c1c" alt="中文"/>
+        </a>
       </td>
     </tr>
   </table>
-</div>
-
-<div align="center">
-  <img src="../../assets/icons/icon.png" alt="Caret icon" width="128">
   <h1>🎯 Caret: 您的新AI编程伙伴</h1>
   <p><strong>Cline的所有功能 + 个性化AI伙伴 + 改进的系统提示</strong></p>
   
