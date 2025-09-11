@@ -18,7 +18,12 @@ import { cleanupTestMode, initializeTestMode } from "./services/test/TestMode"
 import { WebviewProviderType } from "./shared/webview/types"
 import "./utils/path" // necessary to have access to String.prototype.toPosix
 
-import type { ExtensionContext } from "vscode"
+// CARET MODIFICATION: Import CaretProviderWrapper for image injection and PersonaInitializer
+import { JsonTemplateLoader } from "@caret/core/prompts/system/JsonTemplateLoader"
+import { CaretProviderWrapper } from "@caret/core/webview/CaretProviderWrapper"
+import { CaretGlobalManager } from "@caret/managers/CaretGlobalManager"
+import { PersonaInitializer } from "@caret/services/persona/persona-initializer"
+import type { ExtensionContext, Webview } from "vscode"
 import { HostProvider } from "@/hosts/host-provider"
 import { vscodeHostBridgeClient } from "@/hosts/vscode/hostbridge/client/host-grpc-client"
 import { readTextFromClipboard, writeTextToClipboard } from "@/utils/env"
@@ -51,15 +56,39 @@ https://github.com/microsoft/vscode-webview-ui-toolkit-samples/tree/main/framewo
 export async function activate(context: vscode.ExtensionContext) {
 	setupHostProvider(context)
 
-	const sidebarWebview = (await initialize(context)) as VscodeWebviewProvider
+	// CARET MODIFICATION: Wrap with CaretProviderWrapper for image injection
+	const clineWebview = (await initialize(context)) as VscodeWebviewProvider
+	const sidebarWebview = new CaretProviderWrapper(context, clineWebview)
 
-	Logger.log("Cline extension activated")
+	// CARET MODIFICATION: Initialize CaretGlobalManager with 'caret' as default for new installations
+	const initialMode = context.workspaceState.get<"caret" | "cline">("caret.promptSystem.mode", "caret")
+	CaretGlobalManager.initialize(initialMode)
+
+	// CARET MODIFICATION: Initialize CaretModeManager with extension context
+	const { CaretModeManager } = await import("@caret/core/modes/CaretModeManager")
+	CaretModeManager.setContext(context)
+
+	// CARET MODIFICATION: Initialize JsonTemplateLoader
+	const sectionsDirPath = vscode.Uri.joinPath(context.extensionUri, "caret-src", "core", "prompts", "sections").fsPath
+	await JsonTemplateLoader.getInstance().initialize(sectionsDirPath)
+
+	Logger.log("Caret extension activated")
+
+	// CARET MODIFICATION: Initialize persona system on extension activation
+	try {
+		const personaInitializer = new PersonaInitializer(context)
+		await personaInitializer.initialize()
+		Logger.log("Persona system initialized successfully")
+	} catch (error) {
+		Logger.error(`Failed to initialize persona system: ${error}`)
+	}
 
 	const testModeWatchers = await initializeTestMode(sidebarWebview)
 	// Initialize test mode and add disposables to context
 	context.subscriptions.push(...testModeWatchers)
 
-	vscode.commands.executeCommand("setContext", "cline.isDevMode", IS_DEV && IS_DEV === "true")
+	// CARET MODIFICATION: Changed context key from cline.isDevMode to caret.isDevMode to avoid conflicts with Cline extension
+	vscode.commands.executeCommand("setContext", "caret.isDevMode", IS_DEV && IS_DEV === "true")
 
 	context.subscriptions.push(
 		vscode.window.registerWebviewViewProvider(VscodeWebviewProvider.SIDEBAR_ID, sidebarWebview, {
@@ -67,8 +96,9 @@ export async function activate(context: vscode.ExtensionContext) {
 		}),
 	)
 
+	// CARET MODIFICATION: Changed command namespace from cline.* to caret.* to prevent conflicts when installed alongside Cline extension
 	context.subscriptions.push(
-		vscode.commands.registerCommand("cline.plusButtonClicked", async (webview: any) => {
+		vscode.commands.registerCommand("caret.plusButtonClicked", async (webview: any) => {
 			console.log("[DEBUG] plusButtonClicked", webview)
 			// Pass the webview type to the event sender
 			const isSidebar = !webview
@@ -95,7 +125,7 @@ export async function activate(context: vscode.ExtensionContext) {
 	)
 
 	context.subscriptions.push(
-		vscode.commands.registerCommand("cline.mcpButtonClicked", (webview: any) => {
+		vscode.commands.registerCommand("caret.mcpButtonClicked", (webview: any) => {
 			console.log("[DEBUG] mcpButtonClicked", webview)
 
 			const activeInstance = WebviewProvider.getActiveInstance()
@@ -121,7 +151,7 @@ export async function activate(context: vscode.ExtensionContext) {
 	)
 
 	const openClineInNewTab = async () => {
-		Logger.log("Opening Cline in new tab")
+		Logger.log("Opening Caret in new tab")
 		// (this example uses webviewProvider activation event which is necessary to deserialize cached webview, but since we use retainContextWhenHidden, we don't need to use that event)
 		// https://github.com/microsoft/vscode-extension-samples/blob/main/webview-sample/src/extension.ts
 		const tabWebview = HostProvider.get().createWebviewProvider(WebviewProviderType.TAB) as VscodeWebviewProvider
@@ -134,7 +164,7 @@ export async function activate(context: vscode.ExtensionContext) {
 		}
 		const targetCol = hasVisibleEditors ? Math.max(lastCol + 1, 1) : vscode.ViewColumn.Two
 
-		const panel = vscode.window.createWebviewPanel(VscodeWebviewProvider.TAB_PANEL_ID, "Cline", targetCol, {
+		const panel = vscode.window.createWebviewPanel(VscodeWebviewProvider.TAB_PANEL_ID, "Caret", targetCol, {
 			enableScripts: true,
 			retainContextWhenHidden: true,
 			localResourceRoots: [context.extensionUri],
@@ -153,11 +183,11 @@ export async function activate(context: vscode.ExtensionContext) {
 		return tabWebview
 	}
 
-	context.subscriptions.push(vscode.commands.registerCommand("cline.popoutButtonClicked", openClineInNewTab))
-	context.subscriptions.push(vscode.commands.registerCommand("cline.openInNewTab", openClineInNewTab))
+	context.subscriptions.push(vscode.commands.registerCommand("caret.popoutButtonClicked", openClineInNewTab))
+	context.subscriptions.push(vscode.commands.registerCommand("caret.openInNewTab", openClineInNewTab))
 
 	context.subscriptions.push(
-		vscode.commands.registerCommand("cline.settingsButtonClicked", (webview: any) => {
+		vscode.commands.registerCommand("caret.settingsButtonClicked", (webview: any) => {
 			const isSidebar = !webview
 			const webviewType = isSidebar ? WebviewProviderTypeEnum.SIDEBAR : WebviewProviderTypeEnum.TAB
 
@@ -166,7 +196,7 @@ export async function activate(context: vscode.ExtensionContext) {
 	)
 
 	context.subscriptions.push(
-		vscode.commands.registerCommand("cline.historyButtonClicked", async (webview: any) => {
+		vscode.commands.registerCommand("caret.historyButtonClicked", async (webview: any) => {
 			console.log("[DEBUG] historyButtonClicked", webview)
 			// Pass the webview type to the event sender
 			const isSidebar = !webview
@@ -178,7 +208,7 @@ export async function activate(context: vscode.ExtensionContext) {
 	)
 
 	context.subscriptions.push(
-		vscode.commands.registerCommand("cline.accountButtonClicked", (webview: any) => {
+		vscode.commands.registerCommand("caret.accountButtonClicked", (webview: any) => {
 			console.log("[DEBUG] accountButtonClicked", webview)
 
 			const isSidebar = !webview
@@ -233,7 +263,7 @@ export async function activate(context: vscode.ExtensionContext) {
 			.then((module) => {
 				const devTaskCommands = module.registerTaskCommands(context, sidebarWebview.controller)
 				context.subscriptions.push(...devTaskCommands)
-				Logger.log("Cline dev task commands registered")
+				Logger.log("Caret dev task commands registered")
 			})
 			.catch((error) => {
 				Logger.log("Failed to register dev task commands: " + error)
@@ -241,7 +271,7 @@ export async function activate(context: vscode.ExtensionContext) {
 	}
 
 	context.subscriptions.push(
-		vscode.commands.registerCommand("cline.addTerminalOutputToChat", async () => {
+		vscode.commands.registerCommand("caret.addTerminalOutputToChat", async () => {
 			const terminal = vscode.window.activeTerminal
 			if (!terminal) {
 				return
@@ -329,40 +359,40 @@ export async function activate(context: vscode.ExtensionContext) {
 						)
 					}
 
-					// Add to Cline (Always available)
-					const addAction = new vscode.CodeAction("Add to Cline", vscode.CodeActionKind.QuickFix)
+					// Add to Caret (Always available)
+					const addAction = new vscode.CodeAction("Add to Caret", vscode.CodeActionKind.QuickFix)
 					addAction.command = {
 						command: "cline.addToChat",
-						title: "Add to Cline",
+						title: "Add to Caret",
 						arguments: [expandedRange, context.diagnostics],
 					}
 					actions.push(addAction)
 
-					// Explain with Cline (Always available)
-					const explainAction = new vscode.CodeAction("Explain with Cline", vscode.CodeActionKind.RefactorExtract) // Using a refactor kind
+					// Explain with Caret (Always available)
+					const explainAction = new vscode.CodeAction("Explain with Caret", vscode.CodeActionKind.RefactorExtract) // Using a refactor kind
 					explainAction.command = {
 						command: "cline.explainCode",
-						title: "Explain with Cline",
+						title: "Explain with Caret",
 						arguments: [expandedRange],
 					}
 					actions.push(explainAction)
 
-					// Improve with Cline (Always available)
-					const improveAction = new vscode.CodeAction("Improve with Cline", vscode.CodeActionKind.RefactorRewrite) // Using a refactor kind
+					// Improve with Caret (Always available)
+					const improveAction = new vscode.CodeAction("Improve with Caret", vscode.CodeActionKind.RefactorRewrite) // Using a refactor kind
 					improveAction.command = {
 						command: "cline.improveCode",
-						title: "Improve with Cline",
+						title: "Improve with Caret",
 						arguments: [expandedRange],
 					}
 					actions.push(improveAction)
 
-					// Fix with Cline (Only if diagnostics exist)
+					// Fix with Caret (Only if diagnostics exist)
 					if (context.diagnostics.length > 0) {
-						const fixAction = new vscode.CodeAction("Fix with Cline", vscode.CodeActionKind.QuickFix)
+						const fixAction = new vscode.CodeAction("Fix with Caret", vscode.CodeActionKind.QuickFix)
 						fixAction.isPreferred = true
 						fixAction.command = {
 							command: "cline.fixWithCline",
-							title: "Fix with Cline",
+							title: "Fix with Caret",
 							arguments: [expandedRange, context.diagnostics],
 						}
 						actions.push(fixAction)
@@ -382,7 +412,7 @@ export async function activate(context: vscode.ExtensionContext) {
 
 	// Register the command handlers
 	context.subscriptions.push(
-		vscode.commands.registerCommand("cline.addToChat", async (range?: vscode.Range, diagnostics?: vscode.Diagnostic[]) => {
+		vscode.commands.registerCommand("caret.addToChat", async (range?: vscode.Range, diagnostics?: vscode.Diagnostic[]) => {
 			const context = await getContextForCommand(range, diagnostics)
 			if (!context) {
 				return
@@ -391,7 +421,7 @@ export async function activate(context: vscode.ExtensionContext) {
 		}),
 	)
 	context.subscriptions.push(
-		vscode.commands.registerCommand("cline.fixWithCline", async (range: vscode.Range, diagnostics: vscode.Diagnostic[]) => {
+		vscode.commands.registerCommand("caret.fixWithCline", async (range: vscode.Range, diagnostics: vscode.Diagnostic[]) => {
 			const context = await getContextForCommand(range, diagnostics)
 			if (!context) {
 				return
@@ -400,7 +430,7 @@ export async function activate(context: vscode.ExtensionContext) {
 		}),
 	)
 	context.subscriptions.push(
-		vscode.commands.registerCommand("cline.explainCode", async (range: vscode.Range) => {
+		vscode.commands.registerCommand("caret.explainCode", async (range: vscode.Range) => {
 			const context = await getContextForCommand(range)
 			if (!context) {
 				return
@@ -409,7 +439,7 @@ export async function activate(context: vscode.ExtensionContext) {
 		}),
 	)
 	context.subscriptions.push(
-		vscode.commands.registerCommand("cline.improveCode", async (range: vscode.Range) => {
+		vscode.commands.registerCommand("caret.improveCode", async (range: vscode.Range) => {
 			const context = await getContextForCommand(range)
 			if (!context) {
 				return
@@ -420,7 +450,7 @@ export async function activate(context: vscode.ExtensionContext) {
 
 	// Register the focusChatInput command handler
 	context.subscriptions.push(
-		vscode.commands.registerCommand("cline.focusChatInput", async () => {
+		vscode.commands.registerCommand("caret.focusChatInput", async () => {
 			// Fast path: check for existing active instance
 			let activeWebview = WebviewProvider.getLastActiveInstance() as VscodeWebviewProvider
 
@@ -459,10 +489,10 @@ export async function activate(context: vscode.ExtensionContext) {
 			// Send focus event
 			const clientId = activeWebview?.getClientId()
 			if (!clientId) {
-				console.error("FocusChatInput: Could not find or activate a Cline webview to focus.")
+				console.error("FocusChatInput: Could not find or activate a Caret webview to focus.")
 				HostProvider.window.showMessage({
 					type: ShowMessageType.ERROR,
-					message: "Could not activate Cline view. Please try opening it manually from the Activity Bar.",
+					message: "Could not activate Caret view. Please try opening it manually from the Activity Bar.",
 				})
 				return
 			}
@@ -474,18 +504,18 @@ export async function activate(context: vscode.ExtensionContext) {
 
 	// Register the openWalkthrough command handler
 	context.subscriptions.push(
-		vscode.commands.registerCommand("cline.openWalkthrough", async () => {
-			await vscode.commands.executeCommand("workbench.action.openWalkthrough", "saoudrizwan.claude-dev#ClineWalkthrough")
+		vscode.commands.registerCommand("caret.openWalkthrough", async () => {
+			await vscode.commands.executeCommand("workbench.action.openWalkthrough", "caretive.caret#CaretWalkthrough")
 			telemetryService.captureButtonClick("command_openWalkthrough")
 		}),
 	)
 
 	// Register the generateGitCommitMessage command handler
 	context.subscriptions.push(
-		vscode.commands.registerCommand("cline.generateGitCommitMessage", async (scm) => {
+		vscode.commands.registerCommand("caret.generateGitCommitMessage", async (scm) => {
 			await GitCommitGenerator?.generate?.(context, scm)
 		}),
-		vscode.commands.registerCommand("cline.abortGitCommitMessage", () => {
+		vscode.commands.registerCommand("caret.abortGitCommitMessage", () => {
 			GitCommitGenerator?.abort?.()
 		}),
 	)
@@ -518,7 +548,7 @@ function setupHostProvider(context: ExtensionContext) {
 
 	const createWebview = (type: WebviewProviderType) => new VscodeWebviewProvider(context, type)
 	const createDiffView = () => new VscodeDiffViewProvider()
-	const outputChannel = vscode.window.createOutputChannel("Cline")
+	const outputChannel = vscode.window.createOutputChannel("Caret")
 	context.subscriptions.push(outputChannel)
 
 	const getCallbackUri = async () => `${vscode.env.uriScheme || "vscode"}://saoudrizwan.claude-dev`
@@ -532,7 +562,7 @@ export async function deactivate() {
 	// Clean up test mode
 	cleanupTestMode()
 
-	Logger.log("Cline extension deactivated")
+	Logger.log("Caret extension deactivated")
 }
 
 // TODO: Find a solution for automatically removing DEV related content from production builds.

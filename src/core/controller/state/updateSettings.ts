@@ -176,6 +176,29 @@ export async function updateSettings(controller: Controller, request: UpdateSett
 			controller.stateManager.setGlobalState("customPrompt", value)
 		}
 
+		// CARET MODIFICATION: Update mode system setting
+		if (request.modeSystem !== undefined) {
+			const previousMode = controller.stateManager.getGlobalStateKey("caretModeSystem")
+			const modeSystem = request.modeSystem === "caret" ? "caret" : "cline"
+			controller.stateManager.setGlobalState("caretModeSystem", modeSystem)
+			console.log(`[BACKEND] caretModeSystem changed: ${previousMode} -> ${modeSystem}`)
+		}
+
+		// CARET MODIFICATION: Update persona system settings
+		if (request.enablePersonaSystem !== undefined) {
+			controller.stateManager.setGlobalState("enablePersonaSystem", request.enablePersonaSystem)
+			console.log(`[BACKEND] enablePersonaSystem changed: ${request.enablePersonaSystem}`)
+		}
+
+		if (request.currentPersona !== undefined) {
+			controller.stateManager.setGlobalState("currentPersona", request.currentPersona)
+		}
+
+		// CARET MODIFICATION: Temporarily commented to resolve import cycle
+		// if (request.personaProfile !== undefined) {
+		//	controller.stateManager.setGlobalState("personaProfile", request.personaProfile)
+		// }
+
 		// Post updated state to webview
 		await controller.postStateToWebview()
 

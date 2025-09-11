@@ -1,5 +1,6 @@
 import { claudeCodeModels } from "@shared/api"
 import { Mode } from "@shared/storage/types"
+import { t } from "@/caret/utils/i18n"
 import { useExtensionState } from "@/context/ExtensionStateContext"
 import { DebouncedTextField } from "../common/DebouncedTextField"
 import { ModelInfoView } from "../common/ModelInfoView"
@@ -29,14 +30,17 @@ export const ClaudeCodeProvider = ({ showModelOptions, isPopup, currentMode }: C
 	const { selectedModelId, selectedModelInfo } = normalizeApiConfiguration(apiConfiguration, currentMode)
 
 	return (
-		<div>
+		<div style={{ display: "flex", flexDirection: "column", gap: 10, marginTop: 2 }}>
+			<p style={{ color: "var(--vscode-descriptionForeground)", fontSize: 13, margin: 0 }}>
+				{t("providers.claude-code.description", "settings")}
+			</p>
 			<DebouncedTextField
-				initialValue={apiConfiguration?.claudeCodePath || ""}
+				initialValue={apiConfiguration?.claudeCodePath || "claude"}
 				onChange={(value) => handleFieldChange("claudeCodePath", value)}
-				placeholder="Default: claude"
+				placeholder={t("providers.claudeCode.cliPathPlaceholder", "settings")}
 				style={{ width: "100%", marginTop: 3 }}
 				type="text">
-				<span style={{ fontWeight: 500 }}>Claude Code CLI Path</span>
+				<span style={{ fontWeight: 500 }}>{t("providers.claudeCode.cliPath", "settings")}</span>
 			</DebouncedTextField>
 
 			<p
@@ -45,13 +49,13 @@ export const ClaudeCodeProvider = ({ showModelOptions, isPopup, currentMode }: C
 					marginTop: 3,
 					color: "var(--vscode-descriptionForeground)",
 				}}>
-				Path to the Claude Code CLI.
+				{t("providers.claudeCode.cliPathDescription", "settings")}
 			</p>
 
 			{showModelOptions && (
 				<>
 					<ModelSelector
-						label="Model"
+						label={t("providers.claudeCode.model", "settings")}
 						models={claudeCodeModels}
 						onChange={(e: any) =>
 							handleModeFieldChange(

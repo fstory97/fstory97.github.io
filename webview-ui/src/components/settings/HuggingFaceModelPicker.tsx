@@ -5,6 +5,7 @@ import { VSCodeTextField } from "@vscode/webview-ui-toolkit/react"
 import Fuse from "fuse.js"
 import React, { KeyboardEvent, useEffect, useMemo, useRef, useState } from "react"
 import { useMount } from "react-use"
+import { t } from "@/caret/utils/i18n"
 import { useExtensionState } from "../../context/ExtensionStateContext"
 import { ModelsServiceClient } from "../../services/grpc-client"
 import { highlight } from "../history/HistoryView"
@@ -59,7 +60,7 @@ const HuggingFaceModelPicker: React.FC<HuggingFaceModelPickerProps> = ({ isPopup
 				})
 			})
 			.catch((err) => {
-				console.error("Failed to refresh Hugging Face models:", err)
+				console.error(t("settings.huggingFaceModelPicker.fetchModelsError", "settings"), err)
 			})
 	})
 
@@ -166,7 +167,7 @@ const HuggingFaceModelPicker: React.FC<HuggingFaceModelPickerProps> = ({ isPopup
 		<div className="w-full">
 			<div className="flex flex-col">
 				<label htmlFor="hf-model-search">
-					<span className="font-medium">Model</span>
+					<span className="font-medium">{t("settings.huggingFaceModelPicker.modelLabel")}</span>
 				</label>
 
 				<div className="relative w-full" ref={dropdownRef}>
@@ -180,11 +181,11 @@ const HuggingFaceModelPicker: React.FC<HuggingFaceModelPickerProps> = ({ isPopup
 							setSelectedIndex(-1)
 						}}
 						onKeyDown={handleKeyDown}
-						placeholder="Search models..."
+						placeholder={t("settings.huggingFaceModelPicker.searchPlaceholder")}
 						value={searchTerm}>
 						{searchTerm && (
 							<div
-								aria-label="Clear search"
+								aria-label={t("settings.huggingFaceModelPicker.clearSearch")}
 								className="input-icon-button codicon codicon-close"
 								onClick={() => {
 									setSearchTerm("")

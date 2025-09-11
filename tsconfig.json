@@ -14,9 +14,13 @@
 		"noImplicitOverride": true,
 		"noImplicitReturns": true,
 		"noUnusedLocals": false,
+		// CARET MODIFICATION: Suppress unused @ts-expect-error directive warnings
+		"noUnusedParameters": false,
 		"resolveJsonModule": true,
 		"rootDir": ".",
 		"skipLibCheck": true,
+		// CARET MODIFICATION: Ignore cheerio module type errors for build compatibility
+		"skipDefaultLibCheck": true,
 		"sourceMap": true,
 		"strict": true,
 		"target": "es2022",
@@ -50,11 +54,18 @@
 			],
 			"@utils/*": [
 				"src/utils/*"
+			],
+			"@caret/*": [
+				"caret-src/*"
+			],
+			"@/caret-src/*": [
+				"caret-src/*"
 			]
 		}
 	},
 	"include": [
-		"src/**/*"
+		"src/**/*",
+		"caret-src/**/*"
 	],
 	"exclude": [
 		"node_modules",

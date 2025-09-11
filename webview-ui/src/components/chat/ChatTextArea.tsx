@@ -11,6 +11,7 @@ import { forwardRef, useCallback, useEffect, useLayoutEffect, useMemo, useRef, u
 import DynamicTextArea from "react-textarea-autosize"
 import { useClickAway, useWindowSize } from "react-use"
 import styled from "styled-components"
+import { useCaretI18n } from "@/caret/hooks/useCaretI18n"
 import ContextMenu from "@/components/chat/ContextMenu"
 import { CHAT_CONSTANTS } from "@/components/chat/chat-view/constants"
 import SlashCommandMenu from "@/components/chat/SlashCommandMenu"
@@ -20,7 +21,7 @@ import Tooltip from "@/components/common/Tooltip"
 import ApiOptions from "@/components/settings/ApiOptions"
 import { getModeSpecificFields, normalizeApiConfiguration } from "@/components/settings/utils/providerUtils"
 import { useExtensionState } from "@/context/ExtensionStateContext"
-import { FileServiceClient, ModelsServiceClient, StateServiceClient } from "@/services/grpc-client"
+import { CaretSystemServiceClient, FileServiceClient, ModelsServiceClient, StateServiceClient } from "@/services/grpc-client"
 import {
 	ContextMenuOptionType,
 	getContextMenuOptionIndex,
@@ -279,7 +280,8 @@ const ChatTextArea = forwardRef<HTMLTextAreaElement, ChatTextAreaProps>(
 		},
 		ref,
 	) => {
-		const { mode, apiConfiguration, openRouterModels, platform, localWorkflowToggles, globalWorkflowToggles } =
+		const { t } = useCaretI18n()
+		const { mode, apiConfiguration, openRouterModels, platform, localWorkflowToggles, globalWorkflowToggles, modeSystem } =
 			useExtensionState()
 		const [isTextAreaFocused, setIsTextAreaFocused] = useState(false)
 		const [isDraggingOver, setIsDraggingOver] = useState(false)
@@ -571,13 +573,13 @@ const ChatTextArea = forwardRef<HTMLTextAreaElement, ChatTextAreaProps>(
 							}
 
 							// Find the index of the next selectable option
-							const currentSelectableIndex = selectableOptions.findIndex((option) => option === options[prevIndex])
+							const currentSelectableIndex = selectableOptions.indexOf(options[prevIndex])
 
 							const newSelectableIndex =
 								(currentSelectableIndex + direction + selectableOptions.length) % selectableOptions.length
 
 							// Find the index of the selected option in the original options array
-							return options.findIndex((option) => option === selectableOptions[newSelectableIndex])
+							return options.indexOf(selectableOptions[newSelectableIndex])
 						})
 						return
 					}
@@ -1042,6 +1044,27 @@ const ChatTextArea = forwardRef<HTMLTextAreaElement, ChatTextAreaProps>(
 						},
 					}),
 				)
+
+				// CARET MODIFICATION: Synchronize Caret mode when using Caret system
+				if (modeSystem === "caret") {
+					try {
+						const newCaretMode = mode === "plan" ? "agent" : "chatbot"
+						console.log(`[ChatTextArea] Synchronizing Caret mode: plan/act ${mode} → Caret ${newCaretMode}`)
+
+						const caretResponse = await CaretSystemServiceClient.SetCaretMode({
+							mode: newCaretMode,
+						})
+
+						if (caretResponse.success) {
+							console.log(`[ChatTextArea] ✅ Caret mode synchronized: ${caretResponse.currentMode}`)
+						} else {
+							console.error(`[ChatTextArea] ❌ Failed to synchronize Caret mode: ${caretResponse.errorMessage}`)
+						}
+					} catch (error) {
+						console.error(`[ChatTextArea] ❌ Error synchronizing Caret mode:`, error)
+					}
+				}
+
 				// Focus the textarea after mode toggle with slight delay
 				setTimeout(() => {
 					if (response.value) {
@@ -1446,7 +1469,7 @@ const ChatTextArea = forwardRef<HTMLTextAreaElement, ChatTextAreaProps>(
 									fontSize: "12px",
 									textAlign: "center",
 								}}>
-								Image dimensions exceed 7500px
+								{t("image.dimensionError", "chat")}
 							</span>
 						</div>
 					)}
@@ -1470,7 +1493,7 @@ const ChatTextArea = forwardRef<HTMLTextAreaElement, ChatTextAreaProps>(
 									fontWeight: "bold",
 									fontSize: "12px",
 								}}>
-								Files other than images are currently disabled
+								{t("image.unsupportedFileError", "chat")}
 							</span>
 						</div>
 					)}
@@ -1617,7 +1640,7 @@ const ChatTextArea = forwardRef<HTMLTextAreaElement, ChatTextAreaProps>(
 					/>
 					{!inputValue && selectedImages.length === 0 && selectedFiles.length === 0 && (
 						<div className="absolute bottom-4 left-[25px] right-[60px] text-[10px] text-[var(--vscode-input-placeholderForeground)] opacity-70 whitespace-nowrap overflow-hidden text-ellipsis pointer-events-none z-[1]">
-							Type @ for context, / for slash commands & workflows, hold shift to drag in files/images
+							{t("placeholderHint", "chat")}
 						</div>
 					)}
 					{(selectedImages.length > 0 || selectedFiles.length > 0) && (
@@ -1701,10 +1724,10 @@ const ChatTextArea = forwardRef<HTMLTextAreaElement, ChatTextAreaProps>(
 								height: "100%",
 								zIndex: 6,
 							}}>
-							<Tooltip style={{ left: 0 }} tipText="Add Context">
+							<Tooltip style={{ left: 0 }} tipText={t("addContext", "chat")}>
 								<VSCodeButton
 									appearance="icon"
-									aria-label="Add Context"
+									aria-label={t("addContext", "chat")}
 									data-testid="context-button"
 									onClick={handleContextButtonClick}
 									style={{ padding: "0px 0px", height: "20px" }}>
@@ -1716,10 +1739,10 @@ const ChatTextArea = forwardRef<HTMLTextAreaElement, ChatTextAreaProps>(
 								</VSCodeButton>
 							</Tooltip>
 
-							<Tooltip tipText="Add Files & Images">
+							<Tooltip tipText={t("addFilesImages", "chat")}>
 								<VSCodeButton
 									appearance="icon"
-									aria-label="Add Files & Images"
+									aria-label={t("addFilesImages", "chat")}
 									data-testid="files-button"
 									disabled={shouldDisableFilesAndImages}
 									onClick={() => {
@@ -1746,7 +1769,7 @@ const ChatTextArea = forwardRef<HTMLTextAreaElement, ChatTextAreaProps>(
 										onClick={handleModelButtonClick}
 										role="button"
 										tabIndex={0}
-										title="Select Model / API Provider">
+										title={t("selectModelApiProvider", "chat")}>
 										<ModelButtonContent>{modelDisplayName}</ModelButtonContent>
 									</ModelDisplayButton>
 								</ModelButtonWrapper>
@@ -1770,10 +1793,21 @@ const ChatTextArea = forwardRef<HTMLTextAreaElement, ChatTextAreaProps>(
 						</ButtonGroup>
 					</div>
 					{/* Tooltip for Plan/Act toggle remains outside the conditional rendering */}
+
 					<Tooltip
-						hintText={`Toggle w/ ${metaKeyChar}+Shift+A`}
+						hintText={t("mode.tooltip.toggle", "chat", { metaKey: metaKeyChar })}
 						style={{ zIndex: 1000 }}
-						tipText={`In ${shownTooltipMode === "act" ? "Act" : "Plan"}  mode, Cline will ${shownTooltipMode === "act" ? "complete the task immediately" : "gather information to architect a plan"}`}
+						tipText={t("mode.tooltip.description", "chat", {
+							mode:
+								shownTooltipMode === "act"
+									? modeSystem === "caret"
+										? t("mode.agent.label", "chat")
+										: t("mode.act.label", "chat")
+									: modeSystem === "caret"
+										? t("mode.chatbot.label", "chat")
+										: t("mode.plan.label", "chat"),
+							action: shownTooltipMode === "act" ? t("mode.act.action", "chat") : t("mode.plan.action", "chat"),
+						})}
 						visible={shownTooltipMode !== null}>
 						<SwitchContainer data-testid="mode-switch" disabled={false} onClick={onModeToggle}>
 							<Slider isAct={mode === "act"} isPlan={mode === "plan"} />
@@ -1783,7 +1817,7 @@ const ChatTextArea = forwardRef<HTMLTextAreaElement, ChatTextAreaProps>(
 								onMouseLeave={() => setShownTooltipMode(null)}
 								onMouseOver={() => setShownTooltipMode("plan")}
 								role="switch">
-								Plan
+								{modeSystem === "caret" ? t("mode.chatbot.label", "chat") : t("mode.plan.label", "chat")}
 							</SwitchOption>
 							<SwitchOption
 								aria-checked={mode === "act"}
@@ -1791,7 +1825,7 @@ const ChatTextArea = forwardRef<HTMLTextAreaElement, ChatTextAreaProps>(
 								onMouseLeave={() => setShownTooltipMode(null)}
 								onMouseOver={() => setShownTooltipMode("act")}
 								role="switch">
-								Act
+								{modeSystem === "caret" ? t("mode.agent.label", "chat") : t("mode.act.label", "chat")}
 							</SwitchOption>
 						</SwitchContainer>
 					</Tooltip>

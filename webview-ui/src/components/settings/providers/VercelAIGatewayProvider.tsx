@@ -2,6 +2,7 @@ import { EmptyRequest } from "@shared/proto/cline/common"
 import { Mode } from "@shared/storage/types"
 import { useCallback, useMemo, useState } from "react"
 import { useMount } from "react-use"
+import { t } from "@/caret/utils/i18n"
 import { useExtensionState } from "@/context/ExtensionStateContext"
 import { ModelsServiceClient } from "@/services/grpc-client"
 import { DebouncedTextField } from "../common/DebouncedTextField"
@@ -42,7 +43,7 @@ export const VercelAIGatewayProvider = ({ showModelOptions, isPopup, currentMode
 					setIsLoadingModels(false)
 				})
 				.catch((error) => {
-					console.error("Failed to fetch Vercel AI Gateway models:", error)
+					console.error(t("vercelAiGatewayProvider.fetchModelsErrorLog", "settings"), error)
 					setVercelAiGatewayModels({})
 					setIsLoadingModels(false)
 				})
@@ -81,15 +82,16 @@ export const VercelAIGatewayProvider = ({ showModelOptions, isPopup, currentMode
 	}, [hasModels, selectedModelId, vercelAiGatewayModels, selectedModelInfo])
 
 	return (
-		<div>
+		<div style={{ display: "flex", flexDirection: "column", gap: 10, marginTop: 2 }}>
+			<p style={{ whiteSpace: "pre-wrap" }}>{t("providers.vercelAiGateway.description", "settings")}</p>
 			<div>
 				<DebouncedTextField
 					initialValue={apiConfiguration?.vercelAiGatewayApiKey || ""}
 					onChange={(value) => handleFieldChange("vercelAiGatewayApiKey", value)}
-					placeholder="Enter API Key..."
+					placeholder={t("apiKeyField.placeholder", "settings")}
 					style={{ width: "100%" }}
 					type="password">
-					<span style={{ fontWeight: 500 }}>Vercel AI Gateway API Key</span>
+					<span style={{ fontWeight: 500 }}>{t("vercelAiGatewayProvider.apiKeyLabel", "settings")}</span>
 				</DebouncedTextField>
 				<p
 					style={{
@@ -97,7 +99,7 @@ export const VercelAIGatewayProvider = ({ showModelOptions, isPopup, currentMode
 						marginTop: 3,
 						color: "var(--vscode-descriptionForeground)",
 					}}>
-					This key is stored locally and only used to make API requests from this extension.
+					{t("apiKeyField.defaultHelpText", "settings")}
 					{!apiConfiguration?.vercelAiGatewayApiKey && (
 						<span>
 							{" "}
@@ -107,7 +109,7 @@ export const VercelAIGatewayProvider = ({ showModelOptions, isPopup, currentMode
 									color: "var(--vscode-textLink-foreground)",
 									textDecoration: "none",
 								}}>
-								You can get a Vercel AI Gateway API key by signing up here.
+								{t("vercelAiGatewayProvider.getApiKeyLinkText", "settings")}
 							</a>
 						</span>
 					)}
@@ -118,7 +120,7 @@ export const VercelAIGatewayProvider = ({ showModelOptions, isPopup, currentMode
 				<>
 					{hasModels ? (
 						<ModelSelector
-							label="Model"
+							label={t("modelSelector.label", "settings")}
 							models={vercelAiGatewayModels}
 							onChange={(e) => handleModelChange(e.target.value)}
 							selectedModelId={selectedModelId || ""}
@@ -146,9 +148,9 @@ export const VercelAIGatewayProvider = ({ showModelOptions, isPopup, currentMode
 										currentMode,
 									)
 								}
-								placeholder={"Enter Model ID (e.g., openai/gpt-4o)..."}
+								placeholder={t("vercelAiGatewayProvider.modelIdPlaceholder", "settings")}
 								style={{ width: "100%", marginBottom: 10 }}>
-								<span style={{ fontWeight: 500 }}>Model ID</span>
+								<span style={{ fontWeight: 500 }}>{t("vercelAiGatewayProvider.modelIdLabel", "settings")}</span>
 							</DebouncedTextField>
 
 							{!isLoadingModels && (
@@ -160,7 +162,7 @@ export const VercelAIGatewayProvider = ({ showModelOptions, isPopup, currentMode
 										color: "var(--vscode-descriptionForeground)",
 										fontStyle: "italic",
 									}}>
-									Unable to fetch models from Vercel AI Gateway.
+									{t("vercelAiGatewayProvider.fetchModelsError", "settings")}
 								</p>
 							)}
 						</>
@@ -179,7 +181,7 @@ export const VercelAIGatewayProvider = ({ showModelOptions, isPopup, currentMode
 					color: "var(--vscode-descriptionForeground)",
 					fontStyle: "italic",
 				}}>
-				Note: Free tier users will see $0 costs as these requests are provided at no charge by Vercel AI Gateway.
+				{t("vercelAiGatewayProvider.noteText", "settings")}
 			</p>
 		</div>
 	)

@@ -7,7 +7,6 @@ import { ClineRulesToggles } from "@/shared/cline-rules"
 import { DEFAULT_FOCUS_CHAIN_SETTINGS, FocusChainSettings } from "@/shared/FocusChainSettings"
 import { HistoryItem } from "@/shared/HistoryItem"
 import { DEFAULT_MCP_DISPLAY_MODE, McpDisplayMode } from "@/shared/McpDisplayMode"
-import { McpMarketplaceCatalog } from "@/shared/mcp"
 import { Mode, OpenaiReasoningEffort } from "@/shared/storage/types"
 import { TelemetrySetting } from "@/shared/TelemetrySetting"
 import { UserInfo } from "@/shared/UserInfo"
@@ -129,12 +128,14 @@ export async function readSecretsFromDisk(context: ExtensionContext): Promise<Se
 
 export async function readWorkspaceStateFromDisk(context: ExtensionContext): Promise<LocalState> {
 	const localClineRulesToggles = context.workspaceState.get("localClineRulesToggles") as ClineRulesToggles | undefined
+	const localCaretRulesToggles = context.workspaceState.get("localCaretRulesToggles") as ClineRulesToggles | undefined // CARET MODIFICATION: Add caret rules
 	const localWindsurfRulesToggles = context.workspaceState.get("localWindsurfRulesToggles") as ClineRulesToggles | undefined
 	const localCursorRulesToggles = context.workspaceState.get("localCursorRulesToggles") as ClineRulesToggles | undefined
 	const localWorkflowToggles = context.workspaceState.get("workflowToggles") as ClineRulesToggles | undefined
 
 	return {
 		localClineRulesToggles: localClineRulesToggles || {},
+		localCaretRulesToggles: localCaretRulesToggles || {}, // CARET MODIFICATION: Add caret rules
 		localWindsurfRulesToggles: localWindsurfRulesToggles || {},
 		localCursorRulesToggles: localCursorRulesToggles || {},
 		workflowToggles: localWorkflowToggles || {},
@@ -203,6 +204,12 @@ export async function readGlobalStateFromDisk(context: ExtensionContext): Promis
 	const preferredLanguage = context.globalState.get("preferredLanguage") as string | undefined
 	const focusChainSettings = context.globalState.get("focusChainSettings") as FocusChainSettings | undefined
 	const focusChainFeatureFlagEnabled = context.globalState.get("focusChainFeatureFlagEnabled") as boolean | undefined
+	// CARET MODIFICATION: Caret 전역 브랜드 모드 시스템 (Caret/Cline 구분)
+	const modeSystem = context.globalState.get("caretModeSystem") as "caret" | "cline" | undefined
+	// CARET MODIFICATION: Persona system settings
+	const enablePersonaSystem = context.globalState.get("enablePersonaSystem") as boolean | undefined
+	const currentPersona = context.globalState.get("currentPersona") as string | undefined
+	const personaProfile = context.globalState.get("personaProfile") as GlobalState["personaProfile"]
 
 	const mcpMarketplaceCatalog = context.globalState.get("mcpMarketplaceCatalog") as GlobalState["mcpMarketplaceCatalog"]
 	const qwenCodeOauthPath = context.globalState.get("qwenCodeOauthPath") as GlobalState["qwenCodeOauthPath"]
@@ -439,12 +446,24 @@ export async function readGlobalStateFromDisk(context: ExtensionContext): Promis
 		mcpMarketplaceCatalog,
 		qwenCodeOauthPath,
 		customPrompt,
+		// CARET MODIFICATION: Caret 전역 브랜드 모드 시스템 (Caret/Cline 구분)
+		caretModeSystem: modeSystem || "caret",
+		// CARET MODIFICATION: Persona system settings
+		enablePersonaSystem: enablePersonaSystem ?? modeSystem === "caret",
+		currentPersona: currentPersona,
+		personaProfile: personaProfile,
+		// CARET MODIFICATION: Persona image storage for persona system
+		caret_persona_avatar: undefined,
+		caret_persona_thinking_avatar: undefined,
 	}
 }
 
 export async function resetWorkspaceState(controller: Controller) {
 	const context = controller.context
 	await Promise.all(context.workspaceState.keys().map((key) => controller.context.workspaceState.update(key, undefined)))
+
+	// CARET MODIFICATION: Reset Caret-specific workspace settings to defaults
+	await context.workspaceState.update("caret.promptSystem.mode", "caret")
 
 	await controller.stateManager.reInitialize()
 }
@@ -454,6 +473,13 @@ export async function resetGlobalState(controller: Controller) {
 	const context = controller.context
 
 	await Promise.all(context.globalState.keys().map((key) => context.globalState.update(key, undefined)))
+
+	// CARET MODIFICATION: Reset Caret-specific global settings to defaults after clearing
+	await context.globalState.update("caretModeSystem", "caret")
+	await context.globalState.update("enablePersonaSystem", true)
+	// Also reset workspace promptSystem mode to ensure consistency
+	await context.workspaceState.update("caret.promptSystem.mode", "caret")
+
 	const secretKeys: SecretKey[] = [
 		"apiKey",
 		"openRouterApiKey",

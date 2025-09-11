@@ -82,7 +82,6 @@ export class RequestyHandler implements ApiHandler {
 				? thinking
 				: {}
 
-		// @ts-ignore-next-line
 		const stream = await client.chat.completions.create({
 			model: model.id,
 			max_tokens: model.info.maxTokens || undefined,

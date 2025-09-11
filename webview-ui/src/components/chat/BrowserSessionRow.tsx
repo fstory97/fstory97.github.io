@@ -6,6 +6,7 @@ import deepEqual from "fast-deep-equal"
 import React, { CSSProperties, memo, useCallback, useEffect, useMemo, useRef, useState } from "react"
 import { useSize } from "react-use"
 import styled from "styled-components"
+import { t } from "@/caret/utils/i18n"
 import { BrowserSettingsMenu } from "@/components/browser/BrowserSettingsMenu"
 import { ChatRowContent, ProgressIndicator } from "@/components/chat/ChatRow"
 import { CheckpointControls } from "@/components/common/CheckpointControls"
@@ -111,7 +112,7 @@ const headerStyle: CSSProperties = {
 }
 
 const BrowserSessionRow = memo((props: BrowserSessionRowProps) => {
-	const { messages, isLast, onHeightChange, lastModifiedMessage, onSetQuote } = props
+	const { messages, isLast, onHeightChange, lastModifiedMessage } = props
 	const { browserSettings } = useExtensionState()
 	const prevHeightRef = useRef(0)
 	const [maxActionHeight, setMaxActionHeight] = useState(0)
@@ -365,7 +366,9 @@ const BrowserSessionRow = memo((props: BrowserSessionRowProps) => {
 					<span className="codicon codicon-inspect" style={browserIconStyle}></span>
 				)}
 				<span style={approveTextStyle}>
-					{isAutoApproved ? "Cline is using the browser:" : "Cline wants to use the browser:"}
+					{isAutoApproved
+						? t("chat.caretIsUsingBrowser", "Caret is using the browser:")
+						: t("caretWantsToUseBrowser", "browser")}
 				</span>
 			</div>
 			<div
@@ -406,7 +409,7 @@ const BrowserSessionRow = memo((props: BrowserSessionRowProps) => {
 					}}>
 					{displayState.screenshot ? (
 						<img
-							alt="Browser screenshot"
+							alt={t("browser.screenshotAlt", "Browser screenshot")}
 							onClick={() =>
 								FileServiceClient.openImage(StringRequest.create({ value: displayState.screenshot })).catch(
 									(err) => console.error("Failed to open image:", err),
@@ -424,8 +427,8 @@ const BrowserSessionRow = memo((props: BrowserSessionRowProps) => {
 						<BrowserCursor
 							style={{
 								position: "absolute",
-								top: `${(parseInt(mousePosition.split(",")[1]) / browserSettings.viewport.height) * 100}%`,
-								left: `${(parseInt(mousePosition.split(",")[0]) / browserSettings.viewport.width) * 100}%`,
+								top: `${(parseInt(mousePosition.split(",")[1], 10) / browserSettings.viewport.height) * 100}%`,
+								left: `${(parseInt(mousePosition.split(",")[0], 10) / browserSettings.viewport.width) * 100}%`,
 								transition: "top 0.3s ease-out, left 0.3s ease-out",
 							}}
 						/>
@@ -447,10 +450,12 @@ const BrowserSessionRow = memo((props: BrowserSessionRowProps) => {
 							padding: `9px 8px ${consoleLogsExpanded ? 0 : 8}px 8px`,
 						}}>
 						<span className={`codicon codicon-chevron-${consoleLogsExpanded ? "down" : "right"}`}></span>
-						<span style={consoleLogsTextStyle}>Console Logs</span>
+						<span style={consoleLogsTextStyle}>{t("browser.consoleLogs", "Console Logs")}</span>
 					</div>
 					{consoleLogsExpanded && (
-						<CodeBlock source={`${"```"}shell\n${displayState.consoleLogs || "(No new logs)"}\n${"```"}`} />
+						<CodeBlock
+							source={`${"```"}shell\n${displayState.consoleLogs || t("browser.noNewLogs", "(No new logs)")}\n${"```"}`}
+						/>
 					)}
 				</div>
 			</div>
@@ -462,18 +467,21 @@ const BrowserSessionRow = memo((props: BrowserSessionRowProps) => {
 			{pages.length > 1 && (
 				<div style={paginationContainerStyle}>
 					<div>
-						Step {currentPageIndex + 1} of {pages.length}
+						{t("paginationStep", "browser", {
+							currentPage: currentPageIndex + 1,
+							totalPages: pages.length,
+						})}
 					</div>
 					<div style={paginationButtonGroupStyle}>
 						<VSCodeButton
 							disabled={currentPageIndex === 0 || isBrowsing}
 							onClick={() => setCurrentPageIndex((i) => i - 1)}>
-							Previous
+							{t("paginationPrevious", "browser")}
 						</VSCodeButton>
 						<VSCodeButton
 							disabled={currentPageIndex === pages.length - 1 || isBrowsing}
 							onClick={() => setCurrentPageIndex((i) => i + 1)}>
-							Next
+							{t("browser.paginationNext", "Next")}
 						</VSCodeButton>
 					</div>
 				</div>
@@ -524,7 +532,9 @@ const BrowserSessionRowContent = memo(
 			return (
 				<>
 					<div style={headerStyle}>
-						<span style={browserSessionStartedTextStyle}>Browser Session Started</span>
+						<span style={browserSessionStartedTextStyle}>
+							{t("browser.sessionStarted", "Browser Session Started")}
+						</span>
 					</div>
 					<div style={codeBlockContainerStyle}>
 						<CodeBlock forceWrap={true} source={`${"```"}shell\n${message.text}\n${"```"}`} />
@@ -580,17 +590,17 @@ const BrowserActionBox = ({ action, coordinate, text }: { action: BrowserAction;
 	const getBrowserActionText = (action: BrowserAction, coordinate?: string, text?: string) => {
 		switch (action) {
 			case "launch":
-				return `Launch browser at ${text}`
+				return t("browser.actionLaunch", "Launch browser at {{text}}", { text: text || "" })
 			case "click":
-				return `Click (${coordinate?.replace(",", ", ")})`
+				return t("browser.actionClick", "Click ({{coordinate}})", { coordinate: coordinate?.replace(",", ", ") || "" })
 			case "type":
-				return `Type "${text}"`
+				return t("browser.actionType", 'Type "{{text}}"', { text: text || "" })
 			case "scroll_down":
-				return "Scroll down"
+				return t("browser.actionScrollDown", "Scroll down")
 			case "scroll_up":
-				return "Scroll up"
+				return t("browser.actionScrollUp", "Scroll up")
 			case "close":
-				return "Close browser"
+				return t("browser.actionClose", "Close browser")
 			default:
 				return action
 		}
@@ -600,7 +610,7 @@ const BrowserActionBox = ({ action, coordinate, text }: { action: BrowserAction;
 			<div style={browserActionBoxContainerInnerStyle}>
 				<div style={browseActionRowContainerStyle}>
 					<span style={browseActionRowStyle}>
-						<span style={browseActionTextStyle}>Browse Action: </span>
+						<span style={browseActionTextStyle}>{t("browser.browseAction", "Browse Action: ")}</span>
 						{getBrowserActionText(action, coordinate, text)}
 					</span>
 				</div>

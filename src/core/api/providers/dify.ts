@@ -66,12 +66,11 @@ interface DifyConversationResponse {
 }
 
 export class DifyHandler implements ApiHandler {
+	// CARET MODIFICATION: Fixed missing options property for TypeScript compilation
 	private options: ApiHandlerOptions
 	private baseUrl: string
 	private apiKey: string
 	private conversationId: string | null = null
-	private currentTaskId: string | null = null
-	private abortController: AbortController | null = null
 
 	constructor(options: ApiHandlerOptions) {
 		this.options = options
@@ -336,7 +335,7 @@ export class DifyHandler implements ApiHandler {
 								}
 								hasYieldedContent = true
 							}
-						} catch (e) {
+						} catch (_e) {
 							// Not JSON, continue
 							console.log("[DIFY DEBUG] Line is not direct JSON, continuing")
 						}
@@ -650,6 +649,6 @@ export class DifyHandler implements ApiHandler {
 	 */
 	resetConversation(): void {
 		this.conversationId = null
-		this.currentTaskId = null
+		// CARET MODIFICATION: Removed undefined currentTaskId property
 	}
 }

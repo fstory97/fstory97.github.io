@@ -1,7 +1,6 @@
 import { Anthropic } from "@anthropic-ai/sdk"
 import { CLAUDE_SONNET_4_1M_SUFFIX, ModelInfo, openRouterClaudeSonnet41mModelId } from "@shared/api"
 import OpenAI from "openai"
-import { isGPT5ModelFamily } from "../../prompts/system-prompt/utils"
 import { convertToOpenAiMessages } from "./openai-format"
 import { convertToR1Format } from "./r1-format"
 
@@ -56,7 +55,7 @@ export async function createOpenRouterStream(
 					{
 						type: "text",
 						text: systemPrompt,
-						// @ts-ignore-next-line
+						// @ts-expect-error-next-line
 						cache_control: { type: "ephemeral" },
 					},
 				],
@@ -76,7 +75,7 @@ export async function createOpenRouterStream(
 						lastTextPart = { type: "text", text: "..." }
 						msg.content.push(lastTextPart)
 					}
-					// @ts-ignore-next-line
+					// @ts-expect-error-next-line
 					lastTextPart["cache_control"] = { type: "ephemeral" }
 				}
 			})
@@ -140,10 +139,6 @@ export async function createOpenRouterStream(
 				reasoning = { max_tokens: budget_tokens }
 			}
 			break
-		case "cline/sonic":
-			temperature = 0.7
-			topP = 0.95
-			break
 		default:
 			if (thinkingBudgetTokens && model.info?.thinkingConfig && thinkingBudgetTokens > 0) {
 				temperature = undefined // extended thinking does not support non-1 temperature
@@ -156,7 +151,7 @@ export async function createOpenRouterStream(
 	const isKimiK2 = model.id === "moonshotai/kimi-k2"
 	openRouterProviderSorting = isKimiK2 ? undefined : openRouterProviderSorting
 
-	// @ts-ignore-next-line
+	// @ts-expect-error-next-line
 	const stream = await client.chat.completions.create({
 		model: model.id,
 		max_tokens: maxTokens,

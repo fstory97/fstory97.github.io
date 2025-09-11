@@ -14,6 +14,7 @@ import {
 	refreshClineRulesToggles,
 } from "@core/context/instructions/user-instructions/cline-rules"
 import {
+	getLocalCaretRules,
 	getLocalCursorRules,
 	getLocalWindsurfRules,
 	refreshExternalRulesToggles,
@@ -1616,7 +1617,7 @@ export class Task {
 	 * Migrates the disableBrowserTool setting from VSCode configuration to browserSettings
 	 */
 	private async migrateDisableBrowserToolSetting(): Promise<void> {
-		const config = vscode.workspace.getConfiguration("cline")
+		const config = vscode.workspace.getConfiguration("caret")
 		const disableBrowserTool = config.get<boolean>("disableBrowserTool")
 
 		if (disableBrowserTool !== undefined) {
@@ -1675,17 +1676,34 @@ export class Task {
 				: ""
 
 		const { globalToggles, localToggles } = await refreshClineRulesToggles(this.controller, this.cwd)
-		const { windsurfLocalToggles, cursorLocalToggles } = await refreshExternalRulesToggles(this.controller, this.cwd)
+		const { caretLocalToggles, windsurfLocalToggles, cursorLocalToggles } = await refreshExternalRulesToggles(
+			this.controller,
+			this.cwd,
+		)
 
 		const globalClineRulesFilePath = await ensureRulesDirectoryExists()
 		const globalClineRulesFileInstructions = await getGlobalClineRules(globalClineRulesFilePath, globalToggles)
-
+		// CARET MODIFICATION: Rule priority system (.caretrules > .clinerules > .cursorrules > .windsurfrules)
+		const localCaretRulesFileInstructions = await getLocalCaretRules(this.cwd, caretLocalToggles)
 		const localClineRulesFileInstructions = await getLocalClineRules(this.cwd, localToggles)
 		const [localCursorRulesFileInstructions, localCursorRulesDirInstructions] = await getLocalCursorRules(
 			this.cwd,
 			cursorLocalToggles,
 		)
 		const localWindsurfRulesFileInstructions = await getLocalWindsurfRules(this.cwd, windsurfLocalToggles)
+		// Apply priority system: Use the highest priority rule that exists and is enabled
+		let activeRuleInstructions: string | undefined
+		if (localCaretRulesFileInstructions) {
+			activeRuleInstructions = localCaretRulesFileInstructions
+		} else if (localClineRulesFileInstructions) {
+			activeRuleInstructions = localClineRulesFileInstructions
+		} else if (localCursorRulesFileInstructions) {
+			activeRuleInstructions = localCursorRulesFileInstructions
+		} else if (localCursorRulesDirInstructions) {
+			activeRuleInstructions = localCursorRulesDirInstructions
+		} else if (localWindsurfRulesFileInstructions) {
+			activeRuleInstructions = localWindsurfRulesFileInstructions
+		}
 
 		const clineIgnoreContent = this.clineIgnoreController.clineIgnoreContent
 		let clineIgnoreInstructions: string | undefined
@@ -1700,10 +1718,11 @@ export class Task {
 			mcpHub: this.mcpHub,
 			focusChainSettings: this.focusChainSettings,
 			globalClineRulesFileInstructions,
-			localClineRulesFileInstructions,
-			localCursorRulesFileInstructions,
-			localCursorRulesDirInstructions,
-			localWindsurfRulesFileInstructions,
+			// CARET MODIFICATION: Use priority system - only pass the active rule instead of all rules
+			localClineRulesFileInstructions: activeRuleInstructions || localClineRulesFileInstructions,
+			localCursorRulesFileInstructions: undefined, // handled by priority system
+			localCursorRulesDirInstructions: undefined, // handled by priority system
+			localWindsurfRulesFileInstructions: undefined, // handled by priority system
 			clineIgnoreInstructions,
 			preferredLanguageInstructions,
 			browserSettings: this.browserSettings,
@@ -1963,7 +1982,7 @@ export class Task {
 			if (this.autoApprovalSettings.enabled && this.autoApprovalSettings.enableNotifications) {
 				showSystemNotification({
 					subtitle: "Error",
-					message: "Cline is having trouble. Would you like to continue the task?",
+					message: "Caret is having trouble. Would you like to continue the task?",
 				})
 			}
 			const { response, text, images, files } = await this.ask(
@@ -2007,12 +2026,12 @@ export class Task {
 			if (this.autoApprovalSettings.enableNotifications) {
 				showSystemNotification({
 					subtitle: "Max Requests Reached",
-					message: `Cline has auto-approved ${this.autoApprovalSettings.maxRequests.toString()} API requests.`,
+					message: `Caret has auto-approved ${this.autoApprovalSettings.maxRequests.toString()} API requests.`,
 				})
 			}
 			const { response, text, images, files } = await this.ask(
 				"auto_approval_max_req_reached",
-				`Cline has auto-approved ${this.autoApprovalSettings.maxRequests.toString()} API requests. Would you like to reset the count and proceed with the task?`,
+				`Caret has auto-approved ${this.autoApprovalSettings.maxRequests.toString()} API requests. Would you like to reset the count and proceed with the task?`,
 			)
 			// if we get past the promise it means the user approved and did not start a new task
 			this.taskState.consecutiveAutoApprovedRequestsCount = 0
@@ -2079,7 +2098,7 @@ export class Task {
 					if (!checkpointsWarningShown) {
 						checkpointsWarningShown = true
 						this.taskState.checkpointTrackerErrorMessage =
-							"Checkpoints are taking longer than expected to initialize. Working in a large repository? Consider re-opening Cline in a project that uses git, or disabling checkpoints."
+							"Checkpoints are taking longer than expected to initialize. Working in a large repository? Consider re-opening Caret in a project that uses git, or disabling checkpoints."
 						await this.postStateToWebview()
 					}
 				}, 7_000)

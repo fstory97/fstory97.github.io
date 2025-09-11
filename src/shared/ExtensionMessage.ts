@@ -29,6 +29,9 @@ export type Platform = "aix" | "darwin" | "freebsd" | "linux" | "openbsd" | "sun
 
 export const DEFAULT_PLATFORM = "unknown"
 
+// CARET MODIFICATION: Caret 전역 브랜드 모드 타입 임포트 - caret-src에서
+import type { CaretModeSystem } from "@caret/shared/ModeSystem"
+
 export interface ExtensionState {
 	isNewUser: boolean
 	welcomeViewCompleted: boolean
@@ -39,6 +42,8 @@ export interface ExtensionState {
 	preferredLanguage?: string
 	openaiReasoningEffort?: OpenaiReasoningEffort
 	mode: Mode
+	// CARET MODIFICATION: Caret 전역 브랜드 모드 플래그 - Caret/Cline 구분을 위한 전역 설정
+	modeSystem?: CaretModeSystem
 	checkpointTrackerErrorMessage?: string
 	clineMessages: ClineMessage[]
 	currentTaskItem?: HistoryItem
@@ -61,6 +66,7 @@ export interface ExtensionState {
 	distinctId: string
 	globalClineRulesToggles: ClineRulesToggles
 	localClineRulesToggles: ClineRulesToggles
+	localCaretRulesToggles: ClineRulesToggles // CARET MODIFICATION: Add caret rules
 	localWorkflowToggles: ClineRulesToggles
 	globalWorkflowToggles: ClineRulesToggles
 	localCursorRulesToggles: ClineRulesToggles
@@ -71,6 +77,18 @@ export interface ExtensionState {
 	focusChainSettings: FocusChainSettings
 	focusChainFeatureFlagEnabled?: boolean
 	customPrompt?: string
+	// CARET MODIFICATION: Add caretBanner for Caret welcome page logo
+	caretBanner?: string
+	// CARET MODIFICATION: Persona system settings (independent from modeSystem)
+	enablePersonaSystem?: boolean
+	currentPersona?: string | null
+	personaProfile?: {
+		name?: string
+		description?: string
+		custom_instruction?: string
+		avatar_uri?: string
+		thinking_avatar_uri?: string
+	} | null
 }
 
 export interface ClineMessage {

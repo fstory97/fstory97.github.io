@@ -1,0 +1,38 @@
+{
+  "link.title.Company": {
+    "message": "회사",
+    "description": "The title of the footer links column with title=Company in the footer"
+  },
+  "link.title.Support": {
+    "message": "지원",
+    "description": "The title of the footer links column with title=Support in the footer"
+  },
+  "link.item.label.Caret GitHub": {
+    "message": "Caret GitHub",
+    "description": "The label of footer link with label=Caret GitHub linking to https://github.com/aicoding-caret/caret"
+  },
+  "link.item.label.Service Introduction": {
+    "message": "서비스 소개",
+    "description": "The label of footer link with label=Service Introduction linking to https://caret.team"
+  },
+  "link.item.label.Caretive Inc": {
+    "message": "Caretive Inc",
+    "description": "The label of footer link with label=Caretive Inc linking to https://caretive.ai"
+  },
+  "link.item.label.Customer Service": {
+    "message": "고객센터",
+    "description": "The label of footer link with label=Customer Service linking to mailto:support@caretive.ai"
+  },
+  "link.item.label.Terms of Service": {
+    "message": "이용약관",
+    "description": "The label of footer link with label=Terms of Service linking to https://caret.team/terms"
+  },
+  "link.item.label.Privacy Policy": {
+    "message": "개인정보처리방침",
+    "description": "The label of footer link with label=Privacy Policy linking to https://caret.team/privacy"
+  },
+  "copyright": {
+    "message": "ⓒ 2025 Caretive INC | 사업자등록번호: 459-81-03703",
+    "description": "The footer copyright"
+  }
+}

@@ -2,14 +2,19 @@ import { ExtensionMessage } from "@shared/ExtensionMessage"
 import { ResetStateRequest } from "@shared/proto/cline/state"
 import { VSCodeButton } from "@vscode/webview-ui-toolkit/react"
 import { CheckCheck, FlaskConical, Info, LucideIcon, Settings, SquareMousePointer, SquareTerminal, Webhook } from "lucide-react"
-import { useCallback, useEffect, useRef, useState } from "react"
+// CARET MODIFICATION: Added useMemo for i18n reactivity
+import { useCallback, useEffect, useMemo, useRef, useState } from "react"
 import { useEvent } from "react-use"
+// CARET MODIFICATION: Import CaretFooter for About tab
+import CaretFooter from "@/caret/components/CaretFooter"
+// CARET MODIFICATION: Import i18n context for language reactivity
+import { useCaretI18nContext } from "@/caret/context/CaretI18nContext"
+import { t } from "@/caret/utils/i18n"
 import HeroTooltip from "@/components/common/HeroTooltip"
 import { useExtensionState } from "@/context/ExtensionStateContext"
 import { StateServiceClient } from "@/services/grpc-client"
 import { Tab, TabContent, TabHeader, TabList, TabTrigger } from "../common/Tab"
 import SectionHeader from "./SectionHeader"
-import AboutSection from "./sections/AboutSection"
 import ApiConfigurationSection from "./sections/ApiConfigurationSection"
 import BrowserSettingsSection from "./sections/BrowserSettingsSection"
 import DebugSection from "./sections/DebugSection"
@@ -37,40 +42,41 @@ interface SettingsTab {
 	icon: LucideIcon
 }
 
-export const SETTINGS_TABS: SettingsTab[] = [
+// CARET MODIFICATION: Convert static constant to dynamic function for i18n support
+export const getSettingsTabs = (): SettingsTab[] => [
 	{
 		id: "api-config",
-		name: "API Configuration",
-		tooltipText: "API Configuration",
-		headerText: "API Configuration",
+		name: t("tabs.apiConfiguration.name", "settings"),
+		tooltipText: t("tabs.apiConfiguration.tooltip", "settings"),
+		headerText: t("tabs.apiConfiguration.header", "settings"),
 		icon: Webhook,
 	},
 	{
 		id: "general",
-		name: "General",
-		tooltipText: "General Settings",
-		headerText: "General Settings",
+		name: t("tabs.general.name", "settings"),
+		tooltipText: t("tabs.general.tooltip", "settings"),
+		headerText: t("tabs.general.header", "settings"),
 		icon: Settings,
 	},
 	{
 		id: "features",
-		name: "Features",
-		tooltipText: "Feature Settings",
-		headerText: "Feature Settings",
+		name: t("tabs.features.name", "settings"),
+		tooltipText: t("tabs.features.tooltip", "settings"),
+		headerText: t("tabs.features.header", "settings"),
 		icon: CheckCheck,
 	},
 	{
 		id: "browser",
-		name: "Browser",
-		tooltipText: "Browser Settings",
-		headerText: "Browser Settings",
+		name: t("tabs.browser.name", "settings"),
+		tooltipText: t("tabs.browser.tooltip", "settings"),
+		headerText: t("tabs.browser.header", "settings"),
 		icon: SquareMousePointer,
 	},
 	{
 		id: "terminal",
-		name: "Terminal",
-		tooltipText: "Terminal Settings",
-		headerText: "Terminal Settings",
+		name: t("tabs.terminal.name", "settings"),
+		tooltipText: t("tabs.terminal.tooltip", "settings"),
+		headerText: t("tabs.terminal.header", "settings"),
 		icon: SquareTerminal,
 	},
 	// Only show in dev mode
@@ -78,18 +84,19 @@ export const SETTINGS_TABS: SettingsTab[] = [
 		? [
 				{
 					id: "debug",
-					name: "Debug",
-					tooltipText: "Debug Tools",
-					headerText: "Debug",
+					name: t("tabs.debug.name", "settings"),
+					tooltipText: t("tabs.debug.tooltip", "settings"),
+					headerText: t("tabs.debug.header", "settings"),
 					icon: FlaskConical,
 				},
 			]
 		: []),
+	// CARET MODIFICATION: Add About tab (restored from caret-main)
 	{
 		id: "about",
-		name: "About",
-		tooltipText: "About Cline",
-		headerText: "About",
+		name: t("tabs.about.name", "settings"),
+		tooltipText: t("tabs.about.tooltip", "settings"),
+		headerText: t("tabs.about.header", "settings"),
 		icon: Info,
 	},
 ]
@@ -100,8 +107,14 @@ type SettingsViewProps = {
 }
 
 const SettingsView = ({ onDone, targetSection }: SettingsViewProps) => {
+	// CARET MODIFICATION: Use i18n context to detect language changes
+	const { language } = useCaretI18nContext()
+
+	// CARET MODIFICATION: Use dynamic function with language dependency for i18n updates
+	const settingsTabs = useMemo(() => getSettingsTabs(), [language])
+
 	// Track active tab
-	const [activeTab, setActiveTab] = useState<string>(targetSection || SETTINGS_TABS[0].id)
+	const [activeTab, setActiveTab] = useState<string>(targetSection || settingsTabs[0].id)
 	// Track if we're currently switching modes
 
 	const { version } = useExtensionState()
@@ -116,7 +129,7 @@ const SettingsView = ({ onDone, targetSection }: SettingsViewProps) => {
 					if (tabId) {
 						console.log("Opening settings tab from GRPC response:", tabId)
 						// Check if the value corresponds to a valid tab ID
-						const isValidTabId = SETTINGS_TABS.some((tab) => tab.id === tabId)
+						const isValidTabId = settingsTabs.some((tab) => tab.id === tabId)
 
 						if (isValidTabId) {
 							// Set the active tab directly
@@ -152,6 +165,9 @@ const SettingsView = ({ onDone, targetSection }: SettingsViewProps) => {
 					global: resetGlobalState,
 				}),
 			)
+
+			// CARET MODIFICATION: Caret-specific settings are handled by globalState
+			// enablePersonaSystem is managed through VS Code globalState, not localStorage
 		} catch (error) {
 			console.error("Failed to reset state:", error)
 		}
@@ -206,11 +222,11 @@ const SettingsView = ({ onDone, targetSection }: SettingsViewProps) => {
 		<Tab>
 			<TabHeader className="flex justify-between items-center gap-2">
 				<div className="flex items-center gap-1">
-					<h3 className="text-[var(--vscode-foreground)] m-0">Settings</h3>
+					<h3 className="text-[var(--vscode-foreground)] m-0">{t("settingsView.title", "settings")}</h3>
 				</div>
 				<div className="flex gap-2">
 					{/* All settings now save immediately, so only show Done button */}
-					<VSCodeButton onClick={onDone}>Done</VSCodeButton>
+					<VSCodeButton onClick={onDone}>{t("buttons.done", "settings")}</VSCodeButton>
 				</div>
 			</TabHeader>
 
@@ -222,7 +238,7 @@ const SettingsView = ({ onDone, targetSection }: SettingsViewProps) => {
 					data-compact={isCompactMode}
 					onValueChange={handleTabChange}
 					value={activeTab}>
-					{SETTINGS_TABS.map((tab) =>
+					{settingsTabs.map((tab) =>
 						isCompactMode ? (
 							<HeroTooltip content={tab.tooltipText} key={tab.id} placement="right">
 								<div
@@ -267,7 +283,7 @@ const SettingsView = ({ onDone, targetSection }: SettingsViewProps) => {
 				{/* Helper function to render section header */}
 				{(() => {
 					const renderSectionHeader = (tabId: string) => {
-						const tab = SETTINGS_TABS.find((t) => t.id === tabId)
+						const tab = settingsTabs.find((t) => t.id === tabId)
 						if (!tab) {
 							return null
 						}
@@ -309,7 +325,12 @@ const SettingsView = ({ onDone, targetSection }: SettingsViewProps) => {
 
 							{/* About Tab */}
 							{activeTab === "about" && (
-								<AboutSection renderSectionHeader={renderSectionHeader} version={version} />
+								<div>
+									{renderSectionHeader("about")}
+									<div className="mt-6 pt-4">
+										<CaretFooter />
+									</div>
+								</div>
 							)}
 						</TabContent>
 					)

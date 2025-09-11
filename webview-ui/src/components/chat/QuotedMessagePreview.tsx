@@ -1,6 +1,7 @@
 import { VSCodeButton } from "@vscode/webview-ui-toolkit/react"
 import React from "react"
 import styled from "styled-components"
+import { t } from "@/caret/utils/i18n"
 
 const PreviewContainer = styled.div`
 	background-color: var(--vscode-input-background); /* Outer box matches text area */
@@ -78,7 +79,7 @@ const QuotedMessagePreview: React.FC<QuotedMessagePreviewProps> = ({ text, onDis
 			<ContentRow>
 				<ReplyIcon className="codicon codicon-reply"></ReplyIcon>
 				<TextContainer title={text}>{text}</TextContainer>
-				<DismissButton appearance="icon" aria-label="Dismiss quote" onClick={onDismiss}>
+				<DismissButton appearance="icon" aria-label={t("chat.dismissQuote", "Dismiss quote")} onClick={onDismiss}>
 					<span className="codicon codicon-close"></span>
 				</DismissButton>
 			</ContentRow>

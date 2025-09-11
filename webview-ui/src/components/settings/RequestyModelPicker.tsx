@@ -7,6 +7,7 @@ import React, { KeyboardEvent, memo, useEffect, useMemo, useRef, useState } from
 import { useRemark } from "react-remark"
 import { useMount } from "react-use"
 import styled from "styled-components"
+import { t } from "@/caret/utils/i18n"
 import { useExtensionState } from "../../context/ExtensionStateContext"
 import { ModelsServiceClient } from "../../services/grpc-client"
 import { CODE_BLOCK_BG_COLOR } from "../common/CodeBlock"
@@ -178,7 +179,7 @@ const RequestyModelPicker: React.FC<RequestyModelPickerProps> = ({ isPopup, curr
 			</style>
 			<div style={{ display: "flex", flexDirection: "column" }}>
 				<label htmlFor="model-search">
-					<span style={{ fontWeight: 500 }}>Model</span>
+					<span style={{ fontWeight: 500 }}>{t("settings.requesty.modelLabel", "Model")}</span>
 				</label>
 				<DropdownWrapper ref={dropdownRef}>
 					<VSCodeTextField
@@ -189,7 +190,7 @@ const RequestyModelPicker: React.FC<RequestyModelPickerProps> = ({ isPopup, curr
 							setIsDropdownVisible(true)
 						}}
 						onKeyDown={handleKeyDown}
-						placeholder="Search and select a model..."
+						placeholder={t("settings.requesty.searchPlaceholder", "Search and select a model...")}
 						style={{
 							width: "100%",
 							zIndex: REQUESTY_MODEL_PICKER_Z_INDEX,
@@ -198,7 +199,7 @@ const RequestyModelPicker: React.FC<RequestyModelPickerProps> = ({ isPopup, curr
 						value={searchTerm}>
 						{searchTerm && (
 							<div
-								aria-label="Clear search"
+								aria-label={t("settings.requesty.clearSearch", "Clear search")}
 								className="input-icon-button codicon codicon-close"
 								onClick={() => {
 									handleModelChange("")
@@ -218,6 +219,7 @@ const RequestyModelPicker: React.FC<RequestyModelPickerProps> = ({ isPopup, curr
 						<DropdownList ref={dropdownListRef}>
 							{modelSearchResults.map((item, index) => (
 								<DropdownItem
+									// biome-ignore lint/security/noDangerouslySetInnerHtml: <explanation>
 									dangerouslySetInnerHTML={{
 										__html: item.html,
 									}}
@@ -228,7 +230,9 @@ const RequestyModelPicker: React.FC<RequestyModelPickerProps> = ({ isPopup, curr
 										setIsDropdownVisible(false)
 									}}
 									onMouseEnter={() => setSelectedIndex(index)}
-									ref={(el) => (itemRefs.current[index] = el)}
+									ref={(el) => {
+										itemRefs.current[index] = el
+									}}
 								/>
 							))}
 						</DropdownList>
@@ -248,12 +252,16 @@ const RequestyModelPicker: React.FC<RequestyModelPickerProps> = ({ isPopup, curr
 						marginTop: 0,
 						color: "var(--vscode-descriptionForeground)",
 					}}>
-					The extension automatically fetches the latest list of models available on{" "}
-					<VSCodeLink href="https://app.requesty.ai/router/list" style={{ display: "inline", fontSize: "inherit" }}>
-						Requesty.
-					</VSCodeLink>
-					If you're unsure which model to choose, Cline works best with{" "}
+					{t("settings.requesty.info.fullText.part1", "settings")}{" "}
 					<VSCodeLink
+						href="https://app.requesty.ai/router/list"
+						key="requesty"
+						style={{ display: "inline", fontSize: "inherit" }}>
+						Requesty.
+					</VSCodeLink>{" "}
+					{t("settings.requesty.info.fullText.part2", "settings")}{" "}
+					<VSCodeLink
+						key="claude"
 						onClick={() => handleModelChange("anthropic/claude-3-7-sonnet-latest")}
 						style={{ display: "inline", fontSize: "inherit" }}>
 						anthropic/claude-3-7-sonnet-latest.
@@ -434,7 +442,7 @@ export const ModelDescriptionMarkdown = memo(
 									paddingLeft: 3,
 									backgroundColor: isPopup ? CODE_BLOCK_BG_COLOR : "var(--vscode-sideBar-background)",
 								}}>
-								See more
+								{t("common.seeMore")}
 							</VSCodeLink>
 						</div>
 					)}

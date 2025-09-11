@@ -3,7 +3,8 @@ import type { Mode } from "@shared/storage/types"
 import { VSCodeButton } from "@vscode/webview-ui-toolkit/react"
 import type React from "react"
 import { useEffect, useMemo, useState } from "react"
-import { BUTTON_CONFIGS, getButtonConfig } from "../../shared/buttonConfig"
+import { useCaretI18n } from "@/caret/hooks/useCaretI18n"
+import { type ButtonActionType, getButtonConfig } from "../../shared/buttonConfig"
 import type { ChatState, MessageHandlers } from "../../types/chatTypes"
 
 interface ActionButtonsProps {
@@ -30,12 +31,15 @@ export const ActionButtons: React.FC<ActionButtonsProps> = ({
 	messageHandlers,
 	scrollBehavior,
 }) => {
+	const { t } = useCaretI18n()
 	const { inputValue, selectedImages, selectedFiles, setSendingDisabled } = chatState
 
 	const isStreaming = useMemo(() => task?.partial === true, [task])
 
 	const [primaryButtonText, setPrimaryButtonText] = useState<string | undefined>(undefined)
 	const [secondaryButtonText, setSecondaryButtonText] = useState<string | undefined>(undefined)
+	const [primaryAction, setPrimaryAction] = useState<ButtonActionType | undefined>(undefined)
+	const [secondaryAction, setSecondaryAction] = useState<ButtonActionType | undefined>(undefined)
 
 	const [enableButtons, setEnableButtons] = useState<boolean>(false)
 
@@ -55,22 +59,26 @@ export const ActionButtons: React.FC<ActionButtonsProps> = ({
 
 	// Apply button configuration with a single batched update
 	useEffect(() => {
-		const buttonConfig = getButtonConfig(lastMessage, mode)
+		const buttonConfig = getButtonConfig(lastMessage, mode, t)
 		setEnableButtons(buttonConfig.enableButtons)
 		setSendingDisabled(buttonConfig.sendingDisabled)
 		setPrimaryButtonText(buttonConfig.primaryText)
 		setSecondaryButtonText(buttonConfig.secondaryText)
-	}, [lastMessage, mode, setSendingDisabled])
+		setPrimaryAction(buttonConfig.primaryAction)
+		setSecondaryAction(buttonConfig.secondaryAction)
+	}, [lastMessage, mode, setSendingDisabled, t])
 
 	useEffect(() => {
 		if (!messages?.length) {
-			const buttonConfig = BUTTON_CONFIGS.default
+			const buttonConfig = getButtonConfig(undefined, mode, t)
 			setEnableButtons(buttonConfig.enableButtons)
 			setSendingDisabled(buttonConfig.sendingDisabled)
 			setPrimaryButtonText(buttonConfig.primaryText)
 			setSecondaryButtonText(buttonConfig.secondaryText)
+			setPrimaryAction(buttonConfig.primaryAction)
+			setSecondaryAction(buttonConfig.secondaryAction)
 		}
-	}, [messages, setSendingDisabled])
+	}, [messages, setSendingDisabled, mode, t])
 
 	if (!task) {
 		return null
@@ -88,7 +96,7 @@ export const ActionButtons: React.FC<ActionButtonsProps> = ({
 			<div className="flex px-[15px]">
 				<VSCodeButton
 					appearance="icon"
-					aria-label="Scroll to bottom"
+					aria-label={t("scrollToBottom", "common")}
 					className="text-lg text-[var(--vscode-primaryButton-foreground)] bg-[color-mix(in_srgb,var(--vscode-toolbar-hoverBackground)_55%,transparent)] rounded-[3px] overflow-hidden cursor-pointer flex justify-center items-center flex-1 h-[25px] hover:bg-[color-mix(in_srgb,var(--vscode-toolbar-hoverBackground)_90%,transparent)] active:bg-[color-mix(in_srgb,var(--vscode-toolbar-hoverBackground)_70%,transparent)] border-0"
 					onClick={handleScrollToBottom}
 					onKeyDown={(e) => {
@@ -114,10 +122,10 @@ export const ActionButtons: React.FC<ActionButtonsProps> = ({
 					className={`${secondaryButtonText ? "flex-1 mr-[6px]" : "flex-[2]"}`}
 					disabled={!enableButtons}
 					onClick={() => {
-						if (primaryButtonText === "Start New Task") {
+						if (primaryAction === "new_task") {
 							messageHandlers.startNewTask()
-						} else {
-							messageHandlers.handleButtonClick(primaryButtonText, inputValue, selectedImages, selectedFiles)
+						} else if (primaryAction) {
+							messageHandlers.executeButtonAction(primaryAction, inputValue, selectedImages, selectedFiles)
 						}
 					}}>
 					{primaryButtonText}
@@ -129,7 +137,9 @@ export const ActionButtons: React.FC<ActionButtonsProps> = ({
 					className={`${primaryButtonText ? "flex-1 mr-[6px]" : "flex-[2]"}`}
 					disabled={!enableButtons}
 					onClick={() => {
-						messageHandlers.handleButtonClick(secondaryButtonText, inputValue, selectedImages, selectedFiles)
+						if (secondaryAction) {
+							messageHandlers.executeButtonAction(secondaryAction, inputValue, selectedImages, selectedFiles)
+						}
 					}}>
 					{secondaryButtonText}
 				</VSCodeButton>

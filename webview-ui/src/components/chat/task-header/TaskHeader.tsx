@@ -5,6 +5,7 @@ import { StringRequest } from "@shared/proto/cline/common"
 import { VSCodeButton } from "@vscode/webview-ui-toolkit/react"
 import React, { memo, useEffect, useMemo, useRef, useState } from "react"
 import { useWindowSize } from "react-use"
+import { t } from "@/caret/utils/i18n"
 import ChecklistRenderer from "@/components/common/ChecklistRenderer"
 import HeroTooltip from "@/components/common/HeroTooltip"
 import Thumbnails from "@/components/common/Thumbnails"
@@ -74,7 +75,6 @@ const TaskHeader: React.FC<TaskHeaderProps> = ({
 	task,
 	tokensIn,
 	tokensOut,
-	doesModelSupportPromptCache,
 	cacheWrites,
 	cacheReads,
 	totalCost,
@@ -208,7 +208,7 @@ const TaskHeader: React.FC<TaskHeaderProps> = ({
 							flex: 1,
 							whiteSpace: "nowrap",
 						}}>
-						<HeroTooltip content="Current tokens used in this request">
+						<HeroTooltip content={t("taskHeader.currentTokens", "common")}>
 							<span className="cursor-pointer">{formatLargeNumber(lastApiReqTotalTokens || 0)}</span>
 						</HeroTooltip>
 						<div
@@ -218,7 +218,7 @@ const TaskHeader: React.FC<TaskHeaderProps> = ({
 								gap: "3px",
 								flex: 1,
 							}}>
-							<HeroTooltip content="Context window usage">
+							<HeroTooltip content={t("taskHeader.contextWindowUsage", "common")}>
 								<div
 									className="cursor-pointer"
 									style={{
@@ -238,7 +238,7 @@ const TaskHeader: React.FC<TaskHeaderProps> = ({
 									/>
 								</div>
 							</HeroTooltip>
-							<HeroTooltip content="Maximum context window size for this model">
+							<HeroTooltip content={t("taskHeader.maxContextWindow", "common")}>
 								<span className="cursor-pointer">{formatLargeNumber(contextWindow)}</span>
 							</HeroTooltip>
 						</div>
@@ -300,7 +300,7 @@ const TaskHeader: React.FC<TaskHeaderProps> = ({
 								minWidth: 0, // This allows the div to shrink below its content size
 							}}>
 							<span style={{ fontWeight: "bold" }}>
-								Task
+								{t("taskHeader.task", "common")}
 								{!isTaskExpanded && ":"}
 							</span>
 							{!isTaskExpanded && (
@@ -328,7 +328,7 @@ const TaskHeader: React.FC<TaskHeaderProps> = ({
 					)}
 					<VSCodeButton
 						appearance="icon"
-						aria-label="Close task"
+						aria-label={t("taskHeader.closeTask", "common")}
 						onClick={onClose}
 						style={{ marginLeft: 6, flexShrink: 0 }}>
 						<span className="codicon codicon-close"></span>
@@ -384,7 +384,7 @@ const TaskHeader: React.FC<TaskHeaderProps> = ({
 											paddingLeft: 3,
 											backgroundColor: "var(--vscode-badge-background)",
 										}}>
-										See more
+										{t("taskHeader.seeMore", "common")}
 									</div>
 								</div>
 							)}
@@ -399,7 +399,7 @@ const TaskHeader: React.FC<TaskHeaderProps> = ({
 									textAlign: "right",
 									paddingRight: 2,
 								}}>
-								See less
+								{t("taskHeader.seeLess", "common")}
 							</div>
 						)}
 						{((task.images && task.images.length > 0) || (task.files && task.files.length > 0)) && (
@@ -427,9 +427,9 @@ const TaskHeader: React.FC<TaskHeaderProps> = ({
 										flexWrap: "wrap",
 									}}>
 									<div style={{ display: "flex", alignItems: "center" }}>
-										<span style={{ fontWeight: "bold" }}>Tokens:</span>
+										<span style={{ fontWeight: "bold" }}>{t("taskHeader.tokens", "common")}:</span>
 									</div>
-									<HeroTooltip content="Prompt Tokens">
+									<HeroTooltip content={t("taskHeader.promptTokens", "common")}>
 										<span className="flex items-center gap-[3px] cursor-pointer">
 											<i
 												className="codicon codicon-arrow-up"
@@ -442,7 +442,7 @@ const TaskHeader: React.FC<TaskHeaderProps> = ({
 											{formatLargeNumber(tokensIn || 0)}
 										</span>
 									</HeroTooltip>
-									<HeroTooltip content="Completion Tokens">
+									<HeroTooltip content={t("taskHeader.completionTokens", "common")}>
 										<span className="flex items-center gap-[3px] cursor-pointer">
 											<i
 												className="codicon codicon-arrow-down"
@@ -483,10 +483,10 @@ const TaskHeader: React.FC<TaskHeaderProps> = ({
 											flexWrap: "wrap",
 										}}>
 										<div style={{ display: "flex", alignItems: "center" }}>
-											<span style={{ fontWeight: "bold" }}>Cache:</span>
+											<span style={{ fontWeight: "bold" }}>{t("taskHeader.cache", "common")}:</span>
 										</div>
 										{cacheWrites !== undefined && cacheWrites > 0 && (
-											<HeroTooltip content="Tokens written to cache">
+											<HeroTooltip content={t("taskHeader.tokensWrittenToCache", "common")}>
 												<span className="flex items-center gap-[3px] cursor-pointer">
 													<i
 														className="codicon codicon-database"
@@ -501,7 +501,7 @@ const TaskHeader: React.FC<TaskHeaderProps> = ({
 											</HeroTooltip>
 										)}
 										{cacheReads !== undefined && cacheReads > 0 && (
-											<HeroTooltip content="Tokens read from cache">
+											<HeroTooltip content={t("taskHeader.tokensReadFromCache", "common")}>
 												<span className="flex items-center gap-[3px] cursor-pointer">
 													<i
 														className={"codicon codicon-arrow-right"}
@@ -571,7 +571,13 @@ const TaskHeader: React.FC<TaskHeaderProps> = ({
 												}}>
 												<div style={{ display: "flex", alignItems: "center", gap: "6px" }}>
 													<span style={{ fontWeight: "bold", color: "var(--vscode-charts-green)" }}>
-														All {todoInfo.totalCount} steps completed!
+														{t(
+															"taskHeader.allStepsCompleted",
+															"All {{totalCount}} steps completed!",
+															{
+																totalCount: todoInfo.totalCount,
+															},
+														)}
 													</span>
 												</div>
 												<span
@@ -587,7 +593,10 @@ const TaskHeader: React.FC<TaskHeaderProps> = ({
 														lineHeight: "1.4",
 													}}>
 													<div style={{ marginBottom: "2px" }}>
-														New steps will be generated if you continue the task
+														{t(
+															"taskHeader.newStepsGenerated",
+															"New steps may be generated based on the conversation.",
+														)}
 													</div>
 												</div>
 											)}
@@ -734,7 +743,7 @@ const TaskHeader: React.FC<TaskHeaderProps> = ({
 															"color-mix(in srgb, var(--vscode-badge-foreground) 10%, transparent)",
 														border: "1px solid color-mix(in srgb, var(--vscode-badge-foreground) 20%, transparent)",
 													}}
-													title="Edit focus chain list in markdown file">
+													title={t("taskHeader.editFocusChainList", "common")}>
 													<span
 														className="codicon codicon-edit"
 														style={{
@@ -781,7 +790,7 @@ const TaskHeader: React.FC<TaskHeaderProps> = ({
 													}, 300)
 												}}
 												style={{ fontSize: "inherit" }}>
-												disabling checkpoints.
+												{t("taskHeader.disablingCheckpoints", "common")}
 											</button>
 										)}
 										{checkpointTrackerErrorMessage.includes("Git must be installed to use checkpoints.") && (
@@ -793,7 +802,7 @@ const TaskHeader: React.FC<TaskHeaderProps> = ({
 														color: "inherit",
 														textDecoration: "underline",
 													}}>
-													See here for instructions.
+													{t("taskHeader.seeHereForInstructions", "common")}
 												</a>
 											</>
 										)}

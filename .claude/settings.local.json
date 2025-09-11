@@ -1,0 +1,40 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(node:*)",
+      "Bash(find:*)",
+      "Bash(git add:*)",
+      "Bash(git push:*)",
+      "Bash(git commit:*)",
+      "Bash(git clean:*)",
+      "Bash(npm run package:release:*)",
+      "Bash(npm install:*)",
+      "Bash(npm run copy:assets:*)",
+      "Bash(npm run build:*)",
+      "Bash(mkdir:*)",
+      "Bash(mv:*)",
+      "Bash(rmdir:*)",
+      "Bash(npm run compile:*)",
+      "Bash(npx tsc:*)",
+      "Bash(git restore:*)",
+      "Bash(npm run check-types:*)",
+      "Bash(git log:*)",
+      "Bash(npm run protos:*)",
+      "Bash(npm run test:backend:*)",
+      "Bash(npm run:*)",
+      "Bash(git checkout:*)",
+      "Bash(code:*)",
+      "Bash(grep:*)",
+      "Bash(git pull:*)",
+      "Bash(git reset:*)",
+      "Bash(dir:*)",
+      "WebFetch(domain:cline.bot)",
+      "Bash(taskkill:*)",
+      "Bash(tree:*)",
+      "Bash(npm start)",
+      "Bash(npx docusaurus start:*)"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}

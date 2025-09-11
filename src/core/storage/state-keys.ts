@@ -146,6 +146,23 @@ export interface GlobalState {
 	planModeVercelAiGatewayModelInfo: ModelInfo | undefined
 	actModeVercelAiGatewayModelId: string | undefined
 	actModeVercelAiGatewayModelInfo: ModelInfo | undefined
+	// CARET MODIFICATION: Caret 전역 브랜드 모드 시스템 (Caret/Cline 구분)
+	caretModeSystem: "caret" | "cline" | undefined
+	// CARET MODIFICATION: Persona system settings
+	enablePersonaSystem: boolean | undefined
+	currentPersona: string | undefined
+	personaProfile:
+		| {
+				name?: string
+				description?: string
+				custom_instruction?: string
+				avatar_uri?: string
+				thinking_avatar_uri?: string
+		  }
+		| undefined
+	// CARET MODIFICATION: Persona image storage for persona system
+	caret_persona_avatar: Buffer | undefined
+	caret_persona_thinking_avatar: Buffer | undefined
 }
 
 export interface Secrets {
@@ -188,6 +205,7 @@ export interface Secrets {
 
 export interface LocalState {
 	localClineRulesToggles: ClineRulesToggles
+	localCaretRulesToggles: ClineRulesToggles // CARET MODIFICATION: Added .caretrules support
 	localCursorRulesToggles: ClineRulesToggles
 	localWindsurfRulesToggles: ClineRulesToggles
 	workflowToggles: ClineRulesToggles

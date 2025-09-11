@@ -1,6 +1,7 @@
 import { Mode } from "@shared/storage/types"
 import { VSCodeCheckbox } from "@vscode/webview-ui-toolkit/react"
 import { useState } from "react"
+import { t } from "@/caret/utils/i18n"
 import { useExtensionState } from "@/context/ExtensionStateContext"
 import { ApiKeyField } from "../common/ApiKeyField"
 import { DebouncedTextField } from "../common/DebouncedTextField"
@@ -26,11 +27,12 @@ export const RequestyProvider = ({ showModelOptions, isPopup, currentMode }: Req
 	const [requestyEndpointSelected, setRequestyEndpointSelected] = useState(!!apiConfiguration?.requestyBaseUrl)
 
 	return (
-		<div>
+		<div style={{ display: "flex", flexDirection: "column", gap: 10, marginTop: 2 }}>
+			<p style={{ whiteSpace: "pre-wrap" }}>{t("providers.requesty.description", "settings")}</p>
 			<ApiKeyField
 				initialValue={apiConfiguration?.requestyApiKey || ""}
 				onChange={(value) => handleFieldChange("requestyApiKey", value)}
-				providerName="Requesty"
+				providerName={t("providers.requesty.name", "settings")}
 				signupUrl="https://app.requesty.ai/api-keys"
 			/>
 			<VSCodeCheckbox
@@ -43,7 +45,7 @@ export const RequestyProvider = ({ showModelOptions, isPopup, currentMode }: Req
 						handleFieldChange("requestyBaseUrl", "")
 					}
 				}}>
-				Use custom base URL
+				{t("requestyProvider.useCustomBaseUrlLabel", "settings")}
 			</VSCodeCheckbox>
 			{requestyEndpointSelected && (
 				<DebouncedTextField
@@ -51,7 +53,7 @@ export const RequestyProvider = ({ showModelOptions, isPopup, currentMode }: Req
 					onChange={(value) => {
 						handleFieldChange("requestyBaseUrl", value)
 					}}
-					placeholder="Custom base URL"
+					placeholder={t("requestyProvider.customBaseUrlPlaceholder", "settings")}
 					style={{ width: "100%", marginBottom: 5 }}
 					type="url"
 				/>

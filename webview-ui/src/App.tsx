@@ -1,5 +1,9 @@
 import type { Boolean, EmptyRequest } from "@shared/proto/cline/common"
 import { useEffect } from "react"
+// CARET MODIFICATION: Add i18n support for the entire app
+import CaretI18nProvider from "./caret/context/CaretI18nContext"
+// CARET MODIFICATION: Import CaretStateContextProvider for persona system
+import { CaretStateContextProvider } from "./caret/context/CaretStateContext"
 import AccountView from "./components/account/AccountView"
 import ChatView from "./components/chat/ChatView"
 import HistoryView from "./components/history/HistoryView"
@@ -84,7 +88,13 @@ const AppContent = () => {
 const App = () => {
 	return (
 		<Providers>
-			<AppContent />
+			{/* CARET MODIFICATION: Wrap app with i18n context for multilingual support */}
+			<CaretI18nProvider defaultLanguage="en">
+				{/* CARET MODIFICATION: Wrap with CaretStateContextProvider for persona system */}
+				<CaretStateContextProvider>
+					<AppContent />
+				</CaretStateContextProvider>
+			</CaretI18nProvider>
 		</Providers>
 	)
 }

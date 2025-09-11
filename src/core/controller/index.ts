@@ -129,7 +129,7 @@ export class Controller {
 			this.stateManager.setSecret("clineAccountId", undefined)
 			this.stateManager.setGlobalState("userInfo", undefined)
 
-			// Update API providers through cache service
+			// CARET MODIFICATION: Update API providers through cache service - default to openrouter
 			const apiConfiguration = this.stateManager.getApiConfiguration()
 			const updatedConfig = {
 				...apiConfiguration,
@@ -139,9 +139,10 @@ export class Controller {
 			this.stateManager.setApiConfiguration(updatedConfig)
 
 			await this.postStateToWebview()
+			// CARET MODIFICATION: Change logout success message from Cline to Caret
 			HostProvider.window.showMessage({
 				type: ShowMessageType.INFORMATION,
-				message: "Successfully logged out of Cline",
+				message: "Successfully logged out of Caret",
 			})
 		} catch (_error) {
 			HostProvider.window.showMessage({
@@ -314,7 +315,7 @@ export class Controller {
 		try {
 			await this.authService.handleAuthCallback(customToken, provider ? provider : "google")
 
-			const clineProvider: ApiProvider = "cline"
+			const _clineProvider: ApiProvider = "cline"
 
 			// Get current settings to determine how to update providers
 			const planActSeparateModelsSetting = this.stateManager.getGlobalStateKey("planActSeparateModelsSetting")
@@ -324,19 +325,22 @@ export class Controller {
 			// Get current API configuration from cache
 			const currentApiConfiguration = this.stateManager.getApiConfiguration()
 
+			// CARET MODIFICATION: Set default provider to openrouter instead of cline for auth callback
+			const defaultProvider: ApiProvider = "openrouter" // Use openrouter as default instead of cline
+
 			const updatedConfig = { ...currentApiConfiguration }
 
 			if (planActSeparateModelsSetting) {
 				// Only update the current mode's provider
 				if (currentMode === "plan") {
-					updatedConfig.planModeApiProvider = clineProvider
+					updatedConfig.planModeApiProvider = defaultProvider
 				} else {
-					updatedConfig.actModeApiProvider = clineProvider
+					updatedConfig.actModeApiProvider = defaultProvider
 				}
 			} else {
 				// Update both modes to keep them in sync
-				updatedConfig.planModeApiProvider = clineProvider
-				updatedConfig.actModeApiProvider = clineProvider
+				updatedConfig.planModeApiProvider = defaultProvider
+				updatedConfig.actModeApiProvider = defaultProvider
 			}
 
 			// Update the API configuration through cache service
@@ -352,9 +356,10 @@ export class Controller {
 			await this.postStateToWebview()
 		} catch (error) {
 			console.error("Failed to handle auth callback:", error)
+			// CARET MODIFICATION: Change login error message from Cline to Caret
 			HostProvider.window.showMessage({
 				type: ShowMessageType.ERROR,
-				message: "Failed to log in to Cline",
+				message: "Failed to log in to Caret",
 			})
 			// Even on login failure, we preserve any existing tokens
 			// Only clear tokens on explicit logout
@@ -619,6 +624,12 @@ export class Controller {
 		const customPrompt = this.stateManager.getGlobalStateKey("customPrompt")
 		const mcpResponsesCollapsed = this.stateManager.getGlobalStateKey("mcpResponsesCollapsed")
 		const terminalOutputLineLimit = this.stateManager.getGlobalStateKey("terminalOutputLineLimit")
+		// CARET MODIFICATION: Add caretModeSystem to state transmission
+		const modeSystem = this.stateManager.getGlobalStateKey("caretModeSystem")
+		// CARET MODIFICATION: Add persona system settings
+		const enablePersonaSystem = this.stateManager.getGlobalStateKey("enablePersonaSystem") ?? modeSystem === "caret"
+		const currentPersona = this.stateManager.getGlobalStateKey("currentPersona")
+		const personaProfile = this.stateManager.getGlobalStateKey("personaProfile")
 		const localClineRulesToggles = this.stateManager.getWorkspaceStateKey("localClineRulesToggles")
 		const localWindsurfRulesToggles = this.stateManager.getWorkspaceStateKey("localWindsurfRulesToggles")
 		const localCursorRulesToggles = this.stateManager.getWorkspaceStateKey("localCursorRulesToggles")
@@ -669,6 +680,7 @@ export class Controller {
 			distinctId,
 			globalClineRulesToggles: globalClineRulesToggles || {},
 			localClineRulesToggles: localClineRulesToggles || {},
+			localCaretRulesToggles: this.stateManager.getWorkspaceStateKey("localCaretRulesToggles") || {}, // CARET MODIFICATION: Add caret rules
 			localWindsurfRulesToggles: localWindsurfRulesToggles || {},
 			localCursorRulesToggles: localCursorRulesToggles || {},
 			localWorkflowToggles: workflowToggles || {},
@@ -681,6 +693,12 @@ export class Controller {
 			mcpResponsesCollapsed,
 			terminalOutputLineLimit,
 			customPrompt,
+			// CARET MODIFICATION: Include modeSystem in state transmission
+			modeSystem,
+			// CARET MODIFICATION: Include persona system settings
+			enablePersonaSystem,
+			currentPersona,
+			personaProfile,
 		}
 	}
 

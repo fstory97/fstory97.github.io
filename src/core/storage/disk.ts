@@ -2,6 +2,7 @@ import { Anthropic } from "@anthropic-ai/sdk"
 import { TaskMetadata } from "@core/context/context-tracking/ContextTrackerTypes"
 import { execa } from "@packages/execa"
 import { ClineMessage } from "@shared/ExtensionMessage"
+import { HistoryItem } from "@shared/HistoryItem"
 import { fileExistsAtPath } from "@utils/fs"
 import fs from "fs/promises"
 import os from "os"
@@ -16,13 +17,15 @@ export const GlobalFileNames = {
 	vercelAiGatewayModels: "vercel_ai_gateway_models.json",
 	groqModels: "groq_models.json",
 	basetenModels: "baseten_models.json",
-	mcpSettings: "cline_mcp_settings.json",
-	clineRules: ".clinerules",
-	workflows: ".clinerules/workflows",
+	mcpSettings: "caret_mcp_settings.json",
+	caretRules: ".caretrules", // CARET MODIFICATION: Added .caretrules support for rule priority system
+	clineRules: ".caretrules",
+	workflows: ".caretrules/workflows",
 	cursorRulesDir: ".cursor/rules",
 	cursorRulesFile: ".cursorrules",
 	windsurfRules: ".windsurfrules",
 	taskMetadata: "task_metadata.json",
+	persona: "persona.md", // CARET MODIFICATION: Added for persona feature
 }
 
 export async function getDocumentsPath(): Promise<string> {
@@ -70,33 +73,33 @@ export async function ensureTaskDirectoryExists(context: vscode.ExtensionContext
 
 export async function ensureRulesDirectoryExists(): Promise<string> {
 	const userDocumentsPath = await getDocumentsPath()
-	const clineRulesDir = path.join(userDocumentsPath, "Cline", "Rules")
+	const clineRulesDir = path.join(userDocumentsPath, "Caret", "Rules")
 	try {
 		await fs.mkdir(clineRulesDir, { recursive: true })
 	} catch (_error) {
-		return path.join(os.homedir(), "Documents", "Cline", "Rules") // in case creating a directory in documents fails for whatever reason (e.g. permissions) - this is fine because we will fail gracefully with a path that does not exist
+		return path.join(os.homedir(), "Documents", "Caret", "Rules") // in case creating a directory in documents fails for whatever reason (e.g. permissions) - this is fine because we will fail gracefully with a path that does not exist
 	}
 	return clineRulesDir
 }
 
 export async function ensureWorkflowsDirectoryExists(): Promise<string> {
 	const userDocumentsPath = await getDocumentsPath()
-	const clineWorkflowsDir = path.join(userDocumentsPath, "Cline", "Workflows")
+	const clineWorkflowsDir = path.join(userDocumentsPath, "Caret", "Workflows")
 	try {
 		await fs.mkdir(clineWorkflowsDir, { recursive: true })
 	} catch (_error) {
-		return path.join(os.homedir(), "Documents", "Cline", "Workflows") // in case creating a directory in documents fails for whatever reason (e.g. permissions) - this is fine because we will fail gracefully with a path that does not exist
+		return path.join(os.homedir(), "Documents", "Caret", "Workflows") // in case creating a directory in documents fails for whatever reason (e.g. permissions) - this is fine because we will fail gracefully with a path that does not exist
 	}
 	return clineWorkflowsDir
 }
 
 export async function ensureMcpServersDirectoryExists(): Promise<string> {
 	const userDocumentsPath = await getDocumentsPath()
-	const mcpServersDir = path.join(userDocumentsPath, "Cline", "MCP")
+	const mcpServersDir = path.join(userDocumentsPath, "Caret", "MCP")
 	try {
 		await fs.mkdir(mcpServersDir, { recursive: true })
 	} catch (_error) {
-		return "~/Documents/Cline/MCP" // in case creating a directory in documents fails for whatever reason (e.g. permissions) - this is fine since this path is only ever used in the system prompt
+		return "~/Documents/Caret/MCP" // in case creating a directory in documents fails for whatever reason (e.g. permissions) - this is fine since this path is only ever used in the system prompt
 	}
 	return mcpServersDir
 }
@@ -178,5 +181,44 @@ export async function saveTaskMetadata(context: vscode.ExtensionContext, taskId:
 		await fs.writeFile(filePath, JSON.stringify(metadata, null, 2))
 	} catch (error) {
 		console.error("Failed to save task metadata:", error)
+	}
+}
+
+export async function ensureStateDirectoryExists(context: vscode.ExtensionContext): Promise<string> {
+	const stateDir = path.join(context.globalStorageUri.fsPath, "state")
+	await fs.mkdir(stateDir, { recursive: true })
+	return stateDir
+}
+
+export async function getTaskHistoryStateFilePath(context: vscode.ExtensionContext): Promise<string> {
+	return path.join(await ensureStateDirectoryExists(context), "taskHistory.json")
+}
+
+export async function taskHistoryStateFileExists(context: vscode.ExtensionContext): Promise<boolean> {
+	const filePath = await getTaskHistoryStateFilePath(context)
+	return fileExistsAtPath(filePath)
+}
+
+export async function readTaskHistoryFromState(context: vscode.ExtensionContext): Promise<HistoryItem[]> {
+	try {
+		const filePath = await getTaskHistoryStateFilePath(context)
+		if (await fileExistsAtPath(filePath)) {
+			return JSON.parse(await fs.readFile(filePath, "utf8"))
+		}
+		return []
+	} catch (error) {
+		console.error("[Disk] Failed to read task history:", error)
+		throw error
+	}
+}
+
+export async function writeTaskHistoryToState(context: vscode.ExtensionContext, items: HistoryItem[]): Promise<void> {
+	try {
+		const filePath = await getTaskHistoryStateFilePath(context)
+		// Always create the file; if items is empty, write [] to ensure presence on first startup
+		await fs.writeFile(filePath, JSON.stringify(items))
+	} catch (error) {
+		console.error("[Disk] Failed to write task history:", error)
+		throw error
 	}
 }

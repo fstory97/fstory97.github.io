@@ -1,9 +1,14 @@
 import type React from "react"
 import { createContext, useCallback, useContext, useEffect, useRef, useState } from "react"
 import "../../../src/shared/webview/types"
+import { CaretGlobalManager } from "@caret/managers/CaretGlobalManager"
+// CARET MODIFICATION: Caret 전역 브랜드 모드 시스템 타입과 유틸리티 임포트 (caret-src에서)
+import { type CaretModeSystem } from "@caret/shared/ModeSystem"
 import { DEFAULT_AUTO_APPROVAL_SETTINGS } from "@shared/AutoApprovalSettings"
 import { findLastIndex } from "@shared/array"
 import { DEFAULT_BROWSER_SETTINGS } from "@shared/BrowserSettings"
+import type { CaretSettings } from "@shared/CaretSettings"
+import { DEFAULT_CARET_SETTINGS } from "@shared/CaretSettings"
 import { DEFAULT_PLATFORM, type ExtensionState } from "@shared/ExtensionMessage"
 import { DEFAULT_FOCUS_CHAIN_SETTINGS } from "@shared/FocusChainSettings"
 import { DEFAULT_MCP_DISPLAY_MODE } from "@shared/McpDisplayMode"
@@ -28,11 +33,32 @@ import {
 	vercelAiGatewayDefaultModelInfo,
 } from "../../../src/shared/api"
 import type { McpMarketplaceCatalog, McpServer, McpViewTab } from "../../../src/shared/mcp"
-import { McpServiceClient, ModelsServiceClient, StateServiceClient, UiServiceClient } from "../services/grpc-client"
+import { convertPreferredLanguageToSupported } from "../caret/utils/i18n"
+// CARET MODIFICATION: Import caretWebviewLogger for debug logging
+import { caretWebviewLogger } from "../caret/utils/webview-logger"
+import {
+	CaretSystemServiceClient,
+	McpServiceClient,
+	ModelsServiceClient,
+	StateServiceClient,
+	UiServiceClient,
+} from "../services/grpc-client"
+
+// CARET MODIFICATION: CaretUser type based on ClineUser for Caret account system
+export interface CaretUser {
+	uid: string
+	email?: string
+	displayName?: string
+	photoUrl?: string
+	appBaseUrl?: string
+}
 
 interface ExtensionStateContextType extends ExtensionState {
+	caretSettings?: CaretSettings
 	didHydrateState: boolean
 	showWelcome: boolean
+	// CARET MODIFICATION: Add caretUser state for Caret account system
+	caretUser: CaretUser | null
 	openRouterModels: Record<string, ModelInfo>
 	openAiModels: string[]
 	requestyModels: Record<string, ModelInfo>
@@ -44,6 +70,19 @@ interface ExtensionStateContextType extends ExtensionState {
 	mcpMarketplaceCatalog: McpMarketplaceCatalog
 	totalTasksSize: number | null
 	availableTerminalProfiles: TerminalProfile[]
+	// CARET MODIFICATION: Add caretBanner for Caret welcome page logo
+	caretBanner: string
+
+	// CARET MODIFICATION: Persona system settings (restored from caret-compare)
+	enablePersonaSystem: boolean
+	currentPersona: string | null
+	personaProfile: {
+		name?: string
+		description?: string
+		custom_instruction?: string
+		avatar_uri?: string
+		thinking_avatar_uri?: string
+	} | null
 
 	// View state
 	showMcp: boolean
@@ -56,6 +95,20 @@ interface ExtensionStateContextType extends ExtensionState {
 	// Setters
 	setShowAnnouncement: (value: boolean) => void
 	setShouldShowAnnouncement: (value: boolean) => void
+	// CARET MODIFICATION: 전역 브랜드 모드 플래그 설정 함수
+	setModeSystem: (modeSystem: CaretModeSystem) => void
+	// CARET MODIFICATION: Persona system setters (restored from caret-compare)
+	setEnablePersonaSystem: (enabled: boolean) => void
+	setCurrentPersona: (personaId: string | null) => void
+	setPersonaProfile: (
+		profile: {
+			name?: string
+			description?: string
+			custom_instruction?: string
+			avatar_uri?: string
+			thinking_avatar_uri?: string
+		} | null,
+	) => void
 	setMcpServers: (value: McpServer[]) => void
 	setRequestyModels: (value: Record<string, ModelInfo>) => void
 	setGroqModels: (value: Record<string, ModelInfo>) => void
@@ -64,6 +117,7 @@ interface ExtensionStateContextType extends ExtensionState {
 	setVercelAiGatewayModels: (value: Record<string, ModelInfo>) => void
 	setGlobalClineRulesToggles: (toggles: Record<string, boolean>) => void
 	setLocalClineRulesToggles: (toggles: Record<string, boolean>) => void
+	setLocalCaretRulesToggles: (toggles: Record<string, boolean>) => void // CARET MODIFICATION: Add caret rules setter
 	setLocalCursorRulesToggles: (toggles: Record<string, boolean>) => void
 	setLocalWindsurfRulesToggles: (toggles: Record<string, boolean>) => void
 	setLocalWorkflowToggles: (toggles: Record<string, boolean>) => void
@@ -74,6 +128,8 @@ interface ExtensionStateContextType extends ExtensionState {
 	// Refresh functions
 	refreshOpenRouterModels: () => void
 	setUserInfo: (userInfo?: UserInfo) => void
+	// CARET MODIFICATION: Caret user management
+	setCaretUser: (user: CaretUser | null) => void
 
 	// Navigation state setters
 	setShowMcp: (value: boolean) => void
@@ -112,6 +168,8 @@ export const ExtensionStateContextProvider: React.FC<{
 	const [showHistory, setShowHistory] = useState(false)
 	const [showAccount, setShowAccount] = useState(false)
 	const [showAnnouncement, setShowAnnouncement] = useState(false)
+	// CARET MODIFICATION: Caret user state
+	const [caretUser, setCaretUserState] = useState<CaretUser | null>(null)
 
 	// Helper for MCP view
 	const closeMcpView = useCallback(() => {
@@ -179,6 +237,8 @@ export const ExtensionStateContextProvider: React.FC<{
 		preferredLanguage: "English",
 		openaiReasoningEffort: "medium",
 		mode: "act",
+		// CARET MODIFICATION: Caret 전역 브랜드 모드 플래그 기본값 - Caret 모드로 시작
+		modeSystem: "caret" as CaretModeSystem,
 		platform: DEFAULT_PLATFORM,
 		telemetrySetting: "unset",
 		distinctId: "",
@@ -187,6 +247,7 @@ export const ExtensionStateContextProvider: React.FC<{
 		mcpDisplayMode: DEFAULT_MCP_DISPLAY_MODE,
 		globalClineRulesToggles: {},
 		localClineRulesToggles: {},
+		localCaretRulesToggles: {}, // CARET MODIFICATION: Add caret rules state
 		localCursorRulesToggles: {},
 		localWindsurfRulesToggles: {},
 		localWorkflowToggles: {},
@@ -201,6 +262,10 @@ export const ExtensionStateContextProvider: React.FC<{
 		strictPlanModeEnabled: false,
 		customPrompt: undefined,
 		useAutoCondense: false,
+		// CARET MODIFICATION: Initialize caretBanner with actual banner image
+		caretBanner: "/assets/welcome-banner.webp",
+		// CARET MODIFICATION: Initialize persona system from backend globalState only
+		enablePersonaSystem: true, // Default value, will be overridden by backend
 	})
 	const [didHydrateState, setDidHydrateState] = useState(false)
 	const [showWelcome, setShowWelcome] = useState(false)
@@ -256,6 +321,30 @@ export const ExtensionStateContextProvider: React.FC<{
 	const mcpServersSubscriptionRef = useRef<(() => void) | null>(null)
 	const didBecomeVisibleUnsubscribeRef = useRef<(() => void) | null>(null)
 
+	// CARET MODIFICATION: Initialize modeSystem from backend on app startup
+	useEffect(() => {
+		const initializeModeSystem = async () => {
+			try {
+				caretWebviewLogger.debug("[ExtensionStateContext] Initializing modeSystem from backend...")
+				const response = await CaretSystemServiceClient.GetPromptSystemMode({})
+				caretWebviewLogger.debug("[ExtensionStateContext] Backend modeSystem:", response.currentMode)
+
+				// Update frontend state to match backend
+				setState((prevState) => ({
+					...prevState,
+					modeSystem: response.currentMode as CaretModeSystem,
+				}))
+
+				caretWebviewLogger.info(`[ExtensionStateContext] Initialized modeSystem: ${response.currentMode}`)
+			} catch (error) {
+				caretWebviewLogger.error("[ExtensionStateContext] Failed to initialize modeSystem:", error)
+				// Keep default value on error
+			}
+		}
+
+		initializeModeSystem()
+	}, []) // Run only once on mount
+
 	// Subscribe to state updates and UI events using the gRPC streaming API
 	useEffect(() => {
 		// Use the already defined webview provider type
@@ -267,6 +356,12 @@ export const ExtensionStateContextProvider: React.FC<{
 				if (response.stateJson) {
 					try {
 						const stateData = JSON.parse(response.stateJson) as ExtensionState
+						if (stateData.enablePersonaSystem !== undefined) {
+							caretWebviewLogger.debug(
+								"Backend state received - enablePersonaSystem:",
+								stateData.enablePersonaSystem,
+							)
+						}
 						setState((prevState) => {
 							// Versioning logic for autoApprovalSettings
 							const incomingVersion = stateData.autoApprovalSettings?.version ?? 1
@@ -279,11 +374,27 @@ export const ExtensionStateContextProvider: React.FC<{
 									: prevState.clineMessages
 							}
 
+							// CARET MODIFICATION: Use backend globalState only
+							const personaSetting = stateData.enablePersonaSystem
+							if (prevState.enablePersonaSystem !== personaSetting) {
+								caretWebviewLogger.debug("Using backend persona setting:", personaSetting)
+							}
+
 							const newState = {
 								...stateData,
 								autoApprovalSettings: shouldUpdateAutoApproval
 									? stateData.autoApprovalSettings
 									: prevState.autoApprovalSettings,
+								// CARET MODIFICATION: Preserve localStorage persona setting
+								enablePersonaSystem: personaSetting,
+							}
+
+							// CARET MODIFICATION: Sync ExtensionState to localStorage
+							if (newState.modeSystem !== undefined) {
+								localStorage.setItem("caret.modeSystem", newState.modeSystem)
+							}
+							if (newState.mode !== undefined) {
+								localStorage.setItem("caret.mode", newState.mode)
 							}
 
 							// Update welcome screen state based on API configuration
@@ -538,8 +649,55 @@ export const ExtensionStateContextProvider: React.FC<{
 			console.error("Client ID not found in window object")
 		}
 
+		// CARET MODIFICATION: Persona system now managed by backend globalState only
+
+		// CARET MODIFICATION: CaretGlobalManager에서 Auth0 사용자 정보 폴링
+		const checkCaretAuth = async () => {
+			try {
+				const globalManager = CaretGlobalManager.get()
+
+				if (globalManager.isAuthenticated()) {
+					const userInfo = globalManager.getUserInfo()
+					if (userInfo) {
+						const newCaretUser: CaretUser = {
+							uid: userInfo.sub || userInfo.id || "caret-user",
+							email: userInfo.email,
+							displayName: userInfo.name || userInfo.nickname,
+							photoUrl: userInfo.picture,
+							appBaseUrl: "https://caret.team",
+						}
+						setCaretUserState((prevUser) => {
+							// Only update if user info changed to avoid unnecessary re-renders
+							if (!prevUser || prevUser.uid !== newCaretUser.uid || prevUser.email !== newCaretUser.email) {
+								console.log("[CARET-AUTH] CaretUser updated:", newCaretUser)
+								return newCaretUser
+							}
+							return prevUser
+						})
+					}
+				} else {
+					setCaretUserState((prevUser) => {
+						if (prevUser !== null) {
+							console.log("[CARET-AUTH] CaretUser cleared")
+							return null
+						}
+						return prevUser
+					})
+				}
+			} catch (error) {
+				console.warn("[CARET-AUTH] Failed to check Caret auth status:", error)
+			}
+		}
+
+		// Initial check
+		checkCaretAuth()
+
+		// Polling every 5 seconds to check for Auth0 token changes
+		const authPollingInterval = setInterval(checkCaretAuth, 5000)
+
 		// Clean up subscriptions when component unmounts
 		return () => {
+			clearInterval(authPollingInterval)
 			if (stateSubscriptionRef.current) {
 				stateSubscriptionRef.current()
 				stateSubscriptionRef.current = null
@@ -611,10 +769,23 @@ export const ExtensionStateContextProvider: React.FC<{
 			.catch((error: Error) => console.error("Failed to refresh OpenRouter models:", error))
 	}, [])
 
+	// Create CaretSettings from ExtensionState fields
+	const caretSettings: CaretSettings = {
+		...DEFAULT_CARET_SETTINGS,
+		mode: state.mode as "chatbot" | "agent" | "plan" | "act",
+		modeSystem: state.modeSystem,
+		preferredLanguage: state.preferredLanguage,
+		uiLanguage: convertPreferredLanguageToSupported(state.preferredLanguage),
+		openAIReasoningEffort: state.openaiReasoningEffort,
+	}
+
 	const contextValue: ExtensionStateContextType = {
 		...state,
+		caretSettings,
 		didHydrateState,
 		showWelcome,
+		// CARET MODIFICATION: Add caretUser to context
+		caretUser,
 		openRouterModels,
 		openAiModels,
 		requestyModels,
@@ -626,6 +797,20 @@ export const ExtensionStateContextProvider: React.FC<{
 		mcpMarketplaceCatalog,
 		totalTasksSize,
 		availableTerminalProfiles,
+		// CARET MODIFICATION: Add caretBanner to context value with window injection fallback
+		caretBanner: (window as any).caretBannerImage || state.caretBanner || "/assets/welcome-banner.webp",
+
+		// CARET MODIFICATION: Persona system values
+		enablePersonaSystem: state.enablePersonaSystem ?? false,
+		currentPersona: state.currentPersona || null,
+		personaProfile: state.personaProfile || {
+			name: "Caret",
+			description: "친근하고 도움되는 코딩 로봇 조수",
+			custom_instruction: "",
+			avatar_uri: "asset:/assets/template_characters/caret.png",
+			thinking_avatar_uri: "asset:/assets/template_characters/caret_thinking.png",
+		},
+
 		showMcp,
 		mcpTab,
 		showSettings,
@@ -659,6 +844,44 @@ export const ExtensionStateContextProvider: React.FC<{
 				...prevState,
 				shouldShowAnnouncement: value,
 			})),
+		// CARET MODIFICATION: 전역 브랜드 모드 플래그 설정 함수 - 백엔드/프론트엔드 로깅 포함
+		setModeSystem: (modeSystem: CaretModeSystem) => {
+			const previousMode = state.modeSystem
+			const timestamp = new Date().toISOString()
+
+			// 백엔드 전역 변수 로깅
+			console.log("[GLOBAL-BACKEND] modeSystem state:", {
+				before: previousMode,
+				after: modeSystem,
+				timestamp,
+			})
+			console.log(`[BACKEND] modeSystem changed: ${previousMode} -> ${modeSystem}`)
+
+			// 프론트엔드 전역 변수 로깅
+			console.debug("[GLOBAL-FRONTEND] modeSystem state:", {
+				before: previousMode,
+				after: modeSystem,
+				timestamp,
+			})
+			console.debug(`[FRONTEND] Global modeSystem updated: ${modeSystem}`)
+
+			// 상태 업데이트
+			setState((prevState) => ({
+				...prevState,
+				modeSystem,
+			}))
+
+			// CARET MODIFICATION: 백엔드 API 호출 - StateServiceClient.updateSettings
+			try {
+				// 백엔드에 modeSystem 변경 전송
+				StateServiceClient.updateSettings({
+					modeSystem: modeSystem,
+				})
+				console.log(`[API] StateServiceClient.updateSettings called with modeSystem: ${modeSystem}`)
+			} catch (error) {
+				console.error("[API] Failed to update modeSystem via StateServiceClient:", error)
+			}
+		},
 		setMcpServers: (mcpServers: McpServer[]) => setMcpServers(mcpServers),
 		setRequestyModels: (models: Record<string, ModelInfo>) => setRequestyModels(models),
 		setGroqModels: (models: Record<string, ModelInfo>) => setGroqModels(models),
@@ -677,6 +900,13 @@ export const ExtensionStateContextProvider: React.FC<{
 			setState((prevState) => ({
 				...prevState,
 				localClineRulesToggles: toggles,
+			})),
+		setLocalCaretRulesToggles: (
+			toggles, // CARET MODIFICATION: Add caret rules setter implementation
+		) =>
+			setState((prevState) => ({
+				...prevState,
+				localCaretRulesToggles: toggles,
 			})),
 		setLocalCursorRulesToggles: (toggles) =>
 			setState((prevState) => ({
@@ -702,7 +932,60 @@ export const ExtensionStateContextProvider: React.FC<{
 		setTotalTasksSize,
 		refreshOpenRouterModels,
 		onRelinquishControl,
+		// CARET MODIFICATION: Persona system setters - also save to localStorage and backend
+		setEnablePersonaSystem: (enabled: boolean) => {
+			const isChanging = state.enablePersonaSystem !== enabled
+
+			if (isChanging) {
+				caretWebviewLogger.debug("setEnablePersonaSystem called:", { enabled, currentState: state.enablePersonaSystem })
+			}
+
+			setState((prevState) => {
+				if (isChanging) {
+					caretWebviewLogger.debug("setState called:", { prevState: prevState.enablePersonaSystem, newState: enabled })
+				}
+				return {
+					...prevState,
+					enablePersonaSystem: enabled,
+				}
+			})
+
+			// CARET MODIFICATION: Send to backend globalState only (no localStorage)
+			try {
+				StateServiceClient.updateSettings({
+					enablePersonaSystem: enabled,
+				})
+				if (isChanging) {
+					caretWebviewLogger.debug("Sent to backend via StateServiceClient:", enabled)
+				}
+			} catch (error) {
+				caretWebviewLogger.error("Failed to update backend persona system setting:", error)
+			}
+		},
+		setCurrentPersona: (personaId: string | null) =>
+			setState((prevState) => ({
+				...prevState,
+				currentPersona: personaId,
+			})),
+		setPersonaProfile: (
+			profile: {
+				name?: string
+				description?: string
+				custom_instruction?: string
+				avatar_uri?: string
+				thinking_avatar_uri?: string
+			} | null,
+		) =>
+			setState((prevState) => ({
+				...prevState,
+				personaProfile: profile,
+			})),
 		setUserInfo: (userInfo?: UserInfo) => setState((prevState) => ({ ...prevState, userInfo })),
+		// CARET MODIFICATION: setCaretUser implementation
+		setCaretUser: (user: CaretUser | null) => {
+			console.log("[CARET-AUTH] setCaretUser called with:", user)
+			setCaretUserState(user)
+		},
 	}
 
 	return <ExtensionStateContext.Provider value={contextValue}>{children}</ExtensionStateContext.Provider>
