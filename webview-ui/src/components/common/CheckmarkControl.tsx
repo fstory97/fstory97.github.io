@@ -176,8 +176,8 @@ export const CheckmarkControl = ({ messageTs, isCheckpointCheckedOut }: Checkmar
 			/>
 			<Label $isCheckedOut={isCheckpointCheckedOut}>
 				{isCheckpointCheckedOut
-					? t("checkmarkControl.checkpointRestored", "Checkpoint (restored)")
-					: t("checkmarkControl.checkpoint", "Checkpoint")}
+					? t("checkmarkControl.checkpointRestored", "chat")
+					: t("checkmarkControl.checkpoint", "chat")}
 			</Label>
 			<DottedLine $isCheckedOut={isCheckpointCheckedOut} />
 			<ButtonGroup>

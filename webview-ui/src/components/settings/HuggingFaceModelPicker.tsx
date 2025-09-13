@@ -60,7 +60,7 @@ const HuggingFaceModelPicker: React.FC<HuggingFaceModelPickerProps> = ({ isPopup
 				})
 			})
 			.catch((err) => {
-				console.error(t("settings.huggingFaceModelPicker.fetchModelsError", "settings"), err)
+				console.error(t("providers.huggingface.fetchModelsError", "settings"), err)
 			})
 	})
 
@@ -167,7 +167,7 @@ const HuggingFaceModelPicker: React.FC<HuggingFaceModelPickerProps> = ({ isPopup
 		<div className="w-full">
 			<div className="flex flex-col">
 				<label htmlFor="hf-model-search">
-					<span className="font-medium">{t("settings.huggingFaceModelPicker.modelLabel")}</span>
+					<span className="font-medium">{t("providers.huggingface.modelLabel", "settings")}</span>
 				</label>
 
 				<div className="relative w-full" ref={dropdownRef}>
@@ -181,11 +181,11 @@ const HuggingFaceModelPicker: React.FC<HuggingFaceModelPickerProps> = ({ isPopup
 							setSelectedIndex(-1)
 						}}
 						onKeyDown={handleKeyDown}
-						placeholder={t("settings.huggingFaceModelPicker.searchPlaceholder")}
+						placeholder={t("providers.huggingface.searchPlaceholder", "settings")}
 						value={searchTerm}>
 						{searchTerm && (
 							<div
-								aria-label={t("settings.huggingFaceModelPicker.clearSearch")}
+								aria-label={t("providers.huggingface.clearSearch", "settings")}
 								className="input-icon-button codicon codicon-close"
 								onClick={() => {
 									setSearchTerm("")

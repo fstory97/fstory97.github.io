@@ -141,15 +141,15 @@ const ThinkingBudgetSlider = ({ maxBudget, currentMode }: ThinkingBudgetSliderPr
 	return (
 		<Container>
 			<VSCodeCheckbox checked={isEnabled} onChange={handleToggleChange}>
-				{t("settings.thinkingBudget.enable")}
+				{t("thinkingBudget.enable", "settings")}
 			</VSCodeCheckbox>
 
 			{isEnabled && (
 				<>
 					<LabelContainer>
 						<Label htmlFor="thinking-budget-slider">
-							<strong>{t("settings.thinkingBudget.budgetText.part1", "settings")}</strong>
-							{t("settings.thinkingBudget.budgetText.part2", "settings", { value: localValue.toLocaleString() })}
+							<strong>{t("thinkingBudget.budgetText.part1", "settings")}</strong>
+							{t("thinkingBudget.budgetText.part2", "settings", { value: localValue.toLocaleString() })}
 						</Label>
 					</LabelContainer>
 					<RangeInput
@@ -157,7 +157,7 @@ const ThinkingBudgetSlider = ({ maxBudget, currentMode }: ThinkingBudgetSliderPr
 						$min={DEFAULT_MIN_VALID_TOKENS}
 						$value={localValue}
 						aria-describedby="thinking-budget-description"
-						aria-label={t("settings.thinkingBudget.ariaLabel", { value: localValue.toLocaleString() } as any)}
+						aria-label={t("thinkingBudget.ariaLabel", "settings", { value: localValue.toLocaleString() } as any)}
 						aria-valuemax={maxSliderValue}
 						aria-valuemin={DEFAULT_MIN_VALID_TOKENS}
 						aria-valuenow={localValue}
@@ -172,7 +172,7 @@ const ThinkingBudgetSlider = ({ maxBudget, currentMode }: ThinkingBudgetSliderPr
 						value={localValue}
 					/>
 
-					<Description id="thinking-budget-description">{t("settings.thinkingBudget.description")}</Description>
+					<Description id="thinking-budget-description">{t("thinkingBudget.description", "settings")}</Description>
 				</>
 			)}
 		</Container>

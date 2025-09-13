@@ -201,30 +201,6 @@
 		"modelIdField": {
 			"label": "Model"
 		},
-		"openRouter": {
-			"featured": {
-				"claudeSonnet4": {
-					"description": "Recommended for agentic coding in Cline",
-					"label": "Best"
-				},
-				"gpt5": {
-					"description": "State of the art model for complex, long-horizon tasks",
-					"label": "New"
-				},
-				"grok": {
-					"description": "Advanced model with 262K context for complex coding",
-					"label": "Free"
-				}
-			},
-			"switchTo1M": "Switch to 1M context window model",
-			"switchTo200K": "Switch to 200K context window model",
-			"modelLabel": "Model",
-			"searchPlaceholder": "Search and select a model...",
-			"clearSearch": "Clear search",
-			"info": {
-				"fullText": "The extension automatically fetches the latest list of models available on <0>OpenRouter.</0> If you're unsure which model to choose, Cline works best with <1>anthropic/claude-sonnet-4.</1> You can also try searching \"free\" for no-cost options currently available."
-			}
-		},
 		"requesty": {
 			"modelLabel": "Model",
 			"searchPlaceholder": "Search and select a model...",
@@ -232,12 +208,6 @@
 			"info": {
 				"fullText": "The extension automatically fetches the latest list of models available on <0>Requesty.</0> If you're unsure which model to choose, Cline works best with <1>anthropic/claude-3-7-sonnet-latest.</1>"
 			}
-		},
-		"sapAiCore": {
-			"placeholder": "Select a model...",
-			"deployedModels": "── Deployed Models ──",
-			"notDeployedModels": "── Not Deployed Models ──",
-			"modelLabel": "Model"
 		},
 		"vertex": {
 			"projectIdPlaceholder": "Enter Project ID...",

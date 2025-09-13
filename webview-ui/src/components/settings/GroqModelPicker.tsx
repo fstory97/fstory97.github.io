@@ -61,7 +61,7 @@ const GroqModelPicker: React.FC<GroqModelPickerProps> = ({ isPopup, currentMode 
 				})
 			})
 			.catch((err) => {
-				console.error(t("settings.groqModelPicker.fetchModelsError", "settings"), err)
+				console.error(t("providers.groq.fetchModelsError", "settings"), err)
 			})
 	})
 
@@ -192,7 +192,7 @@ const GroqModelPicker: React.FC<GroqModelPickerProps> = ({ isPopup, currentMode 
 			</style>
 			<div className="flex flex-col">
 				<label htmlFor="model-search">
-					<span className="font-medium">{t("settings.groqModelPicker.modelLabel")}</span>
+					<span className="font-medium">{t("providers.groq.modelLabel", "settings")}</span>
 				</label>
 				<div className="relative w-full" ref={dropdownRef}>
 					<VSCodeTextField
@@ -203,7 +203,7 @@ const GroqModelPicker: React.FC<GroqModelPickerProps> = ({ isPopup, currentMode 
 							setIsDropdownVisible(true)
 						}}
 						onKeyDown={handleKeyDown}
-						placeholder={t("settings.groqModelPicker.searchPlaceholder")}
+						placeholder={t("providers.groq.searchPlaceholder", "settings")}
 						style={{
 							width: "100%",
 							zIndex: GROQ_MODEL_PICKER_Z_INDEX,
@@ -212,7 +212,7 @@ const GroqModelPicker: React.FC<GroqModelPickerProps> = ({ isPopup, currentMode 
 						value={searchTerm}>
 						{searchTerm && (
 							<div
-								aria-label={t("settings.groqModelPicker.clearSearch")}
+								aria-label={t("providers.groq.clearSearch", "settings")}
 								className="input-icon-button codicon codicon-close flex justify-center items-center h-full"
 								onClick={() => {
 									setSearchTerm("")
@@ -256,13 +256,13 @@ const GroqModelPicker: React.FC<GroqModelPickerProps> = ({ isPopup, currentMode 
 				<ModelInfoView isPopup={isPopup} modelInfo={selectedModelInfo} selectedModelId={selectedModelId} />
 			) : (
 				<p className="text-xs mt-0 text-[var(--vscode-descriptionForeground)]">
-					{t("settings.groqModelPicker.fetchModelsDescription", "settings")}{" "}
+					{t("providers.groq.fetchModelsDescription", "settings")}{" "}
 					<VSCodeLink className="inline text-inherit" href="https://console.groq.com/docs/models">
-						{t("settings.groqModelPicker.groqLinkText", "settings")}
+						{t("providers.groq.groqLinkText", "settings")}
 					</VSCodeLink>
-					{t("settings.groqModelPicker.unsureModelChoice", "settings")}{" "}
+					{t("providers.groq.unsureModelChoice", "settings")}{" "}
 					<VSCodeLink className="inline text-inherit" onClick={() => handleModelChange("llama-3.3-70b-versatile")}>
-						{t("settings.groqModelPicker.recommendedModel", "settings")}
+						{t("providers.groq.recommendedModel", "settings")}
 					</VSCodeLink>
 				</p>
 			)}

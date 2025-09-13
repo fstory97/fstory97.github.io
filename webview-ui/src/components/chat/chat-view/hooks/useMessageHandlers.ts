@@ -172,7 +172,8 @@ export function useMessageHandlers(messages: ClineMessage[], chatState: ChatStat
 					break
 
 				case "new_task":
-					if (clineAsk === "new_task") {
+					// CARET MODIFICATION: Include completion_result to enable "New Task with Context" in agent mode
+					if (clineAsk === "new_task" || clineAsk === "completion_result") {
 						console.info("new task button clicked!", {
 							lastMessage,
 							messages,

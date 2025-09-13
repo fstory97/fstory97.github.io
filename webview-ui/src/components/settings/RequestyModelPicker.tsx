@@ -179,7 +179,7 @@ const RequestyModelPicker: React.FC<RequestyModelPickerProps> = ({ isPopup, curr
 			</style>
 			<div style={{ display: "flex", flexDirection: "column" }}>
 				<label htmlFor="model-search">
-					<span style={{ fontWeight: 500 }}>{t("settings.requesty.modelLabel", "Model")}</span>
+					<span style={{ fontWeight: 500 }}>{t("providers.requesty.modelLabel", "settings")}</span>
 				</label>
 				<DropdownWrapper ref={dropdownRef}>
 					<VSCodeTextField
@@ -190,7 +190,7 @@ const RequestyModelPicker: React.FC<RequestyModelPickerProps> = ({ isPopup, curr
 							setIsDropdownVisible(true)
 						}}
 						onKeyDown={handleKeyDown}
-						placeholder={t("settings.requesty.searchPlaceholder", "Search and select a model...")}
+						placeholder={t("providers.requesty.searchPlaceholder", "settings")}
 						style={{
 							width: "100%",
 							zIndex: REQUESTY_MODEL_PICKER_Z_INDEX,
@@ -199,7 +199,7 @@ const RequestyModelPicker: React.FC<RequestyModelPickerProps> = ({ isPopup, curr
 						value={searchTerm}>
 						{searchTerm && (
 							<div
-								aria-label={t("settings.requesty.clearSearch", "Clear search")}
+								aria-label={t("providers.requesty.clearSearch", "settings")}
 								className="input-icon-button codicon codicon-close"
 								onClick={() => {
 									handleModelChange("")
@@ -252,19 +252,19 @@ const RequestyModelPicker: React.FC<RequestyModelPickerProps> = ({ isPopup, curr
 						marginTop: 0,
 						color: "var(--vscode-descriptionForeground)",
 					}}>
-					{t("settings.requesty.info.fullText.part1", "settings")}{" "}
+					{t("providers.requesty.info.fullText.part1", "settings")}{" "}
 					<VSCodeLink
 						href="https://app.requesty.ai/router/list"
 						key="requesty"
 						style={{ display: "inline", fontSize: "inherit" }}>
-						Requesty.
+						{t("providers.requesty.info.linkText", "settings")}
 					</VSCodeLink>{" "}
-					{t("settings.requesty.info.fullText.part2", "settings")}{" "}
+					{t("providers.requesty.info.fullText.part2", "settings")}{" "}
 					<VSCodeLink
 						key="claude"
 						onClick={() => handleModelChange("anthropic/claude-3-7-sonnet-latest")}
 						style={{ display: "inline", fontSize: "inherit" }}>
-						anthropic/claude-3-7-sonnet-latest.
+						{t("providers.requesty.info.recommendedModel", "settings")}
 					</VSCodeLink>
 				</p>
 			)}

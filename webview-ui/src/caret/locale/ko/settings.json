@@ -46,7 +46,7 @@
 	"useDifferentModelsDescription": "계획과 실행 모드 사이를 전환하면 이전 모드에서 사용된 API와 모델이 유지됩니다. 예를 들어, 저렴한 코딩 모델이 실행할 계획을 설계하기 위해 강력한 추론 모델을 사용할 때 유용할 수 있습니다.",
 	"theme": {
 		"dark": "다크 테마",
-		"light": "라이트 테마", 
+		"light": "라이트 테마",
 		"auto": "자동 테마"
 	},
 	"appearance": {
@@ -55,11 +55,12 @@
 		"fontFamily": "폰트 패밀리"
 	},
 	"modelSelector": {
-		"label": "모델"
+		"label": "모델",
+		"selectModelPlaceholder": "모델을 선택하세요..."
 	},
 	"pricing": {
 		"inputPrice": "입력 가격: {{price}}/백만 토큰",
-		"cacheReadPrice": "캐시 읽기 가격: {{price}}/백만 토큰", 
+		"cacheReadPrice": "캐시 읽기 가격: {{price}}/백만 토큰",
 		"outputPriceStandard": "출력 가격 (표준): {{price}}/백만 토큰",
 		"outputPriceReasoning": "출력 가격 (추론 예산 > 0): {{price}}/백만 토큰",
 		"contextWindow": "컨텍스트 윈도우: {{size}}/백만 토큰",
@@ -393,32 +394,28 @@
 		"outputPriceStandard": "출력 가격 (표준)",
 		"outputPriceThinking": "출력 가격 (추론 예산 > 0)",
 		"outputPrice": "출력 가격",
-		"doesNotSupportBrowser": "Does not support browser use",
-		"supportsBrowser": "Supports browser use",
-		"doesNotSupportCache": "Does not support prompt caching",
-		"supportsCache": "Supports prompt caching",
+		"doesNotSupportBrowser": "브라우저 사용 미지원",
+		"supportsBrowser": "브라우저 사용 지원",
+		"doesNotSupportCache": "프롬프트 캐싱 미지원",
+		"supportsCache": "프롬프트 캐싱 지원",
 		"contextWindow": "컨텍스트 윈도우",
 		"cacheWritesPrice": "캐시 쓰기 가격",
 		"cacheReadsPrice": "캐시 읽기 가격",
-		"supportsImagesLabel": "Supports images:",
-		"supportsComputerUseLabel": "Supports computer use:",
-		"supportsCacheLabel": "Supports prompt caching:",
-		"doesNotSupportImagesLabel": "Does not support images:",
-		"doesNotSupportComputerUseLabel": "Does not support computer use:",
-		"doesNotSupportCacheLabel": "Does not support prompt caching:"
-	},
-	"modelSelector": {
-		"label": "모델",
-		"selectModelPlaceholder": "모델을 선택하세요..."
+		"supportsImagesLabel": "이미지 지원:",
+		"supportsComputerUseLabel": "컴퓨터 사용 지원:",
+		"supportsCacheLabel": "프롬프트 캐싱 지원:",
+		"doesNotSupportImagesLabel": "이미지 미지원:",
+		"doesNotSupportComputerUseLabel": "컴퓨터 사용 미지원:",
+		"doesNotSupportCacheLabel": "프롬프트 캐싱 미지원:"
 	},
 	"groqModelPicker": {
 		"modelLabel": "모델",
 		"searchPlaceholder": "모델 검색 및 선택...",
 		"clearSearch": "검색 지우기",
 		"description": {},
-		"fetchModelsDescription": "The extension automatically fetches the latest list of models available on ",
+		"fetchModelsDescription": "확장 프로그램이 다음에서 사용 가능한 최신 모델 목록을 자동으로 가져옵니다: ",
 		"groqLinkText": "Groq.",
-		"unsureModelChoice": "If you're unsure which model to choose, Caret works best with ",
+		"unsureModelChoice": "어떤 모델을 선택할지 확실하지 않다면, Caret은 다음과 함께 가장 잘 작동합니다: ",
 		"recommendedModel": "llama-3.3-70b-versatile."
 	},
 	"huggingFaceModelPicker": {
@@ -700,7 +697,7 @@
 	},
 	"claude": {
 		"systemPrompt": "시스템 프롬프트",
-		"maxTokens": "최대 토큰", 
+		"maxTokens": "최대 토큰",
 		"apiVersion": "API 버전"
 	},
 	"vsCodeLmProvider": {
@@ -757,11 +754,49 @@
 		},
 		"openrouter": {
 			"name": "OpenRouter",
-			"description": "단일 API 키로 다양한 오픈 소스 및 독점 모델에 액세스하세요."
+			"description": "단일 API 키로 다양한 오픈 소스 및 독점 모델에 액세스하세요.",
+			"modelLabel": "모델",
+			"searchPlaceholder": "모델 검색 및 선택...",
+			"clearSearch": "검색 지우기",
+			"switchTo1M": "1M 컨텍스트 창 모델로 전환",
+			"switchTo200K": "200K 컨텍스트 창 모델로 전환",
+			"info": {
+				"fullText": {
+					"part1": "전체 모델 목록을 보려면 ",
+					"part2": "를 방문하세요. 최상의 경험을 위해 ",
+					"part3": " 사용을 권장합니다."
+				},
+				"linkText": "OpenRouter.",
+				"recommendedModel": "anthropic/claude-sonnet-4."
+			},
+			"featured": {
+				"claudeSonnet4": {
+					"description": "Caret의 에이전트 코딩에 권장됩니다",
+					"label": "최고"
+				},
+				"gpt5": {
+					"description": "복잡하고 장기적인 작업을 위한 최첨단 모델",
+					"label": "신규"
+				},
+				"grok": {
+					"description": "복잡한 코딩을 위한 262K 컨텍스트의 고급 모델",
+					"label": "무료"
+				}
+			}
 		},
 		"gemini": {
 			"name": "Google Gemini",
-			"description": "Google의 Gemini 모델 제품군에 액세스하려면 Google AI API를 사용하세요. API 키가 필요합니다."
+			"description": "Google의 Gemini 모델 제품군에 액세스하려면 Google AI API를 사용하세요. API 키가 필요합니다.",
+			"models": {
+				"gemini-2-5-pro-preview-06-05": {
+					"name": "Gemini 2.5 Pro Preview (06-05)",
+					"description": "복잡한 작업과 추론에 최적화된 가장 강력한 모델입니다."
+				},
+				"gemini-2-5-flash-preview-05-20": {
+					"name": "Gemini 2.5 Flash Preview (05-20)",
+					"description": "일반적인 작업에 적합하고 비용 효율적인 빠르고 효율적인 모델입니다."
+				}
+			}
 		},
 		"openai": {
 			"name": "OpenAI 호환",
@@ -789,7 +824,9 @@
 		},
 		"ollama": {
 			"name": "Ollama",
-			"description": "Ollama를 사용하여 컴퓨터에서 로컬로 모델을 실행합니다. 시작하려면 빠른 시작 가이드를 참조하세요."
+			"description": "Ollama를 사용하여 컴퓨터에서 로컬로 모델을 실행합니다. 시작하려면 빠른 시작 가이드를 참조하세요.",
+			"searchPlaceholder": "모델 검색 및 선택...",
+			"clearSearch": "검색 지우기"
 		},
 		"vertex": {
 			"name": "GCP Vertex AI",
@@ -805,7 +842,11 @@
 		},
 		"sapaicore": {
 			"name": "SAP AI Core",
-			"description": "SAP AI Core는 SAP 생태계 내에서 AI 모델을 배포하고 관리하기 위한 서비스입니다."
+			"description": "SAP AI Core는 SAP 생태계 내에서 AI 모델을 배포하고 관리하기 위한 서비스입니다.",
+			"placeholder": "Select a model...",
+			"deployedModels": "── Deployed Models ──",
+			"notDeployedModels": "── Not Deployed Models ──",
+			"modelLabel": "Model"
 		},
 		"mistral": {
 			"name": "Mistral",
@@ -817,7 +858,15 @@
 		},
 		"groq": {
 			"name": "Groq",
-			"description": "Groq는 LPU(언어 처리 장치)를 통해 매우 빠른 추론 속도를 제공합니다."
+			"description": "Groq는 LPU(언어 처리 장치)를 통해 매우 빠른 추론 속도를 제공합니다.",
+			"fetchModelsError": "Groq 모델 새로고침 실패:",
+			"modelLabel": "모델",
+			"searchPlaceholder": "모델 검색 및 선택...",
+			"clearSearch": "검색 지우기",
+			"fetchModelsDescription": "확장 프로그램이 다음에서 사용 가능한 최신 모델 목록을 자동으로 가져옵니다: ",
+			"groqLinkText": "Groq.",
+			"unsureModelChoice": "어떤 모델을 선택할지 확실하지 않다면, Caret은 다음과 함께 가장 잘 작동합니다: ",
+			"recommendedModel": "llama-3.3-70b-versatile."
 		},
 		"cerebras": {
 			"name": "Cerebras",
@@ -829,11 +878,31 @@
 		},
 		"baseten": {
 			"name": "Baseten",
-			"description": "Baseten은 맞춤형 AI 모델을 배포하고 제공하기 위한 플랫폼입니다."
+			"description": "Baseten은 맞춤형 AI 모델을 배포하고 제공하기 위한 플랫폼입니다.",
+			"modelNotStatic": "모델 {{newModelId}}가 정적 basetenModels 목록에 없습니다",
+			"fetchModelsError": "Baseten 모델 새로고침 실패:",
+			"searchPlaceholder": "모델 검색 및 선택...",
+			"clearSearch": "검색 지우기",
+			"infoDescription": "확장 프로그램이 다음에서 사용 가능한 최신 모델 목록을 자동으로 가져옵니다",
+			"infoLinkText": "Baseten.",
+			"unsureWhichModel": "어떤 모델을 선택할지 확실하지 않다면, Caret은 다음과 함께 가장 잘 작동합니다",
+			"recommendedModel": "moonshotai/Kimi-K2-Instruct.",
+			"modelLabel": "모델"
 		},
 		"requesty": {
 			"name": "Requesty",
-			"description": "Requesty는 AI 기반 요청 라우팅 및 관리를 위한 플랫폼입니다."
+			"description": "Requesty는 AI 기반 요청 라우팅 및 관리를 위한 플랫폼입니다.",
+			"modelLabel": "모델",
+			"searchPlaceholder": "모델 검색 및 선택...",
+			"clearSearch": "검색 지우기",
+			"info": {
+				"fullText": {
+					"part1": "확장 프로그램이 다음에서 사용 가능한 최신 모델 목록을 자동으로 가져옵니다",
+					"part2": "어떤 모델을 선택할지 확실하지 않다면, Caret은 다음과 함께 가장 잘 작동합니다"
+				},
+				"linkText": "Requesty.",
+				"recommendedModel": "anthropic/claude-3-7-sonnet-latest."
+			}
 		},
 		"fireworks": {
 			"name": "Fireworks AI",
@@ -865,7 +934,11 @@
 		},
 		"huggingface": {
 			"name": "Hugging Face",
-			"description": "Hugging Face는 다양한 오픈 소스 모델에 대한 추론 API를 제공합니다."
+			"description": "Hugging Face는 다양한 오픈 소스 모델에 대한 추론 API를 제공합니다.",
+			"fetchModelsError": "Hugging Face 모델 새로고침 실패:",
+			"modelLabel": "모델",
+			"searchPlaceholder": "모델 검색...",
+			"clearSearch": "검색 지우기"
 		},
 		"nebius": {
 			"name": "Nebius AI Studio",
@@ -973,21 +1046,30 @@
 		"modelIdPlaceholder": "예: anthropic/claude-sonnet-4-20250514",
 		"usePromptCachingLabel": "프롬프트 캐싱 사용 (GA)",
 		"modelConfigurationLabel": "모델 구성",
-		"baseUrlLabel": "Base URL (optional)",
-		"apiKeyLabel": "API Key",
-		"modelIdLabel": "Model ID",
-		"promptCachingHelpText": "Prompt caching requires a supported provider and model",
-		"extendedThinkingHelpText": "Extended thinking is available for models such as Sonnet-4, o3-mini, Deepseek R1, etc. More info on",
-		"thinkingModeConfigurationLinkText": "thinking mode configuration",
-		"supportsImagesLabel": "Supports Images",
+		"baseUrlLabel": "기본 URL (선택 사항)",
+		"apiKeyLabel": "API 키",
+		"modelIdLabel": "모델 ID",
+		"promptCachingHelpText": "프롬프트 캐싱을 사용하려면 지원되는 제공자와 모델이 필요합니다.",
+		"extendedThinkingHelpText": "Sonnet-4, o3-mini, Deepseek R1 등과 같은 모델에서 확장된 사고를 사용할 수 있습니다. 자세한 내용은 ",
+		"thinkingModeConfigurationLinkText": "사고 모드 구성",
+		"supportsImagesLabel": "이미지 지원",
 		"contextWindowSizeLabel": "컨텍스트 윈도우 크기",
-		"maxOutputTokensLabel": "Max Output Tokens",
-		"temperatureLabel": "Temperature",
-		"unifiedInterfaceHelpText": "LiteLLM provides a unified interface to access various LLM providers' models. See their",
-		"quickstartGuideLinkText": "quickstart guide",
-		"forMoreInformationText": "for more information."
+		"maxOutputTokensLabel": "최대 출력 토큰",
+		"temperatureLabel": "온도",
+		"unifiedInterfaceHelpText": "LiteLLM은 다양한 LLM 제공업체의 모델에 액세스할 수 있는 통합 인터페이스를 제공합니다. 자세한 내용은 ",
+		"quickstartGuideLinkText": "빠른 시작 가이드",
+		"forMoreInformationText": "를 참조하세요."
 	},
 	"api-configuration": {
 		"title": "API Configuration"
+	},
+	"thinkingBudget": {
+		"enable": "사고 예산 활성화",
+		"budgetText": {
+			"part1": "예산: ",
+			"part2": "{{value}} 토큰"
+		},
+		"ariaLabel": "사고 예산: {{value}} 토큰",
+		"description": "모델이 확장된 사고에 사용할 토큰 예산을 설정합니다. 이를 통해 복잡한 작업에 대한 더 깊은 분석이 가능하지만 응답 시간과 비용이 증가할 수 있습니다."
 	}
 }

@@ -11,7 +11,15 @@
 		"setupApiOrLocal": "设置我的 API 密钥或本地 LLM",
 		"notifyCaretAccount": "通知我 Caret 订阅信息",
 		"saveAndStart": "保存并开始",
-		"startNewTaskWithContext": "使用上下文启动新任务"
+		"startNewTaskWithContext": "使用上下文启动新任务",
+		"retry": "Retry",
+		"approve": "Approve",
+		"proceed": "Proceed",
+		"proceedAnyways": "Proceed Anyways",
+		"proceedWhileRunning": "Proceed While Running",
+		"resumeTask": "Resume Task",
+		"condenseConversation": "Condense Conversation",
+		"reportGitHubIssue": "Report GitHub Issue"
 	},
 	"error": {
 		"generic": "发生了错误。",

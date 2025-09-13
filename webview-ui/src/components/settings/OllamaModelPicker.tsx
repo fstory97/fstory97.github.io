@@ -134,7 +134,7 @@ const OllamaModelPicker: React.FC<OllamaModelPickerProps> = ({ ollamaModels, sel
 						setIsDropdownVisible(true)
 					}}
 					onKeyDown={handleKeyDown}
-					placeholder={placeholder || t("settings.ollamaModelPicker.searchPlaceholder")}
+					placeholder={placeholder || t("providers.ollama.searchPlaceholder", "settings")}
 					style={{
 						width: "100%",
 						zIndex: OLLAMA_MODEL_PICKER_Z_INDEX,
@@ -143,7 +143,7 @@ const OllamaModelPicker: React.FC<OllamaModelPickerProps> = ({ ollamaModels, sel
 					value={searchTerm}>
 					{searchTerm && (
 						<div
-							aria-label={t("settings.ollamaModelPicker.clearSearch")}
+							aria-label={t("providers.ollama.clearSearch", "settings")}
 							className="input-icon-button codicon codicon-close"
 							onClick={() => {
 								handleModelChange("")
