@@ -206,7 +206,7 @@
 		"action": {
 			"launch": "启动浏览器：{{text}}",
 			"click": "点击 ({{coordinate}})",
-			"type": "输入："{{text}}"",
+			"type": "输入：{{text}}",
 			"scrollDown": "向下滚动",
 			"scrollUp": "向上滚动",
 			"close": "关闭浏览器"
@@ -353,7 +353,7 @@
 	"modelPicker": {
 		"extensionFetches": "扩展程序自动从以下位置获取可用的最新模型列表：",
 		"unsureWhichModel": "如果您不确定要选择哪个模型，Caret 最适合：",
-		"freeOptions": "要查找当前可用的免费选项，请尝试搜索"free"。",
+		"freeOptions": "要查找当前可用的免费选项，请尝试搜索 free。",
 		"seeMore": "查看更多"
 	},
 	"apiOptions": {
@@ -442,7 +442,7 @@
 		"openRouterLinkText": "OpenRouter.",
 		"unsureModelChoice": "如果您不确定要选择哪个模型，Caret 最适合：",
 		"recommendedModel": "anthropic/claude-sonnet-4.",
-		"searchFreeOptions": "要查找当前可用的免费选项，请尝试搜索"free"。"
+		"searchFreeOptions": "要查找当前可用的免费选项，请尝试搜索 free。"
 	},
 	"preferredLanguageSetting": {
 		"english": "🇺🇸 英语",
@@ -485,7 +485,7 @@
 		"modelLabel": "模型",
 		"selectModelPlaceholder": "选择一个模型...",
 		"customModelOption": "自定义",
-		"customModelDescription": "在 Bedrock 中使用应用程序推理配置文件时选择"自定义"。在模型 ID 字段中输入应用程序推理配置文件 ARN。",
+		"customModelDescription": "在 Bedrock 中使用应用程序推理配置文件时选择 自定义。在模型 ID 字段中输入应用程序推理配置文件 ARN。",
 		"customModelIdPlaceholder": "输入自定义模型 ID...",
 		"modelIdLabel": "模型 ID",
 		"baseInferenceModelLabel": "基础推理模型",

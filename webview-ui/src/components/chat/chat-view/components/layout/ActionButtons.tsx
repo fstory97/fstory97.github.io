@@ -122,9 +122,8 @@ export const ActionButtons: React.FC<ActionButtonsProps> = ({
 					className={`${secondaryButtonText ? "flex-1 mr-[6px]" : "flex-[2]"}`}
 					disabled={!enableButtons}
 					onClick={() => {
-						if (primaryAction === "new_task") {
-							messageHandlers.startNewTask()
-						} else if (primaryAction) {
+						// CARET MODIFICATION: Always use executeButtonAction for consistent handling including new_task
+						if (primaryAction) {
 							messageHandlers.executeButtonAction(primaryAction, inputValue, selectedImages, selectedFiles)
 						}
 					}}>

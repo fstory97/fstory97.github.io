@@ -174,19 +174,42 @@ export function useMessageHandlers(messages: ClineMessage[], chatState: ChatStat
 				case "new_task":
 					// CARET MODIFICATION: Include completion_result to enable "New Task with Context" in agent mode
 					if (clineAsk === "new_task" || clineAsk === "completion_result") {
-						console.info("new task button clicked!", {
+						// Build context text from last AI message or use provided text
+						let contextText = ""
+
+						// If there's input text, use it
+						if (trimmedInput) {
+							contextText = trimmedInput
+						}
+						// Otherwise, find the last AI message to use as context
+						else {
+							// CARET MODIFICATION: Find last AI task message for context
+							const lastAIMessage = [...messages].reverse().find((msg) => msg.type === "say" && msg.say === "task")
+							if (lastAIMessage?.text) {
+								contextText = `[Previous context]\n${lastAIMessage.text}\n[/Previous context]\n\n`
+							}
+						}
+
+						console.info("new task with context button clicked!", {
+							contextText,
 							lastMessage,
 							messages,
 							clineAsk,
 							text,
 						})
-						await TaskServiceClient.newTask(
-							NewTaskRequest.create({
-								text: lastMessage?.text,
-								images: [],
-								files: [],
-							}),
-						)
+
+						if (contextText) {
+							await TaskServiceClient.newTask(
+								NewTaskRequest.create({
+									text: contextText,
+									images: images || [],
+									files: files || [],
+								}),
+							)
+						} else {
+							// If no context available, just start a new task
+							await startNewTask()
+						}
 					} else {
 						await startNewTask()
 					}

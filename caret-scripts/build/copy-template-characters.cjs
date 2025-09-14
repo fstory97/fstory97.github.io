@@ -11,7 +11,7 @@ const path = require("path")
 
 const projectRoot = path.resolve(__dirname, "..", "..")
 const sourceFile = path.join(projectRoot, "assets", "template_characters", "template_characters.json")
-const targetDir = path.join(__dirname, "..", "src", "caret", "assets", "persona")
+const targetDir = path.join(projectRoot, "webview-ui", "src", "caret", "assets", "persona")
 const targetFile = path.join(targetDir, "template_characters.json")
 
 try {
