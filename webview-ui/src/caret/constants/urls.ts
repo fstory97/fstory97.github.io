@@ -46,6 +46,18 @@ export const CARET_LOCALIZED_URLS = {
 		ja: "https://github.com/aicoding-caret/caret/blob/main/caret-docs/development/support-model-list.ja.mdx",
 		zh: "https://github.com/aicoding-caret/caret/blob/main/caret-docs/development/support-model-list.zh.mdx",
 	},
+	REMOTE_MCP_SERVER_DOCS: {
+		ko: "https://docs.caret.team/ko/mcp/connecting-to-a-remote-server",
+		en: "https://docs.caret.team/en/mcp/connecting-to-a-remote-server",
+		ja: "https://docs.caret.team/ja/mcp/connecting-to-a-remote-server",
+		zh: "https://docs.caret.team/zh/mcp/connecting-to-a-remote-server",
+	},
+	LOCAL_MCP_SERVER_DOCS: {
+		ko: "https://docs.caret.team/ko/mcp/configuring-mcp-servers#editing-mcp-settings-files",
+		en: "https://docs.caret.team/en/mcp/configuring-mcp-servers#editing-mcp-settings-files",
+		ja: "https://docs.caret.team/ja/mcp/configuring-mcp-servers#editing-mcp-settings-files",
+		zh: "https://docs.caret.team/zh/mcp/configuring-mcp-servers#editing-mcp-settings-files",
+	},
 }
 
 export type SupportedLanguage = "ko" | "en" | "ja" | "zh"

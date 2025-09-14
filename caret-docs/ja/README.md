@@ -31,7 +31,7 @@
     <a href="https://marketplace.visualstudio.com/items?itemName=caretive.caret" style="background: #007ACC; color: white; padding: 12px 24px; text-decoration: none; border-radius: 6px; font-weight: bold; display: inline-block; margin: 8px;">
       📥 VS Codeでインストール
     </a>
-    <a href="https://docs.caret.team/ja/" style="background: #28a745; color: white; padding: 12px 24px; text-decoration: none; border-radius: 6px; font-weight: bold; display: inline-block; margin: 8px;">
+    <a href="https://docs.caret.team/ja/getting-started/what-is-caret" style="background: #28a745; color: white; padding: 12px 24px; text-decoration: none; border-radius: 6px; font-weight: bold; display: inline-block; margin: 8px;">
       📖 使用ガイド
     </a>
   </p>

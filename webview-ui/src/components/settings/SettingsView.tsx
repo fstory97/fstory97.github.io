@@ -6,7 +6,6 @@ import { CheckCheck, FlaskConical, Info, LucideIcon, Settings, SquareMousePointe
 import { useCallback, useEffect, useMemo, useRef, useState } from "react"
 import { useEvent } from "react-use"
 // CARET MODIFICATION: Import CaretFooter for About tab
-import CaretFooter from "@/caret/components/CaretFooter"
 // CARET MODIFICATION: Import i18n context for language reactivity
 import { useCaretI18nContext } from "@/caret/context/CaretI18nContext"
 import { t } from "@/caret/utils/i18n"
@@ -15,6 +14,7 @@ import { useExtensionState } from "@/context/ExtensionStateContext"
 import { StateServiceClient } from "@/services/grpc-client"
 import { Tab, TabContent, TabHeader, TabList, TabTrigger } from "../common/Tab"
 import SectionHeader from "./SectionHeader"
+import AboutSection from "./sections/AboutSection"
 import ApiConfigurationSection from "./sections/ApiConfigurationSection"
 import BrowserSettingsSection from "./sections/BrowserSettingsSection"
 import DebugSection from "./sections/DebugSection"
@@ -321,12 +321,7 @@ const SettingsView = ({ onDone, targetSection }: SettingsViewProps) => {
 
 							{/* About Tab */}
 							{activeTab === "about" && (
-								<div>
-									{renderSectionHeader("about")}
-									<div className="mt-6 pt-4">
-										<CaretFooter />
-									</div>
-								</div>
+								<AboutSection renderSectionHeader={renderSectionHeader} version={version} />
 							)}
 						</TabContent>
 					)

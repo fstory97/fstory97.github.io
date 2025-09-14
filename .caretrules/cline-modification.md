@@ -16,26 +16,15 @@ You are safely modifying Cline original files using the atomic workflow combinat
 - [ ] Must be Level 2 (minimal Cline change)? → Continue workflow
 - [ ] Requires Level 3 (major change)? → Requires full documentation
 
-### Step 2: Backup Creation (`/backup-protocol`)
-```bash
-# Check if backup already exists
-ls filename.ext.cline
-
-# If no backup exists, create one
-cp filename.ext filename.ext.cline
-
-# NEVER overwrite existing .cline backups
-```
-
 ## Modification Phase
 
-### Step 3: Minimal Modification  
+### Step 2: Minimal Modification
 **Apply Level 2 constraints:**
 - Maximum 1-3 lines per file
 - Complete replacement, never comment out old code
 - Focus on integration points only
 
-### Step 4: Comment Addition (`/comment-protocol`)
+### Step 3: Comment Addition (`/comment-protocol`)
 ```typescript
 // CARET MODIFICATION: [Clear description of what and why]
 const caretIntegration = new CaretFeature();
@@ -48,7 +37,7 @@ const caretIntegration = new CaretFeature();
 
 ## Post-Modification Phase
 
-### Step 5: Verification Sequence (`/verification-steps`)
+### Step 4: Verification Sequence (`/verification-steps`)
 ```bash
 # 1. Test (if applicable)
 npm run test:webview  # For webview changes
@@ -60,7 +49,7 @@ npm run compile
 npm run watch  # Then F5 to test extension
 ```
 
-### Step 6: Validation Checklist
+### Step 5: Validation Checklist
 - [ ] Extension loads without errors
 - [ ] New functionality works as expected
 - [ ] Existing Cline functionality unaffected
@@ -89,7 +78,7 @@ cp filename.ext.cline filename.ext
 // Example: Adding Caret provider integration to extension.ts
 
 // 1. Level Assessment: Must integrate with Cline activation → Level 2
-// 2. Backup: cp src/extension.ts src/extension.ts.cline  
+// 2. Comment: Add // CARET MODIFICATION comment
 // 3. Minimal modification:
 
 export async function activate(context: vscode.ExtensionContext) {

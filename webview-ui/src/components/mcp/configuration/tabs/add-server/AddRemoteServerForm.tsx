@@ -3,8 +3,8 @@ import { AddRemoteMcpServerRequest, McpServers } from "@shared/proto/cline/mcp"
 import { convertProtoMcpServersToMcpServers } from "@shared/proto-conversions/mcp/mcp-server-conversion"
 import { VSCodeButton, VSCodeLink, VSCodeTextField } from "@vscode/webview-ui-toolkit/react"
 import { useState } from "react"
-import { t } from "@/caret/utils/i18n"
-import { LINKS } from "@/constants"
+import { getLocalizedUrl } from "@/caret/constants/urls"
+import { getCurrentLanguage, t } from "@/caret/utils/i18n"
 import { useExtensionState } from "@/context/ExtensionStateContext"
 import { McpServiceClient } from "@/services/grpc-client"
 
@@ -68,7 +68,7 @@ const AddRemoteServerForm = ({ onServerAdded }: { onServerAdded: () => void }) =
 		<div className="p-4 px-5">
 			<div className="text-[var(--vscode-foreground)] mb-2">
 				{t("addRemoteServerForm.addRemoteServerDescription", "chat")}{" "}
-				<VSCodeLink href={LINKS.DOCUMENTATION.REMOTE_MCP_SERVER_DOCS} style={{ display: "inline" }}>
+				<VSCodeLink href={getLocalizedUrl("REMOTE_MCP_SERVER_DOCS", getCurrentLanguage())} style={{ display: "inline" }}>
 					{t("addRemoteServerForm.here", "chat")}
 				</VSCodeLink>
 			</div>

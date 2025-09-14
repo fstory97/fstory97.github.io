@@ -32,7 +32,7 @@
     <a href="https://marketplace.visualstudio.com/items?itemName=caretive.caret" style="background: #007ACC; color: white; padding: 12px 24px; text-decoration: none; border-radius: 6px; font-weight: bold; display: inline-block; margin: 8px;">
       📥 在VS Code中立即安装
     </a>
-    <a href="https://docs.caret.team/zh-Hans/" style="background: #28a745; color: white; padding: 12px 24px; text-decoration: none; border-radius: 6px; font-weight: bold; display: inline-block; margin: 8px;">
+    <a href="https://docs.caret.team/zh-Hans/getting-started/what-is-caret" style="background: #28a745; color: white; padding: 12px 24px; text-decoration: none; border-radius: 6px; font-weight: bold; display: inline-block; margin: 8px;">
       📖 使用指南
     </a>
   </p>

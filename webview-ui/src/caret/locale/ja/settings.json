@@ -54,8 +54,8 @@
 			"description": "Caretがコミュニケーションに使用する言語を選択してください。"
 		},
 		"unifiedLanguage": {
-			"label": "Language",
-			"description": "Set language for AI responses and interface. Languages with 🎨 support both AI and UI."
+			"label": "言語",
+			"description": "AI応答と言語のインターフェースを設定します。🎨の言語はAIとUIの両方をサポートします。"
 		}
 	},
 	"buttons": {
@@ -112,9 +112,15 @@
 			"title": "Caret情報",
 			"description": "Caretのバージョン情報とライセンスを確認します。",
 			"link": "https://github.com/aicoding-caret/caret"
-		},
-		"launchingBrowser": "ブラウザ起動中...",
-		"discardChanges": "変更を破棄"
+		}
+	},
+	"about": {
+		"feedbackPrompt": "ご質問やフィードバックはいつでも歓迎します。",
+		"version": "バージョン",
+		"title": "情報",
+		"description": "Caretのバージョン情報とライセンスを確認します。",
+		"documentation": "ドキュメンテーション",
+		"documentation_detailed": "詳細なユーザーマニュアル"
 	},
 	"labels": {
 		"version": "バージョン",
@@ -166,22 +172,22 @@
 			"scrollUp": "上にスクロール",
 			"close": "ブラウザを閉じる"
 		},
-		"disableToolUseDescription": "Prevent Caret from using browser actions (e.g. launch, click, type).",
-		"viewportSize": "Viewport size",
-		"viewportSizeDescription": "Set the size of the browser viewport for screenshots and interactions.",
-		"useRemoteConnection": "Use remote browser connection",
-		"remoteConnectionDescription1": "Enable Caret to use your Chrome",
-		"chromeNotDetected": "(not detected on your machine)",
-		"remoteConnectionDescription2": ". You can specify a custom path below. Using a remote browser connection requires starting Chrome in debug mode",
-		"remoteConnectionDescription3": "manually (`--remote-debugging-port=9222`) or using the button below. Enter the host address or leave it blank for automatic discovery.",
-		"launchBrowserDebug": "Launch Browser with Debug Mode",
-		"launchingBrowser": "Launching Browser...",
-		"chromePathOptional": "Chrome Executable Path (Optional)",
-		"chromePathPlaceholder": "e.g., /usr/bin/google-chrome or C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe",
-		"chromePathDescription": "Leave blank to auto-detect.",
-		"customArgsOptional": "Custom Browser Arguments (Optional)",
-		"customArgsPlaceholder": "e.g., --no-sandbox --disable-setuid-sandbox",
-		"customArgsDescription": "Space-separated arguments to pass to the browser executable."
+		"disableToolUseDescription": "Caretがブラウザアクション（起動、クリック、入力など）を使用するのを防ぎます。",
+		"viewportSize": "ビューポートサイズ",
+		"viewportSizeDescription": "スクリーンショットとインタラクションのためのブラウザビューポートのサイズを設定します。",
+		"useRemoteConnection": "リモートブラウザ接続を使用する",
+		"remoteConnectionDescription1": "CaretがChromeを使用できるようにします",
+		"chromeNotDetected": "(お使いのPCでは検出されませんでした)",
+		"remoteConnectionDescription2": "。カスタムパスは以下で指定できます。リモートブラウザ接続を使用するには、Chromeをデバッグモードで起動する必要があります",
+		"remoteConnectionDescription3": "手動で (`--remote-debugging-port=9222`) または下のボタンを使用して起動します。ホストアドレスを入力するか、自動検出のために空白のままにしてください。",
+		"launchBrowserDebug": "デバッグモードでブラウザを起動",
+		"launchingBrowser": "ブラウザ起動中...",
+		"chromePathOptional": "Chrome実行ファイルのパス (オプション)",
+		"chromePathPlaceholder": "例: /usr/bin/google-chrome または C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe",
+		"chromePathDescription": "自動検出のために空白のままにしてください。",
+		"customArgsOptional": "カスタムブラウザ引数 (オプション)",
+		"customArgsPlaceholder": "例: --no-sandbox --disable-setuid-sandbox",
+		"customArgsDescription": "ブラウザ実行可能ファイルに渡すスペース区切りの引数。"
 	},
 	"terminal": {
 		"defaultProfile": "デフォルトのターミナルプロファイル",
@@ -194,11 +200,11 @@
 		"positiveNumberError": "正の数を入力してください。",
 		"outputLimit": "ターミナル出力制限",
 		"outputLimitDescription": "コマンドを実行するときにターミナル出力に含める最大行数です。この数を超えると、トークンを節約するために中間の行が削除されます。",
-		"issuesTitle": "Having terminal issues?",
-		"checkOur": "Check our",
-		"quickFixesLink": "Terminal Quick Fixes",
-		"orThe": "or the",
-		"troubleshootingGuideLink": "Complete Troubleshooting Guide"
+		"issuesTitle": "ターミナルに問題がありますか？",
+		"checkOur": "こちらを確認してください",
+		"quickFixesLink": "ターミナルのクイック修正",
+		"orThe": "または",
+		"troubleshootingGuideLink": "完全なトラブルシューティングガイド"
 	},
 	"features": {
 		"enableCheckpoints": "チェックポイントを有効にする",
@@ -216,17 +222,17 @@
 			"medium": "中",
 			"high": "高"
 		},
-		"mcpDisplayMode": "MCP Display Mode",
-		"mcpDisplayModeDescription": "Controls how MCP responses are displayed: plain text, rich formatting with links/images, or markdown rendering.",
-		"strictPlanMode": "Enable strict plan mode",
-		"strictPlanModeDescription": "Enforces strict tool use while in plan mode, preventing file edits.",
-		"focusChain": "Enable Focus Chain",
-		"focusChainDescription": "Enables enhanced task progress tracking and automatic focus chain list management throughout tasks.",
-		"focusChainReminderInterval": "Focus Chain Reminder Interval",
-		"focusChainReminderIntervalDescription": "Interval (in messages) to remind Caret about its focus chain checklist (1-100). Lower values provide more frequent reminders.",
-		"autoCompact": "Enable Auto Compact",
-		"autoCompactDescription": "Enables advanced context management system which uses LLM based condensing for next-gen models.",
-		"learnMore": "Learn more"
+		"mcpDisplayMode": "MCP表示モード",
+		"mcpDisplayModeDescription": "MCP応答の表示方法を制御します: プレーンテキスト、リンク/画像を含むリッチフォーマット、またはマークダウンレンダリング。",
+		"strictPlanMode": "厳格なプランモードを有効にする",
+		"strictPlanModeDescription": "プランモード中に厳格なツール使用を強制し、ファイル編集を防ぎます。",
+		"focusChain": "フォーカスチェーンを有効にする",
+		"focusChainDescription": "タスク全体で強化されたタスク進捗追跡と自動フォーカスチェーンリスト管理を有効にします。",
+		"focusChainReminderInterval": "フォーカスチェーンリマインダー間隔",
+		"focusChainReminderIntervalDescription": "Caretにフォーカスチェーンチェックリストをリマインドする間隔（メッセージ単位、1-100）。値が小さいほど頻繁にリマインドされます。",
+		"autoCompact": "自動コンパクトを有効にする",
+		"autoCompactDescription": "LLMベースの凝縮を使用した次世代モデルの高度なコンテキスト管理システムを有効にします。",
+		"learnMore": "詳細はこちら"
 	},
 	"autoApprove": {
 		"title": "自動承認設定",
@@ -315,7 +321,8 @@
 		"feedbackPrompt": "ご質問やフィードバックはいつでも歓迎します。",
 		"version": "バージョン",
 		"title": "情報",
-		"description": "Caretのバージョン情報とライセンスを確認します。"
+		"description": "Caretのバージョン情報とライセンスを確認します。",
+		"documentation": "ドキュメンテーション"
 	},
 	"modelPicker": {
 		"extensionFetches": "拡張機能は、利用可能な最新のモデルリストを自動的に取得します: ",
@@ -332,7 +339,7 @@
 	"clineAccountInfoCard": {
 		"viewBillingAndUsage": "請求と使用量を表示",
 		"signUpWithCline": "Caretでサインアップ",
-		"loginError": "Failed to get login URL:"
+		"loginError": "ログインURLの取得に失敗しました:"
 	},
 	"apiKeyField": {
 		"placeholder": "APIキーを入力してください...",
@@ -355,23 +362,23 @@
 		"contextWindowLabel": "コンテキストウィンドウ:",
 		"cacheWritesPriceLabel": "キャッシュ書き込み価格:",
 		"cacheReadsPriceLabel": "キャッシュ読み取り価格:",
-		"inputPrice": "Input price",
-		"outputPriceStandard": "Output price (Standard)",
-		"outputPriceThinking": "Output price (Thinking Budget > 0)",
-		"outputPrice": "Output price",
-		"doesNotSupportBrowser": "Does not support browser use",
-		"supportsBrowser": "Supports browser use",
-		"doesNotSupportCache": "Does not support prompt caching",
-		"supportsCache": "Supports prompt caching",
-		"contextWindow": "Context Window",
-		"cacheWritesPrice": "Cache writes price",
-		"cacheReadsPrice": "Cache reads price",
-		"supportsImagesLabel": "Supports images:",
-		"supportsComputerUseLabel": "Supports computer use:",
-		"supportsCacheLabel": "Supports prompt caching:",
-		"doesNotSupportImagesLabel": "Does not support images:",
-		"doesNotSupportComputerUseLabel": "Does not support computer use:",
-		"doesNotSupportCacheLabel": "Does not support prompt caching:"
+		"inputPrice": "入力価格",
+		"outputPriceStandard": "出力価格 (標準)",
+		"outputPriceThinking": "出力価格 (思考予算 > 0)",
+		"outputPrice": "出力価格",
+		"doesNotSupportBrowser": "ブラウザ使用をサポートしていません",
+		"supportsBrowser": "ブラウザ使用をサポート",
+		"doesNotSupportCache": "プロンプトキャッシュをサポートしていません",
+		"supportsCache": "プロンプトキャッシュをサポート",
+		"contextWindow": "コンテキストウィンドウ",
+		"cacheWritesPrice": "キャッシュ書き込み価格",
+		"cacheReadsPrice": "キャッシュ読み取り価格",
+		"supportsImagesLabel": "画像をサポート:",
+		"supportsComputerUseLabel": "コンピュータ使用をサポート:",
+		"supportsCacheLabel": "プロンプトキャッシュをサポート:",
+		"doesNotSupportImagesLabel": "画像をサポートしていません:",
+		"doesNotSupportComputerUseLabel": "コンピュータ使用をサポートしていません:",
+		"doesNotSupportCacheLabel": "プロンプトキャッシュをサポートしていません:"
 	},
 	"modelSelector": {
 		"label": "モデル",
@@ -428,8 +435,8 @@
 	"askSageProvider": {
 		"apiUrlPlaceholder": "AskSage API URLを入力してください...",
 		"apiUrlLabel": "AskSage API URL",
-		"apiKeyHelpText": "This key is stored locally and only used to make API requests from this extension.",
-		"modelLabel": "Model"
+		"apiKeyHelpText": "このキーはローカルに保存され、この拡張機能からのAPIリクエストのためにのみ使用されます。",
+		"modelLabel": "モデル"
 	},
 	"bedrockProvider": {
 		"apiKey": "APIキー",
@@ -575,7 +582,7 @@
 		"temperatureLabel": "温度",
 		"notePrefix": "注意:",
 		"noteText": "Caretは複雑なプロンプトを使用し、Claudeモデルと最も良く動作します。能力の低いモデルは期待通りに動作しない場合があります。",
-		"refreshModelsError": "Failed to refresh OpenAI models:",
+		"refreshModelsError": "OpenAIモデルの更新に失敗しました:",
 		"providerName": "OpenAI Compatible"
 	},
 	"openRouterProvider": {
@@ -597,7 +604,7 @@
 		"priceSortingDescription": "プロバイダーを価格でソートし、最も低コストのプロバイダーを優先します。",
 		"throughputSortingDescription": "プロバイダーをスループットでソートし、最も高いスループットのプロバイダーを優先します（コストが増加する場合があります）。",
 		"latencySortingDescription": "プロバイダーを応答時間でソートし、最も低いレイテンシのプロバイダーを優先します。",
-		"authError": "Failed to open OpenRouter auth:"
+		"authError": "OpenRouter認証の開始に失敗しました:"
 	},
 	"qwenCodeProvider": {
 		"apiConfigurationTitle": "Qwen Code API設定",
@@ -612,12 +619,12 @@
 		"setupInstructionsLinkText": "設定手順"
 	},
 	"qwenProvider": {
-		"apiLineLabel": "Alibaba API Line",
-		"apiLineDescription": "Please select the appropriate API interface based on your location. If you are in China, choose the China API interface. Otherwise, choose the International API interface.",
+		"apiLineLabel": "Alibaba APIライン",
+		"apiLineDescription": "場所に基づいて適切なAPIインターフェースを選択してください。中国にいる場合は中国APIインターフェースを選択してください。それ以外の場合は国際APIインターフェースを選択してください。",
 		"providerName": "Qwen",
 		"apiLineOptions": {
-			"international": "International API",
-			"china": "China API"
+			"international": "国際API",
+			"china": "中国API"
 		}
 	},
 	"requestyProvider": {
@@ -651,10 +658,10 @@
 		"modelFetchError": "モデルの取得に失敗しました。設定を確認してください。",
 		"noModelsFound": "SAP AI Coreサービスインスタンスからモデルを取得できません。SAP AI Core設定を確認するか、デプロイメントがサービスインスタンスにデプロイされて実行中であることを確認してください。",
 		"configureCredentialsPrompt": "利用可能なモデルを表示するには、SAP AI Core認証情報を構成してください。",
-		"fetchModelsErrorLog": "Error fetching SAP AI Core models:",
-		"clientIdPlaceholder": "Enter AI Core Client Id...",
-		"retryButton": "Retry",
-		"selectModelPlaceholder": "Select a model..."
+		"fetchModelsErrorLog": "SAP AI Coreモデルの取得に失敗しました:",
+		"clientIdPlaceholder": "AI CoreクライアントIDを入力...",
+		"retryButton": "再試行",
+		"selectModelPlaceholder": "モデルを選択してください..."
 	},
 	"togetherProvider": {
 		"name": "Together",
@@ -671,7 +678,7 @@
 		"modelIdLabel": "モデルID",
 		"fetchModelsError": "Vercel AI Gatewayからモデルを取得できません。",
 		"noteText": "注意: 無料ティアユーザーは、これらのリクエストはVercel AI Gatewayによって無料で提供されるため、コストが0と表示されます。",
-		"fetchModelsErrorLog": "Failed to fetch Vercel AI Gateway models:"
+		"fetchModelsErrorLog": "Vercel AI Gatewayモデルの取得に失敗しました:"
 	},
 	"vertexProvider": {
 		"projectIdPlaceholder": "プロジェクトIDを入力してください...",
@@ -692,7 +699,7 @@
 	},
 	"claude": {
 		"systemPrompt": "システムプロンプト",
-		"maxTokens": "最大トークン", 
+		"maxTokens": "最大トークン",
 		"apiVersion": "APIバージョン"
 	},
 	"vsCodeLmProvider": {
@@ -710,10 +717,10 @@
 		"reasoningEffortLabel": "推論の努力",
 		"reasoningEffortDescription": "高い努力は、より徹底的な分析を生成する可能性がありますが、時間がかかり、より多くのトークンを使用します。",
 		"providerName": "xAI",
-		"modifyReasoningEffort": "Modify reasoning effort",
+		"modifyReasoningEffort": "推論の努力を変更",
 		"reasoningEffortOptions": {
-			"low": "low",
-			"high": "high"
+			"low": "低",
+			"high": "高"
 		}
 	},
 	"zaiProvider": {
@@ -747,13 +754,13 @@
 		"visit": "訪問:",
 		"getApiKey": "でサインアップしてAPIキーを取得してください。"
 	},
-	"planMode": "Plan Mode",
-	"actMode": "Act Mode",
-	"useDifferentModels": "Use different models for Plan and Act modes",
-	"useDifferentModelsDescription": "Switching between Plan and Act mode will persist the API and model used in the previous mode. This may be helpful e.g. when using a strong reasoning model to architect a plan for a cheaper coding model to act on.",
+	"planMode": "プランモード",
+	"actMode": "アクトモード",
+	"useDifferentModels": "プランモードとアクトモードで異なるモデルを使用する",
+	"useDifferentModelsDescription": "プランモードとアクトモードを切り替えると、以前のモードで使用されたAPIとモデルが保持されます。これは、強力な推論モデルを使用して計画を立て、安価なコーディングモデルで実行する場合などに役立ちます。",
 	"theme": {
 		"dark": "ダークテーマ",
-		"light": "ライトテーマ", 
+		"light": "ライトテーマ",
 		"auto": "自動テーマ"
 	},
 	"appearance": {
@@ -766,7 +773,7 @@
 	},
 	"pricing": {
 		"inputPrice": "入力価格: {{price}}/百万トークン",
-		"cacheReadPrice": "キャッシュ読み取り価格: {{price}}/百万トークン", 
+		"cacheReadPrice": "キャッシュ読み取り価格: {{price}}/百万トークン",
 		"outputPriceStandard": "出力価格 (標準): {{price}}/百万トークン",
 		"outputPriceReasoning": "出力価格 (推論予算 > 0): {{price}}/百万トークン",
 		"contextWindow": "コンテキストウィンドウ: {{size}}/百万トークン",
@@ -778,56 +785,56 @@
 		"contextWindow": "コンテキストウィンドウ: {{size}}"
 	},
 	"basetenModelPicker": {
-		"modelNotStatic": "Model {{newModelId}} is not in the static basetenModels list",
-		"fetchModelsError": "Failed to refresh Baseten models:",
-		"searchPlaceholder": "Search and select a model...",
-		"clearSearch": "Clear search",
-		"description": "The extension automatically fetches the latest list of models available on",
+		"modelNotStatic": "モデル {{newModelId}} は静的basetenModelsリストにありません",
+		"fetchModelsError": "Basetenモデルの更新に失敗しました:",
+		"searchPlaceholder": "モデルを検索して選択...",
+		"clearSearch": "検索をクリア",
+		"description": "拡張機能は、利用可能な最新のモデルリストを自動的に取得します",
 		"recommendedModel": "moonshotai/Kimi-K2-Instruct."
 	},
 	"geminiProvider": {
-		"baseUrlPlaceholder": "Default: https://generativelanguage.googleapis.com"
+		"baseUrlPlaceholder": "デフォルト: https://generativelanguage.googleapis.com"
 	},
 	"ollamaProvider": {
-		"baseUrlLabel": "Use custom base URL",
-		"baseUrlPlaceholder": "Default: http://localhost:11434",
-		"apiKeyHelpText": "Optional API key for authenticated Ollama instances or cloud services. Leave empty for local installations.",
-		"apiKeyPlaceholder": "Enter API Key (optional)...",
-		"modelLabel": "Model",
+		"baseUrlLabel": "カスタムベースURLを使用する",
+		"baseUrlPlaceholder": "デフォルト: http://localhost:11434",
+		"apiKeyHelpText": "認証済みOllamaインスタンスまたはクラウドサービス用のオプションのAPIキー。ローカルインストールでは空のままにしてください。",
+		"apiKeyPlaceholder": "APIキーを入力 (オプション)...",
+		"modelLabel": "モデル",
 		"modelPickerPlaceholder": {
-			"search": "Search and select a model...",
-			"example": "e.g. llama3.1"
+			"search": "モデルを検索して選択...",
+			"example": "例: llama3.1"
 		},
-		"fetchModelsError": "Unable to fetch models from Ollama server. Please ensure Ollama is running and accessible, or enter the model ID manually above.",
-		"modelContextWindowLabel": "Model Context Window",
-		"requestTimeoutPlaceholder": "Default: 30000 (30 seconds)",
-		"requestTimeoutLabel": "Request Timeout (ms)",
-		"requestTimeoutDescription": "Maximum time in milliseconds to wait for API responses before timing out.",
-		"descriptionPart1": "Ollama allows you to run models locally on your computer. For instructions on how to get started, see their ",
-		"quickstartGuideLinkText": "quickstart guide.",
-		"notePrefix": "Note:",
-		"noteText": "Caret uses complex prompts and works best with Claude models. Less capable models may not work as expected.",
-		"fetchModelsErrorLog": "Failed to fetch Ollama models:",
+		"fetchModelsError": "Ollamaサーバーからモデルを取得できません。Ollamaが実行中でアクセス可能であることを確認するか、モデルIDを手動で入力してください。",
+		"modelContextWindowLabel": "モデルコンテキストウィンドウ",
+		"requestTimeoutPlaceholder": "デフォルト: 30000 (30秒)",
+		"requestTimeoutLabel": "リクエストタイムアウト (ms)",
+		"requestTimeoutDescription": "API応答を待つ最大時間（ミリ秒）。この時間を超えるとタイムアウトします。",
+		"descriptionPart1": "Ollamaを使用すると、コンピュータでローカルにモデルを実行できます。開始方法については、その",
+		"quickstartGuideLinkText": "クイックスタートガイド",
+		"notePrefix": "注意:",
+		"noteText": "Caretは複雑なプロンプトを使用し、Claudeモデルと最も良く動作します。能力の低いモデルは期待通りに動作しない場合があります。",
+		"fetchModelsErrorLog": "Ollamaモデルの取得に失敗しました:",
 		"providerName": "Ollama",
-		"contextWindowPlaceholder": "e.g. 32768"
+		"contextWindowPlaceholder": "例: 32768"
 	},
 	"openAiNativeProvider": {
 		"providerName": "OpenAI"
 	},
 	"lmStudioProvider": {
-		"baseUrlPlaceholder": "Default: http://localhost:1234",
-		"modelPlaceholder": "e.g. meta-llama-3.1-8b-instruct",
-		"contextWindowTooltip": "Not editable - the value is returned by the connected endpoint",
-		"parseModelsError": "Failed to parse LM Studio models:",
-		"description1": "LM Studio allows you to run models locally on your computer. For instructions on how to get started, see their ",
-		"quickstartGuideLink": "quickstart guide.",
-		"description2": "You will also need to start LM Studio's ",
-		"localServerLink": "local server",
-		"description3": " feature with lms server start to use it with this extension. ",
-		"noteBody": "Caret uses complex prompts and works best with Claude models. Less capable models may not work as expected."
+		"baseUrlPlaceholder": "デフォルト: http://localhost:1234",
+		"modelPlaceholder": "例: meta-llama-3.1-8b-instruct",
+		"contextWindowTooltip": "編集不可 - 値は接続されたエンドポイントによって返されます",
+		"parseModelsError": "LM Studioモデルの解析に失敗しました:",
+		"description1": "LM Studioを使用すると、コンピュータでローカルにモデルを実行できます。開始方法については、その",
+		"quickstartGuideLink": "クイックスタートガイド",
+		"description2": "また、この拡張機能で使用するには、LM Studioの",
+		"localServerLink": "ローカルサーバー",
+		"description3": "機能をlms server startで開始する必要があります。",
+		"noteBody": "Caretは複雑なプロンプトを使用し、Claudeモデルと最も良く動作します。能力の低いモデルは期待通りに動作しない場合があります。"
 	},
 	"api-configuration": {
-		"title": "API Configuration"
+		"title": "API設定"
 	},
 	"providers": {
 		"caret": {
@@ -835,147 +842,147 @@
 		},
 		"openrouter": {
 			"name": "OpenRouter",
-			"description": "Access a wide variety of open-source and proprietary models with a single API key."
+			"description": "単一のAPIキーで多種多様なオープンソースおよびプロプライエタリモデルにアクセスします。"
 		},
 		"gemini": {
 			"name": "Google Gemini",
-			"description": "Use the Google AI API to access Google's Gemini model family. Requires an API key."
+			"description": "Google AI APIを使用してGoogleのGeminiモデルファミリーにアクセスします。APIキーが必要です。"
 		},
 		"openai": {
 			"name": "OpenAI Compatible",
-			"description": "Connect to any model endpoint that is compatible with the OpenAI API."
+			"description": "OpenAI APIと互換性のある任意のモデルエンドポイントに接続します。"
 		},
 		"anthropic": {
 			"name": "Anthropic",
-			"description": "Use the Anthropic API to access the Claude model family directly. Requires an API key."
+			"description": "Anthropic APIを使用してClaudeモデルファミリーに直接アクセスします。APIキーが必要です。"
 		},
 		"bedrock": {
 			"name": "Amazon Bedrock",
-			"description": "Amazon Bedrock provides access to a wide range of foundation models from Amazon and leading AI startups."
+			"description": "Amazon Bedrockは、Amazonおよび主要なAIスタートアップからの幅広い基盤モデルへのアクセスを提供します。"
 		},
 		"vscode-lm": {
 			"name": "VS Code LM API",
-			"description": "Use models provided by other extensions (e.g., GitHub Copilot) through the VS Code Language Model API."
+			"description": "VS Code言語モデルAPIを介して、他の拡張機能（例: GitHub Copilot）によって提供されるモデルを使用します。"
 		},
 		"deepseek": {
 			"name": "DeepSeek",
-			"description": "DeepSeek develops open-source models with strong capabilities in code and mathematics."
+			"description": "DeepSeekは、コードと数学において強力な機能を備えたオープンソースモデルを開発しています。"
 		},
 		"openai-native": {
 			"name": "OpenAI",
-			"description": "Access GPT models directly using OpenAI's official API. Requires an API key."
+			"description": "OpenAIの公式APIを使用してGPTモデルに直接アクセスします。APIキーが必要です。"
 		},
 		"ollama": {
 			"name": "Ollama",
-			"description": "Run models locally on your computer using Ollama. See their quickstart guide to get started."
+			"description": "Ollamaを使用してコンピュータでローカルにモデルを実行します。開始方法についてはクイックスタートガイドを参照してください。"
 		},
 		"vertex": {
 			"name": "GCP Vertex AI",
-			"description": "Google Cloud Vertex AI offers a variety of AI models, including Google's state-of-the-art models."
+			"description": "Google Cloud Vertex AIは、Googleの最先端モデルを含む様々なAIモデルを提供します。"
 		},
 		"litellm": {
 			"name": "LiteLLM",
-			"description": "LiteLLM provides a unified interface to over 100 LLM APIs."
+			"description": "LiteLLMは、100以上のLLM APIへの統合インターフェースを提供します。"
 		},
 		"claude-code": {
 			"name": "Claude Code",
-			"description": "Claude Code is a specialized model from Anthropic, optimized for code-related tasks."
+			"description": "Claude Codeは、Anthropicの専門モデルで、コード関連タスクに最適化されています。"
 		},
 		"sapaicore": {
 			"name": "SAP AI Core",
-			"description": "SAP AI Core is a service for deploying and managing AI models within the SAP ecosystem."
+			"description": "SAP AI Coreは、SAPエコシステム内でAIモデルをデプロイおよび管理するためのサービスです。"
 		},
 		"mistral": {
 			"name": "Mistral",
-			"description": "Mistral AI develops high-performance open-source and commercial models."
+			"description": "Mistral AIは、高性能なオープンソースおよび商用モデルを開発しています。"
 		},
 		"zai": {
 			"name": "Z AI",
-			"description": "Zhipu AI provides bilingual (Chinese and English) conversational models."
+			"description": "Zhipu AIは、バイリンガル（中国語と英語）の会話モデルを提供します。"
 		},
 		"groq": {
 			"name": "Groq",
-			"description": "Groq offers extremely fast inference speeds through its Language Processing Units (LPUs)."
+			"description": "Groqは、その言語処理ユニット（LPU）を介して非常に高速な推論速度を提供します。"
 		},
 		"cerebras": {
 			"name": "Cerebras",
-			"description": "Cerebras builds hardware for training and running large-scale AI models."
+			"description": "Cerebrasは、大規模なAIモデルのトレーニングと実行のためのハードウェアを構築しています。"
 		},
 		"vercel-ai-gateway": {
 			"name": "Vercel AI Gateway",
-			"description": "The Vercel AI Gateway provides a reliable connection to various model providers."
+			"description": "Vercel AI Gatewayは、様々なモデルプロバイダーへの信頼性の高い接続を提供します。"
 		},
 		"baseten": {
 			"name": "Baseten",
-			"description": "Baseten is a platform for deploying and serving custom AI models."
+			"description": "Basetenは、カスタムAIモデルをデプロイおよび提供するためのプラットフォームです。"
 		},
 		"requesty": {
 			"name": "Requesty",
-			"description": "Requesty is a platform for AI-powered request routing and management."
+			"description": "Requestyは、AIを活用したリクエストルーティングと管理のためのプラットフォームです。"
 		},
 		"fireworks": {
 			"name": "Fireworks AI",
-			"description": "Fireworks AI is a platform for developers to experiment with and deploy generative AI models."
+			"description": "Fireworks AIは、開発者が生成AIモデルを実験およびデプロイするためのプラットフォームです。"
 		},
 		"together": {
 			"name": "Together",
-			"description": "Together AI provides a cloud platform for running leading open-source models."
+			"description": "Together AIは、主要なオープンソースモデルを実行するためのクラウドプラットフォームを提供します。"
 		},
 		"qwen": {
 			"name": "Alibaba Qwen",
-			"description": "Alibaba Qwen is a powerful large language model for various natural language processing tasks."
+			"description": "Alibaba Qwenは、様々な自然言語処理タスクのための強力な大規模言語モデルです。"
 		},
 		"qwen-code": {
 			"name": "Qwen Code",
-			"description": "Qwen Code is a specialized AI model from Alibaba for code generation and completion."
+			"description": "Qwen Codeは、コード生成と補完のためのAlibabaの専門AIモデルです。"
 		},
 		"doubao": {
 			"name": "Bytedance Doubao",
-			"description": "Doubao is a family of conversational AI models developed by Bytedance."
+			"description": "Doubaoは、ByteDanceによって開発された会話型AIモデルファミリーです。"
 		},
 		"lmstudio": {
 			"name": "LM Studio",
-			"description": "LM Studio allows you to discover, download, and run LLMs on your local machine."
+			"description": "LM Studioを使用すると、ローカルマシンでLLMを発見、ダウンロード、実行できます。"
 		},
 		"moonshot": {
 			"name": "Moonshot",
-			"description": "Moonshot AI specializes in models with long context windows."
+			"description": "Moonshot AIは、長いコンテキストウィンドウを持つモデルに特化しています。"
 		},
 		"huggingface": {
 			"name": "Hugging Face",
-			"description": "Hugging Face provides inference APIs for a wide range of open-source models."
+			"description": "Hugging Faceは、幅広いオープンソースモデルの推論APIを提供します。"
 		},
 		"nebius": {
 			"name": "Nebius AI Studio",
-			"description": "Nebius AI offers AI services based on Yandex's technology."
+			"description": "Nebius AIは、Yandexのテクノロジーに基づいたAIサービスを提供します。"
 		},
 		"asksage": {
 			"name": "AskSage",
-			"description": "AskSage provides AI models designed for research and academic use."
+			"description": "AskSageは、研究および学術用途向けに設計されたAIモデルを提供します。"
 		},
 		"xai": {
 			"name": "xAI",
-			"description": "xAI develops Grok, a large language model that aims to be truthful."
+			"description": "xAIは、真実であることを目指す大規模言語モデルGrokを開発しています。"
 		},
 		"sambanova": {
 			"name": "SambaNova",
-			"description": "SambaNova provides high-performance models for enterprise-grade AI applications."
+			"description": "SambaNovaは、エンタープライズグレードのAIアプリケーション向けに高性能モデルを提供します。"
 		},
 		"huawei-cloud-maas": {
 			"name": "Huawei Cloud MaaS",
-			"description": "Huawei Cloud MaaS (Model-as-a-Service) offers a variety of AI models."
+			"description": "Huawei Cloud MaaS (Model-as-a-Service) は、様々なAIモデルを提供します。"
 		},
 		"dify": {
 			"name": "Dify.ai",
-			"description": "Dify.ai is a platform for building and operating LLM-powered applications."
+			"description": "Dify.aiは、LLMを活用したアプリケーションを構築および運用するためのプラットフォームです。"
 		},
 		"cline": {
 			"name": "Caret",
-			"description": "Caret provides high-quality AI models with optimized performance for coding tasks."
+			"description": "Caretは、コーディングタスク向けに最適化された高品質なAIモデルを提供します。"
 		}
 	},
 	"persona": {
-		"enablePersonaSystem": "Enable Persona System",
-		"description": "Enable the persona system to customize your AI assistant's personality and response style."
+		"enablePersonaSystem": "ペルソナシステムを有効にする",
+		"description": "ペルソナシステムを有効にして、AIアシスタントの個性と応答スタイルをカスタマイズします。"
 	}
 }

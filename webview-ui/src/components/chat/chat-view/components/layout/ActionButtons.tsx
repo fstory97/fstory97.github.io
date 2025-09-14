@@ -126,7 +126,8 @@ export const ActionButtons: React.FC<ActionButtonsProps> = ({
 						if (primaryAction) {
 							messageHandlers.executeButtonAction(primaryAction, inputValue, selectedImages, selectedFiles)
 						}
-					}}>
+					}}
+					style={{ minWidth: "calc(100% * 1.25 / 2)" }}>
 					{primaryButtonText}
 				</VSCodeButton>
 			)}
@@ -139,7 +140,8 @@ export const ActionButtons: React.FC<ActionButtonsProps> = ({
 						if (secondaryAction) {
 							messageHandlers.executeButtonAction(secondaryAction, inputValue, selectedImages, selectedFiles)
 						}
-					}}>
+					}}
+					style={{ minWidth: "calc(100% * 1.25 / 2)" }}>
 					{secondaryButtonText}
 				</VSCodeButton>
 			)}

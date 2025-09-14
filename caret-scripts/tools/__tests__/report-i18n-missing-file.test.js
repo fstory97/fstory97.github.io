@@ -67,7 +67,7 @@ const MixedComponent = () => {
     <div>
       <h1>{t('welcome.title')}</h1>
       <p>Some hardcoded text here</p>
-      <span>Cline wants to execute</span>
+      <span>Caret wants to execute</span>
     </div>
   );
 };

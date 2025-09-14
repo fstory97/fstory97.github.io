@@ -56,6 +56,14 @@ export const CARET_LOCALIZED_URLS = {
 		ja: "https://caretive.ai/privacy.en.html",
 		zh: "https://caretive.ai/privacy.en.html",
 	},
+
+	// 상세 사용자 매뉴얼
+	CARET_DOCS_MANUAL: {
+		ko: "https://docs.caret.team/ko/getting-started/what-is-caret",
+		en: "https://docs.caret.team/en/getting-started/what-is-caret",
+		ja: "https://docs.caret.team/ja/getting-started/what-is-caret",
+		zh: "https://docs.caret.team/zh/getting-started/what-is-caret",
+	},
 } as const
 
 export type CaretUrlKey = keyof typeof CARET_URLS

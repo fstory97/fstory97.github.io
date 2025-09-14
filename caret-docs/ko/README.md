@@ -32,7 +32,7 @@
     <a href="https://marketplace.visualstudio.com/items?itemName=caretive.caret" style="background: #007ACC; color: white; padding: 12px 24px; text-decoration: none; border-radius: 6px; font-weight: bold; display: inline-block; margin: 8px;">
       📥 VS Code에서 지금 설치하기
     </a>
-    <a href="https://docs.caret.team/ko/" style="background: #28a745; color: white; padding: 12px 24px; text-decoration: none; border-radius: 6px; font-weight: bold; display: inline-block; margin: 8px;">
+    <a href="https://docs.caret.team/ko/getting-started/what-is-caret" style="background: #28a745; color: white; padding: 12px 24px; text-decoration: none; border-radius: 6px; font-weight: bold; display: inline-block; margin: 8px;">
       📖 사용설명서
     </a>
   </p>

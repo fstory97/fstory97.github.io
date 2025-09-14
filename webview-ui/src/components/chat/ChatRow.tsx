@@ -1423,7 +1423,7 @@ export const ChatRowContent = memo(
 											marginBottom: "-1.5px",
 										}}></span>
 									<span style={{ color: normalColor, fontWeight: "bold" }}>
-										Cline wants to start a new task:
+										Caret wants to start a new task:
 									</span>
 								</div>
 								<NewTaskPreview context={message.text || ""} />
@@ -1457,7 +1457,7 @@ export const ChatRowContent = memo(
 											marginBottom: "-1.5px",
 										}}></span>
 									<span style={{ color: normalColor, fontWeight: "bold" }}>
-										Cline wants to create a Github issue:
+										Caret wants to create a Github issue:
 									</span>
 								</div>
 								<ReportBugPreview data={message.text || ""} />

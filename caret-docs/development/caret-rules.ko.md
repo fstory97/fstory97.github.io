@@ -60,7 +60,6 @@ Caret의 webview와 Extension Host 간 통신 표준 패턴:
 
 ### 보호 규칙
 - **보호된 디렉토리**: `src/`, `webview-ui/`, `proto/`, `scripts/`, `evals/`, `docs/`, `locales/`, `configs/`
-- **백업 형식**: `{filename-extension}.cline`
 - **주석 필수**: `// CARET MODIFICATION: [설명]`
 - **최대 변경**: Cline 파일당 1-3줄
 
@@ -78,11 +77,10 @@ Caret의 webview와 Extension Host 간 통신 표준 패턴:
 
 ### 파일 수정 체크리스트
 1. Cline 원본 파일인가?
-2. 백업 존재하는가? `cp file file.cline`
-3. CARET MODIFICATION 주석 추가했는가?
-4. 최대 1-3줄인가?
-5. 주석 처리가 아닌 완전한 교체인가?
-6. `npm run compile` 통과하는가?
+2. CARET MODIFICATION 주석 추가했는가?
+3. 최대 1-3줄인가?
+4. 주석 처리가 아닌 완전한 교체인가?
+5. `npm run compile` 통과하는가?
 
 ### 네이밍 컨벤션
 - **유틸리티**: kebab-case (`brand-utils.ts`)
@@ -185,8 +183,6 @@ content = content.replace(/cline\.GetCaretModeResponse/g, "caret.GetCaretModeRes
 
 ## 금지 행위
 
-- 백업 없이 Cline 파일 수정
-- 기존 .cline 백업 덮어쓰기
 - 단위 테스트로 시작
 - 오래된 코드 주석 처리
 - CARET MODIFICATION 주석 건너뛰기

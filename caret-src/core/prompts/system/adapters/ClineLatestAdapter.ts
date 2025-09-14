@@ -11,7 +11,7 @@ export class ClineLatestAdapter implements IPromptSystem {
     public async getPrompt(context: CaretSystemPromptContext): Promise<string> {
         try {
             // Dynamically import to avoid static dependency issues in the test environment.
-            const { PromptRegistry } = await import("cline-latest/src/core/prompts/system-prompt/registry/PromptRegistry");
+            const { PromptRegistry } = await import("@/core/prompts/system-prompt/registry/PromptRegistry");
             const registry = PromptRegistry.getInstance();
             
             // The Caret context is compatible with the Cline context.

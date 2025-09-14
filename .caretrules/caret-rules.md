@@ -46,7 +46,6 @@
 
 ### Protection Rules
 - **Protected directories**: `src/`, `webview-ui/`, `proto/`, `scripts/`, `evals/`, `docs/`, `locales/`, `configs/`
-- **Backup format**: `{filename-extension}.cline`
 - **Comment required**: `// CARET MODIFICATION: [description]`
 - **Max changes**: 1-3 lines per Cline file
 
@@ -64,11 +63,10 @@
 
 ### File Modification Checklist
 1. Is Cline original file?
-2. Backup exists? `cp file file.cline`
-3. CARET MODIFICATION comment added?
-4. 1-3 lines max?
-5. Complete replacement not commenting?
-6. `npm run compile` passes?
+2. CARET MODIFICATION comment added?
+3. 1-3 lines max?
+4. Complete replacement not commenting?
+5. `npm run compile` passes?
 
 ### Naming Conventions
 - **Utilities**: kebab-case (`brand-utils.ts`)
@@ -139,8 +137,7 @@ See `caret-docs/development-en/workflows/` for detailed procedures:
 
 ## Forbidden Actions
 
-- Modify Cline files without backup
-- Overwrite existing .cline backups
+- Modify Cline files without CARET MODIFICATION comment
 - Start with unit tests
 - Comment out old code
 - Skip CARET MODIFICATION comment

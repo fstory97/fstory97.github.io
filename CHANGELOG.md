@@ -25,6 +25,14 @@
 
 # Changelog
 
+## [0.2.1]
+
+- **UI Improvements and Bug Fixes**:
+  - **Enhanced Multilingual Support**: Added missing translations for Chinese and Japanese.
+  - **Bug Fixes**: Corrected shortcut key bugs and an error with starting new tasks with context.
+  - **Documentation Link Update**: Updated the link to the user manual.
+  - **UI Adjustment**: Resolved an issue where the 'Agent' button wrapped to two lines in the Korean interface.
+
 ## [0.2.0]
 
 - **Cline v3.26.6 Merge**: Merged the latest Cline upstream (`v3.26.6`, commit `c6aa47095ee47036946c6a51339a4fa22aaa073c`) via merge commit `f8bd960b4`. See [CHANGELOG-CLINE.md](CHANGELOG-CLINE.md) for details.

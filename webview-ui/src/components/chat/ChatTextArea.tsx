@@ -105,7 +105,8 @@ const SwitchOption = styled.div.withConfig({
 	z-index: 1;
 	transition: color 0.2s ease;
 	font-size: 12px;
-	width: 50%;
+	flex: 1;
+	min-width: 60px;
 	text-align: center;
 
 	&:hover {

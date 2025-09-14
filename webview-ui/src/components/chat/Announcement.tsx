@@ -3,9 +3,9 @@ import { VSCodeButton, VSCodeLink } from "@vscode/webview-ui-toolkit/react"
 import { CSSProperties, memo } from "react"
 import { t } from "@/caret/utils/i18n"
 import { getAsVar, VSC_DESCRIPTION_FOREGROUND, VSC_INACTIVE_SELECTION_BACKGROUND } from "@/utils/vscStyles"
+import packageJson from "../../../../package.json"
 
 interface AnnouncementProps {
-	version: string
 	hideAnnouncement: () => void
 }
 
@@ -35,8 +35,8 @@ Announcements are automatically shown when the major.minor version changes (for 
 The latestAnnouncementId is now automatically generated from the extension's package.json version. 
 Patch releases (3.19.1 → 3.19.2) will not trigger new announcements.
 */
-const Announcement = ({ version, hideAnnouncement }: AnnouncementProps) => {
-	const minorVersion = version.split(".").slice(0, 2).join(".") // 2.0.0 -> 2.0
+const Announcement = ({ hideAnnouncement }: AnnouncementProps) => {
+	const minorVersion = packageJson.version.split(".").slice(0, 2).join(".") // 2.0.0 -> 2.0
 	return (
 		<div style={containerStyle}>
 			<VSCodeButton appearance="icon" data-testid="close-button" onClick={hideAnnouncement} style={closeIconStyle}>
@@ -55,21 +55,21 @@ const Announcement = ({ version, hideAnnouncement }: AnnouncementProps) => {
 				</li>
 				<li>
 					<b>{t("bullets.current.4", "announcement")}:</b>{" "}
-					<VSCodeLink href="http://docs.caret.team/ko" style={linkStyle}>
+					<VSCodeLink href="https://docs.caret.team/ko/getting-started/what-is-caret" style={linkStyle}>
 						{t("links.korean", "announcement")}
 					</VSCodeLink>
 					{" / "}
-					<VSCodeLink href="http://docs.caret.team/ja" style={linkStyle}>
+					<VSCodeLink href="https://docs.caret.team/ja/getting-started/what-is-caret" style={linkStyle}>
 						{t("links.japanese", "announcement")}
 					</VSCodeLink>
 					{" / "}
-					<VSCodeLink href="http://docs.caret.team/zh" style={linkStyle}>
+					<VSCodeLink href="https://docs.caret.team/zh/getting-started/what-is-caret" style={linkStyle}>
 						{t("links.chinese", "announcement")}
 					</VSCodeLink>
 					{" / "}
-					<VSCodeLink href="http://docs.caret.team/en" style={linkStyle}>
+					<VSCodeLink href="https://docs.caret.team/en/getting-started/what-is-caret" style={linkStyle}>
 						{t("links.english", "announcement")}
-					</VSCodeLink>					
+					</VSCodeLink>
 				</li>
 				<li>
 					<b>{t("bullets.current.5", "announcement")}:</b> {t("bullets.current.5-desc", "announcement")}

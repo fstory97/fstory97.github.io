@@ -680,7 +680,7 @@
 		"copyTask": "Copy Task"
 	},
 	"announcement": {
-		"newVersion": "🎉  New in v{version}",
+		"newVersion": "🎉  New in v{{version}}",
 		"features": {
 			"freeStealth": {
 				"title": "Free Stealth Model",

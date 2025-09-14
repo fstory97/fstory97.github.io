@@ -680,7 +680,7 @@
 		"copyTask": "작업 복사"
 	},
 	"announcement": {
-		"newVersion": "🎉  v{version}의 새로운 기능",
+		"newVersion": "🎉  v{{version}}의 새로운 기능",
 		"features": {
 			"freeStealth": {
 				"title": "무료 스텔스 모델",

@@ -14,7 +14,7 @@ describe("Announcement", () => {
 	const hideAnnouncement = vi.fn()
 
 	it("calls hideAnnouncement when close button is clicked", () => {
-		render(<Announcement hideAnnouncement={hideAnnouncement} version="2.0.0" />)
+		render(<Announcement hideAnnouncement={hideAnnouncement} />)
 		fireEvent.click(screen.getByTestId("close-button"))
 		expect(hideAnnouncement).toHaveBeenCalled()
 	})

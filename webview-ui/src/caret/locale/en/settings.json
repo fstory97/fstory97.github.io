@@ -1007,6 +1007,7 @@
 		"feedbackPrompt": "If you have any questions or feedback, we welcome it anytime.",
 		"version": "Version",
 		"title": "About",
-		"description": "Check the Caret version and view related information."
+		"description": "Check the Caret version and view related information.",
+		"documentation": "Detailed User Manual"
 	}
 }

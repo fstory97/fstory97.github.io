@@ -7,11 +7,14 @@ import React, { useEffect, useState } from "react"
 import CaretApiSetup from "@/caret/components/CaretApiSetup"
 import CaretFooter from "@/caret/components/CaretFooter"
 import CaretWelcomeSection from "@/caret/components/CaretWelcomeSection"
+// CARET MODIFICATION: URL 상수 및 UiServiceClient 임포트
+import { CARET_URLS } from "@/caret/constants/urls"
 import { useCaretI18n } from "@/caret/hooks/useCaretI18n"
 import { t } from "@/caret/utils/i18n"
 import PreferredLanguageSetting from "@/components/settings/PreferredLanguageSetting"
 import { useExtensionState } from "@/context/ExtensionStateContext"
-import { StateServiceClient } from "@/services/grpc-client"
+// CARET MODIFICATION: UiServiceClient 임포트 추가
+import { StateServiceClient, UiServiceClient } from "@/services/grpc-client"
 import { validateApiConfiguration } from "@/utils/validate"
 
 const WelcomeView = () => {
@@ -48,9 +51,13 @@ const WelcomeView = () => {
 		setShowApiOptions(false)
 	}
 
-	const handleOpenLink = (link: string) => {
-		console.log(`Opening external link: ${link}`)
-		// TODO: Implement proper external link opening
+	// CARET MODIFICATION: UiServiceClient를 사용하여 외부 링크를 새 창에서 열도록 수정
+	const handleOpenLink = async (link: string) => {
+		try {
+			await UiServiceClient.openUrl({ value: link })
+		} catch (error) {
+			console.error(`Failed to open external link: ${link}`, error)
+		}
 	}
 
 	useEffect(() => {
@@ -189,11 +196,12 @@ const WelcomeView = () => {
 					</div>
 				</CaretWelcomeSection>
 
+				{/* CARET MODIFICATION: 하드코딩된 URL을 상수로 변경 */}
 				{renderSection(
 					"community.header",
 					"community.body",
 					"community.githubLink",
-					() => handleOpenLink("https://github.com/aicoding-caret/caret"),
+					() => handleOpenLink(CARET_URLS.GITHUB_REPOSITORY),
 					"secondary",
 				)}
 

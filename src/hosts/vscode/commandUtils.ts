@@ -50,7 +50,8 @@ export async function getContextForCommand(
 }
 
 export async function focusChatInput(): Promise<WebviewProvider | undefined> {
-	await vscode.commands.executeCommand("cline.focusChatInput")
+	// CARET MODIFICATION: shortcut package name change
+	await vscode.commands.executeCommand("caret.focusChatInput")
 
 	// Wait for a webview instance to become available after focusing
 	await pWaitFor(() => !!WebviewProvider.getLastActiveInstance())
