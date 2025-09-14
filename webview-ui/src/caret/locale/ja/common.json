@@ -11,15 +11,7 @@
 		"setupApiOrLocal": "APIキーまたはローカルLLMをセットアップする",
 		"notifyCaretAccount": "Caretサブスクリプションの通知を受け取る",
 		"saveAndStart": "保存して開始",
-		"startNewTaskWithContext": "コンテキストと共に新しいタスクを開始",
-		"retry": "Retry",
-		"approve": "Approve",
-		"proceed": "Proceed",
-		"proceedAnyways": "Proceed Anyways",
-		"proceedWhileRunning": "Proceed While Running",
-		"resumeTask": "Resume Task",
-		"condenseConversation": "Condense Conversation",
-		"reportGitHubIssue": "Report GitHub Issue"
+		"startNewTaskWithContext": "コンテキストと共に新しいタスクを開始"
 	},
 	"error": {
 		"generic": "エラーが発生しました。",

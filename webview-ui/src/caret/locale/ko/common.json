@@ -25,7 +25,7 @@
 		"generic": "오류가 발생했습니다.",
 		"apiKeyRequired": "API 키가 필요합니다",
 		"openaiApiKeyRequired": "OpenAI API 키가 필요합니다",
-		"anthropicApiKeyRequired": "Anthropic API 키가 필요합니다",
+		"anthropicApiKeyRequired": "Anthropic API 키가 필요합니다", 
 		"geminiApiKeyRequired": "Gemini API 키가 필요합니다"
 	},
 	"imageAlt": {

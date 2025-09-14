@@ -408,8 +408,6 @@
 		"cancel": "取消"
 	},
 	"checkmarkControl": {
-		"checkpoint": "检查点",
-		"checkpointRestored": "检查点 (已恢复)",
 		"compare": "比较",
 		"restore": "恢复",
 		"restoreFiles": "恢复文件",
@@ -462,6 +460,5 @@
 		"radio2": "单选2",
 		"tag": "标签",
 		"textAreaPlaceholder": "文本区域"
-	},
-	"seeNewChanges": "See new changes"
+	}
 }

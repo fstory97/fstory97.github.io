@@ -409,8 +409,6 @@
 		"cancel": "Cancel"
 	},
 	"checkmarkControl": {
-		"checkpoint": "Checkpoint",
-		"checkpointRestored": "Checkpoint (restored)",
 		"compare": "Compare",
 		"restore": "Restore",
 		"restoreFiles": "Restore Files",

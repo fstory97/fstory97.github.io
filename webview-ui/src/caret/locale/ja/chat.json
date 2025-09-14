@@ -408,8 +408,6 @@
 		"cancel": "キャンセル"
 	},
 	"checkmarkControl": {
-		"checkpoint": "チェックポイント",
-		"checkpointRestored": "チェックポイント (復元済み)",
 		"compare": "比較",
 		"restore": "復元",
 		"restoreFiles": "ファイルを復元",
@@ -462,6 +460,5 @@
 		"radio2": "ラジオ2",
 		"tag": "タグ",
 		"textAreaPlaceholder": "テキストエリア"
-	},
-	"seeNewChanges": "See new changes"
+	}
 }

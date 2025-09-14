@@ -61,7 +61,10 @@
       "Bash(for lang in en ko ja zh)",
       "Bash(do echo \"📁 docs-$lang structure:\")",
       "Bash(ls:*)",
-      "Bash(npx docusaurus:*)"
+      "Bash(npx docusaurus:*)",
+      "WebFetch(domain:github.com)",
+      "WebFetch(domain:raw.githubusercontent.com)",
+      "Bash(copy:*)"
     ],
     "deny": [],
     "ask": []

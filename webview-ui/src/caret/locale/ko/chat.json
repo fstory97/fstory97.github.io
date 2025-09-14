@@ -410,8 +410,6 @@
 		"cancel": "취소"
 	},
 	"checkmarkControl": {
-		"checkpoint": "체크포인트",
-		"checkpointRestored": "체크포인트 (복원됨)",
 		"compare": "비교",
 		"restore": "복원",
 		"restoreFiles": "파일 복원",

@@ -54,8 +54,8 @@
 			"description": "Caretがコミュニケーションに使用する言語を選択してください。"
 		},
 		"unifiedLanguage": {
-			"label": "言語",
-			"description": "AI応答とインターフェースの言語を設定します。🎨がある言語はAIとUIの両方をサポートします。"
+			"label": "Language",
+			"description": "Set language for AI responses and interface. Languages with 🎨 support both AI and UI."
 		}
 	},
 	"buttons": {
@@ -166,22 +166,22 @@
 			"scrollUp": "上にスクロール",
 			"close": "ブラウザを閉じる"
 		},
-		"disableToolUseDescription": "Caretがブラウザアクション（起動、クリック、入力など）を使用することを防ぎます。",
-		"viewportSize": "ビューポートサイズ",
-		"viewportSizeDescription": "スクリーンショットとインタラクションのためのブラウザビューポートのサイズを設定します。",
-		"useRemoteConnection": "リモートブラウザ接続を使用",
-		"remoteConnectionDescription1": "CaretがあなたのChromeを使用できるように有効にします",
-		"chromeNotDetected": "（あなたのマシンで検出されませんでした）",
-		"remoteConnectionDescription2": "。下記でカスタムパスを指定できます。リモートブラウザ接続を使用するには、Chromeをデバッグモードで起動する必要があります",
-		"remoteConnectionDescription3": "手動で（`--remote-debugging-port=9222`）または下のボタンを使用して起動してください。ホストアドレスを入力するか、自動検出のために空白のままにしてください。",
-		"launchBrowserDebug": "デバッグモードでブラウザを起動",
-		"launchingBrowser": "ブラウザを起動中...",
-		"chromePathOptional": "Chrome実行ファイルパス（オプション）",
-		"chromePathPlaceholder": "例：/usr/bin/google-chrome または C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe",
-		"chromePathDescription": "自動検出のために空白のままにしてください。",
-		"customArgsOptional": "カスタムブラウザ引数（オプション）",
-		"customArgsPlaceholder": "例：--no-sandbox --disable-setuid-sandbox",
-		"customArgsDescription": "ブラウザ実行ファイルに渡すスペース区切りの引数。"
+		"disableToolUseDescription": "Prevent Caret from using browser actions (e.g. launch, click, type).",
+		"viewportSize": "Viewport size",
+		"viewportSizeDescription": "Set the size of the browser viewport for screenshots and interactions.",
+		"useRemoteConnection": "Use remote browser connection",
+		"remoteConnectionDescription1": "Enable Caret to use your Chrome",
+		"chromeNotDetected": "(not detected on your machine)",
+		"remoteConnectionDescription2": ". You can specify a custom path below. Using a remote browser connection requires starting Chrome in debug mode",
+		"remoteConnectionDescription3": "manually (`--remote-debugging-port=9222`) or using the button below. Enter the host address or leave it blank for automatic discovery.",
+		"launchBrowserDebug": "Launch Browser with Debug Mode",
+		"launchingBrowser": "Launching Browser...",
+		"chromePathOptional": "Chrome Executable Path (Optional)",
+		"chromePathPlaceholder": "e.g., /usr/bin/google-chrome or C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe",
+		"chromePathDescription": "Leave blank to auto-detect.",
+		"customArgsOptional": "Custom Browser Arguments (Optional)",
+		"customArgsPlaceholder": "e.g., --no-sandbox --disable-setuid-sandbox",
+		"customArgsDescription": "Space-separated arguments to pass to the browser executable."
 	},
 	"terminal": {
 		"defaultProfile": "デフォルトのターミナルプロファイル",
@@ -194,11 +194,11 @@
 		"positiveNumberError": "正の数を入力してください。",
 		"outputLimit": "ターミナル出力制限",
 		"outputLimitDescription": "コマンドを実行するときにターミナル出力に含める最大行数です。この数を超えると、トークンを節約するために中間の行が削除されます。",
-		"issuesTitle": "ターミナルに問題がありますか？",
-		"checkOur": "私たちの",
-		"quickFixesLink": "ターミナル クイックフィックス",
-		"orThe": "または",
-		"troubleshootingGuideLink": "完全なトラブルシューティングガイド"
+		"issuesTitle": "Having terminal issues?",
+		"checkOur": "Check our",
+		"quickFixesLink": "Terminal Quick Fixes",
+		"orThe": "or the",
+		"troubleshootingGuideLink": "Complete Troubleshooting Guide"
 	},
 	"features": {
 		"enableCheckpoints": "チェックポイントを有効にする",
@@ -216,17 +216,17 @@
 			"medium": "中",
 			"high": "高"
 		},
-		"mcpDisplayMode": "MCP表示モード",
-		"mcpDisplayModeDescription": "MCP応答の表示方法を制御します：プレーンテキスト、リンク/画像付きのリッチフォーマット、またはMarkdownレンダリング。",
-		"strictPlanMode": "厳密な計画モードを有効にする",
-		"strictPlanModeDescription": "計画モード中に厳密なツール使用を強制し、ファイル編集を防ぎます。",
-		"focusChain": "フォーカスチェーンを有効にする",
-		"focusChainDescription": "タスク全体を通じて拡張されたタスク進行状況追跡と自動フォーカスチェーンリスト管理を有効にします。",
-		"focusChainReminderInterval": "フォーカスチェーン リマインダー間隔",
-		"focusChainReminderIntervalDescription": "Caretにフォーカスチェーンチェックリストを思い出させる間隔（メッセージ単位）（1-100）。低い値はより頻繁なリマインダーを提供します。",
-		"autoCompact": "自動コンパクトを有効にする",
-		"autoCompactDescription": "次世代モデル向けにLLMベースの圧縮を使用する高度なコンテキスト管理システムを有効にします。",
-		"learnMore": "詳細を見る"
+		"mcpDisplayMode": "MCP Display Mode",
+		"mcpDisplayModeDescription": "Controls how MCP responses are displayed: plain text, rich formatting with links/images, or markdown rendering.",
+		"strictPlanMode": "Enable strict plan mode",
+		"strictPlanModeDescription": "Enforces strict tool use while in plan mode, preventing file edits.",
+		"focusChain": "Enable Focus Chain",
+		"focusChainDescription": "Enables enhanced task progress tracking and automatic focus chain list management throughout tasks.",
+		"focusChainReminderInterval": "Focus Chain Reminder Interval",
+		"focusChainReminderIntervalDescription": "Interval (in messages) to remind Caret about its focus chain checklist (1-100). Lower values provide more frequent reminders.",
+		"autoCompact": "Enable Auto Compact",
+		"autoCompactDescription": "Enables advanced context management system which uses LLM based condensing for next-gen models.",
+		"learnMore": "Learn more"
 	},
 	"autoApprove": {
 		"title": "自動承認設定",
@@ -332,7 +332,7 @@
 	"clineAccountInfoCard": {
 		"viewBillingAndUsage": "請求と使用量を表示",
 		"signUpWithCline": "Caretでサインアップ",
-		"loginError": "ログインURLの取得に失敗しました："
+		"loginError": "Failed to get login URL:"
 	},
 	"apiKeyField": {
 		"placeholder": "APIキーを入力してください...",
@@ -355,23 +355,23 @@
 		"contextWindowLabel": "コンテキストウィンドウ:",
 		"cacheWritesPriceLabel": "キャッシュ書き込み価格:",
 		"cacheReadsPriceLabel": "キャッシュ読み取り価格:",
-		"inputPrice": "入力価格",
-		"outputPriceStandard": "出力価格（標準）",
-		"outputPriceThinking": "出力価格（思考バジェット > 0）",
-		"outputPrice": "出力価格",
-		"doesNotSupportBrowser": "ブラウザ使用をサポートしていません",
-		"supportsBrowser": "ブラウザ使用をサポート",
-		"doesNotSupportCache": "プロンプトキャッシングをサポートしていません",
-		"supportsCache": "プロンプトキャッシングをサポート",
-		"contextWindow": "コンテキストウィンドウ",
-		"cacheWritesPrice": "キャッシュ書き込み価格",
-		"cacheReadsPrice": "キャッシュ読み取り価格",
-		"supportsImagesLabel": "画像をサポート：",
-		"supportsComputerUseLabel": "コンピューター使用をサポート：",
-		"supportsCacheLabel": "プロンプトキャッシングをサポート：",
-		"doesNotSupportImagesLabel": "画像をサポートしていません：",
-		"doesNotSupportComputerUseLabel": "コンピューター使用をサポートしていません：",
-		"doesNotSupportCacheLabel": "プロンプトキャッシングをサポートしていません："
+		"inputPrice": "Input price",
+		"outputPriceStandard": "Output price (Standard)",
+		"outputPriceThinking": "Output price (Thinking Budget > 0)",
+		"outputPrice": "Output price",
+		"doesNotSupportBrowser": "Does not support browser use",
+		"supportsBrowser": "Supports browser use",
+		"doesNotSupportCache": "Does not support prompt caching",
+		"supportsCache": "Supports prompt caching",
+		"contextWindow": "Context Window",
+		"cacheWritesPrice": "Cache writes price",
+		"cacheReadsPrice": "Cache reads price",
+		"supportsImagesLabel": "Supports images:",
+		"supportsComputerUseLabel": "Supports computer use:",
+		"supportsCacheLabel": "Supports prompt caching:",
+		"doesNotSupportImagesLabel": "Does not support images:",
+		"doesNotSupportComputerUseLabel": "Does not support computer use:",
+		"doesNotSupportCacheLabel": "Does not support prompt caching:"
 	},
 	"modelSelector": {
 		"label": "モデル",
@@ -428,8 +428,8 @@
 	"askSageProvider": {
 		"apiUrlPlaceholder": "AskSage API URLを入力してください...",
 		"apiUrlLabel": "AskSage API URL",
-		"apiKeyHelpText": "このキーはローカルに保存され、この拡張機能からのAPIリクエストのためにのみ使用されます。",
-		"modelLabel": "モデル"
+		"apiKeyHelpText": "This key is stored locally and only used to make API requests from this extension.",
+		"modelLabel": "Model"
 	},
 	"bedrockProvider": {
 		"apiKey": "APIキー",
@@ -575,8 +575,8 @@
 		"temperatureLabel": "温度",
 		"notePrefix": "注意:",
 		"noteText": "Caretは複雑なプロンプトを使用し、Claudeモデルと最も良く動作します。能力の低いモデルは期待通りに動作しない場合があります。",
-		"refreshModelsError": "OpenAIモデルの更新に失敗しました：",
-		"providerName": "OpenAI互換"
+		"refreshModelsError": "Failed to refresh OpenAI models:",
+		"providerName": "OpenAI Compatible"
 	},
 	"openRouterProvider": {
 		"balanceDisplay": {
@@ -597,7 +597,7 @@
 		"priceSortingDescription": "プロバイダーを価格でソートし、最も低コストのプロバイダーを優先します。",
 		"throughputSortingDescription": "プロバイダーをスループットでソートし、最も高いスループットのプロバイダーを優先します（コストが増加する場合があります）。",
 		"latencySortingDescription": "プロバイダーを応答時間でソートし、最も低いレイテンシのプロバイダーを優先します。",
-		"authError": "OpenRouter認証の開始に失敗しました："
+		"authError": "Failed to open OpenRouter auth:"
 	},
 	"qwenCodeProvider": {
 		"apiConfigurationTitle": "Qwen Code API設定",
@@ -651,10 +651,10 @@
 		"modelFetchError": "モデルの取得に失敗しました。設定を確認してください。",
 		"noModelsFound": "SAP AI Coreサービスインスタンスからモデルを取得できません。SAP AI Core設定を確認するか、デプロイメントがサービスインスタンスにデプロイされて実行中であることを確認してください。",
 		"configureCredentialsPrompt": "利用可能なモデルを表示するには、SAP AI Core認証情報を構成してください。",
-		"fetchModelsErrorLog": "SAP AI Coreモデル取得エラー：",
-		"clientIdPlaceholder": "AI Core クライアントIDを入力してください...",
-		"retryButton": "再試行",
-		"selectModelPlaceholder": "モデルを選択してください..."
+		"fetchModelsErrorLog": "Error fetching SAP AI Core models:",
+		"clientIdPlaceholder": "Enter AI Core Client Id...",
+		"retryButton": "Retry",
+		"selectModelPlaceholder": "Select a model..."
 	},
 	"togetherProvider": {
 		"name": "Together",
@@ -671,7 +671,7 @@
 		"modelIdLabel": "モデルID",
 		"fetchModelsError": "Vercel AI Gatewayからモデルを取得できません。",
 		"noteText": "注意: 無料ティアユーザーは、これらのリクエストはVercel AI Gatewayによって無料で提供されるため、コストが0と表示されます。",
-		"fetchModelsErrorLog": "Vercel AI Gatewayモデルの取得に失敗しました："
+		"fetchModelsErrorLog": "Failed to fetch Vercel AI Gateway models:"
 	},
 	"vertexProvider": {
 		"projectIdPlaceholder": "プロジェクトIDを入力してください...",
@@ -692,7 +692,7 @@
 	},
 	"claude": {
 		"systemPrompt": "システムプロンプト",
-		"maxTokens": "最大トークン",
+		"maxTokens": "最大トークン", 
 		"apiVersion": "APIバージョン"
 	},
 	"vsCodeLmProvider": {
@@ -710,10 +710,10 @@
 		"reasoningEffortLabel": "推論の努力",
 		"reasoningEffortDescription": "高い努力は、より徹底的な分析を生成する可能性がありますが、時間がかかり、より多くのトークンを使用します。",
 		"providerName": "xAI",
-		"modifyReasoningEffort": "推論努力を変更",
+		"modifyReasoningEffort": "Modify reasoning effort",
 		"reasoningEffortOptions": {
-			"low": "低",
-			"high": "高"
+			"low": "low",
+			"high": "high"
 		}
 	},
 	"zaiProvider": {
@@ -747,13 +747,13 @@
 		"visit": "訪問:",
 		"getApiKey": "でサインアップしてAPIキーを取得してください。"
 	},
-	"planMode": "計画モード",
-	"actMode": "実行モード",
-	"useDifferentModels": "計画モードと実行モードで異なるモデルを使用",
-	"useDifferentModelsDescription": "計画モードと実行モードを切り替える際、前のモードで使用したAPIとモデルが保持されます。これは、強力な推論モデルで計画を設計し、より安価なコーディングモデルで実行する場合などに役立ちます。",
+	"planMode": "Plan Mode",
+	"actMode": "Act Mode",
+	"useDifferentModels": "Use different models for Plan and Act modes",
+	"useDifferentModelsDescription": "Switching between Plan and Act mode will persist the API and model used in the previous mode. This may be helpful e.g. when using a strong reasoning model to architect a plan for a cheaper coding model to act on.",
 	"theme": {
 		"dark": "ダークテーマ",
-		"light": "ライトテーマ",
+		"light": "ライトテーマ", 
 		"auto": "自動テーマ"
 	},
 	"appearance": {
@@ -761,9 +761,12 @@
 		"lineHeight": "行の高さ",
 		"fontFamily": "フォントファミリー"
 	},
+	"modelSelector": {
+		"label": "モデル"
+	},
 	"pricing": {
 		"inputPrice": "入力価格: {{price}}/百万トークン",
-		"cacheReadPrice": "キャッシュ読み取り価格: {{price}}/百万トークン",
+		"cacheReadPrice": "キャッシュ読み取り価格: {{price}}/百万トークン", 
 		"outputPriceStandard": "出力価格 (標準): {{price}}/百万トークン",
 		"outputPriceReasoning": "出力価格 (推論予算 > 0): {{price}}/百万トークン",
 		"contextWindow": "コンテキストウィンドウ: {{size}}/百万トークン",
@@ -775,65 +778,56 @@
 		"contextWindow": "コンテキストウィンドウ: {{size}}"
 	},
 	"basetenModelPicker": {
-		"modelNotStatic": "モデル {{newModelId}} は静的 basetenModels リストにありません",
-		"fetchModelsError": "Basetenモデルの更新に失敗しました：",
-		"searchPlaceholder": "モデルを検索して選択...",
-		"clearSearch": "検索をクリア",
-		"description": "拡張機能は次で利用可能な最新のモデルリストを自動的に取得します",
+		"modelNotStatic": "Model {{newModelId}} is not in the static basetenModels list",
+		"fetchModelsError": "Failed to refresh Baseten models:",
+		"searchPlaceholder": "Search and select a model...",
+		"clearSearch": "Clear search",
+		"description": "The extension automatically fetches the latest list of models available on",
 		"recommendedModel": "moonshotai/Kimi-K2-Instruct."
 	},
 	"geminiProvider": {
-		"baseUrlPlaceholder": "デフォルト: https://generativelanguage.googleapis.com"
+		"baseUrlPlaceholder": "Default: https://generativelanguage.googleapis.com"
 	},
 	"ollamaProvider": {
-		"baseUrlLabel": "カスタムベースURLを使用",
-		"baseUrlPlaceholder": "デフォルト: http://localhost:11434",
-		"apiKeyHelpText": "認証されたOllamaインスタンスまたはクラウドサービス用のオプションのAPIキー。ローカルインストールの場合は空のままにしてください。",
-		"apiKeyPlaceholder": "APIキーを入力（オプション）...",
-		"modelLabel": "モデル",
+		"baseUrlLabel": "Use custom base URL",
+		"baseUrlPlaceholder": "Default: http://localhost:11434",
+		"apiKeyHelpText": "Optional API key for authenticated Ollama instances or cloud services. Leave empty for local installations.",
+		"apiKeyPlaceholder": "Enter API Key (optional)...",
+		"modelLabel": "Model",
 		"modelPickerPlaceholder": {
-			"search": "モデルを検索して選択...",
-			"example": "例：llama3.1"
+			"search": "Search and select a model...",
+			"example": "e.g. llama3.1"
 		},
-		"fetchModelsError": "Ollamaサーバーからモデルを取得できません。Ollamaが実行中でアクセス可能であることを確認するか、上記でモデルIDを手動で入力してください。",
-		"modelContextWindowLabel": "モデルコンテキストウィンドウ",
-		"requestTimeoutPlaceholder": "デフォルト: 30000（30秒）",
-		"requestTimeoutLabel": "リクエストタイムアウト（ミリ秒）",
-		"requestTimeoutDescription": "タイムアウト前にAPI応答を待つ最大時間（ミリ秒）。",
-		"descriptionPart1": "Ollamaを使用すると、コンピューター上でローカルにモデルを実行できます。開始方法については、",
-		"quickstartGuideLinkText": "クイックスタートガイド",
-		"notePrefix": "注意:",
-		"noteText": "Caretは複雑なプロンプトを使用し、Claudeモデルで最適に動作します。能力の低いモデルは期待通りに動作しない可能性があります。",
-		"fetchModelsErrorLog": "Ollamaモデルの取得に失敗しました:",
+		"fetchModelsError": "Unable to fetch models from Ollama server. Please ensure Ollama is running and accessible, or enter the model ID manually above.",
+		"modelContextWindowLabel": "Model Context Window",
+		"requestTimeoutPlaceholder": "Default: 30000 (30 seconds)",
+		"requestTimeoutLabel": "Request Timeout (ms)",
+		"requestTimeoutDescription": "Maximum time in milliseconds to wait for API responses before timing out.",
+		"descriptionPart1": "Ollama allows you to run models locally on your computer. For instructions on how to get started, see their ",
+		"quickstartGuideLinkText": "quickstart guide.",
+		"notePrefix": "Note:",
+		"noteText": "Caret uses complex prompts and works best with Claude models. Less capable models may not work as expected.",
+		"fetchModelsErrorLog": "Failed to fetch Ollama models:",
 		"providerName": "Ollama",
-		"contextWindowPlaceholder": "例：32768"
+		"contextWindowPlaceholder": "e.g. 32768"
 	},
 	"openAiNativeProvider": {
 		"providerName": "OpenAI"
 	},
 	"lmStudioProvider": {
-		"baseUrlPlaceholder": "デフォルト: http://localhost:1234",
-		"modelPlaceholder": "例: meta-llama-3.1-8b-instruct",
-		"contextWindowTooltip": "編集不可 - 接続されたエンドポイントから返される値",
-		"parseModelsError": "LM Studioモデルの解析に失敗しました:",
-		"description1": "LM Studioを使用すると、コンピューター上でローカルにモデルを実行できます。開始方法については、",
-		"quickstartGuideLink": "クイックスタートガイド",
-		"description2": "をご覧ください。また、この拡張機能で使用するには、LM Studioの",
-		"localServerLink": "ローカルサーバー",
-		"description3": "機能をlms server startで開始する必要があります。",
-		"noteBody": "Caretは複雑なプロンプトを使用し、Claudeモデルで最適に動作します。能力の低いモデルは期待通りに動作しない可能性があります。"
+		"baseUrlPlaceholder": "Default: http://localhost:1234",
+		"modelPlaceholder": "e.g. meta-llama-3.1-8b-instruct",
+		"contextWindowTooltip": "Not editable - the value is returned by the connected endpoint",
+		"parseModelsError": "Failed to parse LM Studio models:",
+		"description1": "LM Studio allows you to run models locally on your computer. For instructions on how to get started, see their ",
+		"quickstartGuideLink": "quickstart guide.",
+		"description2": "You will also need to start LM Studio's ",
+		"localServerLink": "local server",
+		"description3": " feature with lms server start to use it with this extension. ",
+		"noteBody": "Caret uses complex prompts and works best with Claude models. Less capable models may not work as expected."
 	},
 	"api-configuration": {
-		"title": "API設定"
-	},
-	"thinkingBudget": {
-		"enable": "思考バジェットを有効にする",
-		"budgetText": {
-			"part1": "バジェット: ",
-			"part2": "{{value}} トークン"
-		},
-		"ariaLabel": "思考バジェット: {{value}} トークン",
-		"description": "モデルが拡張思考に使用するトークンバジェットを設定します。これにより、複雑なタスクの詳細な分析が可能になりますが、応答時間とコストが増加する可能性があります。"
+		"title": "API Configuration"
 	},
 	"providers": {
 		"caret": {
@@ -841,49 +835,11 @@
 		},
 		"openrouter": {
 			"name": "OpenRouter",
-			"description": "単一のAPIキーで、さまざまなオープンソースおよびプロプライエタリモデルにアクセスします。",
-			"modelLabel": "モデル",
-			"searchPlaceholder": "モデルを検索して選択...",
-			"clearSearch": "検索をクリア",
-			"switchTo1M": "1Mコンテキストウィンドウモデルに切り替え",
-			"switchTo200K": "200Kコンテキストウィンドウモデルに切り替え",
-			"info": {
-				"fullText": {
-					"part1": "モデルの完全なリストについては、",
-					"part2": "をご覧になることをお勧めします。最高のエクスペリエンスを得るには、",
-					"part3": "から始めることをお勧めします。"
-				},
-				"linkText": "OpenRouter.",
-				"recommendedModel": "anthropic/claude-sonnet-4."
-			},
-			"featured": {
-				"claudeSonnet4": {
-					"description": "Caretでのエージェントコーディングに推奨",
-					"label": "ベスト"
-				},
-				"gpt5": {
-					"description": "複雑で長期的なタスクのための最先端モデル",
-					"label": "新規"
-				},
-				"grok": {
-					"description": "複雑なコーディングのための262Kコンテキストを持つ高度なモデル",
-					"label": "無料"
-				}
-			}
+			"description": "Access a wide variety of open-source and proprietary models with a single API key."
 		},
 		"gemini": {
 			"name": "Google Gemini",
-			"description": "Google AI APIを使用して、GoogleのGeminiモデルファミリーにアクセスします。APIキーが必要です。",
-			"models": {
-				"gemini-2-5-pro-preview-06-05": {
-					"name": "Gemini 2.5 Pro Preview (06-05)",
-					"description": "最も強力なモデルで、複雑なタスクと推論に最適化されています。"
-				},
-				"gemini-2-5-flash-preview-05-20": {
-					"name": "Gemini 2.5 Flash Preview (05-20)",
-					"description": "高速で効率的なモデルで、一般的なタスクに適しており、費用対効果が高いです。"
-				}
-			}
+			"description": "Use the Google AI API to access Google's Gemini model family. Requires an API key."
 		},
 		"openai": {
 			"name": "OpenAI Compatible",
@@ -911,9 +867,7 @@
 		},
 		"ollama": {
 			"name": "Ollama",
-			"description": "Run models locally on your computer using Ollama. See their quickstart guide to get started.",
-			"searchPlaceholder": "Search and select a model...",
-			"clearSearch": "Clear search"
+			"description": "Run models locally on your computer using Ollama. See their quickstart guide to get started."
 		},
 		"vertex": {
 			"name": "GCP Vertex AI",
@@ -929,11 +883,7 @@
 		},
 		"sapaicore": {
 			"name": "SAP AI Core",
-			"description": "SAP AI Core is a service for deploying and managing AI models within the SAP ecosystem.",
-			"placeholder": "Select a model...",
-			"deployedModels": "── Deployed Models ──",
-			"notDeployedModels": "── Not Deployed Models ──",
-			"modelLabel": "Model"
+			"description": "SAP AI Core is a service for deploying and managing AI models within the SAP ecosystem."
 		},
 		"mistral": {
 			"name": "Mistral",
@@ -945,15 +895,7 @@
 		},
 		"groq": {
 			"name": "Groq",
-			"description": "Groq offers extremely fast inference speeds through its Language Processing Units (LPUs).",
-			"fetchModelsError": "Failed to refresh Groq models:",
-			"modelLabel": "Model",
-			"searchPlaceholder": "Search and select a model...",
-			"clearSearch": "Clear search",
-			"fetchModelsDescription": "The extension automatically fetches the latest list of models available on ",
-			"groqLinkText": "Groq.",
-			"unsureModelChoice": "If you're unsure which model to choose, Caret works best with ",
-			"recommendedModel": "llama-3.3-70b-versatile."
+			"description": "Groq offers extremely fast inference speeds through its Language Processing Units (LPUs)."
 		},
 		"cerebras": {
 			"name": "Cerebras",
@@ -965,31 +907,11 @@
 		},
 		"baseten": {
 			"name": "Baseten",
-			"description": "Baseten is a platform for deploying and serving custom AI models.",
-			"modelNotStatic": "Model {{newModelId}} is not in the static basetenModels list",
-			"fetchModelsError": "Failed to refresh Baseten models:",
-			"searchPlaceholder": "Search and select a model...",
-			"clearSearch": "Clear search",
-			"infoDescription": "The extension automatically fetches the latest list of models available on",
-			"infoLinkText": "Baseten.",
-			"unsureWhichModel": "If you're unsure which model to choose, Caret works best with",
-			"recommendedModel": "moonshotai/Kimi-K2-Instruct.",
-			"modelLabel": "Model"
+			"description": "Baseten is a platform for deploying and serving custom AI models."
 		},
 		"requesty": {
 			"name": "Requesty",
-			"description": "Requesty is a platform for AI-powered request routing and management.",
-			"modelLabel": "Model",
-			"searchPlaceholder": "Search and select a model...",
-			"clearSearch": "Clear search",
-			"info": {
-				"fullText": {
-					"part1": "The extension automatically fetches the latest list of models available on",
-					"part2": "If you're unsure which model to choose, Caret works best with"
-				},
-				"linkText": "Requesty.",
-				"recommendedModel": "anthropic/claude-3-7-sonnet-latest."
-			}
+			"description": "Requesty is a platform for AI-powered request routing and management."
 		},
 		"fireworks": {
 			"name": "Fireworks AI",
@@ -1021,11 +943,7 @@
 		},
 		"huggingface": {
 			"name": "Hugging Face",
-			"description": "Hugging Face provides inference APIs for a wide range of open-source models.",
-			"fetchModelsError": "Failed to refresh Hugging Face models:",
-			"modelLabel": "Model",
-			"searchPlaceholder": "Search models...",
-			"clearSearch": "Clear search"
+			"description": "Hugging Face provides inference APIs for a wide range of open-source models."
 		},
 		"nebius": {
 			"name": "Nebius AI Studio",
@@ -1059,14 +977,5 @@
 	"persona": {
 		"enablePersonaSystem": "Enable Persona System",
 		"description": "Enable the persona system to customize your AI assistant's personality and response style."
-	},
-	"thinkingBudget": {
-		"enable": "思考バジェットを有効にする",
-		"budgetText": {
-			"part1": "バジェット: ",
-			"part2": "{{value}} トークン"
-		},
-		"ariaLabel": "思考バジェット: {{value}} トークン",
-		"description": "モデルが拡張思考に使用するトークンバジェットを設定します。これにより、複雑なタスクの詳細な分析が可能になりますが、応答時間とコストが増加する可能性があります。"
 	}
 }
