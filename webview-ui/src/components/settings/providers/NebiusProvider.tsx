@@ -32,7 +32,7 @@ export const NebiusProvider = ({ showModelOptions, isPopup, currentMode }: Nebiu
 				{t("providers.nebius.description", "settings")}
 			</p>
 			<ApiKeyField
-				helpText={t("nebiusProvider.apiKeyHelpText", "settings")}
+				helpText={t("providers.nebius.apiKeyHelpText", "settings")}
 				initialValue={apiConfiguration?.nebiusApiKey || ""}
 				onChange={(value) => handleFieldChange("nebiusApiKey", value)}
 				providerName={t("providers.nebius.name", "settings")}

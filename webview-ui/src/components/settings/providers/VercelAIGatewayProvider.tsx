@@ -43,7 +43,7 @@ export const VercelAIGatewayProvider = ({ showModelOptions, isPopup, currentMode
 					setIsLoadingModels(false)
 				})
 				.catch((error) => {
-					console.error(t("vercelAiGatewayProvider.fetchModelsErrorLog", "settings"), error)
+					console.error(t("providers.vercel-ai-gateway.fetchModelsErrorLog", "settings"), error)
 					setVercelAiGatewayModels({})
 					setIsLoadingModels(false)
 				})
@@ -83,7 +83,7 @@ export const VercelAIGatewayProvider = ({ showModelOptions, isPopup, currentMode
 
 	return (
 		<div style={{ display: "flex", flexDirection: "column", gap: 10, marginTop: 2 }}>
-			<p style={{ whiteSpace: "pre-wrap" }}>{t("providers.vercelAiGateway.description", "settings")}</p>
+			<p style={{ whiteSpace: "pre-wrap" }}>{t("providers.vercel-ai-gateway.description", "settings")}</p>
 			<div>
 				<DebouncedTextField
 					initialValue={apiConfiguration?.vercelAiGatewayApiKey || ""}
@@ -91,7 +91,7 @@ export const VercelAIGatewayProvider = ({ showModelOptions, isPopup, currentMode
 					placeholder={t("apiKeyField.placeholder", "settings")}
 					style={{ width: "100%" }}
 					type="password">
-					<span style={{ fontWeight: 500 }}>{t("vercelAiGatewayProvider.apiKeyLabel", "settings")}</span>
+					<span style={{ fontWeight: 500 }}>{t("providers.vercel-ai-gateway.apiKeyLabel", "settings")}</span>
 				</DebouncedTextField>
 				<p
 					style={{
@@ -109,7 +109,7 @@ export const VercelAIGatewayProvider = ({ showModelOptions, isPopup, currentMode
 									color: "var(--vscode-textLink-foreground)",
 									textDecoration: "none",
 								}}>
-								{t("vercelAiGatewayProvider.getApiKeyLinkText", "settings")}
+								{t("providers.vercel-ai-gateway.getApiKeyLinkText", "settings")}
 							</a>
 						</span>
 					)}
@@ -148,9 +148,11 @@ export const VercelAIGatewayProvider = ({ showModelOptions, isPopup, currentMode
 										currentMode,
 									)
 								}
-								placeholder={t("vercelAiGatewayProvider.modelIdPlaceholder", "settings")}
+								placeholder={t("providers.vercel-ai-gateway.modelIdPlaceholder", "settings")}
 								style={{ width: "100%", marginBottom: 10 }}>
-								<span style={{ fontWeight: 500 }}>{t("vercelAiGatewayProvider.modelIdLabel", "settings")}</span>
+								<span style={{ fontWeight: 500 }}>
+									{t("providers.vercel-ai-gateway.modelIdLabel", "settings")}
+								</span>
 							</DebouncedTextField>
 
 							{!isLoadingModels && (
@@ -162,7 +164,7 @@ export const VercelAIGatewayProvider = ({ showModelOptions, isPopup, currentMode
 										color: "var(--vscode-descriptionForeground)",
 										fontStyle: "italic",
 									}}>
-									{t("vercelAiGatewayProvider.fetchModelsError", "settings")}
+									{t("providers.vercel-ai-gateway.fetchModelsError", "settings")}
 								</p>
 							)}
 						</>
@@ -181,7 +183,7 @@ export const VercelAIGatewayProvider = ({ showModelOptions, isPopup, currentMode
 					color: "var(--vscode-descriptionForeground)",
 					fontStyle: "italic",
 				}}>
-				{t("vercelAiGatewayProvider.noteText", "settings")}
+				{t("providers.vercel-ai-gateway.noteText", "settings")}
 			</p>
 		</div>
 	)

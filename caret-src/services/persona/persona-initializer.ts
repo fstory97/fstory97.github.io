@@ -20,49 +20,62 @@ export class PersonaInitializer {
 	/**
 	 * 페르소나 초기화 실행
 	 * template_characters.json에서 isDefault: true 설정된 페르소나를 찾아 설정합니다.
+	 * @returns {Promise<any | null>} 초기화된 페르소나 정보 또는 null
 	 */
-	public async initialize(): Promise<void> {
+	public async initialize(): Promise<any | null> {
 		Logger.info("[CARET-PERSONA] PersonaInitializer: 페르소나 초기화 시작")
 		try {
-			// 0. 레거시 custom_instructions.md 파일 정리
+			Logger.debug("[CARET-PERSONA] PersonaInitializer: 레거시 custom_instructions.md 파일 정리 시도")
 			await this.cleanupLegacyCustomInstructions()
+			Logger.debug("[CARET-PERSONA] PersonaInitializer: 레거시 custom_instructions.md 파일 정리 완료")
 
 			// 1. persona.md 파일 존재 여부 확인
 			const globalRulesDir = await ensureRulesDirectoryExists()
 			const personaMdPath = path.join(globalRulesDir, "persona.md")
+			Logger.debug(`[CARET-PERSONA] PersonaInitializer: persona.md 경로: ${personaMdPath}`)
 
 			// 2. 페르소나 이미지 존재 여부 확인
 			const personaImagesExist = await this.checkPersonaImagesExist()
+			Logger.debug(`[CARET-PERSONA] PersonaInitializer: 페르소나 이미지 존재 여부: ${personaImagesExist}`)
 
 			// 둘 다 존재하면 초기화 건너뛰기
 			if ((await fileExistsAtPath(personaMdPath)) && personaImagesExist) {
-				Logger.info("[CARET-PERSONA] PersonaInitializer: 페르소나가 이미 설정되어 있습니다. 초기화 건너뜁니다.")
-				return
+				Logger.info("[CARET-PERSONA] PersonaInitializer: 페르소나가 이미 설정되어 있습니다. 초기화 건너  킵니다.")
+				return null
 			}
 
 			// 3. template_characters.json 파일에서 기본 페르소나 찾기
 			const defaultPersona = await this.findDefaultPersona()
 			if (!defaultPersona) {
 				Logger.error("[CARET-PERSONA] PersonaInitializer: 기본 페르소나를 찾을 수 없습니다.")
-				return
+				return null
 			}
 
 			Logger.info(`[CARET-PERSONA] PersonaInitializer: 기본 페르소나 '${defaultPersona.character || "알 수 없음"}' 설정`)
 
 			// 4. persona.md 파일이 없으면 생성/업데이트
 			if (!(await fileExistsAtPath(personaMdPath))) {
+				Logger.debug("[CARET-PERSONA] PersonaInitializer: persona.md 파일이 존재하지 않아 생성/업데이트 시도")
 				await this.updatePersonaMd(defaultPersona)
+				Logger.debug("[CARET-PERSONA] PersonaInitializer: persona.md 파일 생성/업데이트 완료")
+			} else {
+				Logger.debug("[CARET-PERSONA] PersonaInitializer: persona.md 파일이 이미 존재하여 건너뜀")
 			}
 
 			// 5. 페르소나 이미지가 없으면 설정
 			if (!personaImagesExist) {
+				Logger.debug("[CARET-PERSONA] PersonaInitializer: 페르소나 이미지가 존재하지 않아 설정 시도")
 				await this.updatePersonaImagesInGlobalStorage(defaultPersona)
+				Logger.debug("[CARET-PERSONA] PersonaInitializer: 페르소나 이미지 설정 완료")
+			} else {
+				Logger.debug("[CARET-PERSONA] PersonaInitializer: 페르소나 이미지가 이미 존재하여 건너뜀")
 			}
 
 			Logger.info("[CARET-PERSONA] PersonaInitializer: 페르소나 초기화 완료")
-
+			return defaultPersona
 		} catch (error) {
 			Logger.error(`[CARET-PERSONA] PersonaInitializer: 페르소나 초기화 실패: ${error}`)
+			return null
 		}
 	}
 
@@ -141,6 +154,11 @@ export class PersonaInitializer {
 
 			const globalRulesDir = await ensureRulesDirectoryExists()
 			const personaMdPath = path.join(globalRulesDir, "persona.md")
+
+			// CARET MODIFICATION: persona.md 파일을 쓰기 전에 디렉토리가 존재하는지 확인하고 없으면 생성
+			const personaMdDir = path.dirname(personaMdPath)
+			await fs.mkdir(personaMdDir, { recursive: true })
+
 			const content = JSON.stringify(personaInstruction, null, 2)
 
 			await writeFile(personaMdPath, content)
@@ -152,13 +170,15 @@ export class PersonaInitializer {
 	}
 
 	/**
-	 * 페르소나 이미지를 globalStorage에 복사합니다.
+	 * 페르소나 이미지를 globalStorage에 복사하고 state에도 저장합니다.
 	 */
 	private async updatePersonaImagesInGlobalStorage(persona: any): Promise<void> {
 		try {
 			// 페르소나 디렉토리 생성
 			const personaDir = path.join(this.context.globalStorageUri.fsPath, "personas")
+			Logger.debug(`[CARET-PERSONA] PersonaInitializer: 페르소나 이미지 디렉토리 생성 시도: ${personaDir}`)
 			await fs.mkdir(personaDir, { recursive: true })
+			Logger.debug(`[CARET-PERSONA] PersonaInitializer: 페르소나 이미지 디렉토리 생성 완료: ${personaDir}`)
 
 			// asset: 경로를 실제 파일 경로로 변환
 			let normalImagePath = persona.avatarUri
@@ -196,8 +216,14 @@ export class PersonaInitializer {
 			const profileDst = path.join(personaDir, "agent_profile.png")
 			const thinkingDst = path.join(personaDir, "agent_thinking.png")
 
+			Logger.debug(`[CARET-PERSONA] PersonaInitializer: 프로필 이미지 복사 시도: ${normalImagePath} → ${profileDst}`)
 			await fs.copyFile(normalImagePath, profileDst)
+			Logger.debug(`[CARET-PERSONA] PersonaInitializer: 프로필 이미지 복사 완료: ${profileDst}`)
+
+			Logger.debug(`[CARET-PERSONA] PersonaInitializer: 생각중 이미지 복사 시도: ${thinkingImagePath} → ${thinkingDst}`)
 			await fs.copyFile(thinkingImagePath, thinkingDst)
+			Logger.debug(`[CARET-PERSONA] PersonaInitializer: 생각중 이미지 복사 완료: ${thinkingDst}`)
+
 
 			Logger.info(`[CARET-PERSONA] PersonaInitializer: 페르소나 이미지를 globalStorage에 복사 완료 (${persona.character})`)
 		} catch (error) {
@@ -283,8 +309,27 @@ export class PersonaInitializer {
  */
 export async function resetPersonaData(context: vscode.ExtensionContext): Promise<void> {
 	try {
+		// 1. globalStorage의 페르소나 이미지 디렉토리 삭제
 		const personaDir = path.join(context.globalStorageUri.fsPath, "personas")
 		await fs.rm(personaDir, { recursive: true, force: true })
+
+		// 2. persona.md 파일 삭제
+		try {
+			const globalRulesDir = await ensureRulesDirectoryExists()
+			const personaMdPath = path.join(globalRulesDir, "persona.md")
+			if (await fileExistsAtPath(personaMdPath)) {
+				await fs.unlink(personaMdPath)
+				Logger.info("[CARET-PERSONA] persona.md file deleted.")
+			}
+		} catch (error) {
+			Logger.warn(`[CARET-PERSONA] Failed to delete persona.md file (this is normal if no file exists): ${error}`)
+		}
+
+		// 3. globalState의 레거시 페르소나 프로필 삭제
+		await context.globalState.update("personaProfile", undefined)
+		Logger.info("[CARET-PERSONA] Legacy personaProfile from globalState deleted.")
+
+
 		Logger.info("[CARET-PERSONA] Persona data reset completed")
 	} catch (error) {
 		Logger.warn(`[CARET-PERSONA] Failed to reset persona data (this is normal if no data exists): ${error}`)

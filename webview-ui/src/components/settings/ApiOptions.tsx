@@ -47,7 +47,7 @@ import { RequestyProvider } from "./providers/RequestyProvider"
 import { SambanovaProvider } from "./providers/SambanovaProvider"
 import { SapAiCoreProvider } from "./providers/SapAiCoreProvider"
 import { TogetherProvider } from "./providers/TogetherProvider"
-import { VercelAIGatewayProvider } from "./providers/VercelAIGatewayProvider"
+import { VercelAIGatewayProvider } from "./providers/VercelAiGatewayProvider"
 import { VertexProvider } from "./providers/VertexProvider"
 import { VSCodeLmProvider } from "./providers/VSCodeLmProvider"
 import { XaiProvider } from "./providers/XaiProvider"
@@ -150,7 +150,7 @@ const ApiOptions = ({ showModelOptions, apiErrorMessage, modelIdErrorMessage, is
 			{ value: "vertex", label: t("providers.vertex.name", "settings") },
 			{ value: "litellm", label: t("providers.litellm.name", "settings") },
 			{ value: "claude-code", label: t("providers.claude-code.name", "settings") },
-			{ value: "sapaicore", label: t("providers.sapaicore.name", "settings") },
+			{ value: "sapaicore", label: t("providers.sap-ai-core.name", "settings") },
 			{ value: "mistral", label: t("providers.mistral.name", "settings") },
 			{ value: "zai", label: t("providers.zai.name", "settings") },
 			{ value: "groq", label: t("providers.groq.name", "settings") },

@@ -289,7 +289,7 @@ const BasetenModelPicker: React.FC<BasetenModelPickerProps> = ({ isPopup, curren
 			) : (
 				<p className="text-xs mt-0 text-[var(--vscode-descriptionForeground)]">
 					{t("providers.baseten.infoDescription", "settings")}{" "}
-					<VSCodeLink className="inline text-inherit" href="https://www.baseten.co/products/model-apis/">
+					<VSCodeLink className="inline text-inherit" href={t("providers.baseten.basetenUrl", "settings")}>
 						{t("providers.baseten.infoLinkText", "settings")}
 					</VSCodeLink>
 					{t("providers.baseten.unsureWhichModel", "settings")}{" "}

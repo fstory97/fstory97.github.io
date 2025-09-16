@@ -11,7 +11,15 @@
 		"setupApiOrLocal": "APIキーまたはローカルLLMをセットアップする",
 		"notifyCaretAccount": "Caretサブスクリプションの通知を受け取る",
 		"saveAndStart": "保存して開始",
-		"startNewTaskWithContext": "コンテキストと共に新しいタスクを開始"
+		"startNewTaskWithContext": "コンテキストと共に新しいタスクを開始",
+		"retry": "Retry",
+		"approve": "Approve",
+		"proceed": "Proceed",
+		"proceedAnyways": "Proceed Anyways",
+		"proceedWhileRunning": "Proceed While Running",
+		"resumeTask": "Resume Task",
+		"condenseConversation": "Condense Conversation",
+		"reportGitHubIssue": "Report GitHub Issue"
 	},
 	"error": {
 		"generic": "エラーが発生しました。",
@@ -94,7 +102,6 @@
 		"toggleError": "ルール切り替えエラー"
 	},
 	"persona": {
-		"enablePersonaSystem": "ペルソナシステムを有効にする",
 		"description": "ペルソナシステムを有効にして、さまざまなAIキャラクターとカスタマイズされた体験を楽しめます。",
 		"management": "ペルソナ管理",
 		"docs": "ドキュメント",
@@ -177,7 +184,7 @@
 			"description": "チャットボットモードとエージェントモードを切り替えると、以前のモードで使用されたAPIとモデルが保持されます。これは、専門家によるコンサルテーション（チャットボット）には強力な推論モデルを使用し、共同開発（エージェント）には安価なコーディングモデルを使用する場合などに役立ちます。"
 		},
 		"apiKey": {
-			"placeholder": "APIキーを入力...",
+			"placeholder": "APIキーを入力してください...",
 			"getYourKeyAn": "こちらで登録して{{providerName}} APIキーを入手できます。",
 			"getYourKeyA": "こちらで登録して{{providerName}} APIキーを入手できます。",
 			"label": "{{providerName}} APIキー",
@@ -193,30 +200,6 @@
 		},
 		"modelIdField": {
 			"label": "モデル"
-		},
-		"openRouter": {
-			"featured": {
-				"claudeSonnet4": {
-					"description": "Clineでのエージェントコーディングに推奨",
-					"label": "ベスト"
-				},
-				"gpt5": {
-					"description": "複雑で長期的なタスクのための最先端モデル",
-					"label": "新規"
-				},
-				"grok": {
-					"description": "複雑なコーディング用の262Kコンテキストを持つ高度なモデル",
-					"label": "無料"
-				}
-			},
-			"switchTo1M": "1Mコンテキストウィンドウモデルに切り替える",
-			"switchTo200K": "200Kコンテキストウィンドウモデルに切り替える",
-			"modelLabel": "モデル",
-			"searchPlaceholder": "モデルを検索して選択...",
-			"clearSearch": "検索をクリア",
-			"info": {
-				"fullText": "拡張機能は<0>OpenRouter</0>で利用可能な最新のモデルリストを自動的に取得します。どのモデルを選択すればよいかわからない場合は、Clineは<1>anthropic/claude-sonnet-4</1>で最適に動作します。現在利用可能な無料オプションを検索することもできます。"
-			}
 		},
 		"requesty": {
 			"modelLabel": "モデル",
@@ -240,12 +223,6 @@
 			"setupDescription": "Google Cloud Vertex AIを使用するには以下が必要です: ",
 			"setupLink1": "1) Google Cloudアカウントを作成 › Vertex AI APIを有効化 › 目的のClaudeモデルを有効化,",
 			"setupLink2": " 2) Google Cloud CLIをインストール › アプリケーションのデフォルト認証情報を設定。"
-		},
-		"vsCodeLm": {
-			"modelLabel": "言語モデル",
-			"selectModelPlaceholder": "モデルを選択...",
-			"getStartedDescription": "VS Code言語モデルAPIを使用すると、他のVS Code拡張機能（GitHub Copilotを含むがこれに限定されない）によって提供されるモデルを実行できます。開始する最も簡単な方法は、VS MarketplaceからCopilot拡張機能をインストールし、Claude 4 Sonnetを有効にすることです。",
-			"experimentalNote": "注: これは非常に実験的な統合であり、期待どおりに動作しない可能性があります。"
 		},
 		"terminalOutputLineLimit": {
 			"label": "ターミナル出力制限",
@@ -477,9 +454,6 @@
 		"openAICompatible": {
 			"description": "OpenAI互換のAPIエンドポイントを使用します。"
 		},
-		"vsCodeLm": {
-			"description": "他のVS Code拡張機能（例: GitHub Copilot）によって提供されるモデルを使用します。"
-		},
 		"claudeCode": {
 			"cliPath": "CLIパス",
 			"cliPathDescription": "'claude-code' CLI実行可能ファイルへのパス。"
@@ -542,13 +516,6 @@
 		"geminiFlashDescription": "一般的なタスクに適した高速で効率的なモデル、優れたコストパフォーマンス",
 		"tagBest": "最高",
 		"tagCostEffective": "コスパ良好"
-	},
-	"validation": {
-		"invalidApiKey": "有効なAPIキーを提供するか、別のプロバイダーを選択してください。"
-	},
-	"apiKey": {
-		"placeholder": "APIキーを入力してください...",
-		"helpText": "このキーはローカルに保存され、この拡張機能からAPIリクエストを行うためだけに使用されます。"
 	},
 	"apiOptions": {
 		"apiProvider": "APIプロバイダー",

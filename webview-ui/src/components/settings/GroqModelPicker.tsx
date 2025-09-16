@@ -257,11 +257,13 @@ const GroqModelPicker: React.FC<GroqModelPickerProps> = ({ isPopup, currentMode 
 			) : (
 				<p className="text-xs mt-0 text-[var(--vscode-descriptionForeground)]">
 					{t("providers.groq.fetchModelsDescription", "settings")}{" "}
-					<VSCodeLink className="inline text-inherit" href="https://console.groq.com/docs/models">
+					<VSCodeLink className="inline text-inherit" href={t("providers.groq.modelDocumentationUrl", "settings")}>
 						{t("providers.groq.groqLinkText", "settings")}
 					</VSCodeLink>
 					{t("providers.groq.unsureModelChoice", "settings")}{" "}
-					<VSCodeLink className="inline text-inherit" onClick={() => handleModelChange("llama-3.3-70b-versatile")}>
+					<VSCodeLink
+						className="inline text-inherit"
+						onClick={() => handleModelChange(t("providers.groq.recommendedModelId", "settings"))}>
 						{t("providers.groq.recommendedModel", "settings")}
 					</VSCodeLink>
 				</p>

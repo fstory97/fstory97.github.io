@@ -4,6 +4,7 @@ import { PersonaService } from "@caret/services/persona/persona-service"
 import { PersonaStorage } from "@caret/services/persona/persona-storage"
 import { UpdatePersonaRequest } from "@shared/proto/caret/persona"
 import { Empty } from "@shared/proto/cline/common"
+import { Logger } from "@/services/logging/Logger"
 import type { Controller } from "../index"
 
 /**
@@ -20,7 +21,7 @@ export async function UpdatePersona(controller: Controller, request: UpdatePerso
 
 		const profile = request.profile
 		const personaStorage = new PersonaStorage()
-		const personaService = new PersonaService()
+		const personaService = PersonaService.getInstance()
 
 		// Handle base64 image data if present
 		let avatarBuffer: Buffer | undefined
@@ -31,7 +32,7 @@ export async function UpdatePersona(controller: Controller, request: UpdatePerso
 				avatarBuffer = Buffer.from(profile.avatarUri.replace(/^data:image\/png;base64,/, ""), "base64")
 			}
 		} catch (error) {
-			console.warn(`Failed to parse avatar image: ${error}`)
+			Logger.warn(`Failed to parse avatar image: ${error}`)
 		}
 
 		try {
@@ -39,7 +40,7 @@ export async function UpdatePersona(controller: Controller, request: UpdatePerso
 				thinkingAvatarBuffer = Buffer.from(profile.thinkingAvatarUri.replace(/^data:image\/png;base64,/, ""), "base64")
 			}
 		} catch (error) {
-			console.warn(`Failed to parse thinking avatar image: ${error}`)
+			Logger.warn(`Failed to parse thinking avatar image: ${error}`)
 		}
 
 		// Save both to persona.md file AND global storage for backward compatibility
@@ -71,11 +72,11 @@ export async function UpdatePersona(controller: Controller, request: UpdatePerso
 		// Notify subscribers of persona change
 		personaService.notifyPersonaChange(profile)
 
-		console.log("[PersonaService] Updated persona profile and saved to persona.md:", profile.name)
+		Logger.info(`[PersonaService] Updated persona profile and saved to persona.md: ${profile.name}`)
 
 		return Empty.create({})
 	} catch (error) {
-		console.error(`Failed to update persona: ${error}`)
+		Logger.error(`Failed to update persona: ${error}`)
 		throw error
 	}
 }

@@ -112,15 +112,16 @@
 			"title": "Caret情報",
 			"description": "Caretのバージョン情報とライセンスを確認します。",
 			"link": "https://github.com/aicoding-caret/caret"
-		}
+		},
+		"launchingBrowser": "Launching browser...",
+		"discardChanges": "Discard Changes"
 	},
 	"about": {
 		"feedbackPrompt": "ご質問やフィードバックはいつでも歓迎します。",
 		"version": "バージョン",
 		"title": "情報",
 		"description": "Caretのバージョン情報とライセンスを確認します。",
-		"documentation": "ドキュメンテーション",
-		"documentation_detailed": "詳細なユーザーマニュアル"
+		"documentation": "ドキュメンテーション"
 	},
 	"labels": {
 		"version": "バージョン",
@@ -317,13 +318,6 @@
 		"description": "デバッグモードと関連設定を管理します。",
 		"errorInSeconds": "エラー発生: {{current}}/{{total}}秒"
 	},
-	"about": {
-		"feedbackPrompt": "ご質問やフィードバックはいつでも歓迎します。",
-		"version": "バージョン",
-		"title": "情報",
-		"description": "Caretのバージョン情報とライセンスを確認します。",
-		"documentation": "ドキュメンテーション"
-	},
 	"modelPicker": {
 		"extensionFetches": "拡張機能は、利用可能な最新のモデルリストを自動的に取得します: ",
 		"unsureWhichModel": "どのモデルを選択すべきか不明な場合は、Caretは以下と最も良く動作します: ",
@@ -382,92 +376,17 @@
 	},
 	"modelSelector": {
 		"label": "モデル",
-		"selectModelPlaceholder": "モデルを選択してください..."
-	},
-	"groqModelPicker": {
-		"modelLabel": "モデル",
-		"searchPlaceholder": "モデルを検索して選択...",
-		"clearSearch": "検索をクリア",
-		"fetchModelsDescription": "拡張機能は、利用可能な最新のモデルリストを自動的に取得します: ",
-		"groqLinkText": "Groq.",
-		"unsureModelChoice": "どのモデルを選択すべきか不明な場合は、Clineは以下と最も良く動作します: ",
-		"recommendedModel": "llama-3.3-70b-versatile."
-	},
-	"huggingFaceModelPicker": {
-		"modelLabel": "モデル",
-		"searchPlaceholder": "モデルを検索...",
-		"clearSearch": "検索をクリア"
+		"selectModelPlaceholder": "Select a model..."
 	},
 	"ollamaModelPicker": {
 		"searchPlaceholder": "モデルを検索して選択...",
 		"clearSearch": "検索をクリア"
-	},
-	"openRouterModelPicker": {
-		"starIconFilled": "★",
-		"starIconEmpty": "☆",
-		"featuredModelDescriptionBest": "Caretのエージェントコーディングに推奨されます",
-		"featuredModelLabelBest": "ベスト",
-		"featuredModelDescriptionNew": "複雑で長期的なタスクのための最先端モデル",
-		"featuredModelLabelNew": "新規",
-		"featuredModelDescriptionFree": "複雑なコーディングのための262Kコンテキストの高度なモデル",
-		"featuredModelLabelFree": "無料",
-		"modelLabel": "モデル",
-		"searchPlaceholder": "モデルを検索して選択...",
-		"clearSearch": "検索をクリア",
-		"switchToOneMContext": "1Mコンテキストウィンドウモデルに切り替える",
-		"switchToTwoHundredKContext": "200Kコンテキストウィンドウモデルに切り替える",
-		"fetchModelsDescription": "拡張機能は、利用可能な最新のモデルリストを自動的に取得します: ",
-		"openRouterLinkText": "OpenRouter.",
-		"unsureModelChoice": "どのモデルを選択すべきか不明な場合は、Clineは以下と最も良く動作します: ",
-		"recommendedModel": "anthropic/claude-sonnet-4.",
-		"searchFreeOptions": "現在利用可能な無料オプションを検索するには、「free」を検索してください。"
 	},
 	"preferredLanguageSetting": {
 		"english": "🇺🇸 英語",
 		"korean": "🇰🇷 韓国語",
 		"chinese": "🇨🇳 中国語",
 		"japanese": "🇯🇵 日本語"
-	},
-	"anthropicProvider": {
-		"switchTo1MContext": "1Mコンテキストウィンドウモデルに切り替える",
-		"switchTo200KContext": "200Kコンテキストウィンドウモデルに切り替える"
-	},
-	"askSageProvider": {
-		"apiUrlPlaceholder": "AskSage API URLを入力してください...",
-		"apiUrlLabel": "AskSage API URL",
-		"apiKeyHelpText": "このキーはローカルに保存され、この拡張機能からのAPIリクエストのためにのみ使用されます。",
-		"modelLabel": "モデル"
-	},
-	"bedrockProvider": {
-		"apiKey": "APIキー",
-		"awsProfile": "AWSプロファイル",
-		"awsCredentials": "AWS認証情報",
-		"profileNamePlaceholder": "プロファイル名を入力（空の場合はデフォルトを使用）",
-		"profileNameLabel": "AWSプロファイル名",
-		"bedrockApiKeyPlaceholder": "Bedrock APIキーを入力",
-		"bedrockApiKeyLabel": "AWS Bedrock APIキー",
-		"accessKeyPlaceholder": "アクセスキーを入力してください...",
-		"accessKeyLabel": "AWSアクセスキー",
-		"secretKeyPlaceholder": "シークレットキーを入力してください...",
-		"secretKeyLabel": "AWSシークレットキー",
-		"sessionTokenPlaceholder": "セッショントークンを入力してください...",
-		"sessionTokenLabel": "AWSセッショントークン",
-		"awsRegionLabel": "AWSリージョン",
-		"selectRegionPlaceholder": "リージョンを選択してください...",
-		"useCustomVpcEndpoint": "カスタムVPCエンドポイントを使用する",
-		"vpcEndpointPlaceholder": "VPCエンドポイントURLを入力してください（オプション）",
-		"useCrossRegionInference": "クロスリージョン推論を使用する",
-		"usePromptCaching": "プロンプトキャッシングを使用する",
-		"profileCredentialsHelpText": "~/.aws/credentialsからAWSプロファイル認証情報を使用します。デフォルトプロファイルを使用するにはプロファイル名を空にしてください。これらの認証情報は、この拡張機能からのAPIリクエストを行うためにのみローカルで使用されます。",
-		"defaultCredentialsHelpText": "上記のキーを入力するか、デフォルトのAWS認証情報プロバイダー（例: ~/.aws/credentialsまたは環境変数）を使用して認証します。これらの認証情報は、この拡張機能からのAPIリクエストを行うためにのみローカルで使用されます。",
-		"modelLabel": "モデル",
-		"selectModelPlaceholder": "モデルを選択してください...",
-		"customModelOption": "カスタム",
-		"customModelDescription": "Bedrockでアプリケーション推論プロファイルを使用する場合は「カスタム」を選択してください。モデルIDフィールドにアプリケーション推論プロファイルARNを入力してください。",
-		"customModelIdPlaceholder": "カスタムモデルIDを入力してください...",
-		"modelIdLabel": "モデルID",
-		"baseInferenceModelLabel": "ベース推論モデル",
-		"selectBaseModelPlaceholder": "モデルを選択してください..."
 	},
 	"clineProvider": {
 		"sortUnderlyingProviderRouting": "基盤となるプロバイダーのルーティングをソートする",
@@ -479,26 +398,6 @@
 		"priceSortingDescription": "プロバイダーを価格でソートし、最も低コストのプロバイダーを優先します。",
 		"throughputSortingDescription": "プロバイダーをスループットでソートし、最も高いスループットのプロバイダーを優先します（コストが増加する場合があります）。",
 		"latencySortingDescription": "プロバイダーを応答時間でソートし、最も低いレイテンシのプロバイダーを優先します。"
-	},
-	"doubaoProvider": {
-		"providerName": "Doubao",
-		"modelLabel": "モデル"
-	},
-	"fireworksProvider": {
-		"providerName": "Fireworks",
-		"modelLabel": "モデル"
-	},
-	"groqProvider": {
-		"providerName": "Groq"
-	},
-	"huaweiCloudMaasProvider": {
-		"providerName": "Huawei Cloud MaaS"
-	},
-	"huggingFaceProvider": {
-		"apiKeyPlaceholder": "APIキーを入力してください...",
-		"apiKeyLabel": "Hugging Face APIキー",
-		"apiKeyHelpText": "このキーはローカルに保存され、この拡張機能からのAPIリクエストのためにのみ使用されます。Hugging Faceプロバイダー設定に依存し、APIを通じて一貫して利用できないため、ここでは価格を表示しません。",
-		"getApiKeyLinkText": "APIキーはこちらで入手してください"
 	},
 	"rules": {
 		"section": {
@@ -529,230 +428,14 @@
 			"loading": "読み込み中..."
 		}
 	},
-	"liteLlmProvider": {
-		"baseUrlPlaceholder": "デフォルト: http://localhost:4000",
-		"baseUrlLabel": "ベースURL（オプション）",
-		"apiKeyPlaceholder": "デフォルト: noop",
-		"apiKeyLabel": "APIキー",
-		"modelIdPlaceholder": "例: anthropic/claude-sonnet-4-20250514",
-		"modelIdLabel": "モデルID",
-		"usePromptCachingLabel": "プロンプトキャッシングを使用する (GA)",
-		"promptCachingHelpText": "プロンプトキャッシングには、サポートされているプロバイダーとモデルが必要です",
-		"extendedThinkingHelpText": "Sonnet-4、o3-mini、Deepseek R1などのモデルで拡張思考が利用可能です。詳細については",
-		"thinkingModeConfigurationLinkText": "思考モード構成",
-		"modelConfigurationLabel": "モデル構成",
-		"supportsImagesLabel": "画像をサポートする",
-		"contextWindowSizeLabel": "コンテキストウィンドウサイズ",
-		"maxOutputTokensLabel": "最大出力トークン",
-		"temperatureLabel": "温度",
-		"unifiedInterfaceHelpText": "LiteLLMは、様々なLLMプロバイダーのモデルにアクセスするための統合インターフェースを提供します。詳細については、その",
-		"quickstartGuideLinkText": "クイックスタートガイド",
-		"forMoreInformationText": "を参照してください。"
-	},
-	"moonshotProvider": {
-		"entrypoint": "Moonshotエントリーポイント"
-	},
-	"mistralProvider": {
-		"name": "ミストラル",
-		"providerName": "Mistral"
-	},
-	"nebiusProvider": {
-		"apiKeyHelpText": "このキーはローカルに保存され、この拡張機能からのAPIリクエストのためにのみ使用されます。(注意: Clineは複雑なプロンプトを使用し、Claudeモデルと最も良く動作します。能力の低いモデルは期待通りに動作しない場合があります。)"
-	},
-	"openAiCompatibleProvider": {
-		"baseUrlPlaceholder": "ベースURLを入力してください...",
-		"baseUrlLabel": "ベースURL",
-		"modelIdPlaceholder": "モデルIDを入力してください...",
-		"modelIdLabel": "モデルID",
-		"customHeadersLabel": "カスタムヘッダー",
-		"addHeaderButton": "ヘッダーを追加",
-		"headerNamePlaceholder": "ヘッダー名",
-		"headerValuePlaceholder": "ヘッダー値",
-		"removeHeaderButton": "削除",
-		"azureApiVersionLabel": "Azure APIバージョンを設定する",
-		"azureApiVersionPlaceholder": "デフォルト: {{defaultValue}}",
-		"modelConfigurationLabel": "モデル構成",
-		"supportsImagesCheckbox": "画像をサポートする",
-		"supportsBrowserUseCheckbox": "ブラウザ使用をサポートする",
-		"enableR1FormatCheckbox": "R1メッセージ形式を有効にする",
-		"contextWindowSizeLabel": "コンテキストウィンドウサイズ",
-		"maxOutputTokensLabel": "最大出力トークン",
-		"inputPriceLabel": "入力価格 / 1Mトークン",
-		"outputPriceLabel": "出力価格 / 1Mトークン",
-		"temperatureLabel": "温度",
-		"notePrefix": "注意:",
-		"noteText": "Caretは複雑なプロンプトを使用し、Claudeモデルと最も良く動作します。能力の低いモデルは期待通りに動作しない場合があります。",
-		"refreshModelsError": "OpenAIモデルの更新に失敗しました:",
-		"providerName": "OpenAI Compatible"
-	},
-	"openRouterProvider": {
-		"balanceDisplay": {
-			"loading": "読み込み中...",
-			"tooltip": "残り残高: {{remainingBalance}}\\n制限: {{limit}}\\n使用量: {{usage}}",
-			"label": "残高: {{formattedBalance}}"
-		},
-		"apiKeyPlaceholder": "APIキーを入力してください...",
-		"apiKeyLabel": "OpenRouter APIキー",
-		"getApiKeyButton": "OpenRouter APIキーを取得する",
-		"apiKeyHelpText": "このキーはローカルに保存され、この拡張機能からのAPIリクエストのためにのみ使用されます。",
-		"sortUnderlyingProviderRoutingCheckbox": "基盤となるプロバイダーのルーティングをソートする",
-		"defaultOption": "デフォルト",
-		"priceOption": "価格",
-		"throughputOption": "スループット",
-		"latencyOption": "レイテンシ",
-		"defaultSortingDescription": "デフォルトの動作は、プロバイダー間（AWS、Google Vertex、Anthropicなど）でリクエストのロードバランシングを行い、プロバイダーの稼働時間を考慮しながら価格を優先します。",
-		"priceSortingDescription": "プロバイダーを価格でソートし、最も低コストのプロバイダーを優先します。",
-		"throughputSortingDescription": "プロバイダーをスループットでソートし、最も高いスループットのプロバイダーを優先します（コストが増加する場合があります）。",
-		"latencySortingDescription": "プロバイダーを応答時間でソートし、最も低いレイテンシのプロバイダーを優先します。",
-		"authError": "OpenRouter認証の開始に失敗しました:"
-	},
-	"qwenCodeProvider": {
-		"apiConfigurationTitle": "Qwen Code API設定",
-		"oauthCredentialsPathPlaceholder": "~/.qwen/oauth_creds.json",
-		"oauthCredentialsPathLabel": "OAuth認証情報パス",
-		"oauthCredentialsPathDescription": "Qwen OAuth認証情報ファイルのパス。~/.qwen/oauth_creds.jsonを使用するか、カスタムパスを指定してください。",
-		"oauthAuthenticationDescription": "Qwen Codeは、公式のQwenクライアントを介した認証が必要なOAuthベースのAPIです。最初にOAuth認証情報を設定する必要があります。",
-		"getStartedTitle": "始めるには:",
-		"installClientStep": "公式Qwenクライアントをインストールする",
-		"authenticateStep": "アカウントを使用して認証する",
-		"credentialsStoredStep": "OAuth認証情報は自動的に保存されます",
-		"setupInstructionsLinkText": "設定手順"
-	},
-	"qwenProvider": {
-		"apiLineLabel": "Alibaba APIライン",
-		"apiLineDescription": "場所に基づいて適切なAPIインターフェースを選択してください。中国にいる場合は中国APIインターフェースを選択してください。それ以外の場合は国際APIインターフェースを選択してください。",
-		"providerName": "Qwen",
-		"apiLineOptions": {
-			"international": "国際API",
-			"china": "中国API"
-		}
-	},
-	"requestyProvider": {
-		"name": "Requesty",
-		"useCustomBaseUrlLabel": "カスタムベースURLを使用する",
-		"customBaseUrlPlaceholder": "カスタムベースURL",
-		"providerName": "Requesty"
-	},
-	"sambanovaProvider": {
-		"name": "SambaNova",
-		"providerName": "SambaNova"
-	},
-	"sapAiCoreProvider": {
-		"clientIdLabel": "AI CoreクライアントID",
-		"clientIdSetMessage": "クライアントIDが設定されました。変更するには、値を再入力してください。",
-		"clientSecretPlaceholder": "AI Coreクライアントシークレットを入力してください...",
-		"clientSecretLabel": "AI Coreクライアントシークレット",
-		"clientSecretSetMessage": "クライアントシークレットが設定されました。変更するには、値を再入力してください。",
-		"baseUrlPlaceholder": "AI CoreベースURLを入力してください...",
-		"baseUrlLabel": "AI CoreベースURL",
-		"tokenUrlPlaceholder": "AI Core認証URLを入力してください...",
-		"tokenUrlLabel": "AI Core認証URL",
-		"resourceGroupPlaceholder": "AI Coreリソースグループを入力してください...",
-		"resourceGroupLabel": "AI Coreリソースグループ",
-		"credentialsHelpText": "これらの認証情報はローカルに保存され、この拡張機能からのAPIリクエストを行うためにのみ使用されます。",
-		"apiAccessInfoLinkText": "SAP AI Core APIアクセスに関する詳細情報はこちらで確認できます。",
-		"orchestrationModeLabel": "オーケストレーションモード",
-		"orchestrationModeDescriptionEnabled": "有効にすると、個別のデプロイメントを必要とせずにすべての利用可能なモデルにアクセスできます。",
-		"orchestrationModeDescriptionDisabled": "無効にすると、AI Coreサービスインスタンスにデプロイされたモデルのみにアクセスできます。",
-		"loadingModels": "モデルをロード中...",
-		"modelFetchError": "モデルの取得に失敗しました。設定を確認してください。",
-		"noModelsFound": "SAP AI Coreサービスインスタンスからモデルを取得できません。SAP AI Core設定を確認するか、デプロイメントがサービスインスタンスにデプロイされて実行中であることを確認してください。",
-		"configureCredentialsPrompt": "利用可能なモデルを表示するには、SAP AI Core認証情報を構成してください。",
-		"fetchModelsErrorLog": "SAP AI Coreモデルの取得に失敗しました:",
-		"clientIdPlaceholder": "AI CoreクライアントIDを入力...",
-		"retryButton": "再試行",
-		"selectModelPlaceholder": "モデルを選択してください..."
-	},
-	"togetherProvider": {
-		"name": "Together",
-		"modelIdPlaceholder": "モデルIDを入力してください...",
-		"modelIdLabel": "モデルID",
-		"notePrefix": "注意:",
-		"noteText": "Caretは複雑なプロンプトを使用し、Claudeモデルと最も良く動作します。能力の低いモデルは期待通りに動作しない場合があります。",
-		"providerName": "Together"
-	},
-	"vercelAiGatewayProvider": {
-		"apiKeyLabel": "Vercel AI Gateway APIキー",
-		"getApiKeyLinkText": "こちらでVercel AI Gateway APIキーを取得してください。",
-		"modelIdPlaceholder": "モデルIDを入力してください（例: openai/gpt-4o）...",
-		"modelIdLabel": "モデルID",
-		"fetchModelsError": "Vercel AI Gatewayからモデルを取得できません。",
-		"noteText": "注意: 無料ティアユーザーは、これらのリクエストはVercel AI Gatewayによって無料で提供されるため、コストが0と表示されます。",
-		"fetchModelsErrorLog": "Vercel AI Gatewayモデルの取得に失敗しました:"
-	},
-	"vertexProvider": {
-		"projectIdPlaceholder": "プロジェクトIDを入力してください...",
-		"projectIdLabel": "Google CloudプロジェクトID",
-		"regionLabel": "Google Cloudリージョン",
-		"selectRegionPlaceholder": "リージョンを選択してください...",
-		"descriptionPart1": "Google Cloud Vertex AIを使用するには、次の手順を実行する必要があります。",
-		"linkText1": "1) Google Cloudアカウントを作成 › Vertex AI APIを有効にする › 目的のClaudeモデルを有効にする、",
-		"linkText2": "2) Google Cloud CLIをインストール › アプリケーションのデフォルト認証情報を構成する。"
-	},
-	"vertex": {
-		"modelName": "モデル名",
-		"instructions": "指示",
-		"contextWindow": "コンテキストウィンドウ",
-		"maxTokens": "最大トークン",
-		"safetySettings": "安全設定",
-		"temperature": "温度"
-	},
 	"claude": {
 		"systemPrompt": "システムプロンプト",
 		"maxTokens": "最大トークン",
 		"apiVersion": "APIバージョン"
 	},
-	"vsCodeLmProvider": {
-		"languageModelLabel": "言語モデル",
-		"selectModelPlaceholder": "モデルを選択してください...",
-		"descriptionPart1": "VS Code言語モデルAPIを使用すると、他のVS Code拡張機能（GitHub Copilotを含むがこれに限定されない）によって提供されるモデルを実行できます。開始する最も簡単な方法は、VS Marketplaceから",
-		"copilotExtensionLinkText": "Copilot拡張機能",
-		"descriptionPart2": "をインストールし、Claude 4 Sonnetを有効にすることです。",
-		"noteText": "注意: これは非常に実験的な統合であり、期待どおりに機能しない可能性があります。"
-	},
-	"xaiProvider": {
-		"name": "X AI",
-		"notePrefix": "注意:",
-		"noteText": "Caretは複雑なプロンプトを使用し、Claudeモデルと最も良く動作します。能力の低いモデルは期待通りに動作しない場合があります。",
-		"reasoningEffortLabel": "推論の努力",
-		"reasoningEffortDescription": "高い努力は、より徹底的な分析を生成する可能性がありますが、時間がかかり、より多くのトークンを使用します。",
-		"providerName": "xAI",
-		"modifyReasoningEffort": "推論の努力を変更",
-		"reasoningEffortOptions": {
-			"low": "低",
-			"high": "高"
-		}
-	},
-	"zaiProvider": {
-		"entrypointLabel": "Z AIエントリーポイント",
-		"entrypointDescription": "場所に基づいて適切なAPIエントリーポイントを選択してください。中国にいる場合はopen.bigmodel.cnを選択してください。それ以外の場合はapi.z.aiを選択してください。",
-		"name": "Z AI",
-		"providerName": "Z AI"
-	},
-	"requestyModelPicker": {
-		"searchPlaceholder": "モデルを検索して選択...",
-		"clearSearch": "検索をクリア",
-		"descriptionPart1": "拡張機能は、利用可能な最新のモデルリストを自動的に取得します: ",
-		"requestyLinkText": "Requesty.",
-		"descriptionPart2": "どのモデルを選択すべきか不明な場合は、Clineは以下と最も良く動作します: ",
-		"recommendedModel": "anthropic/claude-3-7-sonnet-latest."
-	},
 	"sapAiCoreModelPicker": {
 		"deployedModelsHeader": "── デプロイ済みモデル ──",
 		"notDeployedModelsHeader": "── デプロイされていないモデル ──"
-	},
-	"providers.caret": {
-		"description": "Caretはコーディングタスクに最適化された高品質なAIモデルを提供します。",
-		"login": "Caretログイン",
-		"or": "または",
-		"apiKeyConfigured": "✓ APIキーが設定されました",
-		"features": "機能:",
-		"feature1": "無料ティア利用可能",
-		"feature2": "コーディング専用に最適化されたモデル",
-		"feature3": "高速レスポンス時間",
-		"feature4": "日本語サポート",
-		"visit": "訪問:",
-		"getApiKey": "でサインアップしてAPIキーを取得してください。"
 	},
 	"planMode": "プランモード",
 	"actMode": "アクトモード",
@@ -768,9 +451,6 @@
 		"lineHeight": "行の高さ",
 		"fontFamily": "フォントファミリー"
 	},
-	"modelSelector": {
-		"label": "モデル"
-	},
 	"pricing": {
 		"inputPrice": "入力価格: {{price}}/百万トークン",
 		"cacheReadPrice": "キャッシュ読み取り価格: {{price}}/百万トークン",
@@ -784,85 +464,147 @@
 		"supportsBrowserUse": "ブラウザ使用対応",
 		"contextWindow": "コンテキストウィンドウ: {{size}}"
 	},
-	"basetenModelPicker": {
-		"modelNotStatic": "モデル {{newModelId}} は静的basetenModelsリストにありません",
-		"fetchModelsError": "Basetenモデルの更新に失敗しました:",
-		"searchPlaceholder": "モデルを検索して選択...",
-		"clearSearch": "検索をクリア",
-		"description": "拡張機能は、利用可能な最新のモデルリストを自動的に取得します",
-		"recommendedModel": "moonshotai/Kimi-K2-Instruct."
-	},
-	"geminiProvider": {
-		"baseUrlPlaceholder": "デフォルト: https://generativelanguage.googleapis.com"
-	},
-	"ollamaProvider": {
-		"baseUrlLabel": "カスタムベースURLを使用する",
-		"baseUrlPlaceholder": "デフォルト: http://localhost:11434",
-		"apiKeyHelpText": "認証済みOllamaインスタンスまたはクラウドサービス用のオプションのAPIキー。ローカルインストールでは空のままにしてください。",
-		"apiKeyPlaceholder": "APIキーを入力 (オプション)...",
-		"modelLabel": "モデル",
-		"modelPickerPlaceholder": {
-			"search": "モデルを検索して選択...",
-			"example": "例: llama3.1"
-		},
-		"fetchModelsError": "Ollamaサーバーからモデルを取得できません。Ollamaが実行中でアクセス可能であることを確認するか、モデルIDを手動で入力してください。",
-		"modelContextWindowLabel": "モデルコンテキストウィンドウ",
-		"requestTimeoutPlaceholder": "デフォルト: 30000 (30秒)",
-		"requestTimeoutLabel": "リクエストタイムアウト (ms)",
-		"requestTimeoutDescription": "API応答を待つ最大時間（ミリ秒）。この時間を超えるとタイムアウトします。",
-		"descriptionPart1": "Ollamaを使用すると、コンピュータでローカルにモデルを実行できます。開始方法については、その",
-		"quickstartGuideLinkText": "クイックスタートガイド",
-		"notePrefix": "注意:",
-		"noteText": "Caretは複雑なプロンプトを使用し、Claudeモデルと最も良く動作します。能力の低いモデルは期待通りに動作しない場合があります。",
-		"fetchModelsErrorLog": "Ollamaモデルの取得に失敗しました:",
-		"providerName": "Ollama",
-		"contextWindowPlaceholder": "例: 32768"
-	},
-	"openAiNativeProvider": {
-		"providerName": "OpenAI"
-	},
-	"lmStudioProvider": {
-		"baseUrlPlaceholder": "デフォルト: http://localhost:1234",
-		"modelPlaceholder": "例: meta-llama-3.1-8b-instruct",
-		"contextWindowTooltip": "編集不可 - 値は接続されたエンドポイントによって返されます",
-		"parseModelsError": "LM Studioモデルの解析に失敗しました:",
-		"description1": "LM Studioを使用すると、コンピュータでローカルにモデルを実行できます。開始方法については、その",
-		"quickstartGuideLink": "クイックスタートガイド",
-		"description2": "また、この拡張機能で使用するには、LM Studioの",
-		"localServerLink": "ローカルサーバー",
-		"description3": "機能をlms server startで開始する必要があります。",
-		"noteBody": "Caretは複雑なプロンプトを使用し、Claudeモデルと最も良く動作します。能力の低いモデルは期待通りに動作しない場合があります。"
-	},
 	"api-configuration": {
 		"title": "API設定"
 	},
 	"providers": {
 		"caret": {
-			"name": "Caret"
+			"name": "Caret",
+			"description": "Caretはコーディングタスクに最適化された高品質なAIモデルを提供します。",
+			"login": "Caretアカウントでログイン",
+			"loginError": "Caretログイン失敗",
+			"apiKeyConfigured": "✓ APIキーが設定されました",
+			"features": "機能:",
+			"feature1": "最新モデルへのアクセス",
+			"feature2": "使用状況とクレジットを表示する請求ダッシュボード",
+			"feature3": "プロンプトプレイグラウンド",
+			"feature4": "その他の今後の機能"
 		},
 		"openrouter": {
 			"name": "OpenRouter",
-			"description": "単一のAPIキーで多種多様なオープンソースおよびプロプライエタリモデルにアクセスします。"
+			"description": "単一のAPIキーで多種多様なオープンソースおよびプロプライエタリモデルにアクセスします。",
+			"balanceDisplay": {
+				"loading": "読み込み中...",
+				"tooltip": "残高: {{remainingBalance}}\\n制限: {{limit}}\\n使用量: {{usage}}",
+				"label": "残高: {{formattedBalance}}"
+			},
+			"apiKeyPlaceholder": "APIキーを入力...",
+			"apiKeyLabel": "OpenRouter APIキー",
+			"getApiKeyButton": "OpenRouter APIキーを取得",
+			"apiKeyHelpText": "このキーはローカルに保存され、この拡張機能からのAPIリクエストにのみ使用されます。",
+			"sortUnderlyingProviderRoutingCheckbox": "基盤プロバイダールーティングを並び替え",
+			"defaultOption": "デフォルト",
+			"priceOption": "価格",
+			"throughputOption": "スループット",
+			"latencyOption": "レイテンシ",
+			"defaultSortingDescription": "デフォルトの動作は、プロバイダーの稼働時間を考慮して価格を優先しながら、プロバイダー（AWS、Google Vertex、Anthropicなど）間でリクエストの負荷分散を行います",
+			"priceSortingDescription": "最低コストのプロバイダーを優先して、プロバイダーを価格順に並べ替えます",
+			"throughputSortingDescription": "最高スループットのプロバイダーを優先して、プロバイダーをスループット順に並べ替えます（コストが増加する可能性があります）",
+			"latencySortingDescription": "最低レイテンシのプロバイダーを優先して、プロバイダーを応答時間順に並べ替えます",
+			"authError": "OpenRouter認証の開始に失敗しました:",
+			"modelPicker": {
+				"starIconFilled": "★",
+				"starIconEmpty": "☆",
+				"featuredModelDescriptionBest": "Recommended for Caret's agent coding",
+				"featuredModelLabelBest": "Best",
+				"featuredModelDescriptionNew": "Cutting-edge models for complex, long-horizon tasks",
+				"featuredModelLabelNew": "New",
+				"featuredModelDescriptionFree": "Advanced model with 262K context for complex coding",
+				"featuredModelLabelFree": "Free",
+				"modelLabel": "モデル",
+				"searchPlaceholder": "モデルを検索して選択...",
+				"clearSearch": "検索をクリア",
+				"switchTo1M": "1Mコンテキストウィンドウモデルに切り替える",
+				"switchToOneMContext": "1Mコンテキストウィンドウモデルに切り替える",
+				"switchToTwoHundredKContext": "Switch to 200K context window model",
+				"fetchModelsDescription": "The extension automatically fetches the latest list of models available on ",
+				"linkText": "OpenRouter.",
+				"unsureModelChoice": "If you're unsure which model to choose, Caret works best with ",
+				"recommendedModel": "anthropic/claude-3-7-sonnet-latest.",
+				"searchFreeOptions": "To find free options currently available, try searching for \"free\"."
+			}
 		},
 		"gemini": {
 			"name": "Google Gemini",
-			"description": "Google AI APIを使用してGoogleのGeminiモデルファミリーにアクセスします。APIキーが必要です。"
+			"description": "Google AI APIを使用してGoogleのGeminiモデルファミリーにアクセスします。APIキーが必要です。",
+			"baseUrlPlaceholder": "デフォルト: https://generativelanguage.googleapis.com"
 		},
 		"openai": {
-			"name": "OpenAI Compatible",
-			"description": "OpenAI APIと互換性のある任意のモデルエンドポイントに接続します。"
+			"name": "OpenAI 互換",
+			"description": "OpenAI API と互換性のある任意のモデルエンドポイントに接続します。",
+			"baseUrlPlaceholder": "ベースURLを入力...",
+			"baseUrlLabel": "ベースURL",
+			"modelIdPlaceholder": "モデルIDを入力...",
+			"modelIdLabel": "モデルID",
+			"customHeadersLabel": "カスタムヘッダー",
+			"addHeaderButton": "ヘッダーを追加",
+			"headerNamePlaceholder": "ヘッダー名",
+			"headerValuePlaceholder": "ヘッダー値",
+			"removeHeaderButton": "削除",
+			"azureApiVersionLabel": "Azure APIバージョンを設定",
+			"azureApiVersionPlaceholder": "デフォルト: {{defaultValue}}",
+			"modelConfigurationLabel": "モデル設定",
+			"supportsImagesCheckbox": "画像をサポート",
+			"supportsBrowserUseCheckbox": "ブラウザ使用をサポート",
+			"enableR1FormatCheckbox": "R1メッセージ形式を有効化",
+			"contextWindowSizeLabel": "コンテキストウィンドウサイズ",
+			"maxOutputTokensLabel": "最大出力トークン",
+			"inputPriceLabel": "入力価格 / 100万トークン",
+			"outputPriceLabel": "出力価格 / 100万トークン",
+			"temperatureLabel": "温度",
+			"notePrefix": "注意:",
+			"noteText": "Caretは複雑なプロンプトを使用し、Claudeモデルと最適に動作します。能力の低いモデルは期待通りに動作しない可能性があります。",
+			"refreshModelsError": "OpenAIモデルの更新に失敗:",
+			"providerName": "OpenAI 互換"
 		},
 		"anthropic": {
 			"name": "Anthropic",
-			"description": "Anthropic APIを使用してClaudeモデルファミリーに直接アクセスします。APIキーが必要です。"
+			"description": "Anthropic API を使用してClaudeモデルファミリーに直接アクセスします。APIキーが必要です。",
+			"switchTo1MContext": "1M コンテキストウィンドウモデルに切り替え",
+			"switchTo200KContext": "200K コンテキストウィンドウモデルに切り替え"
 		},
 		"bedrock": {
 			"name": "Amazon Bedrock",
-			"description": "Amazon Bedrockは、Amazonおよび主要なAIスタートアップからの幅広い基盤モデルへのアクセスを提供します。"
+			"description": "Amazon Bedrockは、Amazonと主要なAIスタートアップの幅広い基盤モデルへのアクセスを提供します。",
+			"apiKey": "APIキー",
+			"awsProfile": "AWSプロファイル",
+			"awsCredentials": "AWS認証情報",
+			"profileNamePlaceholder": "プロファイル名を入力（空の場合はデフォルト）",
+			"profileNameLabel": "AWSプロファイル名",
+			"bedrockApiKeyPlaceholder": "Bedrock APIキーを入力",
+			"bedrockApiKeyLabel": "AWS Bedrock APIキー",
+			"accessKeyPlaceholder": "アクセスキーを入力...",
+			"accessKeyLabel": "AWSアクセスキー",
+			"secretKeyPlaceholder": "シークレットキーを入力...",
+			"secretKeyLabel": "AWSシークレットキー",
+			"sessionTokenPlaceholder": "セッショントークンを入力...",
+			"sessionTokenLabel": "AWSセッショントークン",
+			"awsRegionLabel": "AWSリージョン",
+			"selectRegionPlaceholder": "リージョンを選択...",
+			"useCustomVpcEndpoint": "カスタムVPCエンドポイントを使用",
+			"vpcEndpointPlaceholder": "VPCエンドポイントURLを入力（オプション）",
+			"useCrossRegionInference": "クロスリージョン推論を使用",
+			"usePromptCaching": "プロンプトキャッシングを使用",
+			"profileCredentialsHelpText": "~/.aws/credentialsのAWSプロファイル認証情報を使用しています。デフォルトプロファイルを使用する場合は、プロファイル名を空にしてください。これらの認証情報は、この拡張機能からAPIリクエストを行うためにローカルでのみ使用されます。",
+			"defaultCredentialsHelpText": "上記のキーを提供するか、デフォルトのAWS認証情報プロバイダー（~/.aws/credentialsまたは環境変数など）を使用して認証してください。これらの認証情報は、この拡張機能からAPIリクエストを行うためにローカルでのみ使用されます。",
+			"modelLabel": "モデル",
+			"selectModelPlaceholder": "モデルを選択...",
+			"customModelOption": "カスタム",
+			"customModelDescription": "Bedrockでアプリケーション推論プロファイルを使用する場合は「カスタム」を選択してください。モデルIDフィールドにアプリケーション推論プロファイルARNを入力してください。",
+			"customModelIdPlaceholder": "カスタムモデルIDを入力...",
+			"modelIdLabel": "モデルID",
+			"baseInferenceModelLabel": "ベース推論モデル",
+			"selectBaseModelPlaceholder": "モデルを選択..."
 		},
 		"vscode-lm": {
 			"name": "VS Code LM API",
-			"description": "VS Code言語モデルAPIを介して、他の拡張機能（例: GitHub Copilot）によって提供されるモデルを使用します。"
+			"description": "VS Code言語モデルAPIを介して、他の拡張機能（例: GitHub Copilot）によって提供されるモデルを使用します。",
+			"languageModelLabel": "言語モデル",
+			"selectModelPlaceholder": "モデルを選択してください...",
+			"descriptionPart1": "VS Code言語モデルAPIを使用すると、他のVS Code拡張機能（GitHub Copilotを含むがこれに限定されない）によって提供されるモデルを実行できます。開始する最も簡単な方法は、VS Marketplaceから",
+			"copilotExtensionLinkText": "Copilot拡張機能",
+			"descriptionPart2": "をインストールし、Claude 4 Sonnetを有効にすることです。",
+			"noteText": "注意: これは非常に実験的な統合であり、期待どおりに機能しない可能性があります。"
 		},
 		"deepseek": {
 			"name": "DeepSeek",
@@ -870,119 +612,364 @@
 		},
 		"openai-native": {
 			"name": "OpenAI",
-			"description": "OpenAIの公式APIを使用してGPTモデルに直接アクセスします。APIキーが必要です。"
+			"description": "OpenAIの公式APIを使用してGPTモデルに直接アクセスします。APIキーが必要です。",
+			"providerName": "OpenAI"
 		},
 		"ollama": {
 			"name": "Ollama",
-			"description": "Ollamaを使用してコンピュータでローカルにモデルを実行します。開始方法についてはクイックスタートガイドを参照してください。"
+			"description": "Ollamaを使用してコンピュータでローカルにモデルを実行します。開始方法についてはクイックスタートガイドを参照してください。",
+			"baseUrlLabel": "カスタムベースURLを使用する",
+			"baseUrlPlaceholder": "デフォルト: http://localhost:11434",
+			"apiKeyHelpText": "認証済みOllamaインスタンスまたはクラウドサービス用のオプションのAPIキー。ローカルインストールでは空のままにしてください。",
+			"apiKeyPlaceholder": "APIキーを入力 (オプション)...",
+			"modelLabel": "モデル",
+			"modelPickerPlaceholder": {
+				"search": "モデルを検索して選択...",
+				"example": "例: llama3.1"
+			},
+			"fetchModelsError": "Ollamaサーバーからモデルを取得できません。Ollamaが実行中でアクセス可能であることを確認するか、モデルIDを手動で入力してください。",
+			"modelContextWindowLabel": "モデルコンテキストウィンドウ",
+			"requestTimeoutPlaceholder": "デフォルト: 30000 (30秒)",
+			"requestTimeoutLabel": "リクエストタイムアウト (ms)",
+			"requestTimeoutDescription": "API応答を待つ最大時間（ミリ秒）。この時間を超えるとタイムアウトします。",
+			"descriptionPart1": "Ollamaを使用すると、コンピュータでローカルにモデルを実行できます。開始方法については、その",
+			"quickstartGuideLinkText": "クイックスタートガイド",
+			"notePrefix": "注意:",
+			"noteText": "Caretは複雑なプロンプトを使用し、Claudeモデルと最も良く動作します。能力の低いモデルは期待通りに動作しない場合があります。",
+			"fetchModelsErrorLog": "Ollamaモデルの取得に失敗しました:",
+			"providerName": "Ollama",
+			"contextWindowPlaceholder": "例: 32768"
 		},
 		"vertex": {
 			"name": "GCP Vertex AI",
-			"description": "Google Cloud Vertex AIは、Googleの最先端モデルを含む様々なAIモデルを提供します。"
+			"description": "Google Cloud Vertex AI は、Google の最先端モデルを含む様々な AI モデルを提供します。",
+			"projectIdPlaceholder": "プロジェクト ID を入力...",
+			"projectIdLabel": "Google Cloud プロジェクト ID",
+			"regionLabel": "Google Cloud リージョン",
+			"selectRegionPlaceholder": "リージョンを選択...",
+			"setupDescription": "Google Cloud Vertex AI を使用するには以下が必要です: ",
+			"setupLink1": "1) Google Cloud アカウントの作成 › Vertex AI API の有効化 › 希望する Claude モデルの有効化、",
+			"setupLink2": " 2) Google Cloud CLI のインストール › アプリケーション デフォルト認証情報の設定。",
+			"descriptionPart1": "Google Cloud Vertex AI を使用するには、以下が必要です",
+			"linkText1": "1) Google Cloud アカウントの作成 › Vertex AI API の有効化 › 希望する Claude モデルの有効化、",
+			"linkText2": "2) Google Cloud CLI のインストール › アプリケーション デフォルト認証情報の設定。"
 		},
 		"litellm": {
 			"name": "LiteLLM",
-			"description": "LiteLLMは、100以上のLLM APIへの統合インターフェースを提供します。"
-		},
-		"claude-code": {
-			"name": "Claude Code",
-			"description": "Claude Codeは、Anthropicの専門モデルで、コード関連タスクに最適化されています。"
-		},
-		"sapaicore": {
-			"name": "SAP AI Core",
-			"description": "SAP AI Coreは、SAPエコシステム内でAIモデルをデプロイおよび管理するためのサービスです。"
+			"description": "LiteLLMは、100以上のLLM APIへの統合インターフェースを提供します。",
+			"baseUrlPlaceholder": "デフォルト: http://localhost:4000",
+			"baseUrlLabel": "ベースURL（オプション）",
+			"apiKeyPlaceholder": "デフォルト: noop",
+			"apiKeyLabel": "APIキー",
+			"modelIdPlaceholder": "例: anthropic/claude-sonnet-4-20250514",
+			"modelIdLabel": "モデルID",
+			"usePromptCachingLabel": "プロンプトキャッシングを使用する (GA)",
+			"promptCachingHelpText": "プロンプトキャッシングには、サポートされているプロバイダーとモデルが必要です",
+			"extendedThinkingHelpText": "Sonnet-4、o3-mini、Deepseek R1などのモデルで拡張思考が利用可能です。詳細については",
+			"thinkingModeConfigurationLinkText": "思考モード構成",
+			"modelConfigurationLabel": "モデル構成",
+			"supportsImagesLabel": "画像をサポートする",
+			"contextWindowSizeLabel": "コンテキストウィンドウサイズ",
+			"maxOutputTokensLabel": "最大出力トークン",
+			"temperatureLabel": "温度",
+			"usePromptCachingDescription": "プロンプトキャッシングには、サポートされているプロバイダーとモデルが必要です",
+			"extendedThinkingDescription1": "Sonnet-4、o3-mini、Deepseek R1などのモデルで拡張思考が利用可能です。詳細については",
+			"extendedThinkingLink": "思考モード構成",
+			"description1": "LiteLLMは、100以上のLLM APIへの統合インターフェースを提供します。詳細については、その",
+			"quickstartGuideLink": "クイックスタートガイド",
+			"description2": "を参照してください。",
+			"unifiedInterfaceHelpText": "LiteLLMは、様々なLLMプロバイダーのモデルにアクセスするための統合インターフェースを提供します。詳細については、その",
+			"quickstartGuideLinkText": "クイックスタートガイド",
+			"forMoreInformationText": "を参照してください。"
 		},
 		"mistral": {
-			"name": "Mistral",
-			"description": "Mistral AIは、高性能なオープンソースおよび商用モデルを開発しています。"
+			"name": "ミストラル",
+			"description": "Mistral AIは、高性能なオープンソースおよび商用モデルを開発しています。",
+			"providerName": "Mistral"
 		},
 		"zai": {
 			"name": "Z AI",
-			"description": "Zhipu AIは、バイリンガル（中国語と英語）の会話モデルを提供します。"
+			"description": "Zhipu AIは、バイリンガル（中国語と英語）の会話モデルを提供します。",
+			"entrypointLabel": "Z AIエントリーポイント",
+			"entrypointDescription": "場所に基づいて適切なAPIエントリーポイントを選択してください。中国にいる場合はopen.bigmodel.cnを選択してください。それ以外の場合はapi.z.aiを選択してください。",
+			"providerName": "Z AI"
 		},
 		"groq": {
 			"name": "Groq",
-			"description": "Groqは、その言語処理ユニット（LPU）を介して非常に高速な推論速度を提供します。"
+			"description": "Groqは、その言語処理ユニット（LPU）を介して非常に高速な推論速度を提供します。",
+			"providerName": "Groq",
+			"modelLabel": "モデル",
+			"searchPlaceholder": "モデルを検索して選択してください...",
+			"clearSearch": "検索をクリア",
+			"fetchModelsError": "Groqモデルの取得に失敗しました:",
+			"fetchModelsDescription": "拡張機能は次から利用可能な最新のモデル一覧を自動的に取得します: ",
+			"groqLinkText": "Groq.",
+			"unsureModelChoice": "どのモデルを選ぶべきかわからない場合、Caretは次のモデルで最も良く動作します: ",
+			"recommendedModel": "llama-3.3-70b-versatile.",
+			"recommendedModelId": "llama-3.3-70b-versatile",
+			"modelDocumentationUrl": "https://console.groq.com/docs/models"
 		},
 		"cerebras": {
 			"name": "Cerebras",
-			"description": "Cerebrasは、大規模なAIモデルのトレーニングと実行のためのハードウェアを構築しています。"
+			"description": "Cerebrasは、大規模なAIモデルのトレーニングと実行のためのハードウェアを構築しています。",
+			"sotaDescription": "SOTAコーディングモデル、約2000トークン/秒（$0無料枠）",
+			"noSubscription": "• Cerebrasサブスクリプションをお持ちでない場合はこれを使用してください",
+			"contextWindow": "• 64Kコンテキストウィンドウ",
+			"rateLimits": "• レート制限: 150K TPM, 1M TPH/TPD, 10 RPM, 100 RPH/RPD",
+			"upgrade": "より高い制限のためにアップグレード: https://cloud.cerebras.ai/?utm=cline"
 		},
 		"vercel-ai-gateway": {
 			"name": "Vercel AI Gateway",
-			"description": "Vercel AI Gatewayは、様々なモデルプロバイダーへの信頼性の高い接続を提供します。"
+			"description": "Vercel AI Gatewayは、様々なモデルプロバイダーへの信頼性の高い接続を提供します。",
+			"apiKeyLabel": "Vercel AI Gateway APIキー",
+			"getApiKeyLinkText": "こちらでVercel AI Gateway APIキーを取得してください。",
+			"modelIdPlaceholder": "モデルIDを入力してください（例: openai/gpt-4o）...",
+			"modelIdLabel": "モデルID",
+			"fetchModelsError": "Vercel AI Gatewayからモデルを取得できません。",
+			"noteText": "注意: 無料ティアユーザーは、これらのリクエストはVercel AI Gatewayによって無料で提供されるため、コストが0と表示されます。",
+			"fetchModelsErrorLog": "Vercel AI Gatewayモデルの取得に失敗しました:"
 		},
 		"baseten": {
 			"name": "Baseten",
-			"description": "Basetenは、カスタムAIモデルをデプロイおよび提供するためのプラットフォームです。"
+			"description": "Basetenはカスタムライブラリモデルをデプロイ・提供するプラットフォームです。",
+			"modelNotStatic": "モデル {{newModelId}} が静的basetenModelsリストにありません",
+			"fetchModelsError": "Basetenモデルの更新に失敗しました:",
+			"searchPlaceholder": "モデルを検索・選択...",
+			"clearSearch": "検索をクリア",
+			"infoDescription": "拡張機能が以下で利用可能な最新モデルリストを自動取得します",
+			"infoLinkText": "Baseten",
+			"recommendedModel": "moonshotai/Kimi-K2-Instruct.",
+			"unsureWhichModel": "どのモデルを選ぶべきか不明な場合は、次をお勧めします",
+			"modelLabel": "モデル",
+			"apiKeyHelp": "このキーはローカルに保存され、この拡張機能からAPIリクエストを行うためだけに使用されます。こちらでサインアップして{{providerName}} APIキーを入手できます。",
+			"basetenUrl": "https://www.baseten.co/products/model-apis/",
+			"basetenSignupUrl": "https://baseten.co/"
 		},
 		"requesty": {
 			"name": "Requesty",
-			"description": "Requestyは、AIを活用したリクエストルーティングと管理のためのプラットフォームです。"
+			"description": "Requestyは、AI駆動のリクエストルーティングと管理のためのプラットフォームです。",
+			"useCustomBaseUrlLabel": "カスタムベースURLを使用",
+			"customBaseUrlPlaceholder": "カスタムベースURL",
+			"modelLabel": "モデル",
+			"searchPlaceholder": "モデルを検索・選択...",
+			"clearSearch": "検索をクリア",
+			"requestyUrl": "https://app.requesty.ai/router/list",
+			"info": {
+				"fullText": {
+					"part1": "拡張機能が以下で利用可能な最新モデルリストを自動取得します",
+					"part2": "どのモデルを選ぶべきか不明な場合は、Caretは以下と最適に動作します"
+				},
+				"linkText": "Requesty.",
+				"recommendedModel": "anthropic/claude-3-7-sonnet-latest."
+			}
 		},
 		"fireworks": {
 			"name": "Fireworks AI",
-			"description": "Fireworks AIは、開発者が生成AIモデルを実験およびデプロイするためのプラットフォームです。"
+			"description": "Fireworks AIは、開発者が生成AIモデルを実験およびデプロイするためのプラットフォームです。",
+			"providerName": "Fireworks",
+			"modelLabel": "モデル"
 		},
 		"together": {
 			"name": "Together",
-			"description": "Together AIは、主要なオープンソースモデルを実行するためのクラウドプラットフォームを提供します。"
+			"description": "Together AIは、主要なオープンソースモデルを実行するためのクラウドプラットフォームを提供します。",
+			"modelIdPlaceholder": "モデルIDを入力してください...",
+			"modelIdLabel": "モデルID",
+			"notePrefix": "注意:",
+			"noteText": "Caretは複雑なプロンプトを使用し、Claudeモデルと最も良く動作します。能力の低いモデルは期待通りに動作しない場合があります。",
+			"providerName": "Together"
 		},
 		"qwen": {
 			"name": "Alibaba Qwen",
-			"description": "Alibaba Qwenは、様々な自然言語処理タスクのための強力な大規模言語モデルです。"
+			"description": "Alibaba Qwenは、様々な自然言語処理タスクのための強力な大規模言語モデルです。",
+			"apiLineLabel": "Alibaba APIライン",
+			"apiLineDescription": "場所に基づいて適切なAPIインターフェースを選択してください。中国にいる場合は中国APIインターフェースを選択してください。それ以外の場合は国際APIインターフェースを選択してください。",
+			"providerName": "Qwen",
+			"apiLineOptions": {
+				"international": "国際API",
+				"china": "中国API"
+			}
 		},
 		"qwen-code": {
 			"name": "Qwen Code",
-			"description": "Qwen Codeは、コード生成と補完のためのAlibabaの専門AIモデルです。"
+			"description": "Qwen Codeは、コード生成と補完のためのAlibabaの専門AIモデルです。",
+			"apiConfigurationTitle": "Qwen Code API設定",
+			"oauthCredentialsPathPlaceholder": "~/.qwen/oauth_creds.json",
+			"oauthCredentialsPathLabel": "OAuth認証情報パス",
+			"oauthCredentialsPathDescription": "Qwen OAuth認証情報ファイルのパス。~/.qwen/oauth_creds.jsonを使用するか、カスタムパスを指定してください。",
+			"oauthAuthenticationDescription": "Qwen Codeは、公式のQwenクライアントを介した認証が必要なOAuthベースのAPIです。最初にOAuth認証情報を設定する必要があります。",
+			"getStartedTitle": "始めるには:",
+			"installClientStep": "公式Qwenクライアントをインストールする",
+			"authenticateStep": "アカウントを使用して認証する",
+			"credentialsStoredStep": "OAuth認証情報は自動的に保存されます",
+			"setupInstructionsLinkText": "設定手順"
 		},
 		"doubao": {
 			"name": "Bytedance Doubao",
-			"description": "Doubaoは、ByteDanceによって開発された会話型AIモデルファミリーです。"
+			"description": "Doubaoは、ByteDanceによって開発された会話型AIモデルファミリーです。",
+			"providerName": "Doubao",
+			"modelLabel": "モデル"
 		},
 		"lmstudio": {
 			"name": "LM Studio",
-			"description": "LM Studioを使用すると、ローカルマシンでLLMを発見、ダウンロード、実行できます。"
+			"description": "LM Studioを使用すると、ローカルマシンでLLMを発見、ダウンロード、実行できます。",
+			"contextWindowLabel": "コンテキストウィンドウ",
+			"baseUrlPlaceholder": "デフォルト: http://localhost:1234",
+			"modelPlaceholder": "例: meta-llama-3.1-8b-instruct",
+			"contextWindowTooltip": "編集不可 - 値は接続されたエンドポイントによって返されます",
+			"parseModelsError": "LM Studioモデルの解析に失敗しました:",
+			"description1": "LM Studioを使用すると、コンピュータでローカルにモデルを実行できます。開始方法については、その",
+			"quickstartGuideLink": "クイックスタートガイド",
+			"description2": "また、この拡張機能で使用するには、LM Studioの",
+			"localServerLink": "ローカルサーバー",
+			"description3": "機能をlms server startで開始する必要があります。",
+			"noteBody": "Caretは複雑なプロンプトを使用し、Claudeモデルと最も良く動作します。能力の低いモデルは期待通りに動作しない場合があります。"
 		},
 		"moonshot": {
 			"name": "Moonshot",
-			"description": "Moonshot AIは、長いコンテキストウィンドウを持つモデルに特化しています。"
+			"description": "Moonshot AIは、長いコンテキストウィンドウを持つモデルに特化しています。",
+			"entrypoint": "Moonshotエントリーポイント"
 		},
 		"huggingface": {
 			"name": "Hugging Face",
-			"description": "Hugging Faceは、幅広いオープンソースモデルの推論APIを提供します。"
+			"description": "Hugging Faceは、幅広いオープンソースモデルの推論APIを提供します。",
+			"apiKeyPlaceholder": "APIキーを入力してください...",
+			"apiKeyLabel": "Hugging Face APIキー",
+			"apiKeyHelpText": "このキーはローカルに保存され、この拡張機能からAPIリクエストを行うためにのみ使用されます。Hugging Faceプロバイダーの設定によって価格が異なり、APIを通じて一貫して利用できないため、ここでは価格を表示しません。",
+			"getApiKeyLinkText": "ここでAPIキーを取得してください",
+			"modelLabel": "モデル",
+			"searchPlaceholder": "モデルを検索...",
+			"clearSearch": "検索をクリア",
+			"fetchModelsError": "Hugging Faceモデルの取得に失敗しました:",
+			"apiKeyUrl": "https://huggingface.co/settings/tokens"
 		},
 		"nebius": {
 			"name": "Nebius AI Studio",
-			"description": "Nebius AIは、Yandexのテクノロジーに基づいたAIサービスを提供します。"
+			"description": "Nebius AIは、Yandexのテクノロジーに基づいたAIサービスを提供します。",
+			"apiKeyHelpText": "このキーはローカルに保存され、この拡張機能からのAPIリクエストのためにのみ使用されます。(注意: Clineは複雑なプロンプトを使用し、Claudeモデルと最も良く動作します。能力の低いモデルは期待通りに動作しない場合があります。)"
 		},
 		"asksage": {
 			"name": "AskSage",
-			"description": "AskSageは、研究および学術用途向けに設計されたAIモデルを提供します。"
+			"description": "AskSageは、研究および学術用途向けに設計されたAIモデルを提供します。",
+			"apiUrlPlaceholder": "AskSage API URLを入力してください...",
+			"apiUrlLabel": "AskSage API URL",
+			"apiKeyHelpText": "このキーはローカルに保存され、この拡張機能からのAPIリクエストのためにのみ使用されます。",
+			"modelLabel": "モデル"
 		},
 		"xai": {
-			"name": "xAI",
-			"description": "xAIは、真実であることを目指す大規模言語モデルGrokを開発しています。"
+			"name": "X AI",
+			"description": "xAIは、真実であることを目指す大規模言語モデルGrokを開発しています。",
+			"notePrefix": "注意:",
+			"noteText": "Caretは複雑なプロンプトを使用し、Claudeモデルと最も良く動作します。能力の低いモデルは期待通りに動作しない場合があります。",
+			"reasoningEffortLabel": "推論の努力",
+			"reasoningEffortDescription": "高い努力は、より徹底的な分析を生成する可能性がありますが、時間がかかり、より多くのトークンを使用します。",
+			"providerName": "xAI",
+			"modifyReasoningEffort": "推論の努力を変更",
+			"reasoningEffortOptions": {
+				"low": "低",
+				"high": "高"
+			}
 		},
 		"sambanova": {
 			"name": "SambaNova",
-			"description": "SambaNovaは、エンタープライズグレードのAIアプリケーション向けに高性能モデルを提供します。"
+			"description": "SambaNovaは、エンタープライズグレードのAIアプリケーション向けに高性能モデルを提供します。",
+			"providerName": "SambaNova"
 		},
 		"huawei-cloud-maas": {
 			"name": "Huawei Cloud MaaS",
-			"description": "Huawei Cloud MaaS (Model-as-a-Service) は、様々なAIモデルを提供します。"
+			"description": "Huawei Cloud MaaS (Model-as-a-Service) は、様々なAIモデルを提供します。",
+			"providerName": "Huawei Cloud MaaS"
 		},
 		"dify": {
 			"name": "Dify.ai",
-			"description": "Dify.aiは、LLMを活用したアプリケーションを構築および運用するためのプラットフォームです。"
+			"description": "Dify.aiは、LLMを活用したアプリケーションを構築および運用するためのプラットフォームです。",
+			"baseUrlLabel": "ベースURL",
+			"baseUrlPlaceholder": "DifyベースURLを入力してください..."
 		},
 		"cline": {
 			"name": "Caret",
 			"description": "Caretは、コーディングタスク向けに最適化された高品質なAIモデルを提供します。"
+		},
+		"claude-code": {
+			"name": "Claude Code",
+			"description": "Claude Codeは、Anthropicの専門モデルで、コード関連タスクに最適化されています。",
+			"cliPath": "CLIパス",
+			"cliPathDescription": "'claude-code' CLI実行可能ファイルへのパス。",
+			"cliPathPlaceholder": "claude",
+			"model": "モデル"
+		},
+		"sap-ai-core": {
+			"name": "SAP AI Core",
+			"description": "SAP AI CoreはSAPエコシステム内でAIモデルをデプロイ・管理するサービスです。",
+			"clientIdLabel": "AI Core クライアント ID",
+			"clientIdSetMessage": "クライアント ID が設定されました。変更するには値を再入力してください。",
+			"clientSecretPlaceholder": "AI Core クライアントシークレットを入力...",
+			"clientSecretLabel": "AI Core クライアントシークレット",
+			"clientSecretSetMessage": "クライアントシークレットが設定されました。変更するには値を再入力してください。",
+			"baseUrlPlaceholder": "AI Core ベース URL を入力...",
+			"baseUrlLabel": "AI Core ベース URL",
+			"tokenUrlPlaceholder": "AI Core 認証 URL を入力...",
+			"tokenUrlLabel": "AI Core 認証 URL",
+			"resourceGroupPlaceholder": "AI Core リソースグループを入力...",
+			"resourceGroupLabel": "AI Core リソースグループ",
+			"credentialsHelpText": "これらの認証情報はローカルに保存され、この拡張機能からAPIリクエストを行うためにのみ使用されます。",
+			"apiAccessInfoLinkText": "SAP AI Core API アクセスに関する詳細情報はこちらをご覧ください。",
+			"orchestrationModeLabel": "オーケストレーションモード",
+			"orchestrationModeDescriptionEnabled": "有効にすると、個別のデプロイメントを必要とせずにすべての利用可能なモデルにアクセスできます。",
+			"orchestrationModeDescriptionDisabled": "無効にすると、AI Core サービスインスタンスでデプロイされたモデルのみにアクセスできます。",
+			"loadingModels": "モデル読み込み中...",
+			"modelFetchError": "モデルの取得に失敗しました。設定を確認してください。",
+			"noModelsFound": "SAP AI Core サービスインスタンスからモデルを取得できません。SAP AI Core 設定を確認するか、デプロイメントがサービスインスタンスでデプロイされ実行されていることを確認してください",
+			"configureCredentialsPrompt": "利用可能なモデルを表示するには、SAP AI Core の認証情報を設定してください。",
+			"fetchModelsErrorLog": "SAP AI Core モデル取得エラー:",
+			"clientIdPlaceholder": "AI Core クライアント ID を入力...",
+			"retryButton": "再試行",
+			"selectModelPlaceholder": "モデルを選択..."
 		}
 	},
 	"persona": {
 		"enablePersonaSystem": "ペルソナシステムを有効にする",
 		"description": "ペルソナシステムを有効にして、AIアシスタントの個性と応答スタイルをカスタマイズします。"
+	},
+	"thinkingBudget": {
+		"enable": "思考予算を有効にする",
+		"budgetText": {
+			"part1": "思考予算: ",
+			"part2": "{{value}} トークン"
+		},
+		"ariaLabel": "思考予算を {{value}} トークンに設定",
+		"description": "モデルが内部推論に使用できる最大トークン数を制御します。値が大きいほどより徹底的な分析が可能ですが、コストが増加します。"
+	},
+	"validation": {
+		"apiKey": {
+			"required": "有効なAPIキーを入力するか、別のプロバイダーを選択する必要があります。"
+		},
+		"region": {
+			"required": "AWS Bedrockで使用するリージョンを選択する必要があります。"
+		},
+		"googleCloud": {
+			"projectIdAndRegion": "有効なGoogle CloudプロジェクトIDとリージョンを入力する必要があります。"
+		},
+		"openai": {
+			"baseUrlApiKeyModel": "有効なベースURL、APIキー、およびモデルIDを入力する必要があります。"
+		},
+		"modelId": {
+			"required": "有効なモデルIDを入力する必要があります。",
+			"unavailable": "指定されたモデルIDは利用できません。別のモデルを選択してください。"
+		},
+		"modelSelector": {
+			"required": "有効なモデルセレクターを入力する必要があります。"
+		},
+		"baseUrl": {
+			"required": "有効なベースURLを入力するか、別のプロバイダーを選択する必要があります。"
+		},
+		"clientId": {
+			"required": "有効なクライアントIDを入力するか、別のプロバイダーを選択する必要があります。"
+		},
+		"clientSecret": {
+			"required": "有効なクライアントシークレットを入力するか、別のプロバイダーを選択する必要があります。"
+		},
+		"authUrl": {
+			"required": "有効な認証URLを入力するか、別のプロバイダーを選択する必要があります。"
+		}
 	}
 }

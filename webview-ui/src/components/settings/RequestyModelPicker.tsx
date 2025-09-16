@@ -254,7 +254,7 @@ const RequestyModelPicker: React.FC<RequestyModelPickerProps> = ({ isPopup, curr
 					}}>
 					{t("providers.requesty.info.fullText.part1", "settings")}{" "}
 					<VSCodeLink
-						href="https://app.requesty.ai/router/list"
+						href={t("providers.requesty.requestyUrl", "settings")}
 						key="requesty"
 						style={{ display: "inline", fontSize: "inherit" }}>
 						{t("providers.requesty.info.linkText", "settings")}

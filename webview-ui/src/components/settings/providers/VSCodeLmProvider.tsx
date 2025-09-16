@@ -43,10 +43,10 @@ export const VSCodeLmProvider = ({ currentMode }: VSCodeLmProviderProps) => {
 
 	return (
 		<div style={{ display: "flex", flexDirection: "column", gap: 10, marginTop: 2 }}>
-			<p style={{ whiteSpace: "pre-wrap" }}>{t("providers.vsCodeLm.description", "settings")}</p>
+			<p style={{ whiteSpace: "pre-wrap" }}>{t("providers.vscode-lm.description", "settings")}</p>
 			<DropdownContainer className="dropdown-container" zIndex={DROPDOWN_Z_INDEX - 2}>
 				<label htmlFor="vscode-lm-model">
-					<span style={{ fontWeight: 500 }}>{t("settings.vsCodeLm.modelLabel")}</span>
+					<span style={{ fontWeight: 500 }}>{t("providers.vscode-lm.languageModelLabel", "settings")}</span>
 				</label>
 				{vsCodeLmModels.length > 0 ? (
 					<VSCodeDropdown
@@ -70,7 +70,7 @@ export const VSCodeLmProvider = ({ currentMode }: VSCodeLmProviderProps) => {
 								? `${vsCodeLmModelSelector.vendor ?? ""}/${vsCodeLmModelSelector.family ?? ""}`
 								: ""
 						}>
-						<VSCodeOption value="">{t("settings.vsCodeLm.selectModelPlaceholder")}</VSCodeOption>
+						<VSCodeOption value="">{t("providers.vscode-lm.selectModelPlaceholder", "settings")}</VSCodeOption>
 						{vsCodeLmModels.map((model) => (
 							<VSCodeOption key={`${model.vendor}/${model.family}`} value={`${model.vendor}/${model.family}`}>
 								{model.vendor} - {model.family}
@@ -84,7 +84,9 @@ export const VSCodeLmProvider = ({ currentMode }: VSCodeLmProviderProps) => {
 							marginTop: "5px",
 							color: "var(--vscode-descriptionForeground)",
 						}}>
-						{t("settings.vsCodeLm.getStartedDescription")}
+						{t("providers.vscode-lm.descriptionPart1", "settings")}{" "}
+						{t("providers.vscode-lm.copilotExtensionLinkText", "settings")}{" "}
+						{t("providers.vscode-lm.descriptionPart2", "settings")}
 					</p>
 				)}
 
@@ -95,7 +97,7 @@ export const VSCodeLmProvider = ({ currentMode }: VSCodeLmProviderProps) => {
 						color: "var(--vscode-errorForeground)",
 						fontWeight: 500,
 					}}>
-					{t("settings.vsCodeLm.experimentalNote")}
+					{t("providers.vscode-lm.noteText", "settings")}
 				</p>
 			</DropdownContainer>
 		</div>

@@ -66,7 +66,7 @@ export const LMStudioProvider = ({ currentMode }: LMStudioProviderProps) => {
 				}
 			})
 			.catch((error) => {
-				console.error(t("lmStudioProvider.parseModelsError", "settings"), error)
+				console.error(t("providers.lmstudio.parseModelsError", "settings"), error)
 			})
 	}, [endpoint])
 
@@ -102,7 +102,7 @@ export const LMStudioProvider = ({ currentMode }: LMStudioProviderProps) => {
 				initialValue={apiConfiguration?.lmStudioBaseUrl}
 				label={t("baseUrlField.label", "settings")}
 				onChange={(value) => handleFieldChange("lmStudioBaseUrl", value)}
-				placeholder={t("lmStudioProvider.baseUrlPlaceholder", "settings")}
+				placeholder={t("providers.lmstudio.baseUrlPlaceholder", "settings")}
 			/>
 
 			<div className="font-semibold">{t("modelSelector.label", "settings")}</div>
@@ -142,16 +142,16 @@ export const LMStudioProvider = ({ currentMode }: LMStudioProviderProps) => {
 							currentMode,
 						)
 					}
-					placeholder={t("lmStudioProvider.modelPlaceholder", "settings")}
+					placeholder={t("providers.lmstudio.modelPlaceholder", "settings")}
 					style={{ width: "100%" }}
 				/>
 			)}
 
-			<div className="font-semibold">{t("settings.modelInfoView.contextWindowLabel", "settings")}</div>
+			<div className="font-semibold">{t("modelInfoView.contextWindowLabel", "settings")}</div>
 			<VSCodeTextField
 				className="w-full pointer-events-none"
 				disabled={true}
-				title={t("lmStudioProvider.contextWindowTooltip", "settings")}
+				title={t("providers.lmstudio.contextWindowTooltip", "settings")}
 				value={String(currentLoadedContext ?? lmStudioMaxTokens ?? "0")}
 			/>
 

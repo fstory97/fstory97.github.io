@@ -27,7 +27,7 @@ const SapAiCoreModelPicker: React.FC<SapAiCoreModelPickerProps> = ({
 	placeholder,
 	useOrchestrationMode = false,
 }) => {
-	const finalPlaceholder = placeholder ?? t("providers.sapaicore.placeholder", "settings")
+	const finalPlaceholder = placeholder ?? t("providers.sap-ai-core.placeholder", "settings")
 
 	const handleModelChange = (event: any) => {
 		const newModelId = event.target.value
@@ -89,7 +89,7 @@ const SapAiCoreModelPicker: React.FC<SapAiCoreModelPickerProps> = ({
 				// Add section separator (disabled option)
 				options.push(
 					<VSCodeOption disabled key="deployed-header" value="">
-						{t("providers.sapaicore.deployedModels", "settings")}
+						{t("providers.sap-ai-core.deployedModels", "settings")}
 					</VSCodeOption>,
 				)
 
@@ -107,7 +107,7 @@ const SapAiCoreModelPicker: React.FC<SapAiCoreModelPickerProps> = ({
 				// Add section separator (disabled option)
 				options.push(
 					<VSCodeOption disabled key="supported-header" value="">
-						{t("providers.sapaicore.notDeployedModels", "settings")}
+						{t("providers.sap-ai-core.notDeployedModels", "settings")}
 					</VSCodeOption>,
 				)
 
@@ -127,7 +127,7 @@ const SapAiCoreModelPicker: React.FC<SapAiCoreModelPickerProps> = ({
 	return (
 		<DropdownContainer className="dropdown-container" zIndex={SAP_AI_CORE_MODEL_PICKER_Z_INDEX}>
 			<label htmlFor="sap-ai-core-model-dropdown">
-				<span className="font-medium">{t("providers.sapaicore.modelLabel", "settings")}</span>
+				<span className="font-medium">{t("providers.sap-ai-core.modelLabel", "settings")}</span>
 			</label>
 			<VSCodeDropdown
 				id="sap-ai-core-model-dropdown"

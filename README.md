@@ -58,7 +58,7 @@
 **Personalized AI Companion** - Your unique persona for enjoyable coding  
 **Enhanced System Prompts** - Smarter and more efficient AI responses  
 **4 Languages Support** - English, Korean, Japanese, Chinese + 4-language manuals  
-**25 Providers, 223 Models** - Cline v3.26.6 fully compatible + extended  
+**25 Providers, 300 Models** - Cline v3.26.6 fully compatible + extended  
 
 ## #1 Feature: Create Your Personal AI Coding Partner
 
@@ -150,7 +150,7 @@ Search "Caret" in VS Code Extensions tab → Install
 ### Step 2: API Key Setup  
 ```
 Enter API key for your preferred AI provider in settings
-(Caret supports 223 models from 25 providers)
+(Caret supports 300 models from 25 providers)
 ```
 
 ### Step 3: Choose Persona
@@ -187,7 +187,7 @@ System prompt optimization provides more efficient AI responses.
 ### Latest Cline v3.26.6 Architecture Fully Compatible
 
 <div align="center">
-  <h3><strong>25 Providers</strong> | <strong>223 Models</strong> | <strong>Cline v3.26.6 Fully Compatible</strong></h3>
+  <h3><strong>25 Providers</strong> | <strong>300 Models</strong> | <strong>Cline v3.26.6 Fully Compatible</strong></h3>
   
   **Major Providers**: OpenAI GPT-5, Anthropic Claude-4, Google Gemini 2.5, DeepSeek V3, Qwen3, etc.
   

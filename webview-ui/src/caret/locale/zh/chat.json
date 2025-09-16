@@ -460,5 +460,6 @@
 		"radio2": "单选2",
 		"tag": "标签",
 		"textAreaPlaceholder": "文本区域"
-	}
+	},
+	"seeNewChanges": "See new changes"
 }

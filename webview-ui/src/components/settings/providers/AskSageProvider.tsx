@@ -34,7 +34,7 @@ export const AskSageProvider = ({ showModelOptions, isPopup, currentMode }: AskS
 				{t("providers.asksage.description", "settings")}
 			</p>
 			<ApiKeyField
-				helpText={t("askSageProvider.apiKeyHelpText", "settings")}
+				helpText={t("providers.asksage.apiKeyHelpText", "settings")}
 				initialValue={apiConfiguration?.asksageApiKey || ""}
 				onChange={(value) => handleFieldChange("asksageApiKey", value)}
 				providerName={t("providers.asksage.name", "settings")}
@@ -43,16 +43,16 @@ export const AskSageProvider = ({ showModelOptions, isPopup, currentMode }: AskS
 			<DebouncedTextField
 				initialValue={apiConfiguration?.asksageApiUrl || askSageDefaultURL}
 				onChange={(value) => handleFieldChange("asksageApiUrl", value)}
-				placeholder={t("askSageProvider.apiUrlPlaceholder", "settings")}
+				placeholder={t("providers.asksage.apiUrlPlaceholder", "settings")}
 				style={{ width: "100%" }}
 				type="url">
-				<span style={{ fontWeight: 500 }}>{t("askSageProvider.apiUrlLabel", "settings")}</span>
+				<span style={{ fontWeight: 500 }}>{t("providers.asksage.apiUrlLabel", "settings")}</span>
 			</DebouncedTextField>
 
 			{showModelOptions && (
 				<>
 					<ModelSelector
-						label={t("askSageProvider.modelLabel", "settings")}
+						label={t("providers.asksage.modelLabel", "settings")}
 						models={askSageModels}
 						onChange={(e) =>
 							handleModeFieldChange(

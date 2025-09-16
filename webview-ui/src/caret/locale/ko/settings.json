@@ -46,7 +46,7 @@
 	"useDifferentModelsDescription": "계획과 실행 모드 사이를 전환하면 이전 모드에서 사용된 API와 모델이 유지됩니다. 예를 들어, 저렴한 코딩 모델이 실행할 계획을 설계하기 위해 강력한 추론 모델을 사용할 때 유용할 수 있습니다.",
 	"theme": {
 		"dark": "다크 테마",
-		"light": "라이트 테마", 
+		"light": "라이트 테마",
 		"auto": "자동 테마"
 	},
 	"appearance": {
@@ -55,11 +55,12 @@
 		"fontFamily": "폰트 패밀리"
 	},
 	"modelSelector": {
-		"label": "모델"
+		"label": "모델",
+		"selectModelPlaceholder": "모델을 선택하세요..."
 	},
 	"pricing": {
 		"inputPrice": "입력 가격: {{price}}/백만 토큰",
-		"cacheReadPrice": "캐시 읽기 가격: {{price}}/백만 토큰", 
+		"cacheReadPrice": "캐시 읽기 가격: {{price}}/백만 토큰",
 		"outputPriceStandard": "출력 가격 (표준): {{price}}/백만 토큰",
 		"outputPriceReasoning": "출력 가격 (추론 예산 > 0): {{price}}/백만 토큰",
 		"contextWindow": "컨텍스트 윈도우: {{size}}/백만 토큰",
@@ -352,14 +353,6 @@
 		"description": "디버그 모드 및 관련 설정을 관리합니다.",
 		"errorInSeconds": "오류 발생: {{current}}/{{total}}초"
 	},
-	"about": {
-		"feedbackPrompt": "질문이나 피드백이 있다면, 언제라도 환영합니다.",
-		"version": "버전",
-		"title": "정보",
-		"description": "Caret 버전을 확인하고 관련 정보를 볼 수 있습니다.",
-		"documentation": "문서",
-		"documentation_detailed": "상세 사용자 매뉴얼"
-	},
 	"modelPicker": {
 		"extensionFetches": "확장 프로그램이 다음에서 사용 가능한 최신 모델 목록을 자동으로 가져옵니다: ",
 		"unsureWhichModel": "어떤 모델을 선택할지 확실하지 않다면, Caret은 다음과 함께 가장 잘 작동합니다: ",
@@ -402,117 +395,29 @@
 		"outputPriceStandard": "출력 가격 (표준)",
 		"outputPriceThinking": "출력 가격 (추론 예산 > 0)",
 		"outputPrice": "출력 가격",
-		"doesNotSupportBrowser": "Does not support browser use",
-		"supportsBrowser": "Supports browser use",
-		"doesNotSupportCache": "Does not support prompt caching",
-		"supportsCache": "Supports prompt caching",
+		"doesNotSupportBrowser": "브라우저 사용 미지원",
+		"supportsBrowser": "브라우저 사용 지원",
+		"doesNotSupportCache": "프롬프트 캐싱 미지원",
+		"supportsCache": "프롬프트 캐싱 지원",
 		"contextWindow": "컨텍스트 윈도우",
 		"cacheWritesPrice": "캐시 쓰기 가격",
 		"cacheReadsPrice": "캐시 읽기 가격",
-		"supportsImagesLabel": "Supports images:",
-		"supportsComputerUseLabel": "Supports computer use:",
-		"supportsCacheLabel": "Supports prompt caching:",
-		"doesNotSupportImagesLabel": "Does not support images:",
-		"doesNotSupportComputerUseLabel": "Does not support computer use:",
-		"doesNotSupportCacheLabel": "Does not support prompt caching:"
-	},
-	"modelSelector": {
-		"label": "모델",
-		"selectModelPlaceholder": "모델을 선택하세요..."
-	},
-	"groqModelPicker": {
-		"modelLabel": "모델",
-		"searchPlaceholder": "모델 검색 및 선택...",
-		"clearSearch": "검색 지우기",
-		"description": {},
-		"fetchModelsDescription": "The extension automatically fetches the latest list of models available on ",
-		"groqLinkText": "Groq.",
-		"unsureModelChoice": "If you're unsure which model to choose, Caret works best with ",
-		"recommendedModel": "llama-3.3-70b-versatile."
-	},
-	"huggingFaceModelPicker": {
-		"modelLabel": "모델",
-		"searchPlaceholder": "모델 검색...",
-		"clearSearch": "검색 지우기"
+		"supportsImagesLabel": "이미지 지원:",
+		"supportsComputerUseLabel": "컴퓨터 사용 지원:",
+		"supportsCacheLabel": "프롬프트 캐싱 지원:",
+		"doesNotSupportImagesLabel": "이미지 미지원:",
+		"doesNotSupportComputerUseLabel": "컴퓨터 사용 미지원:",
+		"doesNotSupportCacheLabel": "프롬프트 캐싱 미지원:"
 	},
 	"ollamaModelPicker": {
 		"searchPlaceholder": "모델 검색 및 선택...",
 		"clearSearch": "검색 지우기"
-	},
-	"openRouterModelPicker": {
-		"starIconFilled": "★",
-		"starIconEmpty": "☆",
-		"featuredModelDescriptionBest": "Caret의 에이전트 코딩에 권장됩니다",
-		"featuredModelLabelBest": "최고",
-		"featuredModelDescriptionNew": "복잡하고 장기적인 작업을 위한 최첨단 모델",
-		"featuredModelLabelNew": "신규",
-		"featuredModelDescriptionFree": "복잡한 코딩을 위한 262K 컨텍스트의 고급 모델",
-		"featuredModelLabelFree": "무료",
-		"modelLabel": "모델",
-		"searchPlaceholder": "모델 검색 및 선택...",
-		"clearSearch": "검색 지우기",
-		"switchToOneMContext": "1M 컨텍스트 창 모델로 전환",
-		"switchToTwoHundredKContext": "200K 컨텍스트 창 모델로 전환",
-		"fetchModelsDescription": "확장 프로그램이 다음에서 사용 가능한 최신 모델 목록을 자동으로 가져옵니다: ",
-		"openRouterLinkText": "OpenRouter.",
-		"unsureModelChoice": "어떤 모델을 선택할지 확실하지 않다면, Caret은 다음과 함께 가장 잘 작동합니다: ",
-		"recommendedModel": "anthropic/claude-sonnet-4.",
-		"searchFreeOptions": "현재 사용 가능한 무료 옵션을 찾으려면 \"free\"를 검색해보세요."
 	},
 	"preferredLanguageSetting": {
 		"english": "🇺🇸 영어",
 		"korean": "🇰🇷 한국어",
 		"chinese": "🇨🇳 중국어",
 		"japanese": "🇯🇵 일본어"
-	},
-	"anthropicProvider": {
-		"switchTo1MContext": "1M 컨텍스트 창 모델로 전환",
-		"switchTo200KContext": "200K 컨텍스트 창 모델로 전환"
-	},
-	"askSageProvider": {
-		"apiKeyHelpText": "이 키는 로컬에 저장되며 이 확장 프로그램에서 API 요청을 하는 데만 사용됩니다.",
-		"apiUrlPlaceholder": "AskSage API URL을 입력하세요...",
-		"apiUrlLabel": "AskSage API URL",
-		"modelLabel": "모델"
-	},
-	"bedrockProvider": {
-		"apiKey": "API 키",
-		"awsProfile": "AWS 프로필",
-		"awsCredentials": "AWS 자격 증명",
-		"profileNamePlaceholder": "프로필 이름 입력 (비워두면 기본값 사용)",
-		"profileNameLabel": "AWS 프로필 이름",
-		"bedrockApiKeyPlaceholder": "Bedrock API 키 입력",
-		"bedrockApiKeyLabel": "AWS Bedrock API 키",
-		"accessKeyPlaceholder": "액세스 키 입력...",
-		"accessKeyLabel": "AWS 액세스 키",
-		"secretKeyPlaceholder": "비밀 키 입력...",
-		"secretKeyLabel": "AWS 비밀 키",
-		"sessionTokenPlaceholder": "세션 토큰 입력...",
-		"sessionTokenLabel": "AWS 세션 토큰",
-		"awsRegionLabel": "AWS 리전",
-		"selectRegionPlaceholder": "리전 선택...",
-		"useCustomVpcEndpoint": "사용자 정의 VPC 엔드포인트 사용",
-		"vpcEndpointPlaceholder": "VPC 엔드포인트 URL 입력 (선택 사항)",
-		"useCrossRegionInference": "교차 리전 추론 사용",
-		"usePromptCaching": "프롬프트 캐싱 사용",
-		"profileCredentialsHelpText": "~/.aws/credentials에서 AWS 프로필 자격 증명을 사용합니다. 기본 프로필을 사용하려면 프로필 이름을 비워두세요. 이 자격 증명은 이 확장 프로그램에서 API 요청을 하는 데만 로컬로 사용됩니다.",
-		"defaultCredentialsHelpText": "위에 키를 제공하거나 기본 AWS 자격 증명 공급자(예: ~/.aws/credentials 또는 환경 변수)를 사용하여 인증합니다. 이 자격 증명은 이 확장 프로그램에서 API 요청을 하는 데만 로컬로 사용됩니다.",
-		"modelLabel": "모델",
-		"selectModelPlaceholder": "모델을 선택하세요...",
-		"customModelOption": "사용자 정의",
-		"customModelDescription": "Bedrock에서 애플리케이션 추론 프로필을 사용할 때 \"사용자 정의\"를 선택하세요. 모델 ID 필드에 애플리케이션 추론 프로필 ARN을 입력하세요.",
-		"customModelIdPlaceholder": "사용자 정의 모델 ID 입력...",
-		"modelIdLabel": "모델 ID",
-		"baseInferenceModelLabel": "기본 추론 모델",
-		"selectBaseModelPlaceholder": "모델 선택..."
-	},
-	"basetenModelPicker": {
-		"modelNotStatic": "모델 {{newModelId}}는 정적 basetenModels 목록에 없습니다",
-		"fetchModelsError": "Baseten 모델을 새로 고치는 데 실패했습니다:",
-		"searchPlaceholder": "모델 검색 및 선택...",
-		"clearSearch": "검색 지우기",
-		"description": "확장 프로그램은 다음에서 사용 가능한 최신 모델 목록을 자동으로 가져옵니다.",
-		"recommendedModel": "moonshotai/Kimi-K2-Instruct."
 	},
 	"clineProvider": {
 		"sortUnderlyingProviderRouting": "기본 제공자 라우팅 정렬",
@@ -525,227 +430,10 @@
 		"throughputSortingDescription": "가장 높은 처리량의 제공자를 우선시하여 제공자를 처리량별로 정렬합니다 (비용 증가 가능).",
 		"latencySortingDescription": "가장 낮은 지연 시간의 제공자를 우선시하여 제공자를 응답 시간별로 정렬합니다."
 	},
-	"doubaoProvider": {
-		"providerName": "Doubao",
-		"modelLabel": "모델"
-	},
-	"geminiProvider": {
-		"baseUrlPlaceholder": "기본값: https://generativelanguage.googleapis.com"
-	},
-	"fireworksProvider": {
-		"providerName": "Fireworks",
-		"modelLabel": "Model"
-	},
-	"groqProvider": {
-		"providerName": "Groq"
-	},
-	"huggingFaceProvider": {
-		"apiKeyPlaceholder": "API 키를 입력하세요...",
-		"apiKeyLabel": "Hugging Face API 키",
-		"apiKeyHelpText": "이 키는 로컬에 저장되며 이 확장 프로그램에서 API 요청을 하는 데만 사용됩니다. Hugging Face 제공자 설정에 따라 가격이 달라지며 API를 통해 일관되게 제공되지 않으므로 여기서는 가격을 표시하지 않습니다.",
-		"getApiKeyLinkText": "여기에서 API 키를 받으세요"
-	},
-	"huaweiCloudMaasProvider": {
-		"providerName": "Huawei Cloud MaaS"
-	},
-	"mistralProvider": {
-		"name": "미스트랄",
-		"providerName": "미스트랄"
-	},
-	"ollamaProvider": {
-		"baseUrlLabel": "사용자 정의 기본 URL 사용",
-		"baseUrlPlaceholder": "기본값: http://localhost:11434",
-		"apiKeyHelpText": "인증된 Ollama 인스턴스 또는 클라우드 서비스용 선택적 API 키입니다. 로컬 설치의 경우 비워두세요.",
-		"apiKeyPlaceholder": "API 키 입력 (선택 사항)...",
-		"modelLabel": "모델",
-		"modelPickerPlaceholder": {
-			"search": "모델 검색 및 선택...",
-			"example": "예: llama3.1"
-		},
-		"fetchModelsError": "Ollama 서버에서 모델을 가져올 수 없습니다. Ollama가 실행 중이고 액세스 가능한지 확인하거나 위에 모델 ID를 수동으로 입력하세요.",
-		"modelContextWindowLabel": "모델 컨텍스트 창",
-		"requestTimeoutPlaceholder": "기본값: 30000 (30초)",
-		"requestTimeoutLabel": "요청 시간 초과 (ms)",
-		"requestTimeoutDescription": "API 응답을 기다리는 최대 시간 (밀리초)입니다. 이 시간을 초과하면 시간이 초과됩니다.",
-		"descriptionPart1": "Ollama를 사용하면 컴퓨터에서 로컬로 모델을 실행할 수 있습니다. 시작 방법에 대한 지침은 다음을 참조하세요. ",
-		"quickstartGuideLinkText": "빠른 시작 가이드.",
-		"notePrefix": "참고:",
-		"noteText": "Caret은 복잡한 프롬프트를 사용하며 Claude 모델과 가장 잘 작동합니다. 성능이 낮은 모델은 예상대로 작동하지 않을 수 있습니다.",
-		"fetchModelsErrorLog": "Ollama 모델 가져오기 실패:",
-		"providerName": "Ollama",
-		"contextWindowPlaceholder": "예: 32768"
-	},
-	"openAiCompatibleProvider": {
-		"baseUrlPlaceholder": "기본 URL 입력...",
-		"baseUrlLabel": "기본 URL",
-		"modelIdPlaceholder": "모델 ID 입력...",
-		"modelIdLabel": "모델 ID",
-		"customHeadersLabel": "사용자 정의 헤더",
-		"addHeaderButton": "헤더 추가",
-		"headerNamePlaceholder": "헤더 이름",
-		"headerValuePlaceholder": "헤더 값",
-		"removeHeaderButton": "제거",
-		"azureApiVersionLabel": "Azure API 버전 설정",
-		"azureApiVersionPlaceholder": "기본값: {{defaultValue}}",
-		"modelConfigurationLabel": "모델 구성",
-		"supportsImagesCheckbox": "이미지 지원",
-		"supportsBrowserUseCheckbox": "브라우저 사용 지원",
-		"enableR1FormatCheckbox": "R1 메시지 형식 활성화",
-		"contextWindowSizeLabel": "컨텍스트 창 크기",
-		"maxOutputTokensLabel": "최대 출력 토큰",
-		"inputPriceLabel": "입력 가격 / 1M 토큰",
-		"outputPriceLabel": "출력 가격 / 1M 토큰",
-		"temperatureLabel": "온도",
-		"notePrefix": "참고:",
-		"noteText": "Caret은 복잡한 프롬프트를 사용하며 Claude 모델과 가장 잘 작동합니다. 성능이 낮은 모델은 예상대로 작동하지 않을 수 있습니다.",
-		"refreshModelsError": "OpenAI 모델 새로고침 실패:",
-		"providerName": "OpenAI 호환"
-	},
-	"openAiNativeProvider": {
-		"providerName": "OpenAI"
-	},
-	"openRouterProvider": {
-		"balanceDisplay": {
-			"loading": "로딩 중...",
-			"tooltip": "남은 잔액: {{remainingBalance}}\\n제한: {{limit}}\\n사용량: {{usage}}",
-			"label": "잔액: {{formattedBalance}}"
-		},
-		"apiKeyPlaceholder": "API 키 입력...",
-		"apiKeyLabel": "OpenRouter API 키",
-		"getApiKeyButton": "OpenRouter API 키 받기",
-		"apiKeyHelpText": "이 키는 로컬에 저장되며 이 확장 프로그램에서 API 요청을 하는 데만 사용됩니다.",
-		"sortUnderlyingProviderRoutingCheckbox": "기본 제공자 라우팅 정렬",
-		"defaultOption": "기본값",
-		"priceOption": "가격",
-		"throughputOption": "처리량",
-		"latencyOption": "지연 시간",
-		"defaultSortingDescription": "기본 동작은 제공자(AWS, Google Vertex, Anthropic 등) 간에 요청의 로드 밸런싱을 수행하며, 제공자 가동 시간을 고려하여 가격을 우선시합니다.",
-		"priceSortingDescription": "가장 낮은 비용의 제공자를 우선시하여 제공자를 가격별로 정렬합니다.",
-		"throughputSortingDescription": "가장 높은 처리량의 제공자를 우선시하여 제공자를 처리량별로 정렬합니다 (비용 증가 가능).",
-		"latencySortingDescription": "가장 낮은 지연 시간의 제공자를 우선시하여 제공자를 응답 시간별로 정렬합니다.",
-		"authError": "OpenRouter 인증 열기 실패:"
-	},
-	"qwenCodeProvider": {
-		"apiConfigurationTitle": "Qwen Code API 구성",
-		"oauthCredentialsPathPlaceholder": "~/.qwen/oauth_creds.json",
-		"oauthCredentialsPathLabel": "OAuth 자격 증명 경로",
-		"oauthCredentialsPathDescription": "Qwen OAuth 자격 증명 파일의 경로입니다. ~/.qwen/oauth_creds.json을 사용하거나 사용자 정의 경로를 제공하세요.",
-		"oauthAuthenticationDescription": "Qwen Code는 공식 Qwen 클라이언트를 통한 인증이 필요한 OAuth 기반 API입니다. 먼저 OAuth 자격 증명을 설정해야 합니다.",
-		"getStartedTitle": "시작하려면:",
-		"installClientStep": "공식 Qwen 클라이언트 설치",
-		"authenticateStep": "계정을 사용하여 인증",
-		"credentialsStoredStep": "OAuth 자격 증명이 자동으로 저장됩니다",
-		"setupInstructionsLinkText": "설정 지침"
-	},
-	"requestyProvider": {
-		"name": "Requesty",
-		"useCustomBaseUrlLabel": "사용자 정의 기본 URL 사용",
-		"customBaseUrlPlaceholder": "사용자 정의 기본 URL",
-		"providerName": "Requesty"
-	},
-	"sambanovaProvider": {
-		"providerName": "SambaNova",
-		"name": "SambaNova"
-	},
-	"sapAiCoreProvider": {
-		"clientIdLabel": "AI Core 클라이언트 ID",
-		"clientIdSetMessage": "클라이언트 ID가 설정되었습니다. 변경하려면 값을 다시 입력하세요.",
-		"clientSecretPlaceholder": "AI Core 클라이언트 비밀 입력...",
-		"clientSecretLabel": "AI Core 클라이언트 비밀",
-		"clientSecretSetMessage": "클라이언트 비밀이 설정되었습니다. 변경하려면 값을 다시 입력하세요.",
-		"baseUrlPlaceholder": "AI Core 기본 URL 입력...",
-		"baseUrlLabel": "AI Core 기본 URL",
-		"tokenUrlPlaceholder": "AI Core 인증 URL 입력...",
-		"tokenUrlLabel": "AI Core 인증 URL",
-		"resourceGroupPlaceholder": "AI Core 리소스 그룹 입력...",
-		"resourceGroupLabel": "AI Core 리소스 그룹",
-		"credentialsHelpText": "이 자격 증명은 로컬에 저장되며 이 확장 프로그램에서 API 요청을 하는 데만 사용됩니다.",
-		"apiAccessInfoLinkText": "SAP AI Core API 접근에 대한 자세한 정보는 여기에서 찾을 수 있습니다.",
-		"orchestrationModeLabel": "오케스트레이션 모드",
-		"orchestrationModeDescriptionEnabled": "활성화하면 개별 배포 없이 사용 가능한 모든 모델에 접근할 수 있습니다.",
-		"orchestrationModeDescriptionDisabled": "비활성화하면 AI Core 서비스 인스턴스에 배포된 모델에만 접근할 수 있습니다.",
-		"loadingModels": "모델 로딩 중...",
-		"modelFetchError": "모델을 가져오는 데 실패했습니다. 구성을 확인하세요.",
-		"noModelsFound": "SAP AI Core 서비스 인스턴스에서 모델을 가져올 수 없습니다. SAP AI Core 구성을 확인하거나 배포가 서비스 인스턴스에 배포 및 실행 중인지 확인하세요.",
-		"configureCredentialsPrompt": "사용 가능한 모델을 보려면 SAP AI Core 자격 증명을 구성하세요.",
-		"fetchModelsErrorLog": "SAP AI Core 모델 가져오기 오류:",
-		"clientIdPlaceholder": "AI Core 클라이언트 ID 입력...",
-		"retryButton": "재시도",
-		"selectModelPlaceholder": "모델 선택..."
-	},
-	"togetherProvider": {
-		"name": "Together",
-		"modelIdPlaceholder": "모델 ID 입력...",
-		"modelIdLabel": "모델 ID",
-		"notePrefix": "참고:",
-		"noteText": "Caret은 복잡한 프롬프트를 사용하며 Claude 모델과 가장 잘 작동합니다. 성능이 낮은 모델은 예상대로 작동하지 않을 수 있습니다.",
-		"providerName": "Together"
-	},
-	"vercelAiGatewayProvider": {
-		"apiKeyLabel": "Vercel AI Gateway API 키",
-		"getApiKeyLinkText": "여기에서 Vercel AI Gateway API 키를 받으세요.",
-		"modelIdPlaceholder": "모델 ID 입력 (예: openai/gpt-4o)...",
-		"modelIdLabel": "모델 ID",
-		"fetchModelsError": "Vercel AI Gateway에서 모델을 가져올 수 없습니다.",
-		"noteText": "참고: 무료 티어 사용자는 Vercel AI Gateway에서 무료로 제공되므로 $0 비용이 표시됩니다.",
-		"fetchModelsErrorLog": "Vercel AI Gateway 모델 가져오기 실패:"
-	},
-	"vertexProvider": {
-		"projectIdPlaceholder": "프로젝트 ID 입력...",
-		"projectIdLabel": "Google Cloud 프로젝트 ID",
-		"regionLabel": "Google Cloud 리전",
-		"selectRegionPlaceholder": "리전 선택...",
-		"descriptionPart1": "Google Cloud Vertex AI를 사용하려면 다음을 수행해야 합니다.",
-		"linkText1": "1) Google Cloud 계정 생성 › Vertex AI API 활성화 › 원하는 Claude 모델 활성화,",
-		"linkText2": "2) Google Cloud CLI 설치 › 애플리케이션 기본 사용자 인증 정보 구성."
-	},
-	"vertex": {
-		"modelName": "모델 이름",
-		"instructions": "지시사항",
-		"contextWindow": "컨텍스트 윈도우",
-		"maxTokens": "최대 토큰",
-		"safetySettings": "안전 설정",
-		"temperature": "온도"
-	},
 	"claude": {
 		"systemPrompt": "시스템 프롬프트",
-		"maxTokens": "최대 토큰", 
+		"maxTokens": "최대 토큰",
 		"apiVersion": "API 버전"
-	},
-	"vsCodeLmProvider": {
-		"languageModelLabel": "언어 모델",
-		"selectModelPlaceholder": "모델을 선택하세요...",
-		"descriptionPart1": "VS Code 언어 모델 API를 사용하면 다른 VS Code 확장 프로그램(GitHub Copilot 포함)에서 제공하는 모델을 실행할 수 있습니다. 시작하는 가장 쉬운 방법은 VS Marketplace에서 Copilot 확장 프로그램을 설치하고 Claude 4 Sonnet을 활성화하는 것입니다.",
-		"copilotExtensionLinkText": "Copilot 확장 프로그램",
-		"descriptionPart2": "을(를) 설치하고 Claude 4 Sonnet을 활성화하는 것입니다.",
-		"noteText": "참고: 이 기능은 매우 실험적인 통합이며 예상대로 작동하지 않을 수 있습니다."
-	},
-	"xaiProvider": {
-		"name": "X AI",
-		"providerName": "xAI",
-		"notePrefix": "참고:",
-		"noteText": "Caret은 복잡한 프롬프트를 사용하며 Claude 모델과 가장 잘 작동합니다. 성능이 낮은 모델은 예상대로 작동하지 않을 수 있습니다.",
-		"modifyReasoningEffort": "추론 노력 수정",
-		"reasoningEffortLabel": "추론 노력",
-		"reasoningEffortOptions": {
-			"low": "낮음",
-			"high": "높음"
-		},
-		"reasoningEffortDescription": "높은 노력은 더 철저한 분석을 생성할 수 있지만 시간이 더 오래 걸리고 더 많은 토큰을 사용합니다."
-	},
-	"zaiProvider": {
-		"entrypointLabel": "Z AI 엔트리포인트",
-		"entrypointDescription": "위치에 따라 적절한 API 엔트리포인트를 선택하세요. 중국에 있다면 open.bigmodel.cn을 선택하세요. 그렇지 않으면 api.z.ai를 선택하세요.",
-		"providerName": "Z AI",
-		"name": "Z AI"
-	},
-	"requestyModelPicker": {
-		"searchPlaceholder": "모델 검색 및 선택...",
-		"clearSearch": "검색 지우기",
-		"descriptionPart1": "확장 프로그램이 다음에서 사용 가능한 최신 모델 목록을 자동으로 가져옵니다: ",
-		"requestyLinkText": "Requesty.",
-		"descriptionPart2": "어떤 모델을 선택할지 확실하지 않다면, Caret은 다음과 함께 가장 잘 작동합니다: ",
-		"recommendedModel": "anthropic/claude-3-7-sonnet-latest."
 	},
 	"sapAiCoreModelPicker": {
 		"deployedModelsHeader": "── 배포된 모델 ──",
@@ -753,40 +441,142 @@
 	},
 	"providers": {
 		"caret": {
-			"name": "캐럿(Caret)",
-			"login": "로그인",
-			"apiKeyConfigured": "캐럿 로그인됨",
-			"description": "캐럿 로그인 사용자는 무료 제공 크레딧으로 Google의 최신 Gemini 모델을 사용할 수 있습니다",
-			"features": "별도의 API 키 없이 다음 기능을 즐기세요",
-			"feature1": "Gemini 2.5 Pro: 강력한 추론 능력",
-			"feature2": "Gemini 2.5 Flash: 빠르고 효율적인 응답",
-			"feature3": "별도의 API 키 없이 즉시 사용 가능",
-			"feature4": "가격: 무료 플랜 크레딧으로 사용",
-			"visit": "캐럿의 API키 얻기 :"
+			"name": "Caret",
+			"description": "Caret은 코딩 작업에 최적화된 성능을 가진 고품질 AI 모델을 제공합니다.",
+			"login": "Caret 계정으로 로그인",
+			"loginError": "Caret 로그인 실패",
+			"apiKeyConfigured": "✓ API 키가 구성되었습니다",
+			"features": "기능:",
+			"feature1": "최신 모델에 대한 액세스",
+			"feature2": "사용량 및 크레딧을 볼 수 있는 결제 대시보드",
+			"feature3": "프롬프트 플레이그라운드",
+			"feature4": "더 많은 예정된 기능"
 		},
 		"openrouter": {
 			"name": "OpenRouter",
-			"description": "단일 API 키로 다양한 오픈 소스 및 독점 모델에 액세스하세요."
+			"description": "단일 API 키로 다양한 오픈 소스 및 독점 모델에 액세스하세요.",
+			"balanceDisplay": {
+				"loading": "로딩 중...",
+				"tooltip": "남은 잔액: {{remainingBalance}}\\n제한: {{limit}}\\n사용량: {{usage}}",
+				"label": "잔액: {{formattedBalance}}"
+			},
+			"apiKeyPlaceholder": "API 키 입력...",
+			"apiKeyLabel": "OpenRouter API 키",
+			"getApiKeyButton": "OpenRouter API 키 받기",
+			"apiKeyHelpText": "이 키는 로컬에 저장되며 이 확장 프로그램에서 API 요청을 하는 데만 사용됩니다.",
+			"sortUnderlyingProviderRoutingCheckbox": "기본 제공자 라우팅 정렬",
+			"defaultOption": "기본값",
+			"priceOption": "가격",
+			"throughputOption": "처리량",
+			"latencyOption": "지연 시간",
+			"defaultSortingDescription": "기본 동작은 제공자(AWS, Google Vertex, Anthropic 등) 간에 요청의 로드 밸런싱을 수행하며, 제공자 가동 시간을 고려하여 가격을 우선시합니다.",
+			"priceSortingDescription": "가장 낮은 비용의 제공자를 우선시하여 제공자를 가격별로 정렬합니다.",
+			"throughputSortingDescription": "가장 높은 처리량의 제공자를 우선시하여 제공자를 처리량별로 정렬합니다 (비용 증가 가능).",
+			"latencySortingDescription": "가장 낮은 지연 시간의 제공자를 우선시하여 제공자를 응답 시간별로 정렬합니다.",
+			"authError": "OpenRouter 인증 열기 실패:",
+			"modelPicker": {
+				"starIconFilled": "★",
+				"starIconEmpty": "☆",
+				"featuredModelDescriptionBest": "Recommended for Caret's agent coding",
+				"featuredModelLabelBest": "Best",
+				"featuredModelDescriptionNew": "Cutting-edge models for complex, long-horizon tasks",
+				"featuredModelLabelNew": "New",
+				"featuredModelDescriptionFree": "Advanced model with 262K context for complex coding",
+				"featuredModelLabelFree": "Free",
+				"modelLabel": "모델",
+				"searchPlaceholder": "모델 검색 및 선택...",
+				"clearSearch": "검색 지우기",
+				"switchTo1M": "1M 컨텍스트 창 모델로 전환",
+				"switchToOneMContext": "1M 컨텍스트 창 모델로 전환",
+				"switchToTwoHundredKContext": "Switch to 200K context window model",
+				"fetchModelsDescription": "The extension automatically fetches the latest list of models available on ",
+				"linkText": "OpenRouter.",
+				"unsureModelChoice": "If you're unsure which model to choose, Caret works best with ",
+				"recommendedModel": "anthropic/claude-3-7-sonnet-latest.",
+				"searchFreeOptions": "To find free options currently available, try searching for \"free\"."
+			}
 		},
 		"gemini": {
 			"name": "Google Gemini",
-			"description": "Google의 Gemini 모델 제품군에 액세스하려면 Google AI API를 사용하세요. API 키가 필요합니다."
+			"description": "Google의 Gemini 모델 제품군에 액세스하려면 Google AI API를 사용하세요. API 키가 필요합니다.",
+			"baseUrlPlaceholder": "기본값: https://generativelanguage.googleapis.com"
 		},
 		"openai": {
 			"name": "OpenAI 호환",
-			"description": "OpenAI API와 호환되는 모든 모델 엔드포인트에 연결합니다."
+			"description": "OpenAI API와 호환되는 모든 모델 엔드포인트에 연결하세요.",
+			"baseUrlPlaceholder": "기본 URL 입력...",
+			"baseUrlLabel": "기본 URL",
+			"modelIdPlaceholder": "모델 ID 입력...",
+			"modelIdLabel": "모델 ID",
+			"customHeadersLabel": "사용자 정의 헤더",
+			"addHeaderButton": "헤더 추가",
+			"headerNamePlaceholder": "헤더 이름",
+			"headerValuePlaceholder": "헤더 값",
+			"removeHeaderButton": "제거",
+			"azureApiVersionLabel": "Azure API 버전 설정",
+			"azureApiVersionPlaceholder": "기본값: {{defaultValue}}",
+			"modelConfigurationLabel": "모델 구성",
+			"supportsImagesCheckbox": "이미지 지원",
+			"supportsBrowserUseCheckbox": "브라우저 사용 지원",
+			"enableR1FormatCheckbox": "R1 메시지 형식 활성화",
+			"contextWindowSizeLabel": "컨텍스트 창 크기",
+			"maxOutputTokensLabel": "최대 출력 토큰",
+			"inputPriceLabel": "입력 가격 / 100만 토큰",
+			"outputPriceLabel": "출력 가격 / 100만 토큰",
+			"temperatureLabel": "온도",
+			"notePrefix": "참고:",
+			"noteText": "Caret은 복잡한 프롬프트를 사용하며 Claude 모델과 가장 잘 작동합니다. 성능이 낮은 모델은 예상대로 작동하지 않을 수 있습니다.",
+			"refreshModelsError": "OpenAI 모델 새로고침 실패:",
+			"providerName": "OpenAI 호환"
 		},
 		"anthropic": {
 			"name": "Anthropic",
-			"description": "Claude 모델 제품군에 직접 액세스하려면 Anthropic API를 사용하세요. API 키가 필요합니다."
+			"description": "Anthropic API를 사용하여 Claude 모델 패밀리에 직접 액세스하세요. API 키가 필요합니다.",
+			"switchTo1MContext": "1M 컨텍스트 창 모델로 전환",
+			"switchTo200KContext": "200K 컨텍스트 창 모델로 전환"
 		},
 		"bedrock": {
 			"name": "Amazon Bedrock",
-			"description": "Amazon Bedrock은 Amazon 및 선도적인 AI 스타트업의 다양한 기반 모델에 대한 액세스를 제공합니다."
+			"description": "Amazon Bedrock은 Amazon 및 주요 AI 스타트업의 다양한 기반 모델에 대한 액세스를 제공합니다.",
+			"apiKey": "API 키",
+			"awsProfile": "AWS 프로필",
+			"awsCredentials": "AWS 자격 증명",
+			"profileNamePlaceholder": "프로필 이름 입력 (비어 있으면 기본값)",
+			"profileNameLabel": "AWS 프로필 이름",
+			"bedrockApiKeyPlaceholder": "Bedrock API 키 입력",
+			"bedrockApiKeyLabel": "AWS Bedrock API 키",
+			"accessKeyPlaceholder": "액세스 키 입력...",
+			"accessKeyLabel": "AWS 액세스 키",
+			"secretKeyPlaceholder": "시크릿 키 입력...",
+			"secretKeyLabel": "AWS 시크릿 키",
+			"sessionTokenPlaceholder": "세션 토큰 입력...",
+			"sessionTokenLabel": "AWS 세션 토큰",
+			"awsRegionLabel": "AWS 리전",
+			"selectRegionPlaceholder": "리전 선택...",
+			"useCustomVpcEndpoint": "사용자 정의 VPC 엔드포인트 사용",
+			"vpcEndpointPlaceholder": "VPC 엔드포인트 URL 입력 (선택사항)",
+			"useCrossRegionInference": "교차 리전 추론 사용",
+			"usePromptCaching": "프롬프트 캐싱 사용",
+			"profileCredentialsHelpText": "~/.aws/credentials의 AWS 프로필 자격 증명을 사용합니다. 기본 프로필을 사용하려면 프로필 이름을 비워두세요. 이러한 자격 증명은 이 확장 프로그램에서 API 요청을 하기 위해 로컬에서만 사용됩니다.",
+			"defaultCredentialsHelpText": "위에서 키를 제공하거나 기본 AWS 자격 증명 공급자(예: ~/.aws/credentials 또는 환경 변수)를 사용하여 인증하세요. 이러한 자격 증명은 이 확장 프로그램에서 API 요청을 하기 위해 로컬에서만 사용됩니다.",
+			"modelLabel": "모델",
+			"selectModelPlaceholder": "모델 선택...",
+			"customModelOption": "사용자 정의",
+			"customModelDescription": "Bedrock에서 애플리케이션 추론 프로필을 사용할 때 \"사용자 정의\"를 선택하세요. 모델 ID 필드에 애플리케이션 추론 프로필 ARN을 입력하세요.",
+			"customModelIdPlaceholder": "사용자 정의 모델 ID 입력...",
+			"modelIdLabel": "모델 ID",
+			"baseInferenceModelLabel": "기본 추론 모델",
+			"selectBaseModelPlaceholder": "모델 선택..."
 		},
 		"vscode-lm": {
 			"name": "VS Code LM API",
-			"description": "VS Code 언어 모델 API를 통해 다른 확장 프로그램(예: GitHub Copilot)에서 제공하는 모델을 사용합니다."
+			"description": "VS Code 언어 모델 API를 통해 다른 확장 프로그램(예: GitHub Copilot)에서 제공하는 모델을 사용합니다.",
+			"languageModelLabel": "언어 모델",
+			"selectModelPlaceholder": "모델을 선택하세요...",
+			"descriptionPart1": "VS Code 언어 모델 API를 사용하면 다른 VS Code 확장 프로그램(GitHub Copilot 포함)에서 제공하는 모델을 실행할 수 있습니다. 시작하는 가장 쉬운 방법은 VS Marketplace에서 Copilot 확장 프로그램을 설치하고 Claude 4 Sonnet을 활성화하는 것입니다.",
+			"copilotExtensionLinkText": "Copilot 확장 프로그램",
+			"descriptionPart2": "을(를) 설치하고 Claude 4 Sonnet을 활성화하는 것입니다.",
+			"noteText": "참고: 이 기능은 매우 실험적인 통합이며 예상대로 작동하지 않을 수 있습니다."
 		},
 		"deepseek": {
 			"name": "DeepSeek",
@@ -794,115 +584,319 @@
 		},
 		"openai-native": {
 			"name": "OpenAI",
-			"description": "OpenAI의 공식 API를 사용하여 GPT 모델에 직접 액세스합니다. API 키가 필요합니다."
+			"description": "OpenAI의 공식 API를 사용하여 GPT 모델에 직접 액세스합니다. API 키가 필요합니다.",
+			"providerName": "OpenAI"
 		},
 		"ollama": {
 			"name": "Ollama",
-			"description": "Ollama를 사용하여 컴퓨터에서 로컬로 모델을 실행합니다. 시작하려면 빠른 시작 가이드를 참조하세요."
+			"description": "Ollama를 사용하여 컴퓨터에서 로컬로 모델을 실행합니다. 시작하려면 빠른 시작 가이드를 참조하세요.",
+			"baseUrlLabel": "사용자 정의 기본 URL 사용",
+			"baseUrlPlaceholder": "기본값: http://localhost:11434",
+			"apiKeyHelpText": "인증된 Ollama 인스턴스 또는 클라우드 서비스용 선택적 API 키입니다. 로컬 설치의 경우 비워두세요.",
+			"apiKeyPlaceholder": "API 키 입력 (선택 사항)...",
+			"modelLabel": "모델",
+			"modelPickerPlaceholder": {
+				"search": "모델 검색 및 선택...",
+				"example": "예: llama3.1"
+			},
+			"fetchModelsError": "Ollama 서버에서 모델을 가져올 수 없습니다. Ollama가 실행 중이고 액세스 가능한지 확인하거나 위에 모델 ID를 수동으로 입력하세요.",
+			"modelContextWindowLabel": "모델 컨텍스트 창",
+			"requestTimeoutPlaceholder": "기본값: 30000 (30초)",
+			"requestTimeoutLabel": "요청 시간 초과 (ms)",
+			"requestTimeoutDescription": "API 응답을 기다리는 최대 시간 (밀리초)입니다. 이 시간을 초과하면 시간이 초과됩니다.",
+			"descriptionPart1": "Ollama를 사용하면 컴퓨터에서 로컬로 모델을 실행할 수 있습니다. 시작 방법에 대한 지침은 다음을 참조하세요. ",
+			"quickstartGuideLinkText": "빠른 시작 가이드.",
+			"notePrefix": "참고:",
+			"noteText": "Caret은 복잡한 프롬프트를 사용하며 Claude 모델과 가장 잘 작동합니다. 성능이 낮은 모델은 예상대로 작동하지 않을 수 있습니다.",
+			"fetchModelsErrorLog": "Ollama 모델 가져오기 실패:",
+			"providerName": "Ollama",
+			"contextWindowPlaceholder": "예: 32768"
 		},
 		"vertex": {
 			"name": "GCP Vertex AI",
-			"description": "Google Cloud Vertex AI는 Google의 최첨단 모델을 포함한 다양한 AI 모델을 제공합니다."
+			"description": "Google Cloud Vertex AI는 Google의 최첨단 모델을 포함한 다양한 AI 모델을 제공합니다.",
+			"projectIdPlaceholder": "프로젝트 ID 입력...",
+			"projectIdLabel": "Google Cloud 프로젝트 ID",
+			"regionLabel": "Google Cloud 지역",
+			"selectRegionPlaceholder": "지역 선택...",
+			"setupDescription": "Google Cloud Vertex AI를 사용하려면 다음이 필요합니다: ",
+			"setupLink1": "1) Google Cloud 계정 생성 › Vertex AI API 활성화 › 원하는 Claude 모델 활성화,",
+			"setupLink2": " 2) Google Cloud CLI 설치 › 애플리케이션 기본 자격 증명 구성.",
+			"descriptionPart1": "Google Cloud Vertex AI를 사용하려면 다음이 필요합니다",
+			"linkText1": "1) Google Cloud 계정 생성 › Vertex AI API 활성화 › 원하는 Claude 모델 활성화,",
+			"linkText2": "2) Google Cloud CLI 설치 › 애플리케이션 기본 자격 증명 구성."
 		},
 		"litellm": {
 			"name": "LiteLLM",
-			"description": "LiteLLM은 100개 이상의 LLM API에 대한 통합 인터페이스를 제공합니다."
+			"description": "LiteLLM은 100개 이상의 LLM API에 대한 통합 인터페이스를 제공합니다.",
+			"baseUrlPlaceholder": "기본값: http://localhost:4000",
+			"apiKeyPlaceholder": "기본값: noop",
+			"modelIdPlaceholder": "예: anthropic/claude-sonnet-4-20250514",
+			"usePromptCachingLabel": "프롬프트 캐싱 사용 (GA)",
+			"modelConfigurationLabel": "모델 구성",
+			"baseUrlLabel": "베이스 URL (선택 사항)",
+			"apiKeyLabel": "API 키",
+			"modelIdLabel": "모델 ID",
+			"promptCachingHelpText": "프롬프트 캐싱에는 지원되는 제공업체와 모델이 필요합니다",
+			"extendedThinkingHelpText": "확장된 사고는 Sonnet-4, o3-mini, Deepseek R1 등과 같은 모델에서 사용할 수 있습니다. 자세한 내용은 다음을 참조하세요.",
+			"thinkingModeConfigurationLinkText": "사고 모드 구성",
+			"supportsImagesLabel": "이미지 지원",
+			"contextWindowSizeLabel": "컨텍스트 윈도우 크기",
+			"maxOutputTokensLabel": "최대 출력 토큰",
+			"temperatureLabel": "온도",
+			"usePromptCachingDescription": "프롬프트 캐싱에는 지원되는 제공업체와 모델이 필요합니다",
+			"extendedThinkingDescription1": "확장된 사고는 Sonnet-4, o3-mini, Deepseek R1 등과 같은 모델에서 사용할 수 있습니다. 자세한 내용은 다음을 참조하세요.",
+			"extendedThinkingLink": "사고 모드 구성",
+			"description1": "LiteLLM은 100개 이상의 LLM API에 대한 통합 인터페이스를 제공합니다. 다음을 참조하세요.",
+			"quickstartGuideLink": "빠른 시작 가이드",
+			"description2": "자세한 내용은.",
+			"unifiedInterfaceHelpText": "LiteLLM은 다양한 LLM 제공업체의 모델에 액세스할 수 있는 통합 인터페이스를 제공합니다. 다음을 참조하세요.",
+			"quickstartGuideLinkText": "빠른 시작 가이드",
+			"forMoreInformationText": "자세한 내용은."
 		},
 		"claude-code": {
 			"name": "Claude Code",
-			"description": "Claude Code는 코드 관련 작업에 최적화된 Anthropic의 전문 모델입니다."
-		},
-		"sapaicore": {
-			"name": "SAP AI Core",
-			"description": "SAP AI Core는 SAP 생태계 내에서 AI 모델을 배포하고 관리하기 위한 서비스입니다."
+			"description": "Claude Code는 코드 관련 작업에 최적화된 Anthropic의 전문 모델입니다.",
+			"cliPath": "CLI 경로",
+			"cliPathDescription": "'claude-code' CLI 실행 파일의 경로입니다.",
+			"cliPathPlaceholder": "claude",
+			"model": "모델"
 		},
 		"mistral": {
-			"name": "Mistral",
-			"description": "Mistral AI는 고성능 오픈 소스 및 상용 모델을 개발합니다."
+			"name": "미스트랄",
+			"description": "Mistral AI는 고성능 오픈 소스 및 상용 모델을 개발합니다.",
+			"providerName": "미스트랄"
 		},
 		"zai": {
 			"name": "Z AI",
-			"description": "Zhipu AI는 중국어 및 영어에 능통한 양방향 대화 모델을 제공합니다."
+			"description": "Zhipu AI는 중국어 및 영어에 능통한 양방향 대화 모델을 제공합니다.",
+			"entrypointLabel": "Z AI 엔트리포인트",
+			"entrypointDescription": "위치에 따라 적절한 API 엔트리포인트를 선택하세요. 중국에 있다면 open.bigmodel.cn을 선택하세요. 그렇지 않으면 api.z.ai를 선택하세요.",
+			"providerName": "Z AI"
 		},
 		"groq": {
 			"name": "Groq",
-			"description": "Groq는 LPU(언어 처리 장치)를 통해 매우 빠른 추론 속도를 제공합니다."
+			"description": "Groq는 LPU(언어 처리 장치)를 통해 매우 빠른 추론 속도를 제공합니다.",
+			"providerName": "Groq",
+			"modelLabel": "모델",
+			"searchPlaceholder": "모델 검색 및 선택...",
+			"clearSearch": "검색 지우기",
+			"fetchModelsError": "Groq 모델 가져오기 실패:",
+			"fetchModelsDescription": "확장 프로그램이 다음에서 사용 가능한 최신 모델 목록을 자동으로 가져옵니다: ",
+			"groqLinkText": "Groq.",
+			"unsureModelChoice": "어떤 모델을 선택할지 확실하지 않다면, Caret은 다음과 함께 가장 잘 작동합니다: ",
+			"recommendedModel": "llama-3.3-70b-versatile.",
+			"recommendedModelId": "llama-3.3-70b-versatile",
+			"modelDocumentationUrl": "https://console.groq.com/docs/models"
 		},
 		"cerebras": {
 			"name": "Cerebras",
-			"description": "Cerebras는 대규모 AI 모델을 훈련하고 실행하기 위한 하드웨어를 구축합니다."
+			"description": "Cerebras는 대규모 AI 모델을 훈련하고 실행하기 위한 하드웨어를 구축합니다.",
+			"sotaDescription": "초당 약 2000 토큰의 SOTA 코딩 모델 (무료 등급 $0)",
+			"noSubscription": "• Cerebras 구독이 없는 경우 이것을 사용하세요",
+			"contextWindow": "• 64K 컨텍스트 창",
+			"rateLimits": "• 속도 제한: 150K TPM, 1M TPH/TPD, 10 RPM, 100 RPH/RPD",
+			"upgrade": "더 높은 한도를 위해 업그레이드: https://cloud.cerebras.ai/?utm=cline"
 		},
 		"vercel-ai-gateway": {
 			"name": "Vercel AI Gateway",
-			"description": "Vercel AI Gateway는 다양한 모델 제공업체에 대한 안정적인 연결을 제공하는 게이트웨이입니다."
+			"description": "Vercel AI Gateway는 다양한 모델 제공업체에 대한 안정적인 연결을 제공하는 게이트웨이입니다.",
+			"apiKeyLabel": "Vercel AI Gateway API 키",
+			"getApiKeyLinkText": "여기에서 Vercel AI Gateway API 키를 받으세요.",
+			"modelIdPlaceholder": "모델 ID 입력 (예: openai/gpt-4o)...",
+			"modelIdLabel": "모델 ID",
+			"fetchModelsError": "Vercel AI Gateway에서 모델을 가져올 수 없습니다.",
+			"noteText": "참고: 무료 티어 사용자는 Vercel AI Gateway에서 무료로 제공되므로 $0 비용이 표시됩니다.",
+			"fetchModelsErrorLog": "Vercel AI Gateway 모델 가져오기 실패:"
 		},
 		"baseten": {
 			"name": "Baseten",
-			"description": "Baseten은 맞춤형 AI 모델을 배포하고 제공하기 위한 플랫폼입니다."
+			"description": "Baseten은 사용자 정의 AI 모델을 배포하고 제공하는 플랫폼입니다.",
+			"modelNotStatic": "모델 {{newModelId}}이 정적 basetenModels 목록에 없습니다",
+			"fetchModelsError": "Baseten 모델을 새로고침하는 데 실패했습니다:",
+			"searchPlaceholder": "모델 검색 및 선택...",
+			"clearSearch": "검색 지우기",
+			"infoDescription": "확장 프로그램이 다음에서 사용 가능한 최신 모델 목록을 자동으로 가져옵니다",
+			"infoLinkText": "Baseten",
+			"recommendedModel": "moonshotai/Kimi-K2-Instruct.",
+			"unsureWhichModel": "어떤 모델을 선택해야 할지 확실하지 않다면",
+			"modelLabel": "모델",
+			"apiKeyHelp": "이 키는 로컬에 저장되며 이 확장 프로그램에서 API 요청을 하는 데만 사용됩니다. {{providerName}} API 키는 여기에서 가입하여 얻을 수 있습니다.",
+			"basetenUrl": "https://www.baseten.co/products/model-apis/",
+			"basetenSignupUrl": "https://baseten.co/"
 		},
 		"requesty": {
 			"name": "Requesty",
-			"description": "Requesty는 AI 기반 요청 라우팅 및 관리를 위한 플랫폼입니다."
+			"description": "Requesty는 AI 기반 요청 라우팅 및 관리 플랫폼입니다.",
+			"useCustomBaseUrlLabel": "사용자 지정 기본 URL 사용",
+			"customBaseUrlPlaceholder": "사용자 지정 기본 URL",
+			"modelLabel": "모델",
+			"searchPlaceholder": "모델 검색 및 선택...",
+			"clearSearch": "검색 지우기",
+			"requestyUrl": "https://app.requesty.ai/router/list",
+			"info": {
+				"fullText": {
+					"part1": "확장 프로그램이 다음에서 사용 가능한 최신 모델 목록을 자동으로 가져옵니다",
+					"part2": "어떤 모델을 선택해야 할지 확실하지 않다면 Caret은 다음과 가장 잘 작동합니다"
+				},
+				"linkText": "Requesty.",
+				"recommendedModel": "anthropic/claude-3-7-sonnet-latest."
+			}
 		},
 		"fireworks": {
 			"name": "Fireworks AI",
-			"description": "Fireworks AI는 개발자가 생성 AI 모델을 실험하고 배포할 수 있는 플랫폼입니다."
+			"description": "Fireworks AI는 개발자가 생성 AI 모델을 실험하고 배포할 수 있는 플랫폼입니다.",
+			"providerName": "Fireworks",
+			"modelLabel": "Model"
 		},
 		"together": {
 			"name": "Together",
-			"description": "Together AI는 선도적인 오픈 소스 모델을 실행하기 위한 클라우드 플랫폼을 제공합니다."
+			"description": "Together AI는 선도적인 오픈 소스 모델을 실행하기 위한 클라우드 플랫폼을 제공합니다.",
+			"modelIdPlaceholder": "모델 ID 입력...",
+			"modelIdLabel": "모델 ID",
+			"notePrefix": "참고:",
+			"noteText": "Caret은 복잡한 프롬프트를 사용하며 Claude 모델과 가장 잘 작동합니다. 성능이 낮은 모델은 예상대로 작동하지 않을 수 있습니다.",
+			"providerName": "Together"
 		},
 		"qwen": {
 			"name": "Alibaba Qwen",
-			"description": "Alibaba Qwen은 다양한 자연어 처리 작업을 위한 강력한 대규모 언어 모델입니다."
+			"description": "Alibaba Qwen은 다양한 자연어 처리 작업을 위한 강력한 대규모 언어 모델입니다.",
+			"apiLineLabel": "Alibaba API 라인",
+			"apiLineDescription": "현재 위치에 따라 적절한 API 인터페이스를 선택하세요. 중국에 계신 경우 중국 API 인터페이스를 선택하고, 그렇지 않은 경우 국제 API 인터페이스를 선택하세요.",
+			"providerName": "Qwen",
+			"apiLineOptions": {
+				"international": "International API",
+				"china": "China API"
+			}
 		},
 		"qwen-code": {
 			"name": "Qwen Code",
-			"description": "Qwen Code는 코드 생성 및 완성에 특화된 Alibaba의 AI 모델입니다."
+			"description": "Qwen Code는 코드 생성 및 완성에 특화된 Alibaba의 AI 모델입니다.",
+			"apiConfigurationTitle": "Qwen Code API 구성",
+			"oauthCredentialsPathPlaceholder": "~/.qwen/oauth_creds.json",
+			"oauthCredentialsPathLabel": "OAuth 자격 증명 경로",
+			"oauthCredentialsPathDescription": "Qwen OAuth 자격 증명 파일의 경로입니다. ~/.qwen/oauth_creds.json을 사용하거나 사용자 정의 경로를 제공하세요.",
+			"oauthAuthenticationDescription": "Qwen Code는 공식 Qwen 클라이언트를 통한 인증이 필요한 OAuth 기반 API입니다. 먼저 OAuth 자격 증명을 설정해야 합니다.",
+			"getStartedTitle": "시작하려면:",
+			"installClientStep": "공식 Qwen 클라이언트 설치",
+			"authenticateStep": "계정을 사용하여 인증",
+			"credentialsStoredStep": "OAuth 자격 증명이 자동으로 저장됩니다",
+			"setupInstructionsLinkText": "설정 지침"
 		},
 		"doubao": {
 			"name": "Bytedance Doubao",
-			"description": "Doubao는 Bytedance에서 개발한 대화형 AI 모델 제품군입니다."
+			"description": "Doubao는 Bytedance에서 개발한 대화형 AI 모델 제품군입니다.",
+			"providerName": "Doubao",
+			"modelLabel": "모델"
 		},
 		"lmstudio": {
 			"name": "LM Studio",
-			"description": "LM Studio를 사용하면 로컬 컴퓨터에서 LLM을 검색, 다운로드 및 실행할 수 있습니다."
+			"description": "LM Studio를 사용하면 로컬 컴퓨터에서 LLM을 검색, 다운로드 및 실행할 수 있습니다.",
+			"baseUrlPlaceholder": "기본값: http://localhost:1234",
+			"modelPlaceholder": "예: meta-llama-3.1-8b-instruct",
+			"contextWindowTooltip": "편집 불가능 - 연결된 엔드포인트에서 반환된 값입니다",
+			"contextWindowLabel": "컨텍스트 창",
+			"parseModelsError": "LM Studio 모델 파싱 실패:",
+			"description1": "LM Studio를 사용하면 컴퓨터에서 로컬로 모델을 실행할 수 있습니다. 시작 방법에 대한 지침은 다음을 참조하세요. ",
+			"quickstartGuideLink": "빠른 시작 가이드.",
+			"description2": "또한 LM Studio의 ",
+			"localServerLink": "로컬 서버",
+			"description3": " 기능을 lms server start와 함께 사용하여 이 확장 프로그램과 함께 사용해야 합니다. ",
+			"noteBody": "Caret은 복잡한 프롬프트를 사용하며 Claude 모델과 가장 잘 작동합니다. 성능이 낮은 모델은 예상대로 작동하지 않을 수 있습니다."
 		},
 		"moonshot": {
 			"name": "Moonshot",
-			"description": "Moonshot AI는 긴 컨텍스트 창을 가진 모델을 전문으로 합니다."
+			"description": "Moonshot AI는 긴 컨텍스트 창을 가진 모델을 전문으로 합니다.",
+			"entrypoint": "Moonshot 엔트리포인트"
 		},
 		"huggingface": {
 			"name": "Hugging Face",
-			"description": "Hugging Face는 다양한 오픈 소스 모델에 대한 추론 API를 제공합니다."
+			"description": "Hugging Face는 다양한 오픈 소스 모델에 대한 추론 API를 제공합니다.",
+			"apiKeyPlaceholder": "API 키를 입력하세요...",
+			"apiKeyLabel": "Hugging Face API 키",
+			"apiKeyHelpText": "이 키는 로컬에 저장되며 이 확장 프로그램에서 API 요청을 하는 데만 사용됩니다. Hugging Face 제공자 설정에 따라 가격이 달라지며 API를 통해 일관되게 제공되지 않으므로 여기서는 가격을 표시하지 않습니다.",
+			"getApiKeyLinkText": "여기에서 API 키를 받으세요",
+			"modelLabel": "모델",
+			"searchPlaceholder": "모델 검색...",
+			"clearSearch": "검색 지우기",
+			"fetchModelsError": "Hugging Face 모델을 가져오지 못했습니다:",
+			"apiKeyUrl": "https://huggingface.co/settings/tokens"
 		},
 		"nebius": {
 			"name": "Nebius AI Studio",
-			"description": "Nebius AI는 Yandex의 기술을 기반으로 한 AI 서비스를 제공합니다."
+			"description": "Nebius AI는 Yandex의 기술을 기반으로 한 AI 서비스를 제공합니다.",
+			"dify": {},
+			"apiKeyHelpText": "이 키는 로컬에 저장되며 이 확장 프로그램에서 API 요청을 하는 데만 사용됩니다. (참고: Caret은 복잡한 프롬프트를 사용하며 Claude 모델과 가장 잘 작동합니다. 성능이 낮은 모델은 예상대로 작동하지 않을 수 있습니다.)"
 		},
 		"asksage": {
 			"name": "AskSage",
-			"description": "AskSage는 연구 및 학술용으로 설계된 AI 모델을 제공합니다."
+			"description": "AskSage는 연구 및 학술용으로 설계된 AI 모델을 제공합니다.",
+			"apiKeyHelpText": "이 키는 로컬에 저장되며 이 확장 프로그램에서 API 요청을 하는 데만 사용됩니다.",
+			"apiUrlPlaceholder": "AskSage API URL을 입력하세요...",
+			"apiUrlLabel": "AskSage API URL",
+			"modelLabel": "모델"
 		},
 		"xai": {
-			"name": "xAI",
-			"description": "xAI는 진실을 추구하는 대규모 언어 모델인 Grok을 개발합니다."
+			"name": "X AI",
+			"description": "xAI는 진실을 추구하는 대규모 언어 모델인 Grok을 개발합니다.",
+			"providerName": "xAI",
+			"notePrefix": "참고:",
+			"noteText": "Caret은 복잡한 프롬프트를 사용하며 Claude 모델과 가장 잘 작동합니다. 성능이 낮은 모델은 예상대로 작동하지 않을 수 있습니다.",
+			"modifyReasoningEffort": "추론 노력 수정",
+			"reasoningEffortLabel": "추론 노력",
+			"reasoningEffortOptions": {
+				"low": "낮음",
+				"high": "높음"
+			},
+			"reasoningEffortDescription": "높은 노력은 더 철저한 분석을 생성할 수 있지만 시간이 더 오래 걸리고 더 많은 토큰을 사용합니다."
 		},
 		"sambanova": {
 			"name": "SambaNova",
-			"description": "SambaNova는 엔터프라이즈급 AI 애플리케이션을 위한 고성능 모델을 제공합니다."
+			"description": "SambaNova는 엔터프라이즈급 AI 애플리케이션을 위한 고성능 모델을 제공합니다.",
+			"providerName": "SambaNova"
 		},
 		"huawei-cloud-maas": {
 			"name": "Huawei Cloud MaaS",
-			"description": "Huawei Cloud MaaS(Model-as-a-Service)는 다양한 AI 모델을 제공합니다."
+			"description": "Huawei Cloud MaaS(Model-as-a-Service)는 다양한 AI 모델을 제공합니다.",
+			"providerName": "Huawei Cloud MaaS"
 		},
 		"dify": {
 			"name": "Dify.ai",
-			"description": "Dify.ai는 LLM 기반 애플리케이션을 구축하고 운영하기 위한 플랫폼입니다."
+			"description": "Dify.ai는 LLM 기반 애플리케이션을 구축하고 운영하기 위한 플랫폼입니다.",
+			"baseUrlLabel": "기본 URL",
+			"baseUrlPlaceholder": "Dify 기본 URL을 입력하세요..."
 		},
 		"cline": {
 			"name": "Caret",
 			"description": "Caret은 코딩 작업에 최적화된 고품질 AI 모델을 제공합니다."
+		},
+		"sap-ai-core": {
+			"name": "SAP AI Core",
+			"description": "SAP AI Core는 SAP 생태계 내에서 AI 모델을 배포하고 관리하는 서비스입니다.",
+			"clientIdLabel": "AI Core 클라이언트 ID",
+			"clientIdSetMessage": "클라이언트 ID가 설정되었습니다. 변경하려면 값을 다시 입력하세요.",
+			"clientSecretPlaceholder": "AI Core 클라이언트 시크릿 입력...",
+			"clientSecretLabel": "AI Core 클라이언트 시크릿",
+			"clientSecretSetMessage": "클라이언트 시크릿이 설정되었습니다. 변경하려면 값을 다시 입력하세요.",
+			"baseUrlPlaceholder": "AI Core 기본 URL 입력...",
+			"baseUrlLabel": "AI Core 기본 URL",
+			"tokenUrlPlaceholder": "AI Core 인증 URL 입력...",
+			"tokenUrlLabel": "AI Core 인증 URL",
+			"resourceGroupPlaceholder": "AI Core 리소스 그룹 입력...",
+			"resourceGroupLabel": "AI Core 리소스 그룹",
+			"credentialsHelpText": "이 자격 증명은 로컬에 저장되며 이 확장 프로그램에서 API 요청을 하는 데만 사용됩니다.",
+			"apiAccessInfoLinkText": "SAP AI Core API 액세스에 대한 자세한 정보는 여기에서 확인할 수 있습니다.",
+			"orchestrationModeLabel": "오케스트레이션 모드",
+			"orchestrationModeDescriptionEnabled": "활성화하면 개별 배포 없이 사용 가능한 모든 모델에 액세스할 수 있습니다.",
+			"orchestrationModeDescriptionDisabled": "비활성화하면 AI Core 서비스 인스턴스에 배포된 모델에만 액세스할 수 있습니다.",
+			"loadingModels": "모델 로딩 중...",
+			"modelFetchError": "모델을 가져오지 못했습니다. 구성을 확인하세요.",
+			"noModelsFound": "SAP AI Core 서비스 인스턴스에서 모델을 가져올 수 없습니다. SAP AI Core 구성을 확인하거나 배포가 서비스 인스턴스에서 배포되고 실행되고 있는지 확인하세요",
+			"configureCredentialsPrompt": "사용 가능한 모델을 보려면 SAP AI Core 자격 증명을 구성하세요.",
+			"fetchModelsErrorLog": "SAP AI Core 모델 가져오기 오류:",
+			"clientIdPlaceholder": "AI Core 클라이언트 ID 입력...",
+			"retryButton": "재시도",
+			"selectModelPlaceholder": "모델 선택..."
 		}
 	},
 	"providers.caret": {
@@ -917,35 +911,6 @@
 		"feature4": "한국어 지원",
 		"visit": "방문하여",
 		"getApiKey": "API 키를 받고 가입하세요."
-	},
-	"lmStudioProvider": {
-		"baseUrlPlaceholder": "기본값: http://localhost:1234",
-		"modelPlaceholder": "예: meta-llama-3.1-8b-instruct",
-		"contextWindowTooltip": "편집 불가능 - 연결된 엔드포인트에서 반환된 값입니다",
-		"parseModelsError": "LM Studio 모델 파싱 실패:",
-		"description1": "LM Studio를 사용하면 컴퓨터에서 로컬로 모델을 실행할 수 있습니다. 시작 방법에 대한 지침은 다음을 참조하세요. ",
-		"quickstartGuideLink": "빠른 시작 가이드.",
-		"description2": "또한 LM Studio의 ",
-		"localServerLink": "로컬 서버",
-		"description3": " 기능을 lms server start와 함께 사용하여 이 확장 프로그램과 함께 사용해야 합니다. ",
-		"noteBody": "Caret은 복잡한 프롬프트를 사용하며 Claude 모델과 가장 잘 작동합니다. 성능이 낮은 모델은 예상대로 작동하지 않을 수 있습니다."
-	},
-	"moonshotProvider": {
-		"entrypoint": "Moonshot 엔트리포인트"
-	},
-	"nebiusProvider": {
-		"dify": {},
-		"claudeCode": {},
-		"apiKeyHelpText": "이 키는 로컬에 저장되며 이 확장 프로그램에서 API 요청을 하는 데만 사용됩니다. (참고: Caret은 복잡한 프롬프트를 사용하며 Claude 모델과 가장 잘 작동합니다. 성능이 낮은 모델은 예상대로 작동하지 않을 수 있습니다.)"
-	},
-	"qwenProvider": {
-		"apiLineLabel": "Alibaba API 라인",
-		"apiLineDescription": "현재 위치에 따라 적절한 API 인터페이스를 선택하세요. 중국에 계신 경우 중국 API 인터페이스를 선택하고, 그렇지 않은 경우 국제 API 인터페이스를 선택하세요.",
-		"providerName": "Qwen",
-		"apiLineOptions": {
-			"international": "International API",
-			"china": "China API"
-		}
 	},
 	"rules": {
 		"section": {
@@ -976,27 +941,49 @@
 			"loading": "로딩 중..."
 		}
 	},
-	"liteLlmProvider": {
-    "baseUrlPlaceholder": "기본값: http://localhost:4000",
-    "apiKeyPlaceholder": "기본값: noop",
-    "modelIdPlaceholder": "예: anthropic/claude-sonnet-4-20250514",
-    "usePromptCachingLabel": "프롬프트 캐싱 사용 (GA)",
-    "modelConfigurationLabel": "모델 구성",
-    "baseUrlLabel": "베이스 URL (선택 사항)",
-    "apiKeyLabel": "API 키",
-    "modelIdLabel": "모델 ID",
-    "promptCachingHelpText": "프롬프트 캐싱에는 지원되는 제공업체와 모델이 필요합니다",
-    "extendedThinkingHelpText": "확장된 사고는 Sonnet-4, o3-mini, Deepseek R1 등과 같은 모델에서 사용할 수 있습니다. 자세한 내용은 다음을 참조하세요.",
-    "thinkingModeConfigurationLinkText": "사고 모드 구성",
-    "supportsImagesLabel": "이미지 지원",
-    "contextWindowSizeLabel": "컨텍스트 윈도우 크기",
-    "maxOutputTokensLabel": "최대 출력 토큰",
-    "temperatureLabel": "온도",
-    "unifiedInterfaceHelpText": "LiteLLM은 다양한 LLM 제공업체의 모델에 액세스할 수 있는 통합 인터페이스를 제공합니다. 다음을 참조하세요.",
-    "quickstartGuideLinkText": "빠른 시작 가이드",
-    "forMoreInformationText": "자세한 내용은."
-	},
 	"api-configuration": {
 		"title": "API 구성"
+	},
+	"thinkingBudget": {
+		"enable": "사고 예산 활성화",
+		"budgetText": {
+			"part1": "사고 예산: ",
+			"part2": "{{value}} 토큰"
+		},
+		"ariaLabel": "사고 예산을 {{value}} 토큰으로 설정",
+		"description": "모델이 내부 추론에 사용할 수 있는 최대 토큰 수를 제어합니다. 값이 클수록 더 철저한 분석이 가능하지만 비용이 증가합니다."
+	},
+	"validation": {
+		"apiKey": {
+			"required": "유효한 API 키를 입력하거나 다른 제공업체를 선택해야 합니다."
+		},
+		"region": {
+			"required": "AWS Bedrock과 함께 사용할 지역을 선택해야 합니다."
+		},
+		"googleCloud": {
+			"projectIdAndRegion": "유효한 Google Cloud 프로젝트 ID와 지역을 입력해야 합니다."
+		},
+		"openai": {
+			"baseUrlApiKeyModel": "유효한 기본 URL, API 키 및 모델 ID를 입력해야 합니다."
+		},
+		"modelId": {
+			"required": "유효한 모델 ID를 입력해야 합니다.",
+			"unavailable": "입력하신 모델 ID를 사용할 수 없습니다. 다른 모델을 선택해 주세요."
+		},
+		"modelSelector": {
+			"required": "유효한 모델 선택자를 입력해야 합니다."
+		},
+		"baseUrl": {
+			"required": "유효한 기본 URL을 입력하거나 다른 제공업체를 선택해야 합니다."
+		},
+		"clientId": {
+			"required": "유효한 클라이언트 ID를 입력하거나 다른 제공업체를 선택해야 합니다."
+		},
+		"clientSecret": {
+			"required": "유효한 클라이언트 비밀을 입력하거나 다른 제공업체를 선택해야 합니다."
+		},
+		"authUrl": {
+			"required": "유효한 인증 URL을 입력하거나 다른 제공업체를 선택해야 합니다."
+		}
 	}
 }

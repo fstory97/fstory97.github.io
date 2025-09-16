@@ -41,7 +41,7 @@ export const LiteLlmProvider = ({ showModelOptions, isPopup, currentMode }: Lite
 			<DebouncedTextField
 				initialValue={apiConfiguration?.liteLlmBaseUrl || ""}
 				onChange={(value) => handleFieldChange("liteLlmBaseUrl", value)}
-				placeholder={t("liteLlmProvider.baseUrlPlaceholder", "settings")}
+				placeholder={t("providers.litellm.baseUrlPlaceholder", "settings")}
 				style={{ width: "100%" }}
 				type="url">
 				<span style={{ fontWeight: 500 }}>{t("baseUrlField.label", "settings")}</span>
@@ -49,19 +49,19 @@ export const LiteLlmProvider = ({ showModelOptions, isPopup, currentMode }: Lite
 			<DebouncedTextField
 				initialValue={apiConfiguration?.liteLlmApiKey || ""}
 				onChange={(value) => handleFieldChange("liteLlmApiKey", value)}
-				placeholder={t("liteLlmProvider.apiKeyPlaceholder", "settings")}
+				placeholder={t("providers.litellm.apiKeyPlaceholder", "settings")}
 				style={{ width: "100%" }}
 				type="password">
-				<span style={{ fontWeight: 500 }}>{t("settings.apiKeyField.label", "settings")}</span>
+				<span style={{ fontWeight: 500 }}>{t("providers.litellm.apiKeyLabel", "settings")}</span>
 			</DebouncedTextField>
 			<DebouncedTextField
 				initialValue={liteLlmModelId || ""}
 				onChange={(value) =>
 					handleModeFieldChange({ plan: "planModeLiteLlmModelId", act: "actModeLiteLlmModelId" }, value, currentMode)
 				}
-				placeholder={t("liteLlmProvider.modelIdPlaceholder", "settings")}
+				placeholder={t("providers.litellm.modelIdPlaceholder", "settings")}
 				style={{ width: "100%" }}>
-				<span style={{ fontWeight: 500 }}>{t("settings.modelIdField.label", "settings")}</span>
+				<span style={{ fontWeight: 500 }}>{t("providers.litellm.modelIdLabel", "settings")}</span>
 			</DebouncedTextField>
 
 			<div style={{ display: "flex", flexDirection: "column", marginTop: 10, marginBottom: 10 }}>
@@ -75,10 +75,10 @@ export const LiteLlmProvider = ({ showModelOptions, isPopup, currentMode }: Lite
 								handleFieldChange("liteLlmUsePromptCache", isChecked)
 							}}
 							style={{ fontWeight: 500, color: "var(--vscode-charts-green)" }}>
-							{t("liteLlmProvider.usePromptCachingLabel", "settings")}
+							{t("providers.litellm.usePromptCachingLabel", "settings")}
 						</VSCodeCheckbox>
 						<p style={{ fontSize: "12px", marginTop: 3, color: "var(--vscode-charts-green)" }}>
-							{t("liteLlmProvider.usePromptCachingDescription", "settings")}
+							{t("providers.litellm.usePromptCachingDescription", "settings")}
 						</p>
 					</>
 				)}
@@ -91,11 +91,11 @@ export const LiteLlmProvider = ({ showModelOptions, isPopup, currentMode }: Lite
 					marginTop: "5px",
 					color: "var(--vscode-descriptionForeground)",
 				}}>
-				{t("liteLlmProvider.extendedThinkingDescription1", "settings")}{" "}
+				{t("providers.litellm.extendedThinkingDescription1", "settings")}{" "}
 				<VSCodeLink
 					href="https://docs.litellm.ai/docs/reasoning_content"
 					style={{ display: "inline", fontSize: "inherit" }}>
-					{t("liteLlmProvider.extendedThinkingLink", "settings")}
+					{t("providers.litellm.extendedThinkingLink", "settings")}
 				</VSCodeLink>
 			</p>
 
@@ -118,7 +118,7 @@ export const LiteLlmProvider = ({ showModelOptions, isPopup, currentMode }: Lite
 						fontWeight: 700,
 						textTransform: "uppercase",
 					}}>
-					{t("liteLlmProvider.modelConfigurationLabel", "settings")}
+					{t("providers.litellm.modelConfigurationLabel", "settings")}
 				</span>
 			</div>
 			{modelConfigurationSelected && (
@@ -136,7 +136,7 @@ export const LiteLlmProvider = ({ showModelOptions, isPopup, currentMode }: Lite
 								currentMode,
 							)
 						}}>
-						{t("settings.modelInfoView.supportsImagesLabel", "settings")}
+						{t("providers.litellm.supportsImagesLabel", "settings")}
 					</VSCodeCheckbox>
 					<div style={{ display: "flex", gap: 10, marginTop: "5px" }}>
 						<DebouncedTextField
@@ -156,7 +156,7 @@ export const LiteLlmProvider = ({ showModelOptions, isPopup, currentMode }: Lite
 								)
 							}}
 							style={{ flex: 1 }}>
-							<span style={{ fontWeight: 500 }}>{t("settings.modelInfoView.contextWindowLabel", "settings")}</span>
+							<span style={{ fontWeight: 500 }}>{t("providers.litellm.contextWindowSizeLabel", "settings")}</span>
 						</DebouncedTextField>
 						<DebouncedTextField
 							initialValue={
@@ -175,9 +175,7 @@ export const LiteLlmProvider = ({ showModelOptions, isPopup, currentMode }: Lite
 								)
 							}}
 							style={{ flex: 1 }}>
-							<span style={{ fontWeight: 500 }}>
-								{t("settings.modelInfoView.maxOutputTokensLabel", "settings")}
-							</span>
+							<span style={{ fontWeight: 500 }}>{t("providers.litellm.maxOutputTokensLabel", "settings")}</span>
 						</DebouncedTextField>
 					</div>
 					<div style={{ display: "flex", gap: 10, marginTop: "5px" }}>
@@ -202,7 +200,7 @@ export const LiteLlmProvider = ({ showModelOptions, isPopup, currentMode }: Lite
 									currentMode,
 								)
 							}}>
-							<span style={{ fontWeight: 500 }}>{t("settings.modelInfoView.temperatureLabel", "settings")}</span>
+							<span style={{ fontWeight: 500 }}>{t("providers.litellm.temperatureLabel", "settings")}</span>
 						</DebouncedTextField>
 					</div>
 				</>
@@ -213,11 +211,11 @@ export const LiteLlmProvider = ({ showModelOptions, isPopup, currentMode }: Lite
 					marginTop: "5px",
 					color: "var(--vscode-descriptionForeground)",
 				}}>
-				{t("liteLlmProvider.description1", "settings")}{" "}
+				{t("providers.litellm.description1", "settings")}{" "}
 				<VSCodeLink href="https://docs.litellm.ai/docs/" style={{ display: "inline", fontSize: "inherit" }}>
-					{t("liteLlmProvider.quickstartGuideLink", "settings")}
+					{t("providers.litellm.quickstartGuideLink", "settings")}
 				</VSCodeLink>{" "}
-				{t("liteLlmProvider.description2", "settings")}
+				{t("providers.litellm.description2", "settings")}
 			</p>
 
 			{showModelOptions && (

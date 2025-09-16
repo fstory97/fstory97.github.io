@@ -58,7 +58,7 @@ export const QwenProvider = ({ showModelOptions, isPopup, currentMode }: QwenPro
 			<p style={{ whiteSpace: "pre-wrap" }}>{t("providers.qwen.description", "settings")}</p>
 			<DropdownContainer className="dropdown-container" style={{ position: "inherit" }}>
 				<label htmlFor="qwen-line-provider">
-					<span style={{ fontWeight: 500, marginTop: 5 }}>{t("qwenProvider.apiLineLabel", "settings")}</span>
+					<span style={{ fontWeight: 500, marginTop: 5 }}>{t("providers.qwen.apiLineLabel", "settings")}</span>
 				</label>
 				<VSCodeDropdown
 					id="qwen-line-provider"
@@ -70,7 +70,7 @@ export const QwenProvider = ({ showModelOptions, isPopup, currentMode }: QwenPro
 					value={apiConfiguration?.qwenApiLine || qwenApiOptions[0]}>
 					{qwenApiOptions.map((line) => (
 						<VSCodeOption key={line} value={line}>
-							{t(`qwenProvider.apiLineOptions.${line}`, "settings")}
+							{t(`providers.qwen.apiLineOptions.${line}`, "settings")}
 						</VSCodeOption>
 					))}
 				</VSCodeDropdown>
@@ -81,7 +81,7 @@ export const QwenProvider = ({ showModelOptions, isPopup, currentMode }: QwenPro
 					marginTop: 3,
 					color: "var(--vscode-descriptionForeground)",
 				}}>
-				{t("qwenProvider.apiLineDescription", "settings")}
+				{t("providers.qwen.apiLineDescription", "settings")}
 			</p>
 
 			<ApiKeyField

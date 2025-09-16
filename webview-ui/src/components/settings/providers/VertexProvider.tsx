@@ -50,21 +50,21 @@ export const VertexProvider = ({ showModelOptions, isPopup, currentMode }: Verte
 			<DebouncedTextField
 				initialValue={apiConfiguration?.vertexProjectId || ""}
 				onChange={(value) => handleFieldChange("vertexProjectId", value)}
-				placeholder={t("vertex.projectIdPlaceholder", "common")}
+				placeholder={t("providers.vertex.projectIdPlaceholder", "settings")}
 				style={{ width: "100%" }}>
-				<span style={{ fontWeight: 500 }}>{t("vertex.projectIdLabel", "common")}</span>
+				<span style={{ fontWeight: 500 }}>{t("providers.vertex.projectIdLabel", "settings")}</span>
 			</DebouncedTextField>
 
 			<DropdownContainer className="dropdown-container" zIndex={DROPDOWN_Z_INDEX - 1}>
 				<label htmlFor="vertex-region-dropdown">
-					<span style={{ fontWeight: 500 }}>{t("vertex.regionLabel", "common")}</span>
+					<span style={{ fontWeight: 500 }}>{t("providers.vertex.regionLabel", "settings")}</span>
 				</label>
 				<VSCodeDropdown
 					id="vertex-region-dropdown"
 					onChange={(e: any) => handleFieldChange("vertexRegion", e.target.value)}
 					style={{ width: "100%" }}
 					value={apiConfiguration?.vertexRegion || ""}>
-					<VSCodeOption value="">{t("vertex.selectRegionPlaceholder", "common")}</VSCodeOption>
+					<VSCodeOption value="">{t("providers.vertex.selectRegionPlaceholder", "settings")}</VSCodeOption>
 					<VSCodeOption value="us-east5">us-east5</VSCodeOption>
 					<VSCodeOption value="us-central1">us-central1</VSCodeOption>
 					<VSCodeOption value="europe-west1">europe-west1</VSCodeOption>
@@ -80,16 +80,16 @@ export const VertexProvider = ({ showModelOptions, isPopup, currentMode }: Verte
 					marginTop: "5px",
 					color: "var(--vscode-descriptionForeground)",
 				}}>
-				{t("vertex.setupDescription", "common")}
+				{t("providers.vertex.setupDescription", "settings")}
 				<VSCodeLink
 					href="https://cloud.google.com/vertex-ai/generative-ai/docs/partner-models/use-claude#before_you_begin"
 					style={{ display: "inline", fontSize: "inherit" }}>
-					{t("vertex.setupLink1", "common")}
+					{t("providers.vertex.setupLink1", "settings")}
 				</VSCodeLink>{" "}
 				<VSCodeLink
 					href="https://cloud.google.com/docs/authentication/provide-credentials-adc#google-idp"
 					style={{ display: "inline", fontSize: "inherit" }}>
-					{t("vertex.setupLink2", "common")}
+					{t("providers.vertex.setupLink2", "settings")}
 				</VSCodeLink>
 			</p>
 

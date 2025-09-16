@@ -31,12 +31,20 @@ export class PersonaStorage {
 
 	public async loadSimplePersonaImages(controller: Controller): Promise<SimplePersonaImages | null> {
 		try {
-			const avatar = controller.stateManager.getGlobalStateKey("caret_persona_avatar")
-			const thinkingAvatar = controller.stateManager.getGlobalStateKey("caret_persona_thinking_avatar")
+			// Load persona images from globalStorage file system
+			const personaDir = path.join(controller.context.globalStorageUri.fsPath, "personas")
+			const profilePath = path.join(personaDir, "agent_profile.png")
+			const thinkingPath = path.join(personaDir, "agent_thinking.png")
 
-			if (!avatar || !thinkingAvatar) {
+			const fs = await import("fs/promises")
+			const { fileExistsAtPath } = await import("@utils/fs")
+
+			if (!(await fileExistsAtPath(profilePath)) || !(await fileExistsAtPath(thinkingPath))) {
 				return null
 			}
+
+			const avatar = await fs.readFile(profilePath)
+			const thinkingAvatar = await fs.readFile(thinkingPath)
 
 			return { avatar, thinkingAvatar }
 		} catch (error) {
@@ -61,8 +69,17 @@ export class PersonaStorage {
 
 	public async savePersonaImages(controller: Controller, images: SimplePersonaImages): Promise<void> {
 		try {
-			controller.stateManager.setGlobalState("caret_persona_avatar", images.avatar)
-			controller.stateManager.setGlobalState("caret_persona_thinking_avatar", images.thinkingAvatar)
+			// Save persona images to globalStorage file system
+			const personaDir = path.join(controller.context.globalStorageUri.fsPath, "personas")
+			const fs = await import("fs/promises")
+
+			await fs.mkdir(personaDir, { recursive: true })
+
+			const profilePath = path.join(personaDir, "agent_profile.png")
+			const thinkingPath = path.join(personaDir, "agent_thinking.png")
+
+			await fs.writeFile(profilePath, images.avatar)
+			await fs.writeFile(thinkingPath, images.thinkingAvatar)
 		} catch (error) {
 			Logger.error(`Failed to save persona images: ${error}`)
 			throw error

@@ -8,5 +8,8 @@ export default defineConfig({
 		environment: "node",
 		mockReset: true,
 		setupFiles: ["./vitest.setup.ts"],
+		deps: {
+			// CARET MODIFICATION: Removed external vscode dependency as it is now fully mocked in tests
+		},
 	},
 })

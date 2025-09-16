@@ -35,7 +35,7 @@ export const MoonshotProvider = ({ showModelOptions, isPopup, currentMode }: Moo
 			</p>
 			<DropdownContainer className="dropdown-container" style={{ position: "inherit" }}>
 				<label htmlFor="moonshot-entrypoint">
-					<span style={{ fontWeight: 500, marginTop: 5 }}>{t("moonshotProvider.entrypoint", "settings")}</span>
+					<span style={{ fontWeight: 500, marginTop: 5 }}>{t("providers.moonshot.entrypoint", "settings")}</span>
 				</label>
 				<VSCodeDropdown
 					id="moonshot-entrypoint"

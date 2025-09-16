@@ -3,12 +3,12 @@
 	"previousHeader": "Previous updates:",
 	"bullets": {
 		"current": {
-			"1": "Multilingual Support Enhancement",
-			"1.desc": "Added missing translations for Chinese and Japanese.",
-			"2": "Bug Fixes",
-			"2.desc": "Fixed shortcut key bugs and an issue with starting new tasks with context.",
-			"3": "Documentation Update",
-			"3.desc": "Corrected the link to the user manual."
+			"1": "Missing Model Translation Fix",
+			"1.desc": "Fixed 31 missing provider translation keys causing Korean fallback display.",
+			"2": "Persona Folder Initialization Fix",
+			"2.desc": "Resolved persona assets path errors during initialization.",
+			"3": "Model Documentation Update",
+			"3.desc": "Updated supported model count from 223 to 300 models across all documentation."
 		},
 		"previous": {
 			"1": "Cline v3.26.6 Merge",

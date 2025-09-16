@@ -62,7 +62,7 @@ export const OpenAICompatibleProvider = ({ showModelOptions, isPopup, currentMod
 						apiKey,
 					}),
 				).catch((error) => {
-					console.error(t("openAiCompatibleProvider.refreshModelsError", "settings"), error)
+					console.error(t("providers.openai.refreshModelsError", "settings"), error)
 				})
 			}, 500)
 		}
@@ -71,7 +71,7 @@ export const OpenAICompatibleProvider = ({ showModelOptions, isPopup, currentMod
 	return (
 		<div style={{ display: "flex", flexDirection: "column", gap: 10, marginTop: 2 }}>
 			<p style={{ color: "var(--vscode-descriptionForeground)", fontSize: 13, margin: 0 }}>
-				{t("providers.openAICompatible.description", "settings")}
+				{t("providers.openai.description", "settings")}
 			</p>
 			<DebouncedTextField
 				initialValue={apiConfiguration?.openAiBaseUrl || ""}
@@ -79,10 +79,10 @@ export const OpenAICompatibleProvider = ({ showModelOptions, isPopup, currentMod
 					handleFieldChange("openAiBaseUrl", value)
 					debouncedRefreshOpenAiModels(value, apiConfiguration?.openAiApiKey)
 				}}
-				placeholder={t("openAiCompatibleProvider.baseUrlPlaceholder", "settings")}
+				placeholder={t("providers.openai.baseUrlPlaceholder", "settings")}
 				style={{ width: "100%", marginBottom: 10 }}
 				type="url">
-				<span style={{ fontWeight: 500 }}>{t("openAiCompatibleProvider.baseUrlLabel", "settings")}</span>
+				<span style={{ fontWeight: 500 }}>{t("providers.openai.baseUrlLabel", "settings")}</span>
 			</DebouncedTextField>
 
 			<ApiKeyField
@@ -91,7 +91,7 @@ export const OpenAICompatibleProvider = ({ showModelOptions, isPopup, currentMod
 					handleFieldChange("openAiApiKey", value)
 					debouncedRefreshOpenAiModels(apiConfiguration?.openAiBaseUrl, value)
 				}}
-				providerName={t("openAiCompatibleProvider.providerName", "settings")}
+				providerName={t("providers.openai.providerName", "settings")}
 			/>
 
 			<DebouncedTextField
@@ -99,9 +99,9 @@ export const OpenAICompatibleProvider = ({ showModelOptions, isPopup, currentMod
 				onChange={(value) =>
 					handleModeFieldChange({ plan: "planModeOpenAiModelId", act: "actModeOpenAiModelId" }, value, currentMode)
 				}
-				placeholder={t("openAiCompatibleProvider.modelIdPlaceholder", "settings")}
+				placeholder={t("providers.openai.modelIdPlaceholder", "settings")}
 				style={{ width: "100%", marginBottom: 10 }}>
-				<span style={{ fontWeight: 500 }}>{t("openAiCompatibleProvider.modelIdLabel", "settings")}</span>
+				<span style={{ fontWeight: 500 }}>{t("providers.openai.modelIdLabel", "settings")}</span>
 			</DebouncedTextField>
 
 			{/* OpenAI Compatible Custom Headers */}
@@ -110,9 +110,7 @@ export const OpenAICompatibleProvider = ({ showModelOptions, isPopup, currentMod
 				return (
 					<div style={{ marginBottom: 10 }}>
 						<div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-							<span style={{ fontWeight: 500 }}>
-								{t("openAiCompatibleProvider.customHeadersLabel", "settings")}
-							</span>
+							<span style={{ fontWeight: 500 }}>{t("providers.openai.customHeadersLabel", "settings")}</span>
 							<VSCodeButton
 								onClick={() => {
 									const currentHeaders = { ...(apiConfiguration?.openAiHeaders || {}) }
@@ -121,7 +119,7 @@ export const OpenAICompatibleProvider = ({ showModelOptions, isPopup, currentMod
 									currentHeaders[newKey] = ""
 									handleFieldChange("openAiHeaders", currentHeaders)
 								}}>
-								{t("openAiCompatibleProvider.addHeaderButton", "settings")}
+								{t("providers.openai.addHeaderButton", "settings")}
 							</VSCodeButton>
 						</div>
 						<div>
@@ -139,7 +137,7 @@ export const OpenAICompatibleProvider = ({ showModelOptions, isPopup, currentMod
 												})
 											}
 										}}
-										placeholder={t("openAiCompatibleProvider.headerNamePlaceholder", "settings")}
+										placeholder={t("providers.openai.headerNamePlaceholder", "settings")}
 										style={{ width: "40%" }}
 									/>
 									<DebouncedTextField
@@ -150,7 +148,7 @@ export const OpenAICompatibleProvider = ({ showModelOptions, isPopup, currentMod
 												[key]: newValue,
 											})
 										}}
-										placeholder={t("openAiCompatibleProvider.headerValuePlaceholder", "settings")}
+										placeholder={t("providers.openai.headerValuePlaceholder", "settings")}
 										style={{ width: "40%" }}
 									/>
 									<VSCodeButton
@@ -159,7 +157,7 @@ export const OpenAICompatibleProvider = ({ showModelOptions, isPopup, currentMod
 											const { [key]: _, ...rest } = apiConfiguration?.openAiHeaders ?? {}
 											handleFieldChange("openAiHeaders", rest)
 										}}>
-										{t("openAiCompatibleProvider.removeHeaderButton", "settings")}
+										{t("providers.openai.removeHeaderButton", "settings")}
 									</VSCodeButton>
 								</div>
 							))}
@@ -170,9 +168,9 @@ export const OpenAICompatibleProvider = ({ showModelOptions, isPopup, currentMod
 
 			<BaseUrlField
 				initialValue={apiConfiguration?.azureApiVersion}
-				label={t("openAiCompatibleProvider.azureApiVersionLabel", "settings")}
+				label={t("providers.openai.azureApiVersionLabel", "settings")}
 				onChange={(value) => handleFieldChange("azureApiVersion", value)}
-				placeholder={t("openAiCompatibleProvider.azureApiVersionPlaceholder", "settings", {
+				placeholder={t("providers.openai.azureApiVersionPlaceholder", "settings", {
 					defaultValue: azureOpenAiDefaultApiVersion,
 				})}
 			/>
@@ -196,7 +194,7 @@ export const OpenAICompatibleProvider = ({ showModelOptions, isPopup, currentMod
 						fontWeight: 700,
 						textTransform: "uppercase",
 					}}>
-					{t("openAiCompatibleProvider.modelConfigurationLabel", "settings")}
+					{t("providers.openai.modelConfigurationLabel", "settings")}
 				</span>
 			</div>
 
@@ -214,7 +212,7 @@ export const OpenAICompatibleProvider = ({ showModelOptions, isPopup, currentMod
 								currentMode,
 							)
 						}}>
-						{t("openAiCompatibleProvider.supportsImagesCheckbox", "settings")}
+						{t("providers.openai.supportsImagesCheckbox", "settings")}
 					</VSCodeCheckbox>
 
 					<VSCodeCheckbox
@@ -229,7 +227,7 @@ export const OpenAICompatibleProvider = ({ showModelOptions, isPopup, currentMod
 								currentMode,
 							)
 						}}>
-						{t("openAiCompatibleProvider.supportsBrowserUseCheckbox", "settings")}
+						{t("providers.openai.supportsBrowserUseCheckbox", "settings")}
 					</VSCodeCheckbox>
 
 					<VSCodeCheckbox
@@ -245,7 +243,7 @@ export const OpenAICompatibleProvider = ({ showModelOptions, isPopup, currentMod
 								currentMode,
 							)
 						}}>
-						{t("openAiCompatibleProvider.enableR1FormatCheckbox", "settings")}
+						{t("providers.openai.enableR1FormatCheckbox", "settings")}
 					</VSCodeCheckbox>
 
 					<div style={{ display: "flex", gap: 10, marginTop: "5px" }}>
@@ -265,9 +263,7 @@ export const OpenAICompatibleProvider = ({ showModelOptions, isPopup, currentMod
 								)
 							}}
 							style={{ flex: 1 }}>
-							<span style={{ fontWeight: 500 }}>
-								{t("openAiCompatibleProvider.contextWindowSizeLabel", "settings")}
-							</span>
+							<span style={{ fontWeight: 500 }}>{t("providers.openai.contextWindowSizeLabel", "settings")}</span>
 						</DebouncedTextField>
 
 						<DebouncedTextField
@@ -286,9 +282,7 @@ export const OpenAICompatibleProvider = ({ showModelOptions, isPopup, currentMod
 								)
 							}}
 							style={{ flex: 1 }}>
-							<span style={{ fontWeight: 500 }}>
-								{t("openAiCompatibleProvider.maxOutputTokensLabel", "settings")}
-							</span>
+							<span style={{ fontWeight: 500 }}>{t("providers.openai.maxOutputTokensLabel", "settings")}</span>
 						</DebouncedTextField>
 					</div>
 
@@ -309,7 +303,7 @@ export const OpenAICompatibleProvider = ({ showModelOptions, isPopup, currentMod
 								)
 							}}
 							style={{ flex: 1 }}>
-							<span style={{ fontWeight: 500 }}>{t("openAiCompatibleProvider.inputPriceLabel", "settings")}</span>
+							<span style={{ fontWeight: 500 }}>{t("providers.openai.inputPriceLabel", "settings")}</span>
 						</DebouncedTextField>
 
 						<DebouncedTextField
@@ -328,7 +322,7 @@ export const OpenAICompatibleProvider = ({ showModelOptions, isPopup, currentMod
 								)
 							}}
 							style={{ flex: 1 }}>
-							<span style={{ fontWeight: 500 }}>{t("openAiCompatibleProvider.outputPriceLabel", "settings")}</span>
+							<span style={{ fontWeight: 500 }}>{t("providers.openai.outputPriceLabel", "settings")}</span>
 						</DebouncedTextField>
 					</div>
 
@@ -357,7 +351,7 @@ export const OpenAICompatibleProvider = ({ showModelOptions, isPopup, currentMod
 									currentMode,
 								)
 							}}>
-							<span style={{ fontWeight: 500 }}>{t("openAiCompatibleProvider.temperatureLabel", "settings")}</span>
+							<span style={{ fontWeight: 500 }}>{t("providers.openai.temperatureLabel", "settings")}</span>
 						</DebouncedTextField>
 					</div>
 				</>

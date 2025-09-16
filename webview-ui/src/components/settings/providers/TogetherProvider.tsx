@@ -37,9 +37,9 @@ export const TogetherProvider = ({ showModelOptions, isPopup, currentMode }: Tog
 				onChange={(value) =>
 					handleModeFieldChange({ plan: "planModeTogetherModelId", act: "actModeTogetherModelId" }, value, currentMode)
 				}
-				placeholder={t("togetherProvider.modelIdPlaceholder", "settings")}
+				placeholder={t("providers.together.modelIdPlaceholder", "settings")}
 				style={{ width: "100%" }}>
-				<span style={{ fontWeight: 500 }}>{t("togetherProvider.modelIdLabel", "settings")}</span>
+				<span style={{ fontWeight: 500 }}>{t("providers.together.modelIdLabel", "settings")}</span>
 			</DebouncedTextField>
 			<p
 				style={{
@@ -48,8 +48,8 @@ export const TogetherProvider = ({ showModelOptions, isPopup, currentMode }: Tog
 					color: "var(--vscode-descriptionForeground)",
 				}}>
 				<span style={{ color: "var(--vscode-errorForeground)" }}>
-					(<span style={{ fontWeight: 500 }}>{t("togetherProvider.notePrefix", "settings")}</span>{" "}
-					{t("togetherProvider.noteText", "settings")})
+					(<span style={{ fontWeight: 500 }}>{t("providers.together.notePrefix", "settings")}</span>{" "}
+					{t("providers.together.noteText", "settings")})
 				</span>
 			</p>
 		</div>

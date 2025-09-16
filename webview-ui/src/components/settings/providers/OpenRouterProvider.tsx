@@ -21,7 +21,7 @@ const OpenRouterBalanceDisplay = ({ apiKey }: { apiKey: string }) => {
 	if (isLoading) {
 		return (
 			<span style={{ fontSize: "12px", color: "var(--vscode-descriptionForeground)" }}>
-				{t("openRouterProvider.balanceDisplay.loading", "settings")}
+				{t("providers.openrouter.balanceDisplay.loading", "settings")}
 			</span>
 		)
 	}
@@ -46,12 +46,12 @@ const OpenRouterBalanceDisplay = ({ apiKey }: { apiKey: string }) => {
 				paddingLeft: 4,
 				cursor: "pointer",
 			}}
-			title={t("openRouterProvider.balanceDisplay.tooltip", "settings", {
+			title={t("providers.openrouter.balanceDisplay.tooltip", "settings", {
 				remainingBalance: formattedBalance,
 				limit: formatPrice(keyInfo.limit),
 				usage: formatPrice(keyInfo.usage),
 			})}>
-			{t("openRouterProvider.balanceDisplay.label", "settings", { formattedBalance })}
+			{t("providers.openrouter.balanceDisplay.label", "settings", { formattedBalance })}
 		</VSCodeLink>
 	)
 }
@@ -83,11 +83,11 @@ export const OpenRouterProvider = ({ showModelOptions, isPopup, currentMode }: O
 				<DebouncedTextField
 					initialValue={apiConfiguration?.openRouterApiKey || ""}
 					onChange={(value) => handleFieldChange("openRouterApiKey", value)}
-					placeholder={t("openRouterProvider.apiKeyPlaceholder", "settings")}
+					placeholder={t("providers.openrouter.apiKeyPlaceholder", "settings")}
 					style={{ width: "100%" }}
 					type="password">
 					<div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", width: "100%" }}>
-						<span style={{ fontWeight: 500 }}>{t("openRouterProvider.apiKeyLabel", "settings")}</span>
+						<span style={{ fontWeight: 500 }}>{t("providers.openrouter.apiKeyLabel", "settings")}</span>
 						{apiConfiguration?.openRouterApiKey && (
 							<OpenRouterBalanceDisplay apiKey={apiConfiguration.openRouterApiKey} />
 						)}
@@ -100,11 +100,11 @@ export const OpenRouterProvider = ({ showModelOptions, isPopup, currentMode }: O
 							try {
 								await AccountServiceClient.openrouterAuthClicked(EmptyRequest.create())
 							} catch (error) {
-								console.error(t("openRouterProvider.authError", "settings"), error)
+								console.error(t("providers.openrouter.authError", "settings"), error)
 							}
 						}}
 						style={{ margin: "5px 0 0 0" }}>
-						{t("openRouterProvider.getApiKeyButton", "settings")}
+						{t("providers.openrouter.getApiKeyButton", "settings")}
 					</VSCodeButton>
 				)}
 				<p
@@ -113,7 +113,7 @@ export const OpenRouterProvider = ({ showModelOptions, isPopup, currentMode }: O
 						marginTop: "5px",
 						color: "var(--vscode-descriptionForeground)",
 					}}>
-					{t("openRouterProvider.apiKeyHelpText", "settings")}
+					{t("providers.openrouter.apiKeyHelpText", "settings")}
 				</p>
 			</div>
 
@@ -129,7 +129,7 @@ export const OpenRouterProvider = ({ showModelOptions, isPopup, currentMode }: O
 							}
 						}}
 						style={{ marginTop: -10 }}>
-						{t("openRouterProvider.sortUnderlyingProviderRoutingCheckbox", "settings")}
+						{t("providers.openrouter.sortUnderlyingProviderRoutingCheckbox", "settings")}
 					</VSCodeCheckbox>
 
 					{providerSortingSelected && (
@@ -141,25 +141,25 @@ export const OpenRouterProvider = ({ showModelOptions, isPopup, currentMode }: O
 									}}
 									style={{ width: "100%", marginTop: 3 }}
 									value={apiConfiguration?.openRouterProviderSorting}>
-									<VSCodeOption value="">{t("openRouterProvider.defaultOption", "settings")}</VSCodeOption>
-									<VSCodeOption value="price">{t("openRouterProvider.priceOption", "settings")}</VSCodeOption>
+									<VSCodeOption value="">{t("providers.openrouter.defaultOption", "settings")}</VSCodeOption>
+									<VSCodeOption value="price">{t("providers.openrouter.priceOption", "settings")}</VSCodeOption>
 									<VSCodeOption value="throughput">
-										{t("openRouterProvider.throughputOption", "settings")}
+										{t("providers.openrouter.throughputOption", "settings")}
 									</VSCodeOption>
 									<VSCodeOption value="latency">
-										{t("openRouterProvider.latencyOption", "settings")}
+										{t("providers.openrouter.latencyOption", "settings")}
 									</VSCodeOption>
 								</VSCodeDropdown>
 							</DropdownContainer>
 							<p style={{ fontSize: "12px", marginTop: 3, color: "var(--vscode-descriptionForeground)" }}>
 								{!apiConfiguration?.openRouterProviderSorting &&
-									t("openRouterProvider.defaultSortingDescription", "settings")}
+									t("providers.openrouter.defaultSortingDescription", "settings")}
 								{apiConfiguration?.openRouterProviderSorting === "price" &&
-									t("openRouterProvider.priceSortingDescription", "settings")}
+									t("providers.openrouter.priceSortingDescription", "settings")}
 								{apiConfiguration?.openRouterProviderSorting === "throughput" &&
-									t("openRouterProvider.throughputSortingDescription", "settings")}
+									t("providers.openrouter.throughputSortingDescription", "settings")}
 								{apiConfiguration?.openRouterProviderSorting === "latency" &&
-									t("openRouterProvider.latencySortingDescription", "settings")}
+									t("providers.openrouter.latencySortingDescription", "settings")}
 							</p>
 						</div>
 					)}

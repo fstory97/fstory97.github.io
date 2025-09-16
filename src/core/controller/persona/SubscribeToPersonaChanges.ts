@@ -1,8 +1,11 @@
 // CARET MODIFICATION: Handler for subscribing to persona changes
 
-import { PersonaImages } from "@shared/proto/caret/persona"
+import { PersonaService } from "@caret/services/persona/persona-service"
+import { PersonaStorage } from "@caret/services/persona/persona-storage"
+import { PersonaImages, PersonaProfile } from "@shared/proto/caret/persona"
 import type { EmptyRequest } from "@shared/proto/cline/common"
-import type { StreamingResponseHandler } from "../grpc-handler"
+import { Logger } from "@/services/logging/Logger"
+import { getRequestRegistry, type StreamingResponseHandler } from "../grpc-handler"
 import type { Controller } from "../index"
 
 /**
@@ -19,24 +22,46 @@ export async function SubscribeToPersonaChanges(
 	requestId?: string,
 ): Promise<void> {
 	try {
-		console.log("[PersonaService] Starting persona changes subscription:", requestId)
+		Logger.debug(`[PersonaService] Starting persona changes subscription: ${requestId}`)
 
-		// Send initial persona images
-		const personaData = controller.context.globalState.get<any>("personaProfile") || {}
+		// Function to send the current persona state
+		const sendCurrentPersona = async () => {
+			const personaStorage = new PersonaStorage()
+			const images = await personaStorage.loadSimplePersonaImages(controller)
+			const avatarUri = images?.avatar ? `data:image/png;base64,${images.avatar.toString("base64")}` : ""
+			const thinkingAvatarUri = images?.thinkingAvatar
+				? `data:image/png;base64,${images.thinkingAvatar.toString("base64")}`
+				: ""
 
-		const initialImages = PersonaImages.create({
-			avatarUri: personaData.avatar_uri || "asset://template_characters/caret_profile.png",
-			thinkingAvatarUri: personaData.thinking_avatar_uri || "asset://template_characters/caret_thinking.png",
+			const personaImages = PersonaImages.create({ avatarUri, thinkingAvatarUri })
+			await responseStream(personaImages)
+			Logger.debug(`[PersonaService] Sent persona images for subscription: ${requestId}`)
+		}
+
+		// Send the initial state immediately
+		await sendCurrentPersona()
+
+		// Subscribe to subsequent changes from the PersonaService
+		const unsubscribe = PersonaService.getInstance().subscribeToPersonaChanges(async (persona: PersonaProfile | any) => {
+			Logger.debug(`[PersonaService] Received persona change notification for subscription: ${requestId}`)
+			// When notified, create a PersonaImages message and send it through the stream
+			const images = PersonaImages.create({
+				avatarUri: persona.avatarUri,
+				thinkingAvatarUri: persona.thinkingAvatarUri,
+			})
+			await responseStream(images)
+			Logger.debug(`[PersonaService] Sent updated persona images for subscription: ${requestId}`)
 		})
 
-		await responseStream(initialImages)
-
-		// Note: In a complete implementation, this would listen for persona changes
-		// and send updates through the stream. For now, we just send the initial state.
-
-		console.log("[PersonaService] Sent initial persona images for subscription:", requestId)
+		// When the stream is cancelled by the client, the GrpcRequestRegistry will call this cleanup function.
+		if (requestId) {
+			getRequestRegistry().registerRequest(requestId, () => {
+				unsubscribe()
+				Logger.debug(`[PersonaService] Persona changes subscription cleaned up: ${requestId}`)
+			})
+		}
 	} catch (error) {
-		console.error(`Failed to subscribe to persona changes: ${error}`)
+		Logger.error(`Failed to subscribe to persona changes: ${error}`)
 		throw error
 	}
 }

@@ -52,18 +52,18 @@ const OpenRouterModelPicker: React.FC<OpenRouterModelPickerProps> = ({ isPopup, 
 	const featuredModels = [
 		{
 			id: "anthropic/claude-sonnet-4",
-			description: t("providers.openrouter.featured.claudeSonnet4.description", "settings"),
-			label: t("providers.openrouter.featured.claudeSonnet4.label", "settings"),
+			description: t("providers.openrouter.modelPicker.featuredModelDescriptionBest", "settings"),
+			label: t("providers.openrouter.modelPicker.featuredModelLabelBest", "settings"),
 		},
 		{
 			id: "openai/gpt-5",
-			description: t("providers.openrouter.featured.gpt5.description", "settings"),
-			label: t("providers.openrouter.featured.gpt5.label", "settings"),
+			description: t("providers.openrouter.modelPicker.featuredModelDescriptionNew", "settings"),
+			label: t("providers.openrouter.modelPicker.featuredModelLabelNew", "settings"),
 		},
 		{
 			id: "x-ai/grok-code-fast-1",
-			description: t("providers.openrouter.featured.grok.description", "settings"),
-			label: t("providers.openrouter.featured.grok.label", "settings"),
+			description: t("providers.openrouter.modelPicker.featuredModelDescriptionFree", "settings"),
+			label: t("providers.openrouter.modelPicker.featuredModelLabelFree", "settings"),
 		},
 	]
 	const modeFields = getModeSpecificFields(apiConfiguration, currentMode)
@@ -235,13 +235,13 @@ const OpenRouterModelPicker: React.FC<OpenRouterModelPickerProps> = ({ isPopup, 
 			return {
 				current: "anthropic/claude-sonnet-4",
 				alternate: "anthropic/claude-sonnet-4:1m",
-				linkText: t("providers.openrouter.switchTo1M", "settings"),
+				linkText: t("providers.openrouter.modelPicker.switchTo1M", "settings"),
 			}
 		} else if (selectedModelId === "anthropic/claude-sonnet-4:1m") {
 			return {
 				current: "anthropic/claude-sonnet-4:1m",
 				alternate: "anthropic/claude-sonnet-4",
-				linkText: t("providers.openrouter.switchTo200K", "settings"),
+				linkText: t("providers.openrouter.modelPicker.switchTo200K", "settings"),
 			}
 		}
 		return null
@@ -259,7 +259,7 @@ const OpenRouterModelPicker: React.FC<OpenRouterModelPickerProps> = ({ isPopup, 
 			</style>
 			<div style={{ display: "flex", flexDirection: "column" }}>
 				<label htmlFor="model-search">
-					<span style={{ fontWeight: 500 }}>{t("providers.openrouter.modelLabel", "settings")}</span>
+					<span style={{ fontWeight: 500 }}>{t("providers.openrouter.modelPicker.modelLabel", "settings")}</span>
 				</label>
 
 				{modeFields.apiProvider === "cline" && (
@@ -289,7 +289,7 @@ const OpenRouterModelPicker: React.FC<OpenRouterModelPickerProps> = ({ isPopup, 
 							setIsDropdownVisible(true)
 						}}
 						onKeyDown={handleKeyDown}
-						placeholder={t("providers.openrouter.searchPlaceholder", "settings")}
+						placeholder={t("providers.openrouter.modelPicker.searchPlaceholder", "settings")}
 						style={{
 							width: "100%",
 							zIndex: OPENROUTER_MODEL_PICKER_Z_INDEX,
@@ -298,7 +298,7 @@ const OpenRouterModelPicker: React.FC<OpenRouterModelPickerProps> = ({ isPopup, 
 						value={searchTerm}>
 						{searchTerm && (
 							<div
-								aria-label={t("providers.openrouter.clearSearch", "settings")}
+								aria-label={t("providers.openrouter.modelPicker.clearSearch", "settings")}
 								className="input-icon-button codicon codicon-close"
 								onClick={() => {
 									setSearchTerm("")
@@ -378,17 +378,17 @@ const OpenRouterModelPicker: React.FC<OpenRouterModelPickerProps> = ({ isPopup, 
 						marginTop: 0,
 						color: "var(--vscode-descriptionForeground)",
 					}}>
-					{t("providers.openrouter.info.fullText.part1", "settings")}{" "}
+					{t("providers.openrouter.modelPicker.fetchModelsDescription", "settings")}{" "}
 					<VSCodeLink href="https://openrouter.ai/models" style={{ display: "inline", fontSize: "inherit" }}>
-						{t("providers.openrouter.info.linkText", "settings")}
+						{t("providers.openrouter.modelPicker.linkText", "settings")}
 					</VSCodeLink>{" "}
-					{t("providers.openrouter.info.fullText.part2", "settings")}{" "}
+					{t("providers.openrouter.modelPicker.unsureModelChoice", "settings")}{" "}
 					<VSCodeLink
 						onClick={() => handleModelChange("anthropic/claude-sonnet-4")}
 						style={{ display: "inline", fontSize: "inherit" }}>
-						{t("providers.openrouter.info.recommendedModel", "settings")}
+						{t("providers.openrouter.modelPicker.recommendedModel", "settings")}
 					</VSCodeLink>{" "}
-					{t("providers.openrouter.info.fullText.part3", "settings")}
+					{t("providers.openrouter.modelPicker.searchFreeOptions", "settings")}
 				</p>
 			)}
 		</div>

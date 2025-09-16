@@ -1,17 +1,4 @@
 {
-	"providers.caret": {
-		"description": "Caret 提供专为编程任务优化的高质量 AI 模型。",
-		"login": "登录到 Caret",
-		"or": "或",
-		"apiKeyConfigured": "✓ API 密钥已配置",
-		"features": "功能:",
-		"feature1": "提供免费套餐",
-		"feature2": "专为编程优化的模型",
-		"feature3": "快速响应时间",
-		"feature4": "中文支持",
-		"visit": "访问",
-		"getApiKey": "注册并获取您的 API 密钥。"
-	},
 	"rules": {
 		"section": {
 			"title": "规则管理",
@@ -88,7 +75,7 @@
 	"useDifferentModelsDescription": "在计划和执行模式之间切换时，将保留在上一个模式中使用的API和模型。例如，当使用强推理模型来构建计划，然后用便宜的编码模型来执行时，这可能会有所帮助。",
 	"theme": {
 		"dark": "深色主题",
-		"light": "浅色主题", 
+		"light": "浅色主题",
 		"auto": "自动主题"
 	},
 	"appearance": {
@@ -97,11 +84,12 @@
 		"fontFamily": "字体系列"
 	},
 	"modelSelector": {
-		"label": "模型"
+		"label": "模型",
+		"selectModelPlaceholder": "选择模型..."
 	},
 	"pricing": {
 		"inputPrice": "输入价格: {{price}}/百万令牌",
-		"cacheReadPrice": "缓存读取价格: {{price}}/百万令牌", 
+		"cacheReadPrice": "缓存读取价格: {{price}}/百万令牌",
 		"outputPriceStandard": "输出价格 (标准): {{price}}/百万令牌",
 		"outputPriceReasoning": "输出价格 (推理预算 > 0): {{price}}/百万令牌",
 		"contextWindow": "上下文窗口: {{size}}/百万令牌",
@@ -439,102 +427,15 @@
 		"doesNotSupportComputerUseLabel": "不支持计算机使用：",
 		"doesNotSupportCacheLabel": "不支持提示缓存："
 	},
-	"modelSelector": {
-		"label": "模型",
-		"selectModelPlaceholder": "选择模型..."
-	},
-	"groqModelPicker": {
-		"modelLabel": "模型",
-		"searchPlaceholder": "搜索并选择模型...",
-		"clearSearch": "清除搜索",
-		"fetchModelsDescription": "扩展程序自动获取可用的最新模型列表 ",
-		"groqLinkText": "Groq。",
-		"unsureModelChoice": "如果您不确定选择哪个模型，Caret 最适合与 ",
-		"recommendedModel": "llama-3.3-70b-versatile。"
-	},
-	"huggingFaceModelPicker": {
-		"modelLabel": "模型",
-		"searchPlaceholder": "搜索模型...",
-		"clearSearch": "清除搜索"
-	},
 	"ollamaModelPicker": {
 		"searchPlaceholder": "搜索并选择模型...",
 		"clearSearch": "清除搜索"
-	},
-	"openRouterModelPicker": {
-		"starIconFilled": "★",
-		"starIconEmpty": "☆",
-		"featuredModelDescriptionBest": "推荐用于 Caret 的代理编码",
-		"featuredModelLabelBest": "最佳",
-		"featuredModelDescriptionNew": "用于复杂、长期任务的尖端模型",
-		"featuredModelLabelNew": "新",
-		"featuredModelDescriptionFree": "具有 262K 上下文的高级模型，适用于复杂编码",
-		"featuredModelLabelFree": "免费",
-		"modelLabel": "模型",
-		"searchPlaceholder": "搜索并选择模型...",
-		"clearSearch": "清除搜索",
-		"switchToOneMContext": "切换到 1M 上下文窗口模型",
-		"switchToTwoHundredKContext": "切换到 200K 上下文窗口模型",
-		"fetchModelsDescription": "扩展程序自动获取可用的最新模型列表 ",
-		"openRouterLinkText": "OpenRouter。",
-		"unsureModelChoice": "如果您不确定选择哪个模型，Caret 最适合与 ",
-		"recommendedModel": "anthropic/claude-3-7-sonnet-latest。",
-		"searchFreeOptions": "要查找当前可用的免费选项，请尝试搜索“免费”。"
 	},
 	"preferredLanguageSetting": {
 		"english": "🇺🇸 英语",
 		"korean": "🇰🇷 韩语",
 		"chinese": "🇨🇳 中文",
 		"japanese": "🇯🇵 日语"
-	},
-	"anthropicProvider": {
-		"switchTo1MContext": "切换到 1M 上下文窗口模型",
-		"switchTo200KContext": "切换到 200K 上下文窗口模型"
-	},
-	"askSageProvider": {
-		"apiKeyHelpText": "此密钥存储在本地，仅用于从此扩展程序发出 API 请求。",
-		"apiUrlPlaceholder": "输入 AskSage API URL...",
-		"apiUrlLabel": "AskSage API URL",
-		"modelLabel": "模型"
-	},
-	"bedrockProvider": {
-		"apiKey": "API 密钥",
-		"awsProfile": "AWS 配置文件",
-		"awsCredentials": "AWS 凭据",
-		"profileNamePlaceholder": "输入配置文件名称（为空则默认）",
-		"profileNameLabel": "AWS 配置文件名称",
-		"bedrockApiKeyPlaceholder": "输入 Bedrock API 密钥",
-		"bedrockApiKeyLabel": "AWS Bedrock API 密钥",
-		"accessKeyPlaceholder": "输入访问密钥...",
-		"accessKeyLabel": "AWS 访问密钥",
-		"secretKeyPlaceholder": "输入秘密密钥...",
-		"secretKeyLabel": "AWS 秘密密钥",
-		"sessionTokenPlaceholder": "输入会话令牌...",
-		"sessionTokenLabel": "AWS 会话令牌",
-		"awsRegionLabel": "AWS 区域",
-		"selectRegionPlaceholder": "选择地区...",
-		"useCustomVpcEndpoint": "使用自定义 VPC 端点",
-		"vpcEndpointPlaceholder": "输入 VPC 端点 URL（可选）",
-		"useCrossRegionInference": "使用跨区域推理",
-		"usePromptCaching": "使用提示缓存",
-		"profileCredentialsHelpText": "使用 ~/.aws/credentials 中的 AWS 配置文件凭据。将配置文件名称留空以使用默认配置文件。这些凭据仅在本地用于从此扩展程序发出 API 请求。",
-		"defaultCredentialsHelpText": "通过提供上述密钥或使用默认的 AWS 凭据提供商（即 ~/.aws/credentials 或环境变量）进行身份验证。这些凭据仅在本地用于从此扩展程序发出 API 请求。",
-		"modelLabel": "模型",
-		"selectModelPlaceholder": "选择模型...",
-		"customModelOption": "自定义",
-		"customModelDescription": "在 Bedrock 中使用应用程序推理配置文件时选择“自定义”。在模型 ID 字段中输入应用程序推理配置文件 ARN。",
-		"customModelIdPlaceholder": "输入自定义模型 ID...",
-		"modelIdLabel": "模型 ID",
-		"baseInferenceModelLabel": "基础推理模型",
-		"selectBaseModelPlaceholder": "选择模型..."
-	},
-	"basetenModelPicker": {
-		"modelNotStatic": "模型 {{newModelId}} 不在静态 basetenModels 列表中",
-		"fetchModelsError": "刷新 Baseten 模型失败：",
-		"searchPlaceholder": "搜索并选择模型...",
-		"clearSearch": "清除搜索",
-		"description": "扩展程序自动获取可用的最新模型列表",
-		"recommendedModel": "moonshotai/Kimi-K2-Instruct。"
 	},
 	"clineProvider": {
 		"sortUnderlyingProviderRouting": "排序底层提供商路由",
@@ -547,275 +448,10 @@
 		"throughputSortingDescription": "按吞吐量对提供商进行排序，优先选择吞吐量最高的提供商（可能会增加成本）",
 		"latencySortingDescription": "按响应时间对提供商进行排序，优先选择延迟最低的提供商"
 	},
-	"doubaoProvider": {
-		"providerName": "豆包",
-		"modelLabel": "模型"
-	},
-	"geminiProvider": {
-		"baseUrlPlaceholder": "默认: https://generativelanguage.googleapis.com"
-	},
-	"fireworksProvider": {
-		"providerName": "Fireworks",
-		"modelLabel": "模型"
-	},
-	"groqProvider": {
-		"providerName": "Groq"
-	},
-	"huggingFaceProvider": {
-		"apiKeyPlaceholder": "输入 API 密钥...",
-		"apiKeyLabel": "Hugging Face API 密钥",
-		"apiKeyHelpText": "此密钥存储在本地，仅用于从此扩展程序发出 API 请求。我们在此处不显示定价，因为它取决于您的 Hugging Face 提供商设置，并且无法通过其 API 持续获取。",
-		"getApiKeyLinkText": "在此处获取您的 API 密钥"
-	},
-	"huaweiCloudMaasProvider": {
-		"providerName": "华为云 MaaS"
-	},
-	"liteLlmProvider": {
-		"baseUrlPlaceholder": "默认: http://localhost:4000",
-		"baseUrlLabel": "基础 URL（可选）",
-		"apiKeyPlaceholder": "默认: noop",
-		"apiKeyLabel": "API 密钥",
-		"modelIdPlaceholder": "例如 anthropic/claude-sonnet-4-20250514",
-		"modelIdLabel": "模型 ID",
-		"usePromptCachingLabel": "使用提示缓存 (GA)",
-		"promptCachingHelpText": "提示缓存需要受支持的提供商和模型",
-		"extendedThinkingHelpText": "Sonnet-4、o3-mini、Deepseek R1 等模型支持扩展思考。更多信息请参见",
-		"thinkingModeConfigurationLinkText": "思考模式配置",
-		"modelConfigurationLabel": "模型配置",
-		"supportsImagesLabel": "支持图像",
-		"contextWindowSizeLabel": "上下文窗口大小",
-		"maxOutputTokensLabel": "最大输出令牌",
-		"temperatureLabel": "温度",
-		"unifiedInterfaceHelpText": "LiteLLM 提供统一接口以访问各种 LLM 提供商的模型。请参阅其",
-		"quickstartGuideLinkText": "快速入门指南",
-		"forMoreInformationText": "了解更多信息。"
-	},
-	"moonshotProvider": {
-		"entrypoint": "Moonshot 入口点"
-	},
-	"mistralProvider": {
-		"name": "Mistral",
-		"providerName": "Mistral"
-	},
-	"nebiusProvider": {
-		"apiKeyHelpText": "此密钥存储在本地，仅用于从此扩展程序发出 API 请求。（注意：Caret 使用复杂的提示，与 Claude 模型配合使用效果最佳。能力较弱的模型可能无法按预期工作。）"
-	},
-	"ollamaProvider": {
-		"baseUrlLabel": "使用自定义基础 URL",
-		"baseUrlPlaceholder": "默认: http://localhost:11434",
-		"apiKeyHelpText": "用于经过身份验证的 Ollama 实例或云服务的可选 API 密钥。本地安装请留空。",
-		"apiKeyPlaceholder": "输入 API 密钥（可选）...",
-		"modelLabel": "模型",
-		"modelPickerPlaceholder": {
-			"search": "搜索并选择模型...",
-			"example": "例如 llama3.1"
-		},
-		"fetchModelsError": "无法从 Ollama 服务器获取模型。请确保 Ollama 正在运行且可访问，或在上方手动输入模型 ID。",
-		"modelContextWindowLabel": "模型上下文窗口",
-		"requestTimeoutPlaceholder": "默认: 30000 (30 秒)",
-		"requestTimeoutLabel": "请求超时（毫秒）",
-		"requestTimeoutDescription": "在超时之前等待 API 响应的最大毫秒数。",
-		"descriptionPart1": "Ollama 允许您在计算机上本地运行模型。有关如何开始的说明，请参阅其 ",
-		"quickstartGuideLinkText": "快速入门指南。",
-		"notePrefix": "注意：",
-		"noteText": "Caret 使用复杂的提示，与 Claude 模型配合使用效果最佳。能力较弱的模型可能无法按预期工作。",
-		"fetchModelsErrorLog": "获取 Ollama 模型失败：",
-		"providerName": "Ollama",
-		"contextWindowPlaceholder": "例如 32768"
-	},
-	"openAiCompatibleProvider": {
-		"baseUrlPlaceholder": "输入基础 URL...",
-		"baseUrlLabel": "基础 URL",
-		"modelIdPlaceholder": "输入模型 ID...",
-		"modelIdLabel": "模型 ID",
-		"customHeadersLabel": "自定义请求头",
-		"addHeaderButton": "添加请求头",
-		"headerNamePlaceholder": "请求头名称",
-		"headerValuePlaceholder": "请求头值",
-		"removeHeaderButton": "移除",
-		"azureApiVersionLabel": "设置 Azure API 版本",
-		"azureApiVersionPlaceholder": "默认: {{defaultValue}}",
-		"modelConfigurationLabel": "模型配置",
-		"supportsImagesCheckbox": "支持图像",
-		"supportsBrowserUseCheckbox": "支持浏览器使用",
-		"enableR1FormatCheckbox": "启用 R1 消息格式",
-		"contextWindowSizeLabel": "上下文窗口大小",
-		"maxOutputTokensLabel": "最大输出令牌",
-		"inputPriceLabel": "输入价格 / 1M 令牌",
-		"outputPriceLabel": "输出价格 / 1M 令牌",
-		"temperatureLabel": "温度",
-		"notePrefix": "注意：",
-		"noteText": "Caret 使用复杂的提示，与 Claude 模型配合使用效果最佳。能力较弱的模型可能无法按预期工作。",
-		"refreshModelsError": "刷新 OpenAI 模型失败：",
-		"providerName": "OpenAI 兼容"
-	},
-	"openAiNativeProvider": {
-		"providerName": "OpenAI"
-	},
-	"openRouterProvider": {
-		"balanceDisplay": {
-			"loading": "加载中...",
-			"tooltip": "剩余余额: {{remainingBalance}}\\n限制: {{limit}}\\n使用量: {{usage}}",
-			"label": "余额: {{formattedBalance}}"
-		},
-		"apiKeyPlaceholder": "输入 API 密钥...",
-		"apiKeyLabel": "OpenRouter API 密钥",
-		"getApiKeyButton": "获取 OpenRouter API 密钥",
-		"apiKeyHelpText": "此密钥存储在本地，仅用于从此扩展程序发出 API 请求。",
-		"sortUnderlyingProviderRoutingCheckbox": "排序底层提供商路由",
-		"defaultOption": "默认",
-		"priceOption": "价格",
-		"throughputOption": "吞吐量",
-		"latencyOption": "延迟",
-		"defaultSortingDescription": "默认行为是在提供商（如 AWS、Google Vertex、Anthropic）之间进行请求负载均衡，优先考虑价格同时考虑提供商的正常运行时间",
-		"priceSortingDescription": "按价格对提供商进行排序，优先选择成本最低的提供商",
-		"throughputSortingDescription": "按吞吐量对提供商进行排序，优先选择吞吐量最高的提供商（可能会增加成本）",
-		"latencySortingDescription": "按响应时间对提供商进行排序，优先选择延迟最低的提供商",
-		"authError": "打开 OpenRouter 认证失败："
-	},
-	"qwenCodeProvider": {
-		"apiConfigurationTitle": "通义千问代码 API 配置",
-		"oauthCredentialsPathPlaceholder": "~/.qwen/oauth_creds.json",
-		"oauthCredentialsPathLabel": "OAuth 凭据路径",
-		"oauthCredentialsPathDescription": "您的通义千问 OAuth 凭据文件的路径。使用 ~/.qwen/oauth_creds.json 或提供自定义路径。",
-		"oauthAuthenticationDescription": "通义千问代码是一个基于 OAuth 的 API，需要通过官方通义千问客户端进行身份验证。您需要先设置 OAuth 凭据。",
-		"getStartedTitle": "开始使用：",
-		"installClientStep": "安装官方通义千问客户端",
-		"authenticateStep": "使用您的账户进行身份验证",
-		"credentialsStoredStep": "OAuth 凭据将自动存储",
-		"setupInstructionsLinkText": "设置说明"
-	},
-	"qwenProvider": {
-		"apiLineLabel": "阿里云 API 线路",
-		"apiLineDescription": "请根据您的位置选择合适的 API 接口。如果您在中国，请选择中国 API 接口。否则，请选择国际 API 接口。",
-		"providerName": "通义千问",
-		"apiLineOptions": {
-			"international": "国际 API",
-			"china": "中国 API"
-		}
-	},
-	"requestyProvider": {
-		"name": "Requesty",
-		"useCustomBaseUrlLabel": "使用自定义基础 URL",
-		"customBaseUrlPlaceholder": "自定义基础 URL",
-		"providerName": "Requesty"
-	},
-	"sambanovaProvider": {
-		"name": "SambaNova",
-		"providerName": "SambaNova"
-	},
-	"sapAiCoreProvider": {
-		"clientIdLabel": "AI Core 客户端 ID",
-		"clientIdSetMessage": "客户端 ID 已设置。要更改它，请重新输入值。",
-		"clientSecretPlaceholder": "输入 AI Core 客户端密钥...",
-		"clientSecretLabel": "AI Core 客户端密钥",
-		"clientSecretSetMessage": "客户端密钥已设置。要更改它，请重新输入值。",
-		"baseUrlPlaceholder": "输入 AI Core 基础 URL...",
-		"baseUrlLabel": "AI Core 基础 URL",
-		"tokenUrlPlaceholder": "输入 AI Core 认证 URL...",
-		"tokenUrlLabel": "AI Core 认证 URL",
-		"resourceGroupPlaceholder": "输入 AI Core 资源组...",
-		"resourceGroupLabel": "AI Core 资源组",
-		"credentialsHelpText": "这些凭据存储在本地，仅用于从此扩展程序发出 API 请求。",
-		"apiAccessInfoLinkText": "您可以在此处找到有关 SAP AI Core API 访问的更多信息。",
-		"orchestrationModeLabel": "编排模式",
-		"orchestrationModeDescriptionEnabled": "启用后，无需单独部署即可访问所有可用模型。",
-		"orchestrationModeDescriptionDisabled": "禁用后，仅提供对 AI Core 服务实例中已部署模型的访问。",
-		"loadingModels": "正在加载模型...",
-		"modelFetchError": "获取模型失败。请检查您的配置。",
-		"noModelsFound": "无法从 SAP AI Core 服务实例获取模型。请检查您的 SAP AI Core 配置或确保您的部署已部署并在服务实例中运行",
-		"configureCredentialsPrompt": "请配置您的 SAP AI Core 凭据以查看可用模型。",
-		"fetchModelsErrorLog": "获取 SAP AI Core 模型时出错：",
-		"clientIdPlaceholder": "输入 AI Core 客户端 ID...",
-		"retryButton": "重试",
-		"selectModelPlaceholder": "选择模型..."
-	},
-	"togetherProvider": {
-		"name": "Together",
-		"modelIdPlaceholder": "输入模型 ID...",
-		"modelIdLabel": "模型 ID",
-		"notePrefix": "注意：",
-		"noteText": "Caret 使用复杂的提示，与 Claude 模型配合使用效果最佳。能力较弱的模型可能无法按预期工作。",
-		"providerName": "Together"
-	},
-	"vercelAiGatewayProvider": {
-		"apiKeyLabel": "Vercel AI Gateway API 密钥",
-		"getApiKeyLinkText": "您可以通过在此处注册来获取 Vercel AI Gateway API 密钥。",
-		"modelIdPlaceholder": "输入模型 ID（例如 openai/gpt-4o）...",
-		"modelIdLabel": "模型 ID",
-		"fetchModelsError": "无法从 Vercel AI Gateway 获取模型。",
-		"noteText": "注意：免费套餐用户将看到 $0 费用，因为这些请求由 Vercel AI Gateway 免费提供。",
-		"fetchModelsErrorLog": "获取 Vercel AI Gateway 模型失败：",
-		"modelId": "模型 ID"
-	},
-	"vertexProvider": {
-		"projectIdPlaceholder": "输入项目 ID...",
-		"projectIdLabel": "Google Cloud 项目 ID",
-		"regionLabel": "Google Cloud 区域",
-		"selectRegionPlaceholder": "选择地区...",
-		"descriptionPart1": "要使用 Google Cloud Vertex AI，您需要",
-		"linkText1": "1) 创建 Google Cloud 账户 › 启用 Vertex AI API › 启用所需的 Claude 模型，",
-		"linkText2": "2) 安装 Google Cloud CLI › 配置应用程序默认凭据。"
-	},
-	"vertex": {
-		"modelName": "模型名称",
-		"instructions": "说明",
-		"contextWindow": "上下文窗口",
-		"maxTokens": "最大标记",
-		"safetySettings": "安全设置",
-		"temperature": "温度"
-	},
 	"claude": {
 		"systemPrompt": "系统提示",
-		"maxTokens": "最大标记", 
+		"maxTokens": "最大标记",
 		"apiVersion": "API版本"
-	},
-	"vsCodeLmProvider": {
-		"languageModelLabel": "语言模型",
-		"selectModelPlaceholder": "选择模型...",
-		"descriptionPart1": "VS Code 语言模型 API 允许您运行其他 VS Code 扩展程序提供的模型（包括但不限于 GitHub Copilot）。最简单的入门方法是安装",
-		"copilotExtensionLinkText": "Copilot 扩展程序",
-		"descriptionPart2": "来自 VS Marketplace 并启用 Claude 4 Sonnet。",
-		"noteText": "注意：这是一个非常实验性的集成，可能无法按预期工作。"
-	},
-	"xaiProvider": {
-		"name": "X AI",
-		"notePrefix": "注意：",
-		"noteText": "Caret 使用复杂的提示，与 Claude 模型配合使用效果最佳。能力较弱的模型可能无法按预期工作。",
-		"reasoningEffortLabel": "推理努力程度",
-		"reasoningEffortDescription": "高努力程度可能会产生更彻底的分析，但需要更长时间并使用更多令牌。",
-		"providerName": "xAI",
-		"modifyReasoningEffort": "修改推理努力程度",
-		"reasoningEffortOptions": {
-			"low": "低",
-			"high": "高"
-		}
-	},
-	"zaiProvider": {
-		"entrypointLabel": "Z AI 入口点",
-		"entrypointDescription": "请根据您的位置选择合适的 API 入口点。如果您在中国，请选择 open.bigmodel.cn。否则，请选择 api.z.ai。",
-		"name": "Z AI",
-		"providerName": "Z AI"
-	},
-	"lmStudioProvider": {
-		"baseUrlPlaceholder": "默认: http://localhost:1234",
-		"modelPlaceholder": "例如 meta-llama-3.1-8b-instruct",
-		"contextWindowTooltip": "不可编辑 - 该值由连接的端点返回",
-		"parseModelsError": "解析 LM Studio 模型失败：",
-		"description1": "LM Studio 允许您在本地机器上发现、下载和运行 LLM。有关如何开始的说明，请参阅其 ",
-		"quickstartGuideLink": "快速入门指南。",
-		"description2": "您还需要启动 LM Studio 的 ",
-		"localServerLink": "本地服务器",
-		"description3": " 功能，并使用 `lms server start` 命令将其与此扩展程序一起使用。",
-		"noteBody": "Caret 使用复杂的提示，与 Claude 模型配合使用效果最佳。能力较弱的模型可能无法按预期工作。"
-	},
-	"requestyModelPicker": {
-		"searchPlaceholder": "搜索并选择模型...",
-		"clearSearch": "清除搜索",
-		"descriptionPart1": "扩展程序自动获取可用的最新模型列表 ",
-		"requestyLinkText": "Requesty。",
-		"descriptionPart2": "如果您不确定选择哪个模型，Caret 最适合与 ",
-		"recommendedModel": "anthropic/claude-3-7-sonnet-latest。"
 	},
 	"sapAiCoreModelPicker": {
 		"deployedModelsHeader": "── 已部署模型 ──",
@@ -826,31 +462,142 @@
 	},
 	"providers": {
 		"caret": {
-			"name": "Caret"
+			"name": "Caret",
+			"description": "Caret提供专为编程任务优化的高质量AI模型。",
+			"login": "使用Caret账户登录",
+			"loginError": "Caret登录失败",
+			"apiKeyConfigured": "✓ API密钥已配置",
+			"features": "功能:",
+			"feature1": "访问最新模型",
+			"feature2": "账单仪表板以查看使用情况和积分",
+			"feature3": "提示词演练场",
+			"feature4": "更多即将推出的功能"
 		},
 		"openrouter": {
 			"name": "OpenRouter",
-			"description": "使用单个 API 密钥访问各种开源和专有模型。"
+			"description": "使用单个 API 密钥访问各种开源和专有模型。",
+			"balanceDisplay": {
+				"loading": "加载中...",
+				"tooltip": "剩余余额: {{remainingBalance}}\\n限制: {{limit}}\\n使用量: {{usage}}",
+				"label": "余额: {{formattedBalance}}"
+			},
+			"apiKeyPlaceholder": "输入API密钥...",
+			"apiKeyLabel": "OpenRouter API密钥",
+			"getApiKeyButton": "获取OpenRouter API密钥",
+			"apiKeyHelpText": "此密钥本地存储，仅用于此扩展的API请求。",
+			"sortUnderlyingProviderRoutingCheckbox": "对底层提供商路由进行排序",
+			"defaultOption": "默认",
+			"priceOption": "价格",
+			"throughputOption": "吞吐量",
+			"latencyOption": "延迟",
+			"defaultSortingDescription": "默认行为是在提供商（如AWS、Google Vertex、Anthropic）之间进行请求负载平衡，在考虑提供商正常运行时间的同时优先考虑价格",
+			"priceSortingDescription": "按价格对提供商进行排序，优先选择最低成本的提供商",
+			"throughputSortingDescription": "按吞吐量对提供商进行排序，优先选择吞吐量最高的提供商（可能增加成本）",
+			"latencySortingDescription": "按响应时间对提供商进行排序，优先选择延迟最低的提供商",
+			"authError": "打开OpenRouter认证失败：",
+			"modelPicker": {
+				"starIconFilled": "★",
+				"starIconEmpty": "☆",
+				"featuredModelDescriptionBest": "Recommended for Caret's agent coding",
+				"featuredModelLabelBest": "Best",
+				"featuredModelDescriptionNew": "Cutting-edge models for complex, long-horizon tasks",
+				"featuredModelLabelNew": "New",
+				"featuredModelDescriptionFree": "Advanced model with 262K context for complex coding",
+				"featuredModelLabelFree": "Free",
+				"modelLabel": "模型",
+				"searchPlaceholder": "搜索并选择模型...",
+				"clearSearch": "清除搜索",
+				"switchTo1M": "切换到 1M 上下文窗口模型",
+				"switchToOneMContext": "切换到 1M 上下文窗口模型",
+				"switchToTwoHundredKContext": "Switch to 200K context window model",
+				"fetchModelsDescription": "The extension automatically fetches the latest list of models available on ",
+				"linkText": "OpenRouter.",
+				"unsureModelChoice": "If you're unsure which model to choose, Caret works best with ",
+				"recommendedModel": "anthropic/claude-3-7-sonnet-latest.",
+				"searchFreeOptions": "To find free options currently available, try searching for \"free\"."
+			}
 		},
 		"gemini": {
 			"name": "Google Gemini",
-			"description": "使用 Google AI API 访问 Google 的 Gemini 模型系列。需要 API 密钥。"
+			"description": "使用 Google AI API 访问 Google 的 Gemini 模型系列。需要 API 密钥。",
+			"baseUrlPlaceholder": "默认: https://generativelanguage.googleapis.com"
 		},
 		"openai": {
 			"name": "OpenAI 兼容",
-			"description": "连接到任何与 OpenAI API 兼容的模型端点。"
+			"description": "连接到与 OpenAI API 兼容的任何模型端点。",
+			"baseUrlPlaceholder": "输入基础 URL...",
+			"baseUrlLabel": "基础 URL",
+			"modelIdPlaceholder": "输入模型 ID...",
+			"modelIdLabel": "模型 ID",
+			"customHeadersLabel": "自定义标头",
+			"addHeaderButton": "添加标头",
+			"headerNamePlaceholder": "标头名称",
+			"headerValuePlaceholder": "标头值",
+			"removeHeaderButton": "删除",
+			"azureApiVersionLabel": "设置 Azure API 版本",
+			"azureApiVersionPlaceholder": "默认: {{defaultValue}}",
+			"modelConfigurationLabel": "模型配置",
+			"supportsImagesCheckbox": "支持图像",
+			"supportsBrowserUseCheckbox": "支持浏览器使用",
+			"enableR1FormatCheckbox": "启用 R1 消息格式",
+			"contextWindowSizeLabel": "上下文窗口大小",
+			"maxOutputTokensLabel": "最大输出令牌",
+			"inputPriceLabel": "输入价格 / 100万令牌",
+			"outputPriceLabel": "输出价格 / 100万令牌",
+			"temperatureLabel": "温度",
+			"notePrefix": "注意:",
+			"noteText": "Caret 使用复杂的提示，与 Claude 模型配合使用效果最佳。能力较弱的模型可能无法按预期工作。",
+			"refreshModelsError": "刷新 OpenAI 模型失败:",
+			"providerName": "OpenAI 兼容"
 		},
 		"anthropic": {
 			"name": "Anthropic",
-			"description": "使用 Anthropic API 直接访问 Claude 模型系列。需要 API 密钥。"
+			"description": "使用 Anthropic API 直接访问 Claude 模型系列。需要 API 密钥。",
+			"switchTo1MContext": "切换到 1M 上下文窗口模型",
+			"switchTo200KContext": "切换到 200K 上下文窗口模型"
 		},
 		"bedrock": {
 			"name": "Amazon Bedrock",
-			"description": "Amazon Bedrock 提供对来自亚马逊和领先 AI 初创公司的各种基础模型的访问。"
+			"description": "Amazon Bedrock 提供对来自 Amazon 和领先 AI 初创公司的广泛基础模型的访问。",
+			"apiKey": "API 密钥",
+			"awsProfile": "AWS 配置文件",
+			"awsCredentials": "AWS 凭据",
+			"profileNamePlaceholder": "输入配置文件名称（空则为默认）",
+			"profileNameLabel": "AWS 配置文件名称",
+			"bedrockApiKeyPlaceholder": "输入 Bedrock API 密钥",
+			"bedrockApiKeyLabel": "AWS Bedrock API 密钥",
+			"accessKeyPlaceholder": "输入访问密钥...",
+			"accessKeyLabel": "AWS 访问密钥",
+			"secretKeyPlaceholder": "输入密钥...",
+			"secretKeyLabel": "AWS 密钥",
+			"sessionTokenPlaceholder": "输入会话令牌...",
+			"sessionTokenLabel": "AWS 会话令牌",
+			"awsRegionLabel": "AWS 区域",
+			"selectRegionPlaceholder": "选择区域...",
+			"useCustomVpcEndpoint": "使用自定义 VPC 端点",
+			"vpcEndpointPlaceholder": "输入 VPC 端点 URL（可选）",
+			"useCrossRegionInference": "使用跨区域推理",
+			"usePromptCaching": "使用提示缓存",
+			"profileCredentialsHelpText": "使用来自 ~/.aws/credentials 的 AWS 配置文件凭据。留空配置文件名称以使用默认配置文件。这些凭据仅在本地存储，仅用于从此扩展程序发出 API 请求。",
+			"defaultCredentialsHelpText": "通过提供上述密钥或使用默认 AWS 凭据提供者（即 ~/.aws/credentials 或环境变量）进行身份验证。这些凭据仅在本地存储，仅用于从此扩展程序发出 API 请求。",
+			"modelLabel": "模型",
+			"selectModelPlaceholder": "选择模型...",
+			"customModelOption": "自定义",
+			"customModelDescription": "在 Bedrock 中使用应用程序推理配置文件时选择\"自定义\"。在模型 ID 字段中输入应用程序推理配置文件 ARN。",
+			"customModelIdPlaceholder": "输入自定义模型 ID...",
+			"modelIdLabel": "模型 ID",
+			"baseInferenceModelLabel": "基础推理模型",
+			"selectBaseModelPlaceholder": "选择模型..."
 		},
 		"vscode-lm": {
 			"name": "VS Code LM API",
-			"description": "通过 VS Code 语言模型 API 使用其他扩展程序提供的模型（例如 GitHub Copilot）。"
+			"description": "通过 VS Code 语言模型 API 使用其他扩展程序提供的模型（例如 GitHub Copilot）。",
+			"languageModelLabel": "语言模型",
+			"selectModelPlaceholder": "选择模型...",
+			"descriptionPart1": "VS Code 语言模型 API 允许您运行其他 VS Code 扩展程序提供的模型（包括但不限于 GitHub Copilot）。最简单的入门方法是安装",
+			"copilotExtensionLinkText": "Copilot 扩展程序",
+			"descriptionPart2": "来自 VS Marketplace 并启用 Claude 4 Sonnet。",
+			"noteText": "注意：这是一个非常实验性的集成，可能无法按预期工作。"
 		},
 		"deepseek": {
 			"name": "DeepSeek",
@@ -858,117 +605,318 @@
 		},
 		"openai-native": {
 			"name": "OpenAI",
-			"description": "使用 OpenAI 官方 API 直接访问 GPT 模型。需要 API 密钥。"
+			"description": "使用 OpenAI 官方 API 直接访问 GPT 模型。需要 API 密钥。",
+			"providerName": "OpenAI"
 		},
 		"ollama": {
 			"name": "Ollama",
-			"description": "使用 Ollama 在您的计算机上本地运行模型。请参阅其快速入门指南以开始使用。"
+			"description": "使用 Ollama 在您的计算机上本地运行模型。请参阅其快速入门指南以开始使用。",
+			"baseUrlLabel": "使用自定义基础 URL",
+			"baseUrlPlaceholder": "默认: http://localhost:11434",
+			"apiKeyHelpText": "用于经过身份验证的 Ollama 实例或云服务的可选 API 密钥。本地安装请留空。",
+			"apiKeyPlaceholder": "输入 API 密钥（可选）...",
+			"modelLabel": "模型",
+			"modelPickerPlaceholder": {
+				"search": "搜索并选择模型...",
+				"example": "例如 llama3.1"
+			},
+			"fetchModelsError": "无法从 Ollama 服务器获取模型。请确保 Ollama 正在运行且可访问，或在上方手动输入模型 ID。",
+			"modelContextWindowLabel": "模型上下文窗口",
+			"requestTimeoutPlaceholder": "默认: 30000 (30 秒)",
+			"requestTimeoutLabel": "请求超时（毫秒）",
+			"requestTimeoutDescription": "在超时之前等待 API 响应的最大毫秒数。",
+			"descriptionPart1": "Ollama 允许您在计算机上本地运行模型。有关如何开始的说明，请参阅其 ",
+			"quickstartGuideLinkText": "快速入门指南。",
+			"notePrefix": "注意：",
+			"noteText": "Caret 使用复杂的提示，与 Claude 模型配合使用效果最佳。能力较弱的模型可能无法按预期工作。",
+			"fetchModelsErrorLog": "获取 Ollama 模型失败：",
+			"providerName": "Ollama",
+			"contextWindowPlaceholder": "例如 32768"
 		},
 		"vertex": {
 			"name": "GCP Vertex AI",
-			"description": "Google Cloud Vertex AI 提供各种 AI 模型，包括 Google 最先进的模型。"
+			"description": "Google Cloud Vertex AI 提供各种 AI 模型，包括 Google 的最先进模型。",
+			"projectIdPlaceholder": "输入项目 ID...",
+			"projectIdLabel": "Google Cloud 项目 ID",
+			"regionLabel": "Google Cloud 区域",
+			"selectRegionPlaceholder": "选择区域...",
+			"setupDescription": "要使用Google Cloud Vertex AI，您需要 ",
+			"setupLink1": "1) 创建 Google Cloud 账户 › 启用 Vertex AI API › 启用所需的 Claude 模型，",
+			"setupLink2": " 2) 安装 Google Cloud CLI › 配置应用程序默认凭据。",
+			"descriptionPart1": "要使用 Google Cloud Vertex AI，您需要",
+			"linkText1": "1) 创建 Google Cloud 账户 › 启用 Vertex AI API › 启用所需的 Claude 模型，",
+			"linkText2": "2) 安装 Google Cloud CLI › 配置应用程序默认凭据。"
 		},
 		"litellm": {
 			"name": "LiteLLM",
-			"description": "LiteLLM 提供统一接口以访问 100 多个 LLM API。"
-		},
-		"claude-code": {
-			"name": "Claude Code",
-			"description": "Claude Code 是 Anthropic 的一个专用模型，针对代码相关任务进行了优化。"
-		},
-		"sapaicore": {
-			"name": "SAP AI Core",
-			"description": "SAP AI Core 是一种在 SAP 生态系统中部署和管理 AI 模型的服务。"
+			"description": "LiteLLM 提供统一接口以访问 100 多个 LLM API。",
+			"baseUrlPlaceholder": "默认: http://localhost:4000",
+			"baseUrlLabel": "基础 URL（可选）",
+			"apiKeyPlaceholder": "默认: noop",
+			"apiKeyLabel": "API 密钥",
+			"modelIdPlaceholder": "例如 anthropic/claude-sonnet-4-20250514",
+			"modelIdLabel": "模型 ID",
+			"usePromptCachingLabel": "使用提示缓存 (GA)",
+			"promptCachingHelpText": "提示缓存需要受支持的提供商和模型",
+			"extendedThinkingHelpText": "Sonnet-4、o3-mini、Deepseek R1 等模型支持扩展思考。更多信息请参见",
+			"thinkingModeConfigurationLinkText": "思考模式配置",
+			"modelConfigurationLabel": "模型配置",
+			"supportsImagesLabel": "支持图像",
+			"contextWindowSizeLabel": "上下文窗口大小",
+			"maxOutputTokensLabel": "最大输出令牌",
+			"temperatureLabel": "温度",
+			"usePromptCachingDescription": "提示缓存需要受支持的提供商和模型",
+			"extendedThinkingDescription1": "Sonnet-4、o3-mini、Deepseek R1 等模型支持扩展思考。更多信息请参见",
+			"extendedThinkingLink": "思考模式配置",
+			"description1": "LiteLLM 提供统一接口以访问 100 多个 LLM API。请参阅其",
+			"quickstartGuideLink": "快速入门指南",
+			"description2": "了解更多信息。",
+			"unifiedInterfaceHelpText": "LiteLLM 提供统一接口以访问各种 LLM 提供商的模型。请参阅其",
+			"quickstartGuideLinkText": "快速入门指南",
+			"forMoreInformationText": "了解更多信息。"
 		},
 		"mistral": {
 			"name": "Mistral",
-			"description": "Mistral AI 开发高性能开源和商业模型。"
+			"description": "Mistral AI 开发高性能开源和商业模型。",
+			"providerName": "Mistral"
 		},
 		"zai": {
 			"name": "Z AI",
-			"description": "智谱 AI 提供双语（中文和英文）对话模型。"
+			"description": "智谱 AI 提供双语（中文和英文）对话模型。",
+			"entrypointLabel": "Z AI 入口点",
+			"entrypointDescription": "请根据您的位置选择合适的 API 入口点。如果您在中国，请选择 open.bigmodel.cn。否则，请选择 api.z.ai。",
+			"providerName": "Z AI"
 		},
 		"groq": {
 			"name": "Groq",
-			"description": "Groq 通过其语言处理单元 (LPU) 提供极快的推理速度。"
+			"description": "Groq 通过其语言处理单元 (LPU) 提供极快的推理速度。",
+			"providerName": "Groq",
+			"modelLabel": "模型",
+			"searchPlaceholder": "搜索并选择模型...",
+			"clearSearch": "清除搜索",
+			"fetchModelsError": "获取 Groq 模型失败:",
+			"fetchModelsDescription": "扩展程序会自动从以下位置获取最新的可用模型列表: ",
+			"groqLinkText": "Groq.",
+			"unsureModelChoice": "如果您不确定选择哪个模型，Caret 在以下模型上效果最佳: ",
+			"recommendedModel": "llama-3.3-70b-versatile.",
+			"recommendedModelId": "llama-3.3-70b-versatile",
+			"modelDocumentationUrl": "https://console.groq.com/docs/models"
 		},
 		"cerebras": {
 			"name": "Cerebras",
-			"description": "Cerebras 构建用于训练和运行大规模 AI 模型的硬件。"
+			"description": "Cerebras 构建用于训练和运行大规模 AI 模型的硬件。",
+			"sotaDescription": "SOTA 编码模型，速度约为 2000 令牌/秒（免费套餐 $0）",
+			"noSubscription": "• 如果您没有 Cerebras 订阅，请使用此选项",
+			"contextWindow": "• 64K 上下文窗口",
+			"rateLimits": "• 速率限制：150K TPM, 1M TPH/TPD, 10 RPM, 100 RPH/RPD",
+			"upgrade": "升级以获得更高限制：https://cloud.cerebras.ai/?utm=cline"
 		},
 		"vercel-ai-gateway": {
 			"name": "Vercel AI Gateway",
-			"description": "Vercel AI Gateway 提供与各种模型提供商的可靠连接。"
+			"description": "Vercel AI Gateway 提供与各种模型提供商的可靠连接。",
+			"apiKeyLabel": "Vercel AI Gateway API 密钥",
+			"getApiKeyLinkText": "您可以通过在此处注册来获取 Vercel AI Gateway API 密钥。",
+			"modelIdPlaceholder": "输入模型 ID（例如 openai/gpt-4o）...",
+			"modelIdLabel": "模型 ID",
+			"fetchModelsError": "无法从 Vercel AI Gateway 获取模型。",
+			"noteText": "注意：免费套餐用户将看到 $0 费用，因为这些请求由 Vercel AI Gateway 免费提供。",
+			"fetchModelsErrorLog": "获取 Vercel AI Gateway 模型失败："
 		},
 		"baseten": {
 			"name": "Baseten",
-			"description": "Baseten 是一个用于部署和提供自定义 AI 模型的平台。"
+			"description": "Baseten 是一个用于部署和提供自定义 AI 模型的平台。",
+			"modelNotStatic": "模型 {{newModelId}} 不在静态 basetenModels 列表中",
+			"fetchModelsError": "刷新 Baseten 模型失败:",
+			"searchPlaceholder": "搜索并选择模型...",
+			"clearSearch": "清除搜索",
+			"infoDescription": "扩展程序自动获取以下平台上可用的最新模型列表",
+			"infoLinkText": "Baseten",
+			"recommendedModel": "moonshotai/Kimi-K2-Instruct.",
+			"unsureWhichModel": "如果您不确定选择哪个模型，我们建议",
+			"modelLabel": "模型",
+			"apiKeyHelp": "此密钥存储在本地，仅用于从此扩展程序发出 API 请求。您可以通过在此处注册来获取 {{providerName}} API 密钥。",
+			"basetenUrl": "https://www.baseten.co/products/model-apis/",
+			"basetenSignupUrl": "https://baseten.co/"
 		},
 		"requesty": {
 			"name": "Requesty",
-			"description": "Requesty 是一个用于 AI 驱动的请求路由和管理的平台。"
+			"description": "Requesty 是一个 AI 驱动的请求路由和管理平台。",
+			"useCustomBaseUrlLabel": "使用自定义基础 URL",
+			"customBaseUrlPlaceholder": "自定义基础 URL",
+			"modelLabel": "模型",
+			"searchPlaceholder": "搜索并选择模型...",
+			"clearSearch": "清除搜索",
+			"requestyUrl": "https://app.requesty.ai/router/list",
+			"info": {
+				"fullText": {
+					"part1": "扩展程序自动获取以下平台上可用的最新模型列表",
+					"part2": "如果您不确定选择哪个模型，Caret 与以下模型配合使用效果最佳"
+				},
+				"linkText": "Requesty.",
+				"recommendedModel": "anthropic/claude-3-7-sonnet-latest."
+			}
 		},
 		"fireworks": {
 			"name": "Fireworks AI",
-			"description": "Fireworks AI 是一个供开发人员试验和部署生成式 AI 模型的平台。"
+			"description": "Fireworks AI 是一个供开发人员试验和部署生成式 AI 模型的平台。",
+			"providerName": "Fireworks",
+			"modelLabel": "模型"
 		},
 		"together": {
 			"name": "Together",
-			"description": "Together AI 提供一个云平台，用于运行领先的开源模型。"
+			"description": "Together AI 提供一个云平台，用于运行领先的开源模型。",
+			"modelIdPlaceholder": "输入模型 ID...",
+			"modelIdLabel": "模型 ID",
+			"notePrefix": "注意：",
+			"noteText": "Caret 使用复杂的提示，与 Claude 模型配合使用效果最佳。能力较弱的模型可能无法按预期工作。",
+			"providerName": "Together"
 		},
 		"qwen": {
 			"name": "阿里云通义千问",
-			"description": "阿里云通义千问是一个功能强大的大型语言模型，适用于各种自然语言处理任务。"
+			"description": "阿里云通义千问是一个功能强大的大型语言模型，适用于各种自然语言处理任务。",
+			"apiLineLabel": "阿里云 API 线路",
+			"apiLineDescription": "请根据您的位置选择合适的 API 接口。如果您在中国，请选择中国 API 接口。否则，请选择国际 API 接口。",
+			"providerName": "通义千问",
+			"apiLineOptions": {
+				"international": "国际 API",
+				"china": "中国 API"
+			}
 		},
 		"qwen-code": {
 			"name": "通义千问代码",
-			"description": "通义千问代码是阿里巴巴的一个专用 AI 模型，用于代码生成和补全。"
+			"description": "通义千问代码是阿里巴巴的一个专用 AI 模型，用于代码生成和补全。",
+			"apiConfigurationTitle": "通义千问代码 API 配置",
+			"oauthCredentialsPathPlaceholder": "~/.qwen/oauth_creds.json",
+			"oauthCredentialsPathLabel": "OAuth 凭据路径",
+			"oauthCredentialsPathDescription": "您的通义千问 OAuth 凭据文件的路径。使用 ~/.qwen/oauth_creds.json 或提供自定义路径。",
+			"oauthAuthenticationDescription": "通义千问代码是一个基于 OAuth 的 API，需要通过官方通义千问客户端进行身份验证。您需要先设置 OAuth 凭据。",
+			"getStartedTitle": "开始使用：",
+			"installClientStep": "安装官方通义千问客户端",
+			"authenticateStep": "使用您的账户进行身份验证",
+			"credentialsStoredStep": "OAuth 凭据将自动存储",
+			"setupInstructionsLinkText": "设置说明"
 		},
 		"doubao": {
 			"name": "字节跳动豆包",
-			"description": "豆包是字节跳动开发的一系列对话式 AI 模型。"
+			"description": "豆包是字节跳动开发的一系列对话式 AI 模型。",
+			"providerName": "豆包",
+			"modelLabel": "模型"
 		},
 		"lmstudio": {
 			"name": "LM Studio",
 			"description": "LM Studio 允许您在本地机器上发现、下载和运行 LLM。有关如何开始的说明，请参阅其 ",
+			"contextWindowLabel": "上下文窗口",
+			"baseUrlPlaceholder": "默认: http://localhost:1234",
+			"modelPlaceholder": "例如 meta-llama-3.1-8b-instruct",
+			"contextWindowTooltip": "不可编辑 - 该值由连接的端点返回",
+			"parseModelsError": "解析 LM Studio 模型失败：",
+			"description1": "LM Studio 允许您在本地机器上发现、下载和运行 LLM。有关如何开始的说明，请参阅其 ",
+			"quickstartGuideLink": "快速入门指南。",
 			"description2": "您还需要启动 LM Studio 的 ",
-			"description3": " 功能，并使用 `lms server start` 命令将其与此扩展程序一起使用。"
+			"localServerLink": "本地服务器",
+			"description3": " 功能，并使用 `lms server start` 命令将其与此扩展程序一起使用。",
+			"noteBody": "Caret 使用复杂的提示，与 Claude 模型配合使用效果最佳。能力较弱的模型可能无法按预期工作。"
 		},
 		"moonshot": {
 			"name": "月之暗面",
-			"description": "月之暗面 AI 专注于具有长上下文窗口的模型。"
+			"description": "月之暗面 AI 专注于具有长上下文窗口的模型。",
+			"entrypoint": "Moonshot 入口点"
 		},
 		"huggingface": {
 			"name": "Hugging Face",
-			"description": "Hugging Face 为各种开源模型提供推理 API。"
+			"description": "Hugging Face 为各种开源模型提供推理 API。",
+			"apiKeyPlaceholder": "输入 API 密钥...",
+			"apiKeyLabel": "Hugging Face API 密钥",
+			"apiKeyHelpText": "此密钥存储在本地，仅用于从此扩展程序发出 API 请求。我们在这里不显示价格，因为它取决于您的 Hugging Face 提供商设置，并且无法通过其 API 一致提供。",
+			"getApiKeyLinkText": "在此处获取您的 API 密钥",
+			"modelLabel": "模型",
+			"searchPlaceholder": "搜索模型...",
+			"clearSearch": "清除搜索",
+			"fetchModelsError": "获取 Hugging Face 模型失败:",
+			"apiKeyUrl": "https://huggingface.co/settings/tokens"
 		},
 		"nebius": {
 			"name": "Nebius AI Studio",
-			"description": "Nebius AI 提供基于 Yandex 技术的 AI 服务。"
+			"description": "Nebius AI 提供基于 Yandex 技术的 AI 服务。",
+			"apiKeyHelpText": "此密钥存储在本地，仅用于从此扩展程序发出 API 请求。（注意：Caret 使用复杂的提示，与 Claude 模型配合使用效果最佳。能力较弱的模型可能无法按预期工作。）"
 		},
 		"asksage": {
 			"name": "AskSage",
-			"description": "AskSage 提供专为研究和学术用途设计的 AI 模型。"
+			"description": "AskSage 提供专为研究和学术用途设计的 AI 模型。",
+			"apiKeyHelpText": "此密钥存储在本地，仅用于从此扩展程序发出 API 请求。",
+			"apiUrlPlaceholder": "输入 AskSage API URL...",
+			"apiUrlLabel": "AskSage API URL",
+			"modelLabel": "模型"
 		},
 		"xai": {
-			"name": "xAI",
-			"description": "xAI 开发 Grok，一个旨在真实的大型语言模型。"
+			"name": "X AI",
+			"description": "xAI 开发 Grok，一个旨在真实的大型语言模型。",
+			"notePrefix": "注意：",
+			"noteText": "Caret 使用复杂的提示，与 Claude 模型配合使用效果最佳。能力较弱的模型可能无法按预期工作。",
+			"reasoningEffortLabel": "推理努力程度",
+			"reasoningEffortDescription": "高努力程度可能会产生更彻底的分析，但需要更长时间并使用更多令牌。",
+			"providerName": "xAI",
+			"modifyReasoningEffort": "修改推理努力程度",
+			"reasoningEffortOptions": {
+				"low": "低",
+				"high": "高"
+			}
 		},
 		"sambanova": {
 			"name": "SambaNova",
-			"description": "SambaNova 为企业级 AI 应用提供高性能模型。"
+			"description": "SambaNova 为企业级 AI 应用提供高性能模型。",
+			"providerName": "SambaNova"
 		},
 		"huawei-cloud-maas": {
 			"name": "华为云 MaaS",
-			"description": "华为云 MaaS（模型即服务）提供各种 AI 模型。"
+			"description": "华为云 MaaS（模型即服务）提供各种 AI 模型。",
+			"providerName": "华为云 MaaS"
 		},
 		"dify": {
 			"name": "Dify.ai",
-			"description": "Dify.ai 是一个用于构建和运行 LLM 驱动应用程序的平台。"
+			"description": "Dify.ai 是一个用于构建和运行 LLM 驱动应用程序的平台。",
+			"baseUrlLabel": "基础 URL",
+			"baseUrlPlaceholder": "请输入您的 Dify 基础 URL..."
 		},
 		"cline": {
 			"name": "Caret",
 			"description": "Caret 提供高质量的 AI 模型，针对编码任务进行了优化。"
+		},
+		"claude-code": {
+			"name": "Claude Code",
+			"description": "Claude Code 是 Anthropic 的一个专用模型，针对代码相关任务进行了优化。",
+			"cliPath": "CLI 路径",
+			"cliPathDescription": "'claude-code' CLI 可执行文件的路径。",
+			"cliPathPlaceholder": "claude",
+			"model": "模型"
+		},
+		"sap-ai-core": {
+			"name": "SAP AI Core",
+			"description": "SAP AI Core 是在 SAP 生态系统内部署和管理 AI 模型的服务。",
+			"clientIdLabel": "AI Core 客户端 ID",
+			"clientIdSetMessage": "客户端 ID 已设置。要更改它，请重新输入值。",
+			"clientSecretPlaceholder": "输入 AI Core 客户端密钥...",
+			"clientSecretLabel": "AI Core 客户端密钥",
+			"clientSecretSetMessage": "客户端密钥已设置。要更改它，请重新输入值。",
+			"baseUrlPlaceholder": "输入 AI Core 基础 URL...",
+			"baseUrlLabel": "AI Core 基础 URL",
+			"tokenUrlPlaceholder": "输入 AI Core 认证 URL...",
+			"tokenUrlLabel": "AI Core 认证 URL",
+			"resourceGroupPlaceholder": "输入 AI Core 资源组...",
+			"resourceGroupLabel": "AI Core 资源组",
+			"credentialsHelpText": "这些凭据存储在本地，仅用于从此扩展程序发出 API 请求。",
+			"apiAccessInfoLinkText": "您可以在此处找到有关 SAP AI Core API 访问的更多信息。",
+			"orchestrationModeLabel": "编排模式",
+			"orchestrationModeDescriptionEnabled": "启用后，无需单独部署即可访问所有可用模型。",
+			"orchestrationModeDescriptionDisabled": "禁用后，仅提供对 AI Core 服务实例中已部署模型的访问。",
+			"loadingModels": "正在加载模型...",
+			"modelFetchError": "获取模型失败。请检查您的配置。",
+			"noModelsFound": "无法从 SAP AI Core 服务实例获取模型。请检查您的 SAP AI Core 配置或确保您的部署已在服务实例中部署并运行",
+			"configureCredentialsPrompt": "请配置您的 SAP AI Core 凭据以查看可用模型。",
+			"fetchModelsErrorLog": "获取 SAP AI Core 模型时出错:",
+			"clientIdPlaceholder": "输入 AI Core 客户端 ID...",
+			"retryButton": "重试",
+			"selectModelPlaceholder": "选择模型..."
 		}
 	},
 	"persona": {
@@ -980,7 +928,48 @@
 		"version": "版本",
 		"title": "关于",
 		"description": "检查 Caret 版本并查看相关信息。",
-		"documentation": "文档",
-		"documentation_detailed": "详细用户手册"
+		"documentation": "文档"
+	},
+	"thinkingBudget": {
+		"enable": "启用思考预算",
+		"budgetText": {
+			"part1": "思考预算: ",
+			"part2": "{{value}} 令牌"
+		},
+		"ariaLabel": "将思考预算设置为 {{value}} 令牌",
+		"description": "控制模型用于内部推理的最大令牌数。较高的值允许更彻底的分析，但会增加成本。"
+	},
+	"validation": {
+		"apiKey": {
+			"required": "您必须提供有效的 API 密钥或选择其他提供商。"
+		},
+		"region": {
+			"required": "您必须选择与 AWS Bedrock 一起使用的区域。"
+		},
+		"googleCloud": {
+			"projectIdAndRegion": "您必须提供有效的 Google Cloud 项目 ID 和区域。"
+		},
+		"openai": {
+			"baseUrlApiKeyModel": "您必须提供有效的基础 URL、API 密钥和模型 ID。"
+		},
+		"modelId": {
+			"required": "您必须提供有效的模型 ID。",
+			"unavailable": "您提供的模型 ID 不可用。请选择其他模型。"
+		},
+		"modelSelector": {
+			"required": "您必须提供有效的模型选择器。"
+		},
+		"baseUrl": {
+			"required": "您必须提供有效的基础 URL 或选择其他提供商。"
+		},
+		"clientId": {
+			"required": "您必须提供有效的客户端 ID 或选择其他提供商。"
+		},
+		"clientSecret": {
+			"required": "您必须提供有效的客户端密钥或选择其他提供商。"
+		},
+		"authUrl": {
+			"required": "您必须提供有效的认证 URL 或选择其他提供商。"
+		}
 	}
 }

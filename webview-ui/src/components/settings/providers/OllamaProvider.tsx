@@ -45,7 +45,7 @@ export const OllamaProvider = ({ showModelOptions, isPopup, currentMode }: Ollam
 				setOllamaModels(response.values)
 			}
 		} catch (error) {
-			console.error(t("ollamaProvider.fetchModelsErrorLog", "settings"), error)
+			console.error(t("providers.ollama.fetchModelsErrorLog", "settings"), error)
 			setOllamaModels([])
 		}
 	}, [apiConfiguration?.ollamaBaseUrl])
@@ -63,24 +63,24 @@ export const OllamaProvider = ({ showModelOptions, isPopup, currentMode }: Ollam
 			</p>
 			<BaseUrlField
 				initialValue={apiConfiguration?.ollamaBaseUrl}
-				label={t("ollamaProvider.baseUrlLabel", "settings")}
+				label={t("providers.ollama.baseUrlLabel", "settings")}
 				onChange={(value) => handleFieldChange("ollamaBaseUrl", value)}
-				placeholder={t("ollamaProvider.baseUrlPlaceholder", "settings")}
+				placeholder={t("providers.ollama.baseUrlPlaceholder", "settings")}
 			/>
 
 			{apiConfiguration?.ollamaBaseUrl && (
 				<ApiKeyField
-					helpText={t("ollamaProvider.apiKeyHelpText", "settings")}
+					helpText={t("providers.ollama.apiKeyHelpText", "settings")}
 					initialValue={apiConfiguration?.ollamaApiKey || ""}
 					onChange={(value) => handleFieldChange("ollamaApiKey", value)}
-					placeholder={t("ollamaProvider.apiKeyPlaceholder", "settings")}
-					providerName={t("ollamaProvider.providerName", "settings")}
+					placeholder={t("providers.ollama.apiKeyPlaceholder", "settings")}
+					providerName={t("providers.ollama.providerName", "settings")}
 				/>
 			)}
 
 			{/* Model selection - use filterable picker */}
 			<label htmlFor="ollama-model-selection">
-				<span className="font-semibold">{t("ollamaProvider.modelLabel", "settings")}</span>
+				<span className="font-semibold">{t("providers.ollama.modelLabel", "settings")}</span>
 			</label>
 			<OllamaModelPicker
 				ollamaModels={ollamaModels}
@@ -89,23 +89,23 @@ export const OllamaProvider = ({ showModelOptions, isPopup, currentMode }: Ollam
 				}}
 				placeholder={
 					ollamaModels.length > 0
-						? t("ollamaProvider.modelPickerPlaceholder.search", "settings")
-						: t("ollamaProvider.modelPickerPlaceholder.example", "settings")
+						? t("providers.ollama.modelPickerPlaceholder.search", "settings")
+						: t("providers.ollama.modelPickerPlaceholder.example", "settings")
 				}
 				selectedModelId={ollamaModelId || ""}
 			/>
 
 			{/* Show status message based on model availability */}
 			{ollamaModels.length === 0 && (
-				<p className="text-sm mt-1 text-description italic">{t("ollamaProvider.fetchModelsError", "settings")}</p>
+				<p className="text-sm mt-1 text-description italic">{t("providers.ollama.fetchModelsError", "settings")}</p>
 			)}
 
 			<DebouncedTextField
 				initialValue={apiConfiguration?.ollamaApiOptionsCtxNum || "32768"}
 				onChange={(v) => handleFieldChange("ollamaApiOptionsCtxNum", v || undefined)}
-				placeholder={t("ollamaProvider.contextWindowPlaceholder", "settings")}
+				placeholder={t("providers.ollama.contextWindowPlaceholder", "settings")}
 				style={{ width: "100%" }}>
-				<span className="font-semibold">{t("ollamaProvider.modelContextWindowLabel", "settings")}</span>
+				<span className="font-semibold">{t("providers.ollama.modelContextWindowLabel", "settings")}</span>
 			</DebouncedTextField>
 
 			{showModelOptions && (
@@ -119,11 +119,11 @@ export const OllamaProvider = ({ showModelOptions, isPopup, currentMode }: Ollam
 								handleFieldChange("requestTimeoutMs", numValue)
 							}
 						}}
-						placeholder={t("ollamaProvider.requestTimeoutPlaceholder", "settings")}
+						placeholder={t("providers.ollama.requestTimeoutPlaceholder", "settings")}
 						style={{ width: "100%" }}>
-						<span className="font-semibold">{t("ollamaProvider.requestTimeoutLabel", "settings")}</span>
+						<span className="font-semibold">{t("providers.ollama.requestTimeoutLabel", "settings")}</span>
 					</DebouncedTextField>
-					<p className="text-xs mt-0 text-description">{t("ollamaProvider.requestTimeoutDescription", "settings")}</p>
+					<p className="text-xs mt-0 text-description">{t("providers.ollama.requestTimeoutDescription", "settings")}</p>
 				</>
 			)}
 

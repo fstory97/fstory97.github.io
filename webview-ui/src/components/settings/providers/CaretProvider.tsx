@@ -60,24 +60,8 @@ const CaretProvider = () => {
 					<li>{t("providers.caret.feature2", "settings")}</li>
 					<li>{t("providers.caret.feature3", "settings")}</li>
 					<li>{t("providers.caret.feature4", "settings")}</li>
+					<p></p>
 				</ul>
-			</div>
-
-			<div style={{ fontSize: 11, color: "var(--vscode-descriptionForeground)", margin: "8px 0 0 0" }}>
-				<p style={{ margin: 0 }}>
-					{t("account.byContining", "common")}{" "}
-					<VSCodeLink
-						className="text-inherit"
-						href={getLocalizedUrl("CARETIVE_PRIVACY", currentLanguage as SupportedLanguage)}>
-						{t("account.privacyPolicy", "common")}
-					</VSCodeLink>{" "}
-					{t("common.and", "common")}{" "}
-					<VSCodeLink
-						className="text-inherit"
-						href={getLocalizedUrl("YOUTH_PROTECTION", currentLanguage as SupportedLanguage)}>
-						{t("account.youthProtection", "common")}
-					</VSCodeLink>
-				</p>
 			</div>
 		</div>
 	)

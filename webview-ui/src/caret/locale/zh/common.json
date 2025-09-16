@@ -11,7 +11,15 @@
 		"setupApiOrLocal": "设置我的 API 密钥或本地 LLM",
 		"notifyCaretAccount": "通知我 Caret 订阅信息",
 		"saveAndStart": "保存并开始",
-		"startNewTaskWithContext": "使用上下文启动新任务"
+		"startNewTaskWithContext": "使用上下文启动新任务",
+		"retry": "Retry",
+		"approve": "Approve",
+		"proceed": "Proceed",
+		"proceedAnyways": "Proceed Anyways",
+		"proceedWhileRunning": "Proceed While Running",
+		"resumeTask": "Resume Task",
+		"condenseConversation": "Condense Conversation",
+		"reportGitHubIssue": "Report GitHub Issue"
 	},
 	"error": {
 		"generic": "发生了错误。",
@@ -94,7 +102,6 @@
 		"toggleError": "规则切换错误"
 	},
 	"persona": {
-		"enablePersonaSystem": "启用人格系统",
 		"description": "启用人格系统，体验各种 AI 角色的个性化互动。",
 		"management": "人格管理",
 		"docs": "文档",
@@ -177,11 +184,11 @@
 			"description": "在聊天机器人和代理模式之间切换时，将保留在上一个模式中使用的API和模型。例如，当使用强推理模型进行专家咨询（聊天机器人）和使用便宜的编码模型进行协作开发（代理）时，这可能会有所帮助。"
 		},
 		"apiKey": {
-			"placeholder": "输入 API 密钥...",
+			"placeholder": "请输入API密钥...",
 			"getYourKeyAn": "您可以通过在此处注册来获取{{providerName}} API密钥。",
 			"getYourKeyA": "您可以通过在此处注册来获取{{providerName}} API密钥。",
 			"label": "{{providerName}} API 密钥",
-			"helpText": "此密钥存储在本地，仅用于从此扩展程序发出 API 请求。"
+			"helpText": "此密钥存储在本地，仅用于从此扩展程序发出API请求。"
 		},
 		"baseUrl": {
 			"label": "使用自定义基础 URL",
@@ -193,30 +200,6 @@
 		},
 		"modelIdField": {
 			"label": "模型"
-		},
-		"openRouter": {
-			"featured": {
-				"claudeSonnet4": {
-					"description": "推荐用于 Cline 的代理编码",
-					"label": "最佳"
-				},
-				"gpt5": {
-					"description": "用于复杂、长期任务的最先进模型",
-					"label": "新"
-				},
-				"grok": {
-					"description": "用于复杂编码的262K上下文高级模型",
-					"label": "免费"
-				}
-			},
-			"switchTo1M": "切换到 1M 上下文窗口模型",
-			"switchTo200K": "切换到 200K 上下文窗口模型",
-			"modelLabel": "模型",
-			"searchPlaceholder": "搜索并选择模型...",
-			"clearSearch": "清除搜索",
-			"info": {
-				"fullText": "扩展程序自动获取 <0>OpenRouter</0> 上可用的最新模型列表。如果您不确定选择哪个模型，Cline 在 <1>anthropic/claude-sonnet-4</1> 上表现最佳。您也可以搜索\"免费\"来查找当前可用的免费选项。"
-			}
 		},
 		"requesty": {
 			"modelLabel": "模型",
@@ -240,12 +223,6 @@
 			"setupDescription": "要使用Google Cloud Vertex AI，您需要 ",
 			"setupLink1": "1) 创建 Google Cloud 账户 › 启用 Vertex AI API › 启用所需的 Claude 模型，",
 			"setupLink2": " 2) 安装 Google Cloud CLI › 配置应用程序默认凭据。"
-		},
-		"vsCodeLm": {
-			"modelLabel": "语言模型",
-			"selectModelPlaceholder": "选择模型...",
-			"getStartedDescription": "VS Code 语言模型 API 允许您运行其他 VS Code 扩展程序提供的模型（包括但不限于 GitHub Copilot）。开始使用的最简单方法是从 VS Marketplace 安装 Copilot 扩展程序并启用 Claude 4 Sonnet。",
-			"experimentalNote": "注意：这是一个非常实验性的集成，可能无法按预期工作。"
 		},
 		"terminalOutputLineLimit": {
 			"label": "终端输出限制",
@@ -477,9 +454,6 @@
 		"openAICompatible": {
 			"description": "使用任何与 OpenAI 兼容的 API 端点。"
 		},
-		"vsCodeLm": {
-			"description": "使用其他 VS Code 扩展程序提供的模型（例如 GitHub Copilot）。"
-		},
 		"claudeCode": {
 			"cliPath": "CLI 路径",
 			"cliPathDescription": "'claude-code' CLI 可执行文件的路径。"
@@ -542,13 +516,6 @@
 		"geminiFlashDescription": "适用于一般任务的快速高效模型，具有出色的成本效益",
 		"tagBest": "最佳",
 		"tagCostEffective": "性价比高"
-	},
-	"validation": {
-		"invalidApiKey": "您必须提供有效的API密钥或选择其他提供商。"
-	},
-	"apiKey": {
-		"placeholder": "请输入API密钥...",
-		"helpText": "此密钥存储在本地，仅用于从此扩展程序发出API请求。"
 	},
 	"apiOptions": {
 		"apiProvider": "API 提供商",

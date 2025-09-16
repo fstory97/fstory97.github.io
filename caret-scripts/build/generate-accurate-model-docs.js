@@ -63,52 +63,93 @@ function extractModelsFromContent(content) {
 
 const caretModels = extractModelsFromContent(caretContent)
 
+// 3. 동적 프로바이더 이름 매핑 생성
+function generateProviderMapping(content) {
+	const mapping = {}
+
+	// 주석에서 프로바이더명 추출 (예: // AskSage Models)
+	const commentMappings = {
+		askSageModels: "AskSage",
+		nebiusModels: "Nebius AI Studio",
+		sambanovaModels: "SambaNova",
+		sapAiCoreModels: "SAP AI Core",
+		moonshotModels: "Moonshot AI",
+		huaweiCloudMaasModels: "Huawei Cloud MaaS",
+		basetenModels: "Baseten",
+		internationalZAiModels: "Z AI (International)",
+		mainlandZAiModels: "Z AI (Mainland)",
+		fireworksModels: "Fireworks AI",
+		qwenCodeModels: "Qwen Code",
+	}
+
+	// 기본 매핑 (Model 섹션명 -> 표시명)
+	const defaultMappings = {
+		anthropicModels: "Anthropic Claude",
+		claudeCodeModels: "Claude Code",
+		bedrockModels: "AWS Bedrock",
+		vertexModels: "Vertex AI",
+		geminiModels: "Google Gemini",
+		openAiNativeModels: "OpenAI Native",
+		deepSeekModels: "DeepSeek",
+		huggingFaceModels: "Hugging Face",
+		internationalQwenModels: "Qwen (International)",
+		mainlandQwenModels: "Qwen (Mainland)",
+		doubaoModels: "Doubao",
+		mistralModels: "Mistral",
+		xaiModels: "X.AI",
+		cerebrasModels: "Cerebras",
+		groqModels: "Groq",
+	}
+
+	// 댓글 매핑과 기본 매핑을 결합
+	return { ...defaultMappings, ...commentMappings }
+}
+
 // 3. 통계 계산
 let totalModels = 0
 const providerStats = new Map()
 
 console.log("🔍 **프로바이더별 모델 수:**\n")
 
-// 프로바이더 매핑 (섹션명 -> 프로바이더명)
-const providerMapping = {
-	anthropicModels: "Anthropic Claude",
-	claudeCodeModels: "Claude Code",
-	openRouterModels: "OpenRouter",
-	bedrockModels: "AWS Bedrock",
-	vertexModels: "Vertex AI",
-	openAiModels: "OpenAI",
-	ollamaModels: "Ollama",
-	lmStudioModels: "LM Studio",
-	geminiModels: "Google Gemini",
-	openAiNativeModels: "OpenAI Native",
-	requestyModels: "Requesty",
-	togetherModels: "Together",
-	deepSeekModels: "DeepSeek",
-	qwenModels: "Qwen",
-	doubaoModels: "Doubao",
-	mistralModels: "Mistral",
-	groqModels: "Groq",
-	huggingFaceModels: "HuggingFace",
-	xaiModels: "X.AI",
-	internationalQwenModels: "International Qwen",
-	cerebrasModels: "Cerebras",
-	liteLlmModels: "LiteLLM",
-	moonshotModels: "Moonshot",
-	nebiusModels: "Nebius",
-	fireworksModels: "Fireworks",
-	asksageModels: "AskSage",
-	sambaNovaModels: "SambaNova",
-	sapAiCoreModels: "SAP AI Core",
-	huaweiCloudMaasModels: "Huawei Cloud MaaS",
-	basetenModels: "Baseten",
-}
+// 동적 프로바이더 매핑 생성
+const providerMapping = generateProviderMapping(caretContent)
+
+// 누락된 프로바이더 감지
+const unmappedProviders = []
 
 for (const [sectionName, models] of caretModels) {
-	const providerName = providerMapping[sectionName] || sectionName
+	let providerName = providerMapping[sectionName]
+
+	if (!providerName) {
+		// 자동 생성: "xxxModels" -> "Xxx"
+		providerName = sectionName
+			.replace(/Models$/, "")
+			.replace(/([A-Z])/g, " $1")
+			.replace(/^./, (str) => str.toUpperCase())
+			.trim()
+
+		unmappedProviders.push({
+			sectionName,
+			generatedName: providerName,
+			modelCount: models.length,
+		})
+	}
+
 	const count = models.length
 	providerStats.set(providerName, { count, models })
 	totalModels += count
 	console.log(`✅ **${providerName}**: ${count}개 모델`)
+}
+
+// 누락된 프로바이더 경고
+if (unmappedProviders.length > 0) {
+	console.log(`\n⚠️  **경고: 매핑되지 않은 프로바이더 발견** (${unmappedProviders.length}개)`)
+	console.log("다음 프로바이더들을 스크립트에 추가해주세요:\n")
+
+	for (const { sectionName, generatedName, modelCount } of unmappedProviders) {
+		console.log(`  ${sectionName}: "${generatedName}" (${modelCount}개 모델)`)
+	}
+	console.log()
 }
 
 // 실제 발견된 프로바이더 개수 계산

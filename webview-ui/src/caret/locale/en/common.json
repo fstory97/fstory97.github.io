@@ -201,30 +201,6 @@
 		"modelIdField": {
 			"label": "Model"
 		},
-		"openRouter": {
-			"featured": {
-				"claudeSonnet4": {
-					"description": "Recommended for agentic coding in Cline",
-					"label": "Best"
-				},
-				"gpt5": {
-					"description": "State of the art model for complex, long-horizon tasks",
-					"label": "New"
-				},
-				"grok": {
-					"description": "Advanced model with 262K context for complex coding",
-					"label": "Free"
-				}
-			},
-			"switchTo1M": "Switch to 1M context window model",
-			"switchTo200K": "Switch to 200K context window model",
-			"modelLabel": "Model",
-			"searchPlaceholder": "Search and select a model...",
-			"clearSearch": "Clear search",
-			"info": {
-				"fullText": "The extension automatically fetches the latest list of models available on <0>OpenRouter.</0> If you're unsure which model to choose, Cline works best with <1>anthropic/claude-sonnet-4.</1> You can also try searching \"free\" for no-cost options currently available."
-			}
-		},
 		"requesty": {
 			"modelLabel": "Model",
 			"searchPlaceholder": "Search and select a model...",
@@ -247,12 +223,6 @@
 			"setupDescription": "To use Google Cloud Vertex AI, you need to ",
 			"setupLink1": "1) create a Google Cloud account › enable the Vertex AI API › enable the desired Claude models,",
 			"setupLink2": " 2) install the Google Cloud CLI › configure Application Default Credentials."
-		},
-		"vsCodeLm": {
-			"modelLabel": "Language Model",
-			"selectModelPlaceholder": "Select a model...",
-			"getStartedDescription": "The VS Code Language Model API allows you to run models provided by other VS Code extensions (including but not limited to GitHub Copilot). The easiest way to get started is to install the Copilot extension from the VS Marketplace and enabling Claude 4 Sonnet.",
-			"experimentalNote": "Note: This is a very experimental integration and may not work as expected."
 		},
 		"terminalOutputLineLimit": {
 			"label": "Terminal output limit",
@@ -484,9 +454,6 @@
 		"openAICompatible": {
 			"description": "Use any OpenAI-compatible API endpoint."
 		},
-		"vsCodeLm": {
-			"description": "Use models provided by other VS Code extensions (e.g., GitHub Copilot)."
-		},
 		"claudeCode": {
 			"cliPath": "CLI Path",
 			"cliPathDescription": "Path to the 'claude-code' CLI executable."
@@ -549,13 +516,6 @@
 		"geminiFlashDescription": "Fast and efficient model suitable for general tasks with excellent cost-effectiveness",
 		"tagBest": "Best",
 		"tagCostEffective": "Cost-Effective"
-	},
-	"validation": {
-		"invalidApiKey": "You must provide a valid API key or choose a different provider."
-	},
-	"apiKey": {
-		"placeholder": "Enter API Key...",
-		"helpText": "This key is stored locally and only used to make API requests from this extension."
 	},
 	"apiOptions": {
 		"apiProvider": "API Provider",

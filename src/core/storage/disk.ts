@@ -77,6 +77,7 @@ export async function ensureRulesDirectoryExists(): Promise<string> {
 	try {
 		await fs.mkdir(clineRulesDir, { recursive: true })
 	} catch (_error) {
+		// CARET MODIFICATION: Reverted to original behavior to allow fallback path, will handle directory creation in persona-initializer.ts
 		return path.join(os.homedir(), "Documents", "Caret", "Rules") // in case creating a directory in documents fails for whatever reason (e.g. permissions) - this is fine because we will fail gracefully with a path that does not exist
 	}
 	return clineRulesDir

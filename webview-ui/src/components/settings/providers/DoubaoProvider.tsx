@@ -42,7 +42,7 @@ export const DoubaoProvider = ({ showModelOptions, isPopup, currentMode }: Douba
 			{showModelOptions && (
 				<>
 					<ModelSelector
-						label={t("doubaoProvider.modelLabel", "settings")}
+						label={t("providers.doubao.modelLabel", "settings")}
 						models={doubaoModels}
 						onChange={(e: any) =>
 							handleModeFieldChange(

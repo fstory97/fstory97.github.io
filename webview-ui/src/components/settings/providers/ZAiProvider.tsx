@@ -40,7 +40,7 @@ export const ZAiProvider = ({ showModelOptions, isPopup, currentMode }: ZAiProvi
 			<p style={{ whiteSpace: "pre-wrap" }}>{t("providers.zai.description", "settings")}</p>
 			<DropdownContainer className="dropdown-container" style={{ position: "inherit" }}>
 				<label htmlFor="zai-entrypoint">
-					<span style={{ fontWeight: 500, marginTop: 5 }}>{t("zaiProvider.entrypointLabel", "settings")}</span>
+					<span style={{ fontWeight: 500, marginTop: 5 }}>{t("providers.zai.entrypointLabel", "settings")}</span>
 				</label>
 				<VSCodeDropdown
 					id="zai-entrypoint"
@@ -60,12 +60,12 @@ export const ZAiProvider = ({ showModelOptions, isPopup, currentMode }: ZAiProvi
 					marginTop: 3,
 					color: "var(--vscode-descriptionForeground)",
 				}}>
-				{t("zaiProvider.entrypointDescription", "settings")}
+				{t("providers.zai.entrypointDescription", "settings")}
 			</p>
 			<ApiKeyField
 				initialValue={apiConfiguration?.zaiApiKey || ""}
 				onChange={(value) => handleFieldChange("zaiApiKey", value)}
-				providerName={t("zaiProvider.providerName", "settings")}
+				providerName={t("providers.zai.providerName", "settings")}
 				signupUrl={
 					apiConfiguration?.zaiApiLine === "china"
 						? "https://open.bigmodel.cn/console/overview"

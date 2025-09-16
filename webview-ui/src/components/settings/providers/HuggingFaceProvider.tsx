@@ -35,10 +35,10 @@ export const HuggingFaceProvider = ({ showModelOptions, isPopup, currentMode }: 
 				<DebouncedTextField
 					initialValue={apiConfiguration?.huggingFaceApiKey || ""}
 					onChange={(value) => handleFieldChange("huggingFaceApiKey", value)}
-					placeholder={t("huggingFaceProvider.apiKeyPlaceholder", "settings")}
+					placeholder={t("providers.huggingface.apiKeyPlaceholder", "settings")}
 					style={{ width: "100%" }}
 					type="password">
-					<span style={{ fontWeight: 500 }}>{t("huggingFaceProvider.apiKeyLabel", "settings")}</span>
+					<span style={{ fontWeight: 500 }}>{t("providers.huggingface.apiKeyLabel", "settings")}</span>
 				</DebouncedTextField>
 				<p
 					style={{
@@ -46,9 +46,9 @@ export const HuggingFaceProvider = ({ showModelOptions, isPopup, currentMode }: 
 						marginTop: "5px",
 						color: "var(--vscode-descriptionForeground)",
 					}}>
-					{t("huggingFaceProvider.apiKeyHelpText", "settings")}{" "}
-					<VSCodeLink href="https://huggingface.co/settings/tokens">
-						{t("huggingFaceProvider.getApiKeyLinkText", "settings")}
+					{t("providers.huggingface.apiKeyHelpText", "settings")}{" "}
+					<VSCodeLink href={t("providers.huggingface.apiKeyUrl", "settings")}>
+						{t("providers.huggingface.getApiKeyLinkText", "settings")}
 					</VSCodeLink>
 				</p>
 			</div>

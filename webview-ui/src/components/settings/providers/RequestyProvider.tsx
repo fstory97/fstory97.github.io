@@ -45,7 +45,7 @@ export const RequestyProvider = ({ showModelOptions, isPopup, currentMode }: Req
 						handleFieldChange("requestyBaseUrl", "")
 					}
 				}}>
-				{t("requestyProvider.useCustomBaseUrlLabel", "settings")}
+				{t("providers.requesty.useCustomBaseUrlLabel", "settings")}
 			</VSCodeCheckbox>
 			{requestyEndpointSelected && (
 				<DebouncedTextField
@@ -53,7 +53,7 @@ export const RequestyProvider = ({ showModelOptions, isPopup, currentMode }: Req
 					onChange={(value) => {
 						handleFieldChange("requestyBaseUrl", value)
 					}}
-					placeholder={t("requestyProvider.customBaseUrlPlaceholder", "settings")}
+					placeholder={t("providers.requesty.customBaseUrlPlaceholder", "settings")}
 					style={{ width: "100%", marginBottom: 5 }}
 					type="url"
 				/>

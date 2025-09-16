@@ -58,7 +58,7 @@
 **🎭 个性化AI伙伴** - 用自己的角色愉快编程  
 **🧠 改进的系统提示** - 更智能高效的AI回应  
 **🌍 4语言完美支持** - 中文、韩文、日文、英文 + 4语言手册  
-**🎯 25个提供商，223个模型** - Cline v3.26.6完全兼容 + 扩展  
+**🎯 25个提供商，300个模型** - Cline v3.26.6完全兼容 + 扩展  
 
 ## 🎭 首要特色：打造专属AI编程伙伴
 
@@ -124,7 +124,7 @@
 ### 🚀 **最新Cline v3.26.6架构完全兼容**
 
 <div align="center">
-  <h3>🎯 <strong>25个提供商</strong> | 🤖 <strong>223个模型</strong> | 📊 <strong>Cline v3.26.6完全兼容</strong></h3>
+  <h3>🎯 <strong>25个提供商</strong> | 🤖 <strong>300个模型</strong> | 📊 <strong>Cline v3.26.6完全兼容</strong></h3>
   
   **主要提供商**: OpenAI GPT-5, Anthropic Claude-4, Google Gemini 2.5, DeepSeek V3, Qwen3等
   

@@ -46,7 +46,7 @@
 	"useDifferentModelsDescription": "Switching between Plan and Act mode will persist the API and model used in the previous mode. This may be helpful e.g. when using a strong reasoning model to architect a plan for a cheaper coding model to act on.",
 	"theme": {
 		"dark": "Dark Theme",
-		"light": "Light Theme", 
+		"light": "Light Theme",
 		"auto": "Auto Theme"
 	},
 	"appearance": {
@@ -55,11 +55,12 @@
 		"fontFamily": "Font Family"
 	},
 	"modelSelector": {
-		"label": "Model"
+		"label": "Model",
+		"selectModelPlaceholder": "Select a model..."
 	},
 	"pricing": {
 		"inputPrice": "Input price: {{price}}/million tokens",
-		"cacheReadPrice": "Cache read price: {{price}}/million tokens", 
+		"cacheReadPrice": "Cache read price: {{price}}/million tokens",
 		"outputPriceStandard": "Output price (standard): {{price}}/million tokens",
 		"outputPriceReasoning": "Output price (reasoning budget > 0): {{price}}/million tokens",
 		"contextWindow": "Context window: {{size}}/million tokens",
@@ -373,111 +374,43 @@
 		"placeholder": "Default: https://api.example.com"
 	},
 	"modelInfoView": {
-		"tokensSuffix": "tokens)",
-		"millionTokensLabel": "million tokens",
-		"inputPriceLabel": "Input price:",
-		"outputPriceStandardLabel": "Output price (Standard):",
-		"outputPriceThinkingBudgetLabel": "Output price (Thinking Budget > 0):",
-		"outputPriceLabel": "Output price:",
+		"inputPrice": "Input price",
+		"outputPriceStandard": "Output price (Standard)",
+		"outputPriceThinking": "Output price (Thinking Budget > 0)",
+		"outputPrice": "Output price",
 		"basedOnInputTokens": "(based on input tokens)",
 		"doesNotSupportImages": "Does not support images",
 		"supportsImages": "Supports images",
-		"doesNotSupportBrowserUse": "Does not support browser use",
-		"supportsBrowserUse": "Supports browser use",
-		"doesNotSupportPromptCaching": "Does not support prompt caching",
-		"supportsPromptCaching": "Supports prompt caching",
+		"doesNotSupportBrowser": "Does not support browser use",
+		"supportsBrowser": "Supports browser use",
+		"doesNotSupportCache": "Does not support prompt caching",
+		"supportsCache": "Supports prompt caching",
+		"contextWindow": "Context Window",
+		"cacheWritesPrice": "Cache writes price",
+		"cacheReadsPrice": "Cache reads price",
 		"contextWindowLabel": "Context Window:",
+		"inputPriceLabel": "Input price:",
+		"outputPriceLabel": "Output price:",
+		"outputPriceStandardLabel": "Output price (Standard):",
+		"outputPriceThinkingBudgetLabel": "Output price (Thinking Budget > 0):",
 		"cacheWritesPriceLabel": "Cache writes price:",
-		"cacheReadsPriceLabel": "Cache reads price:"
-	},
-	"modelSelector": {
-		"label": "Model",
-		"selectModelPlaceholder": "Select a model..."
-	},
-	"groqModelPicker": {
-		"modelLabel": "Model",
-		"searchPlaceholder": "Search and select a model...",
-		"clearSearch": "Clear search",
-		"fetchModelsDescription": "The extension automatically fetches the latest list of models available on ",
-		"groqLinkText": "Groq.",
-		"unsureModelChoice": "If you're unsure which model to choose, Caret works best with ",
-		"recommendedModel": "llama-3.3-70b-versatile."
-	},
-	"huggingFaceModelPicker": {
-		"modelLabel": "Model",
-		"searchPlaceholder": "Search models...",
-		"clearSearch": "Clear search"
+		"cacheReadsPriceLabel": "Cache reads price:",
+		"supportsImagesLabel": "Supports images:",
+		"supportsComputerUseLabel": "Supports computer use:",
+		"supportsCacheLabel": "Supports prompt caching:",
+		"doesNotSupportImagesLabel": "Does not support images:",
+		"doesNotSupportComputerUseLabel": "Does not support computer use:",
+		"doesNotSupportCacheLabel": "Does not support prompt caching:"
 	},
 	"ollamaModelPicker": {
 		"searchPlaceholder": "Search and select a model...",
 		"clearSearch": "Clear search"
-	},
-	"openRouterModelPicker": {
-		"starIconFilled": "★",
-		"starIconEmpty": "☆",
-		"featuredModelDescriptionBest": "Recommended for Caret's agent coding",
-		"featuredModelLabelBest": "Best",
-		"featuredModelDescriptionNew": "Cutting-edge models for complex, long-horizon tasks",
-		"featuredModelLabelNew": "New",
-		"featuredModelDescriptionFree": "Advanced model with 262K context for complex coding",
-		"featuredModelLabelFree": "Free",
-		"modelLabel": "Model",
-		"searchPlaceholder": "Search and select a model...",
-		"clearSearch": "Clear search",
-		"switchToOneMContext": "Switch to 1M context window model",
-		"switchToTwoHundredKContext": "Switch to 200K context window model",
-		"fetchModelsDescription": "The extension automatically fetches the latest list of models available on ",
-		"openRouterLinkText": "OpenRouter.",
-		"unsureModelChoice": "If you're unsure which model to choose, Caret works best with ",
-		"recommendedModel": "anthropic/claude-3-7-sonnet-latest.",
-		"searchFreeOptions": "To find free options currently available, try searching for \"free\"."
 	},
 	"preferredLanguageSetting": {
 		"english": "🇺🇸 English",
 		"korean": "🇰🇷 Korean",
 		"chinese": "🇨🇳 Chinese",
 		"japanese": "🇯🇵 Japanese"
-	},
-	"anthropicProvider": {
-		"switchTo1MContext": "Switch to 1M context window model",
-		"switchTo200KContext": "Switch to 200K context window model"
-	},
-	"askSageProvider": {
-		"apiKeyHelpText": "This key is stored locally and only used to make API requests from this extension.",
-		"apiUrlPlaceholder": "Enter AskSage API URL...",
-		"apiUrlLabel": "AskSage API URL",
-		"modelLabel": "Model"
-	},
-	"bedrockProvider": {
-		"apiKey": "API Key",
-		"awsProfile": "AWS Profile",
-		"awsCredentials": "AWS Credentials",
-		"profileNamePlaceholder": "Enter profile name (default if empty)",
-		"profileNameLabel": "AWS Profile Name",
-		"bedrockApiKeyPlaceholder": "Enter Bedrock Api Key",
-		"bedrockApiKeyLabel": "AWS Bedrock Api Key",
-		"accessKeyPlaceholder": "Enter Access Key...",
-		"accessKeyLabel": "AWS Access Key",
-		"secretKeyPlaceholder": "Enter Secret Key...",
-		"secretKeyLabel": "AWS Secret Key",
-		"sessionTokenPlaceholder": "Enter Session Token...",
-		"sessionTokenLabel": "AWS Session Token",
-		"awsRegionLabel": "AWS Region",
-		"selectRegionPlaceholder": "Select a region...",
-		"useCustomVpcEndpoint": "Use custom VPC endpoint",
-		"vpcEndpointPlaceholder": "Enter VPC Endpoint URL (optional)",
-		"useCrossRegionInference": "Use cross-region inference",
-		"usePromptCaching": "Use prompt caching",
-		"profileCredentialsHelpText": "Using AWS Profile credentials from ~/.aws/credentials. Leave profile name empty to use the default profile. These credentials are only used locally to make API requests from this extension.",
-		"defaultCredentialsHelpText": "Authenticate by either providing the keys above or use the default AWS credential providers, i.e. ~/.aws/credentials or environment variables. These credentials are only used locally to make API requests from this extension.",
-		"modelLabel": "Model",
-		"selectModelPlaceholder": "Select a model...",
-		"customModelOption": "Custom",
-		"customModelDescription": "Select \"Custom\" when using the Application Inference Profile in Bedrock. Enter the Application Inference Profile ARN in the Model ID field.",
-		"customModelIdPlaceholder": "Enter custom model ID...",
-		"modelIdLabel": "Model ID",
-		"baseInferenceModelLabel": "Base Inference Model",
-		"selectBaseModelPlaceholder": "Select a model..."
 	},
 	"basetenModelPicker": {
 		"modelNotStatic": "Model {{newModelId}} is not in the static basetenModels list",
@@ -486,40 +419,6 @@
 		"clearSearch": "Clear search",
 		"description": "The extension automatically fetches the latest list of models available on",
 		"recommendedModel": "moonshotai/Kimi-K2-Instruct."
-	},
-	"clineProvider": {
-		"sortUnderlyingProviderRouting": "Sort underlying provider routing",
-		"defaultOption": "Default",
-		"priceOption": "Price",
-		"throughputOption": "Throughput",
-		"latencyOption": "Latency",
-		"defaultSortingDescription": "Default behavior is to load balance requests across providers (like AWS, Google Vertex, Anthropic), prioritizing price while considering provider uptime",
-		"priceSortingDescription": "Sort providers by price, prioritizing the lowest cost provider",
-		"throughputSortingDescription": "Sort providers by throughput, prioritizing the provider with the highest throughput (may increase cost)",
-		"latencySortingDescription": "Sort providers by response time, prioritizing the provider with the lowest latency"
-	},
-	"doubaoProvider": {
-		"providerName": "Doubao",
-		"modelLabel": "Model"
-	},
-	"geminiProvider": {
-		"baseUrlPlaceholder": "Default: https://generativelanguage.googleapis.com"
-	},
-	"fireworksProvider": {
-		"providerName": "Fireworks",
-		"modelLabel": "Model"
-	},
-	"groqProvider": {
-		"providerName": "Groq"
-	},
-	"huggingFaceProvider": {
-		"apiKeyPlaceholder": "Enter API Key...",
-		"apiKeyLabel": "Hugging Face API Key",
-		"apiKeyHelpText": "This key is stored locally and only used to make API requests from this extension. We don’t show pricing here because it depends on your Hugging Face provider settings and isn’t consistently available via their API.",
-		"getApiKeyLinkText": "Get your API key here"
-	},
-	"huaweiCloudMaasProvider": {
-		"providerName": "Huawei Cloud MaaS"
 	},
 	"rules": {
 		"section": {
@@ -550,189 +449,6 @@
 			"loading": "Loading..."
 		}
 	},
-	"liteLlmProvider": {
-		"baseUrlPlaceholder": "Default: http://localhost:4000",
-		"baseUrlLabel": "Base URL (optional)",
-		"apiKeyPlaceholder": "Default: noop",
-		"apiKeyLabel": "API Key",
-		"modelIdPlaceholder": "e.g. anthropic/claude-sonnet-4-20250514",
-		"modelIdLabel": "Model ID",
-		"usePromptCachingLabel": "Use prompt caching (GA)",
-		"promptCachingHelpText": "Prompt caching requires a supported provider and model",
-		"extendedThinkingHelpText": "Extended thinking is available for models such as Sonnet-4, o3-mini, Deepseek R1, etc. More info on",
-		"thinkingModeConfigurationLinkText": "thinking mode configuration",
-		"modelConfigurationLabel": "Model Configuration",
-		"supportsImagesLabel": "Supports Images",
-		"contextWindowSizeLabel": "Context Window Size",
-		"maxOutputTokensLabel": "Max Output Tokens",
-		"temperatureLabel": "Temperature",
-		"unifiedInterfaceHelpText": "LiteLLM provides a unified interface to access various LLM providers' models. See their",
-		"quickstartGuideLinkText": "quickstart guide",
-		"forMoreInformationText": "for more information."
-	},
-	"moonshotProvider": {
-		"entrypoint": "Moonshot Entrypoint",
-		"providerName": "Moonshot"
-	},
-	"mistralProvider": {
-		"name": "Mistral",
-		"providerName": "Mistral"
-	},
-	"nebiusProvider": {
-		"apiKeyHelpText": "This key is stored locally and only used to make API requests from this extension. (Note: Caret uses complex prompts and works best with Claude models. Less capable models may not work as expected.)",
-		"providerName": "Nebius"
-	},
-	"ollamaProvider": {
-		"baseUrlLabel": "Use custom base URL",
-		"baseUrlPlaceholder": "Default: http://localhost:11434",
-		"apiKeyHelpText": "Optional API key for authenticated Ollama instances or cloud services. Leave empty for local installations.",
-		"apiKeyPlaceholder": "Enter API Key (optional)...",
-		"modelLabel": "Model",
-		"modelPickerPlaceholder": {
-			"search": "Search and select a model...",
-			"example": "e.g. llama3.1"
-		},
-		"fetchModelsError": "Unable to fetch models from Ollama server. Please ensure Ollama is running and accessible, or enter the model ID manually above.",
-		"modelContextWindowLabel": "Model Context Window",
-		"requestTimeoutPlaceholder": "Default: 30000 (30 seconds)",
-		"requestTimeoutLabel": "Request Timeout (ms)",
-		"requestTimeoutDescription": "Maximum time in milliseconds to wait for API responses before timing out.",
-		"descriptionPart1": "Ollama allows you to run models locally on your computer. For instructions on how to get started, see their ",
-		"quickstartGuideLinkText": "quickstart guide.",
-		"notePrefix": "Note:",
-		"noteText": "Caret uses complex prompts and works best with Claude models. Less capable models may not work as expected.",
-		"fetchModelsErrorLog": "Failed to fetch Ollama models:",
-		"providerName": "Ollama",
-		"contextWindowPlaceholder": "e.g. 32768"
-	},
-	"openAiCompatibleProvider": {
-		"baseUrlPlaceholder": "Enter base URL...",
-		"baseUrlLabel": "Base URL",
-		"modelIdPlaceholder": "Enter Model ID...",
-		"modelIdLabel": "Model ID",
-		"customHeadersLabel": "Custom Headers",
-		"addHeaderButton": "Add Header",
-		"headerNamePlaceholder": "Header name",
-		"headerValuePlaceholder": "Header value",
-		"removeHeaderButton": "Remove",
-		"azureApiVersionLabel": "Set Azure API version",
-		"azureApiVersionPlaceholder": "Default: {{defaultValue}}",
-		"modelConfigurationLabel": "Model Configuration",
-		"supportsImagesCheckbox": "Supports Images",
-		"supportsBrowserUseCheckbox": "Supports browser use",
-		"enableR1FormatCheckbox": "Enable R1 messages format",
-		"contextWindowSizeLabel": "Context Window Size",
-		"maxOutputTokensLabel": "Max Output Tokens",
-		"inputPriceLabel": "Input Price / 1M tokens",
-		"outputPriceLabel": "Output Price / 1M tokens",
-		"temperatureLabel": "Temperature",
-		"notePrefix": "Note:",
-		"noteText": "Caret uses complex prompts and works best with Claude models. Less capable models may not work as expected.",
-		"refreshModelsError": "Failed to refresh OpenAI models:",
-		"providerName": "OpenAI Compatible"
-	},
-	"openAiNativeProvider": {
-		"providerName": "OpenAI"
-	},
-	"openRouterProvider": {
-		"balanceDisplay": {
-			"loading": "Loading...",
-			"tooltip": "Remaining balance: {{remainingBalance}}\\nLimit: {{limit}}\\nUsage: {{usage}}",
-			"label": "Balance: {{formattedBalance}}"
-		},
-		"apiKeyPlaceholder": "Enter API Key...",
-		"apiKeyLabel": "OpenRouter API Key",
-		"getApiKeyButton": "Get OpenRouter API Key",
-		"apiKeyHelpText": "This key is stored locally and only used to make API requests from this extension.",
-		"sortUnderlyingProviderRoutingCheckbox": "Sort underlying provider routing",
-		"defaultOption": "Default",
-		"priceOption": "Price",
-		"throughputOption": "Throughput",
-		"latencyOption": "Latency",
-		"defaultSortingDescription": "Default behavior is to load balance requests across providers (like AWS, Google Vertex, Anthropic), prioritizing price while considering provider uptime",
-		"priceSortingDescription": "Sort providers by price, prioritizing the lowest cost provider",
-		"throughputSortingDescription": "Sort providers by throughput, prioritizing the provider with the highest throughput (may increase cost)",
-		"latencySortingDescription": "Sort providers by response time, prioritizing the provider with the lowest latency",
-		"authError": "Failed to open OpenRouter auth:"
-	},
-	"qwenCodeProvider": {
-		"apiConfigurationTitle": "Qwen Code API Configuration",
-		"oauthCredentialsPathPlaceholder": "~/.qwen/oauth_creds.json",
-		"oauthCredentialsPathLabel": "OAuth Credentials Path",
-		"oauthCredentialsPathDescription": "Path to your Qwen OAuth credentials file. Use ~/.qwen/oauth_creds.json or provide a custom path.",
-		"oauthAuthenticationDescription": "Qwen Code is an OAuth-based API that requires authentication through the official Qwen client. You'll need to set up OAuth credentials first.",
-		"getStartedTitle": "To get started:",
-		"installClientStep": "Install the official Qwen client",
-		"authenticateStep": "Authenticate using your account",
-		"credentialsStoredStep": "OAuth credentials will be stored automatically",
-		"setupInstructionsLinkText": "Setup Instructions"
-	},
-	"qwenProvider": {
-		"name": "Qwen",
-		"modelLabel": "Model"
-	},
-	"requestyProvider": {
-		"name": "Requesty",
-		"useCustomBaseUrlLabel": "Use custom base URL",
-		"customBaseUrlPlaceholder": "Custom base URL",
-		"providerName": "Requesty"
-	},
-	"sambanovaProvider": {
-		"name": "SambaNova",
-		"providerName": "SambaNova"
-	},
-	"sapAiCoreProvider": {
-		"clientIdLabel": "AI Core Client Id",
-		"clientIdSetMessage": "Client Id is set. To change it, please re-enter the value.",
-		"clientSecretPlaceholder": "Enter AI Core Client Secret...",
-		"clientSecretLabel": "AI Core Client Secret",
-		"clientSecretSetMessage": "Client Secret is set. To change it, please re-enter the value.",
-		"baseUrlPlaceholder": "Enter AI Core Base URL...",
-		"baseUrlLabel": "AI Core Base URL",
-		"tokenUrlPlaceholder": "Enter AI Core Auth URL...",
-		"tokenUrlLabel": "AI Core Auth URL",
-		"resourceGroupPlaceholder": "Enter AI Core Resource Group...",
-		"resourceGroupLabel": "AI Core Resource Group",
-		"credentialsHelpText": "These credentials are stored locally and only used to make API requests from this extension.",
-		"apiAccessInfoLinkText": "You can find more information about SAP AI Core API access here.",
-		"orchestrationModeLabel": "Orchestration Mode",
-		"orchestrationModeDescriptionEnabled": "When enabled, provides access to all available models without requiring individual deployments.",
-		"orchestrationModeDescriptionDisabled": "When disabled, provides access only to deployed models in your AI Core service instance.",
-		"loadingModels": "Loading models...",
-		"modelFetchError": "Failed to fetch models. Please check your configuration.",
-		"noModelsFound": "Unable to fetch models from SAP AI Core service instance. Please check your SAP AI Core configuration or ensure your deployments are deployed and running in the service instance",
-		"configureCredentialsPrompt": "Please configure your SAP AI Core credentials to see available models.",
-		"fetchModelsErrorLog": "Error fetching SAP AI Core models:",
-		"clientIdPlaceholder": "Enter AI Core Client Id...",
-		"retryButton": "Retry",
-		"selectModelPlaceholder": "Select a model..."
-	},
-	"togetherProvider": {
-		"name": "Together",
-		"modelIdPlaceholder": "Enter Model ID...",
-		"modelIdLabel": "Model ID",
-		"notePrefix": "Note:",
-		"noteText": "Caret uses complex prompts and works best with Claude models. Less capable models may not work as expected.",
-		"providerName": "Together"
-	},
-	"vercelAiGatewayProvider": {
-		"apiKeyLabel": "Vercel AI Gateway API Key",
-		"getApiKeyLinkText": "You can get a Vercel AI Gateway API key by signing up here.",
-		"modelIdPlaceholder": "Enter Model ID (e.g., openai/gpt-4o)...",
-		"modelIdLabel": "Model ID",
-		"fetchModelsError": "Unable to fetch models from Vercel AI Gateway.",
-		"noteText": "Note: Free tier users will see $0 costs as these requests are provided at no charge by Vercel AI Gateway.",
-		"fetchModelsErrorLog": "Failed to fetch Vercel AI Gateway models:"
-	},
-	"vertexProvider": {
-		"projectIdPlaceholder": "Enter Project ID...",
-		"projectIdLabel": "Google Cloud Project ID",
-		"regionLabel": "Google Cloud Region",
-		"selectRegionPlaceholder": "Select a region...",
-		"descriptionPart1": "To use Google Cloud Vertex AI, you need to",
-		"linkText1": "1) create a Google Cloud account › enable the Vertex AI API › enable the desired Claude models,",
-		"linkText2": "2) install the Google Cloud CLI › configure Application Default Credentials."
-	},
 	"vertex": {
 		"modelName": "Model Name",
 		"instructions": "Instructions",
@@ -743,62 +459,8 @@
 	},
 	"claude": {
 		"systemPrompt": "System Prompt",
-		"maxTokens": "Max Tokens", 
+		"maxTokens": "Max Tokens",
 		"apiVersion": "API Version"
-	},
-	"vsCodeLmProvider": {
-		"languageModelLabel": "Language Model",
-		"selectModelPlaceholder": "Select a model...",
-		"descriptionPart1": "The VS Code Language Model API allows you to run models provided by other VS Code extensions (including but not limited to GitHub Copilot). The easiest way to get started is to install the",
-		"copilotExtensionLinkText": "Copilot extension",
-		"descriptionPart2": "from the VS Marketplace and enabling Claude 4 Sonnet.",
-		"noteText": "Note: This is a very experimental integration and may not work as expected."
-	},
-	"xaiProvider": {
-		"name": "X AI",
-		"providerName": "xAI",
-		"notePrefix": "Note:",
-		"noteText": "Caret uses complex prompts and works best with Claude models. Less capable models may not work as expected.",
-		"modifyReasoningEffort": "Modify reasoning effort",
-		"reasoningEffortLabel": "Reasoning Effort",
-		"reasoningEffortOptions": {
-			"low": "low",
-			"high": "high"
-		},
-		"reasoningEffortDescription": "High effort may produce more thorough analysis but takes longer and uses more tokens."
-	},
-	"zaiProvider": {
-		"entrypointLabel": "Z AI Entrypoint",
-		"entrypointDescription": "Please select the appropriate API entrypoint based on your location. If you are in China, choose open.bigmodel.cn. Otherwise, choose api.z.ai.",
-		"providerName": "Z AI",
-		"name": "Z AI"
-	},
-	"lmStudioProvider": {
-		"baseUrlPlaceholder": "Default: http://localhost:1234",
-		"modelPlaceholder": "e.g. meta-llama-3.1-8b-instruct",
-		"contextWindowTooltip": "Not editable - the value is returned by the connected endpoint",
-		"parseModelsError": "Failed to parse LM Studio models:",
-		"description1": "LM Studio allows you to run models locally on your computer. For instructions on how to get started, see their ",
-		"quickstartGuideLink": "quickstart guide.",
-		"description2": "You will also need to start LM Studio's ",
-		"localServerLink": "local server",
-		"description3": " feature with lms server start to use it with this extension. ",
-		"noteBody": "Caret uses complex prompts and works best with Claude models. Less capable models may not work as expected."
-	},
-	"moonshotProvider": {
-		"entrypoint": "Moonshot Entrypoint"
-	},
-	"nebiusProvider": {
-		"apiKeyHelpText": "This key is stored locally and only used to make API requests from this extension. (Note: Caret uses complex prompts and works best with Claude models. Less capable models may not work as expected.)"
-	},
-	"qwenProvider": {
-		"apiLineLabel": "Alibaba API Line",
-		"apiLineDescription": "Please select the appropriate API interface based on your location. If you are in China, choose the China API interface. Otherwise, choose the International API interface.",
-		"providerName": "Qwen",
-		"apiLineOptions": {
-			"international": "International API",
-			"china": "China API"
-		}
 	},
 	"requestyModelPicker": {
 		"searchPlaceholder": "Search and select a model...",
@@ -818,31 +480,142 @@
 	"providers": {
 		"caret": {
 			"name": "Caret",
-			"description": "Caret provides high-quality AI models with optimized performance for coding tasks."
+			"description": "Caret provides high-quality AI models with optimized performance for coding tasks.",
+			"login": "Login to Caret",
+			"loginError": "Failed to login to Caret",
+			"apiKeyConfigured": "✓ API key configured",
+			"features": "Features:",
+			"feature1": "Access to the latest models",
+			"feature2": "Billing dashboard to view usage and credits",
+			"feature3": "Prompt Playground",
+			"feature4": "More upcoming features"
 		},
 		"openrouter": {
 			"name": "OpenRouter",
-			"description": "Access a wide variety of open-source and proprietary models with a single API key."
+			"description": "Access a wide variety of open-source and proprietary models with a single API key.",
+			"balanceDisplay": {
+				"loading": "Loading...",
+				"tooltip": "Remaining balance: {{remainingBalance}}\\nLimit: {{limit}}\\nUsage: {{usage}}",
+				"label": "Balance: {{formattedBalance}}"
+			},
+			"apiKeyPlaceholder": "Enter API Key...",
+			"apiKeyLabel": "OpenRouter API Key",
+			"getApiKeyButton": "Get OpenRouter API Key",
+			"apiKeyHelpText": "This key is stored locally and only used to make API requests from this extension.",
+			"sortUnderlyingProviderRoutingCheckbox": "Sort underlying provider routing",
+			"defaultOption": "Default",
+			"priceOption": "Price",
+			"throughputOption": "Throughput",
+			"latencyOption": "Latency",
+			"defaultSortingDescription": "Default behavior is to load balance requests across providers (like AWS, Google Vertex, Anthropic), prioritizing price while considering provider uptime",
+			"priceSortingDescription": "Sort providers by price, prioritizing the lowest cost provider",
+			"throughputSortingDescription": "Sort providers by throughput, prioritizing the provider with the highest throughput (may increase cost)",
+			"latencySortingDescription": "Sort providers by response time, prioritizing the provider with the lowest latency",
+			"authError": "Failed to open OpenRouter auth:",
+			"modelPicker": {
+				"starIconFilled": "★",
+				"starIconEmpty": "☆",
+				"featuredModelDescriptionBest": "Recommended for Caret's agent coding",
+				"featuredModelLabelBest": "Best",
+				"featuredModelDescriptionNew": "Cutting-edge models for complex, long-horizon tasks",
+				"featuredModelLabelNew": "New",
+				"featuredModelDescriptionFree": "Advanced model with 262K context for complex coding",
+				"featuredModelLabelFree": "Free",
+				"modelLabel": "Model",
+				"searchPlaceholder": "Search and select a model...",
+				"clearSearch": "Clear search",
+				"switchTo1M": "Switch to 1M context window model",
+				"switchToOneMContext": "Switch to 1M context window model",
+				"switchTo200K": "Switch to 200K context window model",
+				"switchToTwoHundredKContext": "Switch to 200K context window model",
+				"fetchModelsDescription": "The extension automatically fetches the latest list of models available on ",
+				"linkText": "OpenRouter.",
+				"unsureModelChoice": "If you're unsure which model to choose, Caret works best with ",
+				"recommendedModel": "anthropic/claude-3-7-sonnet-latest.",
+				"searchFreeOptions": "To find free options currently available, try searching for \"free\"."
+			}
 		},
 		"gemini": {
 			"name": "Google Gemini",
-			"description": "Use the Google AI API to access Google's Gemini model family. Requires an API key."
+			"description": "Use the Google AI API to access Google's Gemini model family. Requires an API key.",
+			"baseUrlPlaceholder": "Default: https://generativelanguage.googleapis.com"
 		},
 		"openai": {
 			"name": "OpenAI Compatible",
-			"description": "Connect to any model endpoint that is compatible with the OpenAI API."
+			"description": "Connect to any model endpoint that is compatible with the OpenAI API.",
+			"baseUrlPlaceholder": "Enter base URL...",
+			"baseUrlLabel": "Base URL",
+			"modelIdPlaceholder": "Enter Model ID...",
+			"modelIdLabel": "Model ID",
+			"customHeadersLabel": "Custom Headers",
+			"addHeaderButton": "Add Header",
+			"headerNamePlaceholder": "Header name",
+			"headerValuePlaceholder": "Header value",
+			"removeHeaderButton": "Remove",
+			"azureApiVersionLabel": "Set Azure API version",
+			"azureApiVersionPlaceholder": "Default: {{defaultValue}}",
+			"modelConfigurationLabel": "Model Configuration",
+			"supportsImagesCheckbox": "Supports Images",
+			"supportsBrowserUseCheckbox": "Supports browser use",
+			"enableR1FormatCheckbox": "Enable R1 messages format",
+			"contextWindowSizeLabel": "Context Window Size",
+			"maxOutputTokensLabel": "Max Output Tokens",
+			"inputPriceLabel": "Input Price / 1M tokens",
+			"outputPriceLabel": "Output Price / 1M tokens",
+			"temperatureLabel": "Temperature",
+			"notePrefix": "Note:",
+			"noteText": "Caret uses complex prompts and works best with Claude models. Less capable models may not work as expected.",
+			"refreshModelsError": "Failed to refresh OpenAI models:",
+			"providerName": "OpenAI Compatible"
 		},
 		"anthropic": {
 			"name": "Anthropic",
-			"description": "Use the Anthropic API to access the Claude model family directly. Requires an API key."
+			"description": "Use the Anthropic API to access the Claude model family directly. Requires an API key.",
+			"switchTo1MContext": "Switch to 1M context window model",
+			"switchTo200KContext": "Switch to 200K context window model"
 		},
 		"bedrock": {
 			"name": "Amazon Bedrock",
-			"description": "Amazon Bedrock provides access to a wide range of foundation models from Amazon and leading AI startups."
+			"description": "Amazon Bedrock provides access to a wide range of foundation models from Amazon and leading AI startups.",
+			"apiKey": "API Key",
+			"awsProfile": "AWS Profile",
+			"awsCredentials": "AWS Credentials",
+			"profileNamePlaceholder": "Enter profile name (default if empty)",
+			"profileNameLabel": "AWS Profile Name",
+			"bedrockApiKeyPlaceholder": "Enter Bedrock Api Key",
+			"bedrockApiKeyLabel": "AWS Bedrock Api Key",
+			"accessKeyPlaceholder": "Enter Access Key...",
+			"accessKeyLabel": "AWS Access Key",
+			"secretKeyPlaceholder": "Enter Secret Key...",
+			"secretKeyLabel": "AWS Secret Key",
+			"sessionTokenPlaceholder": "Enter Session Token...",
+			"sessionTokenLabel": "AWS Session Token",
+			"awsRegionLabel": "AWS Region",
+			"selectRegionPlaceholder": "Select a region...",
+			"useCustomVpcEndpoint": "Use custom VPC endpoint",
+			"vpcEndpointPlaceholder": "Enter VPC Endpoint URL (optional)",
+			"useCrossRegionInference": "Use cross-region inference",
+			"usePromptCaching": "Use prompt caching",
+			"profileCredentialsHelpText": "Using AWS Profile credentials from ~/.aws/credentials. Leave profile name empty to use the default profile. These credentials are only used locally to make API requests from this extension.",
+			"defaultCredentialsHelpText": "Authenticate by either providing the keys above or use the default AWS credential providers, i.e. ~/.aws/credentials or environment variables. These credentials are only used locally to make API requests from this extension.",
+			"modelLabel": "Model",
+			"selectModelPlaceholder": "Select a model...",
+			"customModelOption": "Custom",
+			"customModelDescription": "Select \"Custom\" when using the Application Inference Profile in Bedrock. Enter the Application Inference Profile ARN in the Model ID field.",
+			"customModelIdPlaceholder": "Enter custom model ID...",
+			"modelIdLabel": "Model ID",
+			"baseInferenceModelLabel": "Base Inference Model",
+			"selectBaseModelPlaceholder": "Select a model..."
 		},
 		"vscode-lm": {
 			"name": "VS Code LM API",
-			"description": "Use models provided by other extensions (e.g., GitHub Copilot) through the VS Code Language Model API."
+			"description": "Use models provided by other extensions (e.g., GitHub Copilot) through the VS Code Language Model API.",
+			"languageModelLabel": "Language Model",
+			"selectModelPlaceholder": "Select a model...",
+			"descriptionPart1": "The VS Code Language Model API allows you to run models provided by other VS Code extensions (including but not limited to GitHub Copilot). The easiest way to get started is to install the",
+			"copilotExtensionLinkText": "Copilot extension",
+			"descriptionPart2": "from the VS Marketplace and enabling Claude 4 Sonnet.",
+			"noteText": "Note: This is a very experimental integration and may not work as expected."
 		},
 		"deepseek": {
 			"name": "DeepSeek",
@@ -850,115 +623,321 @@
 		},
 		"openai-native": {
 			"name": "OpenAI",
-			"description": "Access GPT models directly using OpenAI's official API. Requires an API key."
+			"description": "Access GPT models directly using OpenAI's official API. Requires an API key.",
+			"providerName": "OpenAI"
 		},
 		"ollama": {
 			"name": "Ollama",
-			"description": "Run models locally on your computer using Ollama. See their quickstart guide to get started."
+			"description": "Run models locally on your computer using Ollama. See their quickstart guide to get started.",
+			"baseUrlLabel": "Use custom base URL",
+			"baseUrlPlaceholder": "Default: http://localhost:11434",
+			"apiKeyHelpText": "Optional API key for authenticated Ollama instances or cloud services. Leave empty for local installations.",
+			"apiKeyPlaceholder": "Enter API Key (optional)...",
+			"modelLabel": "Model",
+			"modelPickerPlaceholder": {
+				"search": "Search and select a model...",
+				"example": "e.g. llama3.1"
+			},
+			"fetchModelsError": "Unable to fetch models from Ollama server. Please ensure Ollama is running and accessible, or enter the model ID manually above.",
+			"modelContextWindowLabel": "Model Context Window",
+			"requestTimeoutPlaceholder": "Default: 30000 (30 seconds)",
+			"requestTimeoutLabel": "Request Timeout (ms)",
+			"requestTimeoutDescription": "Maximum time in milliseconds to wait for API responses before timing out.",
+			"descriptionPart1": "Ollama allows you to run models locally on your computer. For instructions on how to get started, see their ",
+			"quickstartGuideLinkText": "quickstart guide.",
+			"notePrefix": "Note:",
+			"noteText": "Caret uses complex prompts and works best with Claude models. Less capable models may not work as expected.",
+			"fetchModelsErrorLog": "Failed to fetch Ollama models:",
+			"providerName": "Ollama",
+			"contextWindowPlaceholder": "e.g. 32768"
 		},
 		"vertex": {
 			"name": "GCP Vertex AI",
-			"description": "Google Cloud Vertex AI offers a variety of AI models, including Google's state-of-the-art models."
+			"description": "Google Cloud Vertex AI offers a variety of AI models, including Google's state-of-the-art models.",
+			"projectIdPlaceholder": "Enter Project ID...",
+			"projectIdLabel": "Google Cloud Project ID",
+			"regionLabel": "Google Cloud Region",
+			"selectRegionPlaceholder": "Select a region...",
+			"descriptionPart1": "To use Google Cloud Vertex AI, you need to",
+			"linkText1": "1) create a Google Cloud account › enable the Vertex AI API › enable the desired Claude models,",
+			"linkText2": "2) install the Google Cloud CLI › configure Application Default Credentials.",
+			"setupDescription": "To use Google Cloud Vertex AI, you need to",
+			"setupLink1": "1) create a Google Cloud account › enable the Vertex AI API › enable the desired Claude models,",
+			"setupLink2": "2) install the Google Cloud CLI › configure Application Default Credentials."
 		},
 		"litellm": {
 			"name": "LiteLLM",
-			"description": "LiteLLM provides a unified interface to over 100 LLM APIs."
+			"description": "LiteLLM provides a unified interface to over 100 LLM APIs.",
+			"baseUrlPlaceholder": "Default: http://localhost:4000",
+			"baseUrlLabel": "Base URL (optional)",
+			"apiKeyPlaceholder": "Default: noop",
+			"apiKeyLabel": "API Key",
+			"modelIdPlaceholder": "e.g. anthropic/claude-sonnet-4-20250514",
+			"modelIdLabel": "Model ID",
+			"usePromptCachingLabel": "Use prompt caching (GA)",
+			"promptCachingHelpText": "Prompt caching requires a supported provider and model",
+			"extendedThinkingHelpText": "Extended thinking is available for models such as Sonnet-4, o3-mini, Deepseek R1, etc. More info on",
+			"thinkingModeConfigurationLinkText": "thinking mode configuration",
+			"modelConfigurationLabel": "Model Configuration",
+			"supportsImagesLabel": "Supports Images",
+			"contextWindowSizeLabel": "Context Window Size",
+			"maxOutputTokensLabel": "Max Output Tokens",
+			"temperatureLabel": "Temperature",
+			"usePromptCachingDescription": "Prompt caching requires a supported provider and model",
+			"extendedThinkingDescription1": "Extended thinking is available for models such as Sonnet-4, o3-mini, Deepseek R1, etc. More info on",
+			"extendedThinkingLink": "thinking mode configuration",
+			"description1": "LiteLLM provides a unified interface to access various LLM providers' models. See their",
+			"quickstartGuideLink": "quickstart guide",
+			"description2": "for more information.",
+			"unifiedInterfaceHelpText": "LiteLLM provides a unified interface to access various LLM providers' models. See their",
+			"quickstartGuideLinkText": "quickstart guide",
+			"forMoreInformationText": "for more information."
 		},
 		"claude-code": {
 			"name": "Claude Code",
-			"description": "Claude Code is a specialized model from Anthropic, optimized for code-related tasks."
+			"description": "Claude Code is a specialized model from Anthropic, optimized for code-related tasks.",
+			"cliPath": "Claude Code CLI Path",
+			"cliPathDescription": "Path to the Claude Code CLI.",
+			"cliPathPlaceholder": "Default: claude",
+			"model": "Model"
 		},
-		"sapaicore": {
+		"sap-ai-core": {
 			"name": "SAP AI Core",
-			"description": "SAP AI Core is a service for deploying and managing AI models within the SAP ecosystem."
+			"description": "SAP AI Core is a service for deploying and managing AI models within the SAP ecosystem.",
+			"clientIdLabel": "AI Core Client Id",
+			"clientIdSetMessage": "Client Id is set. To change it, please re-enter the value.",
+			"clientSecretPlaceholder": "Enter AI Core Client Secret...",
+			"clientSecretLabel": "AI Core Client Secret",
+			"clientSecretSetMessage": "Client Secret is set. To change it, please re-enter the value.",
+			"baseUrlPlaceholder": "Enter AI Core Base URL...",
+			"baseUrlLabel": "AI Core Base URL",
+			"tokenUrlPlaceholder": "Enter AI Core Auth URL...",
+			"tokenUrlLabel": "AI Core Auth URL",
+			"resourceGroupPlaceholder": "Enter AI Core Resource Group...",
+			"resourceGroupLabel": "AI Core Resource Group",
+			"credentialsHelpText": "These credentials are stored locally and only used to make API requests from this extension.",
+			"apiAccessInfoLinkText": "You can find more information about SAP AI Core API access here.",
+			"orchestrationModeLabel": "Orchestration Mode",
+			"orchestrationModeDescriptionEnabled": "When enabled, provides access to all available models without requiring individual deployments.",
+			"orchestrationModeDescriptionDisabled": "When disabled, provides access only to deployed models in your AI Core service instance.",
+			"loadingModels": "Loading models...",
+			"modelFetchError": "Failed to fetch models. Please check your configuration.",
+			"noModelsFound": "Unable to fetch models from SAP AI Core service instance. Please check your SAP AI Core configuration or ensure your deployments are deployed and running in the service instance",
+			"configureCredentialsPrompt": "Please configure your SAP AI Core credentials to see available models.",
+			"fetchModelsErrorLog": "Error fetching SAP AI Core models:",
+			"clientIdPlaceholder": "Enter AI Core Client Id...",
+			"retryButton": "Retry",
+			"selectModelPlaceholder": "Select a model..."
 		},
 		"mistral": {
 			"name": "Mistral",
-			"description": "Mistral AI develops high-performance open-source and commercial models."
+			"description": "Mistral AI develops high-performance open-source and commercial models.",
+			"providerName": "Mistral"
 		},
 		"zai": {
 			"name": "Z AI",
-			"description": "Zhipu AI provides bilingual (Chinese and English) conversational models."
+			"description": "Zhipu AI provides bilingual (Chinese and English) conversational models.",
+			"entrypointLabel": "Z AI Entrypoint",
+			"entrypointDescription": "Please select the appropriate API entrypoint based on your location. If you are in China, choose open.bigmodel.cn. Otherwise, choose api.z.ai.",
+			"providerName": "Z AI"
 		},
 		"groq": {
 			"name": "Groq",
-			"description": "Groq offers extremely fast inference speeds through its Language Processing Units (LPUs)."
+			"description": "Groq offers extremely fast inference speeds through its Language Processing Units (LPUs).",
+			"providerName": "Groq",
+			"modelLabel": "Model",
+			"searchPlaceholder": "Search and select a model...",
+			"clearSearch": "Clear search",
+			"fetchModelsError": "Failed to fetch Groq models:",
+			"fetchModelsDescription": "The extension automatically fetches the latest list of models available on ",
+			"groqLinkText": "Groq.",
+			"unsureModelChoice": "If you're unsure which model to choose, Caret works best with ",
+			"recommendedModel": "llama-3.3-70b-versatile.",
+			"recommendedModelId": "llama-3.3-70b-versatile",
+			"modelDocumentationUrl": "https://console.groq.com/docs/models"
 		},
 		"cerebras": {
 			"name": "Cerebras",
-			"description": "Cerebras builds hardware for training and running large-scale AI models."
+			"description": "Cerebras builds hardware for training and running large-scale AI models.",
+			"sotaDescription": "Cutting-edge models for complex, long-horizon tasks",
+			"noSubscription": "No subscription",
+			"contextWindow": "32K tokens",
+			"rateLimits": "Unlimited requests",
+			"upgrade": "Upgrade for more features"
 		},
 		"vercel-ai-gateway": {
 			"name": "Vercel AI Gateway",
-			"description": "The Vercel AI Gateway provides a reliable connection to various model providers."
+			"description": "The Vercel AI Gateway provides a reliable connection to various model providers.",
+			"apiKeyLabel": "Vercel AI Gateway API Key",
+			"getApiKeyLinkText": "You can get a Vercel AI Gateway API key by signing up here.",
+			"modelIdPlaceholder": "Enter Model ID (e.g., openai/gpt-4o)...",
+			"modelIdLabel": "Model ID",
+			"fetchModelsError": "Unable to fetch models from Vercel AI Gateway.",
+			"noteText": "Note: Free tier users will see $0 costs as these requests are provided at no charge by Vercel AI Gateway.",
+			"fetchModelsErrorLog": "Failed to fetch Vercel AI Gateway models:"
 		},
 		"baseten": {
 			"name": "Baseten",
-			"description": "Baseten is a platform for deploying and serving custom AI models."
+			"description": "Baseten is a platform for deploying and serving custom AI models.",
+			"modelNotStatic": "Model {{newModelId}} is not in the static basetenModels list",
+			"fetchModelsError": "Failed to refresh Baseten models:",
+			"searchPlaceholder": "Search and select a model...",
+			"clearSearch": "Clear search",
+			"infoDescription": "The extension automatically fetches the latest list of models available on",
+			"infoLinkText": "Baseten.",
+			"recommendedModel": "moonshotai/Kimi-K2-Instruct.",
+			"unsureWhichModel": "If you're unsure which model to choose, Cline works best with",
+			"modelLabel": "Model",
+			"apiKeyHelp": "This key is stored locally and only used to make API requests from this extension.",
+			"basetenUrl": "https://www.baseten.co/products/model-apis/",
+			"basetenSignupUrl": "You can get a Baseten API key by signing up here."
 		},
 		"requesty": {
 			"name": "Requesty",
-			"description": "Requesty is a platform for AI-powered request routing and management."
+			"description": "Requesty is a platform for AI-powered request routing and management.",
+			"useCustomBaseUrlLabel": "Use custom base URL",
+			"customBaseUrlPlaceholder": "Custom base URL",
+			"providerName": "Requesty",
+			"modelLabel": "Model",
+			"searchPlaceholder": "Search and select a model...",
+			"clearSearch": "Clear search",
+			"requestyUrl": "Requesty.",
+			"info": "The extension automatically fetches the latest list of models available on"
 		},
 		"fireworks": {
 			"name": "Fireworks AI",
-			"description": "Fireworks AI is a platform for developers to experiment with and deploy generative AI models."
+			"description": "Fireworks AI is a platform for developers to experiment with and deploy generative AI models.",
+			"providerName": "Fireworks",
+			"modelLabel": "Model"
 		},
 		"together": {
 			"name": "Together",
-			"description": "Together AI provides a cloud platform for running leading open-source models."
+			"description": "Together AI provides a cloud platform for running leading open-source models.",
+			"modelIdPlaceholder": "Enter Model ID...",
+			"modelIdLabel": "Model ID",
+			"notePrefix": "Note:",
+			"noteText": "Caret uses complex prompts and works best with Claude models. Less capable models may not work as expected.",
+			"providerName": "Together"
 		},
 		"qwen": {
 			"name": "Alibaba Qwen",
-			"description": "Alibaba Qwen is a powerful large language model for various natural language processing tasks."
+			"description": "Alibaba Qwen is a powerful large language model for various natural language processing tasks.",
+			"apiLineLabel": "Alibaba API Line",
+			"apiLineDescription": "Please select the appropriate API interface based on your location. If you are in China, choose the China API interface. Otherwise, choose the International API interface.",
+			"providerName": "Qwen",
+			"apiLineOptions": {
+				"international": "International API",
+				"china": "China API"
+			}
 		},
 		"qwen-code": {
 			"name": "Qwen Code",
-			"description": "Qwen Code is a specialized AI model from Alibaba for code generation and completion."
+			"description": "Qwen Code is a specialized AI model from Alibaba for code generation and completion.",
+			"apiConfigurationTitle": "Qwen Code API Configuration",
+			"oauthCredentialsPathPlaceholder": "~/.qwen/oauth_creds.json",
+			"oauthCredentialsPathLabel": "OAuth Credentials Path",
+			"oauthCredentialsPathDescription": "Path to your Qwen OAuth credentials file. Use ~/.qwen/oauth_creds.json or provide a custom path.",
+			"oauthAuthenticationDescription": "Qwen Code is an OAuth-based API that requires authentication through the official Qwen client. You'll need to set up OAuth credentials first.",
+			"getStartedTitle": "To get started:",
+			"installClientStep": "Install the official Qwen client",
+			"authenticateStep": "Authenticate using your account",
+			"credentialsStoredStep": "OAuth credentials will be stored automatically",
+			"setupInstructionsLinkText": "Setup Instructions"
 		},
 		"doubao": {
 			"name": "Bytedance Doubao",
-			"description": "Doubao is a family of conversational AI models developed by Bytedance."
+			"description": "Doubao is a family of conversational AI models developed by Bytedance.",
+			"providerName": "Doubao",
+			"modelLabel": "Model"
 		},
 		"lmstudio": {
 			"name": "LM Studio",
-			"description": "LM Studio allows you to discover, download, and run LLMs on your local machine."
+			"description": "LM Studio allows you to discover, download, and run LLMs on your local machine.",
+			"baseUrlPlaceholder": "Default: http://localhost:1234",
+			"modelPlaceholder": "e.g. meta-llama-3.1-8b-instruct",
+			"contextWindowTooltip": "Not editable - the value is returned by the connected endpoint",
+			"parseModelsError": "Failed to parse LM Studio models:",
+			"description1": "LM Studio allows you to run models locally on your computer. For instructions on how to get started, see their ",
+			"quickstartGuideLink": "quickstart guide.",
+			"description2": "You will also need to start LM Studio's ",
+			"localServerLink": "local server",
+			"description3": " feature with lms server start to use it with this extension. ",
+			"noteBody": "Caret uses complex prompts and works best with Claude models. Less capable models may not work as expected.",
+			"contextWindowLabel": "Context Window"
 		},
 		"moonshot": {
 			"name": "Moonshot",
-			"description": "Moonshot AI specializes in models with long context windows."
+			"description": "Moonshot AI specializes in models with long context windows.",
+			"entrypoint": "Moonshot Entrypoint"
 		},
 		"huggingface": {
 			"name": "Hugging Face",
-			"description": "Hugging Face provides inference APIs for a wide range of open-source models."
+			"description": "Hugging Face provides inference APIs for a wide range of open-source models.",
+			"apiKeyPlaceholder": "Enter API Key...",
+			"apiKeyLabel": "Hugging Face API Key",
+			"apiKeyHelpText": "This key is stored locally and only used to make API requests from this extension. We don't show pricing here because it depends on your Hugging Face provider settings and isn't consistently available via their API.",
+			"getApiKeyLinkText": "Get your API key here",
+			"apiKeyUrl": "https://huggingface.co/settings/tokens",
+			"modelLabel": "Model",
+			"searchPlaceholder": "Search models...",
+			"clearSearch": "Clear search",
+			"fetchModelsError": "Failed to fetch Hugging Face models:"
 		},
 		"nebius": {
 			"name": "Nebius AI Studio",
-			"description": "Nebius AI offers AI services based on Yandex's technology."
+			"description": "Nebius AI offers AI services based on Yandex's technology.",
+			"apiKeyHelpText": "This key is stored locally and only used to make API requests from this extension. (Note: Caret uses complex prompts and works best with Claude models. Less capable models may not work as expected.)"
 		},
 		"asksage": {
 			"name": "AskSage",
-			"description": "AskSage provides AI models designed for research and academic use."
+			"description": "AskSage provides AI models designed for research and academic use.",
+			"apiKeyHelpText": "This key is stored locally and only used to make API requests from this extension.",
+			"apiUrlPlaceholder": "Enter AskSage API URL...",
+			"apiUrlLabel": "AskSage API URL",
+			"modelLabel": "Model"
 		},
 		"xai": {
-			"name": "xAI",
-			"description": "xAI develops Grok, a large language model that aims to be truthful."
+			"name": "X AI",
+			"description": "xAI develops Grok, a large language model that aims to be truthful.",
+			"providerName": "xAI",
+			"notePrefix": "Note:",
+			"noteText": "Caret uses complex prompts and works best with Claude models. Less capable models may not work as expected.",
+			"modifyReasoningEffort": "Modify reasoning effort",
+			"reasoningEffortLabel": "Reasoning Effort",
+			"reasoningEffortOptions": {
+				"low": "low",
+				"high": "high"
+			},
+			"reasoningEffortDescription": "High effort may produce more thorough analysis but takes longer and uses more tokens."
 		},
 		"sambanova": {
 			"name": "SambaNova",
-			"description": "SambaNova provides high-performance models for enterprise-grade AI applications."
+			"description": "SambaNova provides high-performance models for enterprise-grade AI applications.",
+			"providerName": "SambaNova"
 		},
 		"huawei-cloud-maas": {
 			"name": "Huawei Cloud MaaS",
-			"description": "Huawei Cloud MaaS (Model-as-a-Service) offers a variety of AI models."
+			"description": "Huawei Cloud MaaS (Model-as-a-Service) offers a variety of AI models.",
+			"providerName": "Huawei Cloud MaaS"
 		},
 		"dify": {
 			"name": "Dify.ai",
-			"description": "Dify.ai is a platform for building and operating LLM-powered applications."
+			"description": "Dify.ai is a platform for building and operating LLM-powered applications.",
+			"baseUrlLabel": "Base URL",
+			"baseUrlPlaceholder": "Enter Dify Base URL..."
 		},
 		"cline": {
 			"name": "Caret",
-			"description": "Caret provides high-quality AI models with optimized performance for coding tasks."
+			"description": "Caret provides high-quality AI models with optimized performance for coding tasks.",
+			"sortUnderlyingProviderRouting": "Sort underlying provider routing",
+			"defaultOption": "Default",
+			"priceOption": "Price",
+			"throughputOption": "Throughput",
+			"latencyOption": "Latency",
+			"defaultSortingDescription": "Default behavior is to load balance requests across providers (like AWS, Google Vertex, Anthropic), prioritizing price while considering provider uptime",
+			"priceSortingDescription": "Sort providers by price, prioritizing the lowest cost provider",
+			"throughputSortingDescription": "Sort providers by throughput, prioritizing the provider with the highest throughput (may increase cost)",
+			"latencySortingDescription": "Sort providers by response time, prioritizing the provider with the lowest latency"
 		}
 	},
 	"providers.caret": {
@@ -974,40 +953,53 @@
 		"visit": "Visit",
 		"getApiKey": "to sign up and get your API key."
 	},
-	"modelInfoView": {
-		"inputPrice": "Input price",
-		"outputPriceStandard": "Output price (Standard)",
-		"outputPriceThinking": "Output price (Thinking Budget > 0)",
-		"outputPrice": "Output price",
-		"basedOnInputTokens": "(based on input tokens)",
-		"doesNotSupportImages": "Does not support images",
-		"supportsImages": "Supports images",
-		"doesNotSupportBrowser": "Does not support browser use",
-		"supportsBrowser": "Supports browser use",
-		"doesNotSupportCache": "Does not support prompt caching",
-		"supportsCache": "Supports prompt caching",
-		"contextWindow": "Context Window",
-		"cacheWritesPrice": "Cache writes price",
-		"cacheReadsPrice": "Cache reads price",
-		"contextWindowLabel": "Context Window:",
-		"inputPriceLabel": "Input price:",
-		"outputPriceLabel": "Output price:",
-		"outputPriceStandardLabel": "Output price (Standard):",
-		"outputPriceThinkingBudgetLabel": "Output price (Thinking Budget > 0):",
-		"cacheWritesPriceLabel": "Cache writes price:",
-		"cacheReadsPriceLabel": "Cache reads price:",
-		"supportsImagesLabel": "Supports images:",
-		"supportsComputerUseLabel": "Supports computer use:",
-		"supportsCacheLabel": "Supports prompt caching:",
-		"doesNotSupportImagesLabel": "Does not support images:",
-		"doesNotSupportComputerUseLabel": "Does not support computer use:",
-		"doesNotSupportCacheLabel": "Does not support prompt caching:"
-	},
 	"about": {
 		"feedbackPrompt": "If you have any questions or feedback, we welcome it anytime.",
 		"version": "Version",
 		"title": "About",
 		"description": "Check the Caret version and view related information.",
 		"documentation": "Detailed User Manual"
+	},
+	"thinkingBudget": {
+		"enable": "Enable thinking budget",
+		"budgetText": {
+			"part1": "Thinking budget: ",
+			"part2": "{{value}} tokens"
+		},
+		"ariaLabel": "Set thinking budget to {{value}} tokens",
+		"description": "Controls the maximum number of tokens the model can use for internal reasoning. Higher values allow for more thorough analysis but increase costs."
+	},
+	"validation": {
+		"apiKey": {
+			"required": "You must provide a valid API key or choose a different provider."
+		},
+		"region": {
+			"required": "You must choose a region to use with AWS Bedrock."
+		},
+		"googleCloud": {
+			"projectIdAndRegion": "You must provide a valid Google Cloud Project ID and Region."
+		},
+		"openai": {
+			"baseUrlApiKeyModel": "You must provide a valid base URL, API key, and model ID."
+		},
+		"modelId": {
+			"required": "You must provide a valid model ID.",
+			"unavailable": "The model ID you provided is not available. Please choose a different model."
+		},
+		"modelSelector": {
+			"required": "You must provide a valid model selector."
+		},
+		"baseUrl": {
+			"required": "You must provide a valid Base URL or choose a different provider."
+		},
+		"clientId": {
+			"required": "You must provide a valid Client Id or choose a different provider."
+		},
+		"clientSecret": {
+			"required": "You must provide a valid Client Secret or choose a different provider."
+		},
+		"authUrl": {
+			"required": "You must provide a valid Auth URL or choose a different provider."
+		}
 	}
 }

@@ -1,9 +1,12 @@
 import { CaretGlobalManager } from "@caret/managers/CaretGlobalManager"
 import { PersonaInitializer, resetPersonaData } from "@caret/services/persona/persona-initializer"
+import { PersonaService } from "@caret/services/persona/persona-service"
+import { PersonaStorage } from "@caret/services/persona/persona-storage"
 import { Empty } from "@shared/proto/cline/common"
 import { ResetStateRequest } from "@shared/proto/cline/state"
 import { resetGlobalState, resetWorkspaceState } from "@/core/storage/utils/state-helpers"
 import { HostProvider } from "@/hosts/host-provider"
+import { Logger } from "@/services/logging/Logger"
 import { ShowMessageType } from "@/shared/proto/host/window"
 import { Controller } from ".."
 import { sendChatButtonClickedEvent } from "../ui/subscribeToChatButtonClicked"
@@ -44,11 +47,21 @@ export async function resetState(controller: Controller, request: ResetStateRequ
 		})
 		await controller.postStateToWebview()
 
+		// CARET MODIFICATION: Reload extension host to clear any cached persona images
+		if (request.global) {
+			try {
+				const vscode = await import("vscode")
+				await vscode.commands.executeCommand("workbench.action.restartExtensionHost")
+			} catch (error) {
+				Logger.warn(`[CARET-RESET] Failed to restart extension host: ${error}`)
+			}
+		}
+
 		await sendChatButtonClickedEvent(controller.id)
 
 		return Empty.create()
 	} catch (error) {
-		console.error("Error resetting state:", error)
+		Logger.error("Error resetting state:", error)
 		HostProvider.window.showMessage({
 			type: ShowMessageType.ERROR,
 			message: `Failed to reset state: ${error instanceof Error ? error.message : String(error)}`,
@@ -74,9 +87,9 @@ async function applyCaretDefaultsAfterReset(controller: Controller, isGlobalRese
 			await resetAndInitializePersona(controller)
 		}
 
-		console.log("[CARET-RESET] Caret initialization completed after Cline reset")
+		Logger.info("[CARET-RESET] Caret initialization completed after Cline reset")
 	} catch (error) {
-		console.error("[CARET-RESET] Failed to apply Caret defaults:", error)
+		Logger.error("[CARET-RESET] Failed to apply Caret defaults:", error)
 		HostProvider.window.showMessage({
 			type: ShowMessageType.WARNING,
 			message: "Caret initialization partially failed - some defaults may not be applied",
@@ -105,9 +118,9 @@ async function applyCaretDefaultSettings(controller: Controller): Promise<void> 
 			controller.stateManager.setGlobalState("caretModeSystem", "caret" as const)
 		}
 
-		console.log(`[CARET-RESET] Applied Caret defaults: caretModeSystem=caret, ensured persona system ready`)
+		Logger.info(`[CARET-RESET] Applied Caret defaults: caretModeSystem=caret, ensured persona system ready`)
 	} catch (error) {
-		console.error("[CARET-RESET] Failed to apply Caret default settings:", error)
+		Logger.error("[CARET-RESET] Failed to apply Caret default settings:", error)
 	}
 }
 
@@ -121,10 +134,35 @@ async function resetAndInitializePersona(controller: Controller): Promise<void> 
 
 		// Initialize with fresh persona based on user's language preference
 		const personaInitializer = new PersonaInitializer(controller.context)
-		await personaInitializer.initialize()
+		const initializedPersona = await personaInitializer.initialize()
 
-		console.log("[CARET-RESET] Persona system reset and re-initialized successfully")
+		// If initialization was successful and returned a persona, notify the UI
+		if (initializedPersona) {
+			// After initialization, the default images are in global storage.
+			// We need to read them and convert them to data URIs for the webview.
+			const personaStorage = new PersonaStorage()
+			const images = await personaStorage.loadSimplePersonaImages(controller)
+
+			const avatarUri = images?.avatar
+				? `data:image/png;base64,${images.avatar.toString("base64")}`
+				: initializedPersona.avatarUri
+			const thinkingAvatarUri = images?.thinkingAvatar
+				? `data:image/png;base64,${images.thinkingAvatar.toString("base64")}`
+				: initializedPersona.thinkingAvatarUri
+
+			// Create a profile object with webview-compatible image URIs
+			const profileForWebview = {
+				...initializedPersona,
+				avatarUri,
+				thinkingAvatarUri,
+			}
+
+			PersonaService.getInstance().notifyPersonaChange(profileForWebview)
+			Logger.info("[CARET-RESET] Persona UI updated with new persona (using data URIs)")
+		}
+
+		Logger.info("[CARET-RESET] Persona system reset and re-initialized successfully")
 	} catch (error) {
-		console.error("[CARET-RESET] Failed to reset persona system:", error)
+		Logger.error("[CARET-RESET] Failed to reset persona system:", error)
 	}
 }

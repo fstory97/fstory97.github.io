@@ -37,10 +37,10 @@ export const ClaudeCodeProvider = ({ showModelOptions, isPopup, currentMode }: C
 			<DebouncedTextField
 				initialValue={apiConfiguration?.claudeCodePath || "claude"}
 				onChange={(value) => handleFieldChange("claudeCodePath", value)}
-				placeholder={t("providers.claudeCode.cliPathPlaceholder", "settings")}
+				placeholder={t("providers.claude-code.cliPathPlaceholder", "settings")}
 				style={{ width: "100%", marginTop: 3 }}
 				type="text">
-				<span style={{ fontWeight: 500 }}>{t("providers.claudeCode.cliPath", "settings")}</span>
+				<span style={{ fontWeight: 500 }}>{t("providers.claude-code.cliPath", "settings")}</span>
 			</DebouncedTextField>
 
 			<p
@@ -49,13 +49,13 @@ export const ClaudeCodeProvider = ({ showModelOptions, isPopup, currentMode }: C
 					marginTop: 3,
 					color: "var(--vscode-descriptionForeground)",
 				}}>
-				{t("providers.claudeCode.cliPathDescription", "settings")}
+				{t("providers.claude-code.cliPathDescription", "settings")}
 			</p>
 
 			{showModelOptions && (
 				<>
 					<ModelSelector
-						label={t("providers.claudeCode.model", "settings")}
+						label={t("providers.claude-code.model", "settings")}
 						models={claudeCodeModels}
 						onChange={(e: any) =>
 							handleModeFieldChange(

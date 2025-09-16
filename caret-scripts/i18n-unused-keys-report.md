@@ -420,13 +420,13 @@ locale 파일에 정의되어 있지만 컴포넌트에서 참조되지 않는 �
 | `providers.huggingFace.modelLabel` | common | ko, en, ja, zh | 4 |
 | `providers.lmStudio.contextWindowLabel` | common | ko, en, ja, zh | 4 |
 | `providers.nebius.apiKeyHelpText` | common | ko, en, ja, zh | 4 |
-| `providers.openAICompatible.description` | common | ko, en, ja, zh | 4 |
+| `providers.openai.description` | common | ko, en, ja, zh | 4 |
 | `providers.qwenCode.description` | common | ko, en, ja, zh | 4 |
 | `providers.requesty.claudeDescription` | common | ko, en, ja, zh | 4 |
 | `providers.sapAiCore.description` | common | ko, en, ja, zh | 4 |
 | `providers.sapAiCore.pricingNote` | common | ko, en, ja, zh | 4 |
 | `providers.vercelAiGateway.description` | common | ko, en, ja, zh | 4 |
-| `providers.vsCodeLm.description` | common | ko, en, ja, zh | 4 |
+| `providers.vscode-lm.description` | common | ko, en, ja, zh | 4 |
 | `providers.zAi.glm45Description` | common | ko, en, ja, zh | 4 |
 | `rules.action.newRuleFile` | common | ko, en, ja, zh | 4 |
 | `rules.button.changePersonaTemplate` | common | ko, en, ja, zh | 4 |
@@ -1167,11 +1167,11 @@ locale 파일에 정의되어 있지만 컴포넌트에서 참조되지 않는 �
 | `settings.providers.claudeCode.model` | ClaudeCodeProvider.tsx | settings | ⚪ |
 | `settings.providers.dify.baseUrlLabel` | DifyProvider.tsx | settings | ⚪ |
 | `settings.providers.dify.baseUrlPlaceholder` | DifyProvider.tsx | settings | ⚪ |
-| `settings.providers.openAICompatible.description` | OpenAICompatible.tsx | settings | ⚪ |
+| `settings.providers.openai.description` | OpenAICompatible.tsx | settings | ⚪ |
 | `settings.providers.qwenCode.description` | QwenCodeProvider.tsx | settings | ⚪ |
 | `settings.providers.sapAiCore.description` | SapAiCoreProvider.tsx | settings | ⚪ |
 | `settings.providers.vercelAiGateway.description` | VercelAIGatewayProvider.tsx | settings | ⚪ |
-| `settings.providers.vsCodeLm.description` | VSCodeLmProvider.tsx | settings | ⚪ |
+| `settings.providers.vscode-lm.description` | VSCodeLmProvider.tsx | settings | ⚪ |
 | `settings.qwenProvider.apiLineOptions.${line}` | QwenProvider.tsx | settings | ⚪ |
 | `settings.terminalOutputLineLimit.description` | TerminalOutputLineLimitSlider.tsx | settings | ⚪ |
 | `settings.terminalOutputLineLimit.label` | TerminalOutputLineLimitSlider.tsx | settings | ⚪ |
@@ -1212,7 +1212,7 @@ Total components using i18n: **134**
 | `settings\providers\SapAiCoreProvider.tsx` | 25 | `settings.sapAiCoreProvider.fetchModelsErrorLog`, `settings.sapAiCoreProvider.modelFetchError`, `settings.providers.sapAiCore.description` (+22 more) |
 | `common\Demo.tsx` | 24 | `chat.demo.helloWorld`, `chat.demo.howdy`, `chat.demo.customHeaderTitle` (+21 more) |
 | `chat\Announcement.tsx` | 23 | `common.announcement.newVersion`, `announcement.bullets.current.1`, `announcement.bullets.current.1-desc` (+20 more) |
-| `settings\providers\OpenAICompatible.tsx` | 23 | `settings.openAiCompatibleProvider.azureApiVersionPlaceholder`, `settings.openAiCompatibleProvider.refreshModelsError`, `settings.providers.openAICompatible.description` (+20 more) |
+| `settings\providers\OpenAICompatible.tsx` | 23 | `settings.openAiCompatibleProvider.azureApiVersionPlaceholder`, `settings.openAiCompatibleProvider.refreshModelsError`, `settings.providers.openai.description` (+20 more) |
 | `settings\SettingsView.tsx` | 23 | `settings.tabs.apiConfiguration.name`, `settings.tabs.apiConfiguration.tooltip`, `settings.tabs.apiConfiguration.header` (+20 more) |
 | `settings\sections\FeatureSettingsSection.tsx` | 22 | `settings.features.enableCheckpoints`, `settings.features.enableCheckpointsDescription`, `settings.features.enableMcpMarketplace` (+19 more) |
 | `settings\sections\BrowserSettingsSection.tsx` | 20 | `settings.browser.checkingConnection`, `settings.browser.connected`, `settings.browser.notConnected` (+17 more) |
@@ -1274,7 +1274,7 @@ Total components using i18n: **134**
 | `settings\providers\GeminiProvider.tsx` | 5 | `settings.providers.gemini.description`, `settings.providers.gemini.name`, `settings.baseUrlField.label` (+2 more) |
 | `settings\providers\HuggingFaceProvider.tsx` | 5 | `settings.providers.huggingface.description`, `settings.huggingFaceProvider.apiKeyPlaceholder`, `settings.huggingFaceProvider.apiKeyLabel` (+2 more) |
 | `settings\providers\MoonshotProvider.tsx` | 5 | `settings.providers.moonshot.description`, `settings.moonshotProvider.entrypoint`, `settings.apiKeyField.defaultHelpText` (+2 more) |
-| `settings\providers\VSCodeLmProvider.tsx` | 5 | `settings.providers.vsCodeLm.description`, `settings.vsCodeLm.modelLabel`, `settings.vsCodeLm.selectModelPlaceholder` (+2 more) |
+| `settings\providers\VSCodeLmProvider.tsx` | 5 | `settings.providers.vscode-lm.description`, `settings.vsCodeLm.modelLabel`, `settings.vsCodeLm.selectModelPlaceholder` (+2 more) |
 | `settings\providers\ZAiProvider.tsx` | 5 | `settings.providers.zai.description`, `settings.zaiProvider.entrypointLabel`, `settings.zaiProvider.entrypointDescription` (+2 more) |
 | `chat\ChatErrorBoundary.tsx` | 4 | `chat.error.unknown`, `settings.debug.errorInSeconds`, `chat.error.displayContent` (+1 more) |
 | `chat\UserMessage.tsx` | 4 | `chat.userMessage.restoreAll`, `chat.userMessage.restoreAllTooltip`, `chat.userMessage.restoreChat` (+1 more) |

@@ -22,9 +22,8 @@ export const ApiKeyField = ({ initialValue, onChange, providerName, signupUrl, p
 	// CARET MODIFICATION: Remove react-i18next usage
 	const [localValue, setLocalValue] = useDebouncedInput(initialValue, onChange)
 
-	const defaultPlaceholder = t("apiKey.placeholder", "common")
-	const an = /^[aeiou]/i.test(providerName)
-	const getYourKeyText = `You can get ${an ? "an" : "a"} ${providerName} API key by signing up here.`
+	const defaultPlaceholder = t("apiKeyField.placeholder", "settings")
+	const getYourKeyText = t("apiKeyField.signupText", "settings", { providerName })
 
 	return (
 		<div>
@@ -43,7 +42,7 @@ export const ApiKeyField = ({ initialValue, onChange, providerName, signupUrl, p
 					marginTop: 3,
 					color: "var(--vscode-descriptionForeground)",
 				}}>
-				{helpText || t("apiKey.helpText", "common")}
+				{helpText || t("apiKeyField.defaultHelpText", "settings")}
 				{!localValue && signupUrl && (
 					<VSCodeLink
 						href={signupUrl}

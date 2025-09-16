@@ -47,13 +47,13 @@ export const AnthropicProvider = ({ showModelOptions, isPopup, currentMode }: An
 			return {
 				current: SONNET_4_MODEL_ID,
 				alternate: `${SONNET_4_MODEL_ID}${CLAUDE_SONNET_4_1M_SUFFIX}`,
-				linkText: t("anthropicProvider.switchTo1MContext", "settings"),
+				linkText: t("providers.anthropic.switchTo1MContext", "settings"),
 			}
 		} else if (selectedModelId === `${SONNET_4_MODEL_ID}${CLAUDE_SONNET_4_1M_SUFFIX}`) {
 			return {
 				current: `${SONNET_4_MODEL_ID}${CLAUDE_SONNET_4_1M_SUFFIX}`,
 				alternate: SONNET_4_MODEL_ID,
-				linkText: t("anthropicProvider.switchTo200KContext", "settings"),
+				linkText: t("providers.anthropic.switchTo200KContext", "settings"),
 			}
 		}
 		return null
