@@ -12,7 +12,7 @@ export const addSelectedCodeToClineWebview = async (_page: Page) => {
 	await _page.getByRole("textbox", { name: "The editor is not accessible" }).press("ControlOrMeta+a")
 
 	await _page.getByRole("listbox", { name: /Show Code Actions / }).click()
-	await _page.keyboard.press("Enter", { delay: 100 }) // First action - "Add to Cline"
+	await _page.keyboard.press("Enter", { delay: 100 }) // First action - "Add to Caret" or "Add to Cline"
 }
 
 export const getClineEditorWebviewFrame = async (_page: Page) => {
@@ -33,7 +33,7 @@ export const toggleNotifications = async (_page: Page) => {
 }
 
 export const closeBanners = async (sidebar: Page) => {
-	const banners = ["Get Started for Free", "Close banner and enable"]
+	const banners = [/Start for Free|Get Started for Free/, "Close banner and enable"]
 
 	for (const banner of banners) {
 		await sidebar.getByRole("button", { name: banner }).click({ delay: 100 })
@@ -41,12 +41,12 @@ export const closeBanners = async (sidebar: Page) => {
 }
 
 export async function cleanChatView(sidebar: Page): Promise<Page> {
-	const signUpBtn = sidebar.getByRole("button", { name: "Get Started for Free" })
+	const signUpBtn = sidebar.getByRole("button", { name: /Start for Free|Get Started for Free/ })
 	if (await signUpBtn.isVisible()) {
 		await signUpBtn.click({ delay: 50 })
 	}
 	// Verify the help improve banner is visible and can be closed.
-	const helpBanner = sidebar.getByText("Help Improve Cline")
+	const helpBanner = sidebar.getByText(/Help Improve (Caret|Cline)/)
 	if (await helpBanner.isVisible()) {
 		await sidebar.getByRole("button", { name: "Close banner and enable" }).click()
 	}
