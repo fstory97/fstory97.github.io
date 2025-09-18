@@ -1,4 +1,6 @@
 import { ApiProvider, BedrockModelId, ModelInfo } from "@shared/api"
+// CARET MODIFICATION: Import feature configuration for persona defaults
+import { getCurrentFeatureConfig } from "@shared/CaretBrandConfig"
 import { ExtensionContext, LanguageModelChatSelector } from "vscode"
 import { Controller } from "@/core/controller"
 import { AutoApprovalSettings, DEFAULT_AUTO_APPROVAL_SETTINGS } from "@/shared/AutoApprovalSettings"
@@ -448,8 +450,13 @@ export async function readGlobalStateFromDisk(context: ExtensionContext): Promis
 		customPrompt,
 		// CARET MODIFICATION: Caret 전역 브랜드 모드 시스템 (Caret/Cline 구분)
 		caretModeSystem: modeSystem || "caret",
-		// CARET MODIFICATION: Persona system settings
-		enablePersonaSystem: enablePersonaSystem ?? modeSystem === "caret",
+		// CARET MODIFICATION: Persona system settings with brand configuration
+		enablePersonaSystem:
+			enablePersonaSystem ??
+			(() => {
+				const featureConfig = getCurrentFeatureConfig()
+				return (modeSystem || "caret") === "caret" && featureConfig.defaultPersonaEnabled
+			})(),
 		currentPersona: currentPersona,
 		personaProfile: personaProfile,
 		// CARET MODIFICATION: Persona image storage for persona system
@@ -474,7 +481,9 @@ export async function resetGlobalState(controller: Controller) {
 
 	// CARET MODIFICATION: Reset Caret-specific global settings to defaults after clearing
 	await context.globalState.update("caretModeSystem", "caret")
-	await context.globalState.update("enablePersonaSystem", true)
+	// Reset persona system based on brand configuration
+	const featureConfig = getCurrentFeatureConfig()
+	await context.globalState.update("enablePersonaSystem", featureConfig.defaultPersonaEnabled)
 	// Also reset workspace promptSystem mode to ensure consistency
 	await context.workspaceState.update("caret.promptSystem.mode", "caret")
 

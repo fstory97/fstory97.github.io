@@ -1,6 +1,8 @@
 // CARET MODIFICATION: Refactored to use caret-main architecture with improved navigation
 // Original Cline backed up to: WelcomeView.tsx.cline
 
+// CARET MODIFICATION: Import feature configuration for redirect behavior
+import { getCurrentFeatureConfig } from "@shared/CaretBrandConfig"
 import { BooleanRequest } from "@shared/proto/cline/common"
 import { VSCodeButton } from "@vscode/webview-ui-toolkit/react"
 import React, { useEffect, useState } from "react"
@@ -32,13 +34,19 @@ const WelcomeView = () => {
 
 	const handleSubmitApiKey = async () => {
 		try {
-			// CARET MODIFICATION: API 설정 완료 후 페르소나 선택 창 표시
+			// CARET MODIFICATION: API 설정 완료 후 브랜드 설정에 따라 다른 처리
+			const featureConfig = getCurrentFeatureConfig()
 
-			// 페르소나 선택 창을 띄움
-			setShowPersonaSelector(true)
-
-			// Welcome view를 완료로 표시 (ChatView로 바로 넘어가지 않도록)
-			await StateServiceClient.setWelcomeViewCompleted(BooleanRequest.create({ value: true }))
+			if (featureConfig.redirectAfterApiSetup === "persona") {
+				// 페르소나 선택 창을 띄움
+				setShowPersonaSelector(true)
+				// Welcome view를 완료로 표시 (ChatView로 바로 넘어가지 않도록)
+				await StateServiceClient.setWelcomeViewCompleted(BooleanRequest.create({ value: true }))
+			} else {
+				// 'home' - 바로 ChatView로 이동
+				await StateServiceClient.setWelcomeViewCompleted(BooleanRequest.create({ value: true }))
+				// 페르소나 선택을 건너뛰고 바로 메인 화면으로
+			}
 
 			// API 설정 페이지 닫기
 			setShowApiOptions(false)
