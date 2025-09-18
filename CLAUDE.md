@@ -14,7 +14,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ### 🚨 File Modification Protocol (.cline backup deprecated - use CARET MODIFICATION only)
 Before modifying ANY Cline original file:
-1. **Check if it's protected**: `src/`, `webview-ui/`, `proto/`, `scripts/`, `evals/`, `docs/`, `locales/`, root configs
+1. **Check if it's protected**: `src/`, `webview-ui/`, `proto/`, `scripts/`, `evals/`, `docs/`, `locales/`, root configs/
 2. **Add comment**: `// CARET MODIFICATION: [clear description]`
 3. **Minimal changes**: Maximum 1-3 lines per file
 4. **Complete replacement**: Never comment out old code

@@ -82,7 +82,9 @@
       "Bash(do echo \"=== $lang modelInfoView 키 확인 ===\")",
       "Bash(do echo \"=== $lang vscode-lm 정확한 키 확인 ===\")",
       "Bash(jq:*)",
-      "Bash(gh run list:*)"
+      "Bash(gh run list:*)",
+      "Bash(do echo \"=== $lang common.json taskHeader 키 개수 ===\")",
+      "Bash(do echo \"=== $lang chat.json taskHeader 키 개수 ===\")"
     ],
     "deny": [],
     "ask": []

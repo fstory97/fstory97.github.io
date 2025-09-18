@@ -36,7 +36,6 @@ export class PersonaStorage {
 			const profilePath = path.join(personaDir, "agent_profile.png")
 			const thinkingPath = path.join(personaDir, "agent_thinking.png")
 
-			const fs = await import("fs/promises")
 			const { fileExistsAtPath } = await import("@utils/fs")
 
 			if (!(await fileExistsAtPath(profilePath)) || !(await fileExistsAtPath(thinkingPath))) {
@@ -71,7 +70,6 @@ export class PersonaStorage {
 		try {
 			// Save persona images to globalStorage file system
 			const personaDir = path.join(controller.context.globalStorageUri.fsPath, "personas")
-			const fs = await import("fs/promises")
 
 			await fs.mkdir(personaDir, { recursive: true })
 

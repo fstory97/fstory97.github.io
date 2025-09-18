@@ -226,6 +226,10 @@ function getDomainName(serviceName) {
 	return serviceName.replace(/Service$/, "")
 }
 function getDirName(serviceName) {
+	// CARET MODIFICATION: Handle CaretSystemService specifically to avoid incorrect path generation.
+	if (serviceName === "CaretSystemService") {
+		return "persona" // Place handlers in the 'persona' directory for now.
+	}
 	const domain = getDomainName(serviceName)
 	return domain.charAt(0).toLowerCase() + domain.slice(1)
 }

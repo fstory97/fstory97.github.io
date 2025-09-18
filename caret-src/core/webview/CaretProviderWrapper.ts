@@ -32,7 +32,6 @@ export class CaretProviderWrapper implements vscode.WebviewViewProvider {
 		clineWebviewProvider: VscodeWebviewProvider,
 	) {
 		this.clineProvider = clineWebviewProvider
-		console.log("[CaretProviderWrapper] Constructor called!")
 		Logger.info("[CaretProviderWrapper] Initialized with Cline WebviewProvider")
 	}
 
@@ -41,7 +40,6 @@ export class CaretProviderWrapper implements vscode.WebviewViewProvider {
 	 * Delegates to the Cline provider while adding Caret enhancements
 	 */
 	async resolveWebviewView(webviewView: vscode.WebviewView) {
-		console.log("[CaretProviderWrapper] resolveWebviewView called!")
 		Logger.info("[CaretProviderWrapper] Resolving webview view with Caret enhancements")
 
 		try {
@@ -49,21 +47,16 @@ export class CaretProviderWrapper implements vscode.WebviewViewProvider {
 			this._onDidResolveWebviewView.fire(webviewView)
 
 			// 1. First, let Cline handle the core webview setup
-			console.log("[CaretProviderWrapper] Calling Cline provider resolveWebviewView")
 			await this.clineProvider.resolveWebviewView(webviewView)
 
 			// 2. Then add Caret-specific enhancements
-			console.log("[CaretProviderWrapper] Adding Caret enhancements")
 			await this.enhanceWebviewWithCaretFeatures(webviewView)
 
 			// 3. Set up Caret-specific message handling
-			console.log("[CaretProviderWrapper] Setting up message handling")
 			this.setupCaretMessageHandling(webviewView)
 
-			console.log("[CaretProviderWrapper] All setup complete!")
 			Logger.info("[CaretProviderWrapper] Successfully resolved webview with Caret features")
 		} catch (error) {
-			console.error(`[CaretProviderWrapper] Error: ${error}`)
 			Logger.error(`[CaretProviderWrapper] Failed to resolve webview: ${error}`)
 			throw error
 		}
@@ -102,78 +95,76 @@ export class CaretProviderWrapper implements vscode.WebviewViewProvider {
 	private async injectTemplateImagesAsBase64(webviewView: vscode.WebviewView): Promise<void> {
 		try {
 			let html = webviewView.webview.html
-			console.log("[CaretProviderWrapper] Starting to inject template images into HTML")
-			console.log(`[CaretProviderWrapper] Original HTML length: ${html.length}`)
+			Logger.debug(`[CaretProviderWrapper] Starting HTML injection. Original length: ${html.length}`)
 
-			// Load all template images and convert to Base64 following caret-main pattern
+			// Part 1: Inject all template character images (e.g., for the selector UI)
 			const templateDir = path.join(this.context.extensionUri.fsPath, "assets", "template_characters")
-			console.log(`[CaretProviderWrapper] Template directory: ${templateDir}`)
-
-			// Create window variables for each template image (caret-main pattern)
-			let imageInjectionScript = "\n"
-
-			// Dynamically find all PNG files in template directory
-			let imageFiles: string[] = []
-			try {
-				const allFiles = await fs.readdir(templateDir)
-				imageFiles = allFiles.filter(file => file.endsWith('.png'))
-				console.log(`[CaretProviderWrapper] Found ${imageFiles.length} PNG files:`, imageFiles)
-			} catch (error) {
-				console.log(`[CaretProviderWrapper] Could not read template directory: ${error}`)
-				// Fallback to known files if directory read fails
-				imageFiles = [
-					"caret.png",
-					"caret_thinking.png", 
-					"caret_illust.png"
-				]
-			}
-
+			const allFiles = await fs.readdir(templateDir)
+			const imageFiles = allFiles.filter((file) => file.endsWith(".png"))
+			
+			let templateInjectionScript = "\n"
 			for (const file of imageFiles) {
-				const imagePath = path.join(templateDir, file)
-				if (existsSync(imagePath)) {
-					try {
-						const imageBuffer = await fs.readFile(imagePath)
-						const base64 = imageBuffer.toString("base64")
-						const mimeType = path.extname(file).toLowerCase() === ".png" ? "image/png" : "image/jpeg"
-						const dataUri = `data:${mimeType};base64,${base64}`
-
-						// Create window variable name from filename
-						const varName = file.replace(".png", "").replace("_", "")
-						imageInjectionScript += `                    window.templateImage_${varName} = "${dataUri}";\n`
-
-						// CARET MODIFICATION: Also set the persona profile images that CaretStateContext expects
-						if (file === "caret.png") {
-							imageInjectionScript += `                    window.personaProfile = "${dataUri}";\n`
-						}
-						if (file === "caret_thinking.png") {
-							imageInjectionScript += `                    window.personaThinking = "${dataUri}";\n`
-						}
-
-						console.log(
-							`[CaretProviderWrapper] Loaded ${file} -> window.templateImage_${varName} (${imageBuffer.length} bytes)`,
-						)
-					} catch (error) {
-						Logger.error(`[CaretProviderWrapper] Failed to load ${file}: ${error}`)
-					}
-				} else {
-					console.log(`[CaretProviderWrapper] Image not found: ${imagePath}`)
+				try {
+					const imagePath = path.join(templateDir, file)
+					const imageBuffer = await fs.readFile(imagePath)
+					const base64 = imageBuffer.toString("base64")
+					const dataUri = `data:image/png;base64,${base64}`
+					const varName = file.replace(".png", "").replace("_", "")
+					templateInjectionScript += `window.templateImage_${varName} = "${dataUri}";\n`
+				} catch (error) {
+					Logger.error(`[CaretProviderWrapper] Failed to load template image ${file}: ${error}`)
 				}
 			}
 
-			// Find where to inject the script - look for existing window assignments
+			// Part 2: Determine and inject the ACTIVE persona images (from storage or default)
+			let profileBase64: string | null = null
+			let thinkingBase64: string | null = null
+
+			const personaDir = path.join(this.context.globalStorageUri.fsPath, "personas")
+			const profilePath = path.join(personaDir, "agent_profile.png")
+			const thinkingPath = path.join(personaDir, "agent_thinking.png")
+
+			if (existsSync(profilePath) && existsSync(thinkingPath)) {
+				try {
+					const profileBuffer = await fs.readFile(profilePath)
+					thinkingBase64 = (await fs.readFile(thinkingPath)).toString("base64")
+					profileBase64 = profileBuffer.toString("base64")
+					Logger.info("[CaretProviderWrapper] Successfully loaded persona images from globalStorage.")
+				} catch (error) {
+					Logger.error(`[CaretProviderWrapper] Failed to read persona images from globalStorage, falling back to default: ${error}`)
+				}
+			}
+
+			if (!profileBase64 || !thinkingBase64) {
+				try {
+					Logger.info("[CaretProviderWrapper] Loading default Caret persona images as fallback.")
+					const caretProfilePath = path.join(templateDir, "caret.png")
+					const caretThinkingPath = path.join(templateDir, "caret_thinking.png")
+					profileBase64 = (await fs.readFile(caretProfilePath)).toString("base64")
+					thinkingBase64 = (await fs.readFile(caretThinkingPath)).toString("base64")
+				} catch (error) {
+					Logger.error(`[CaretProviderWrapper] CRITICAL: Failed to load default Caret images: ${error}`)
+				}
+			}
+
+			let personaInjectionScript = "\n"
+			if (profileBase64) {
+				personaInjectionScript += `window.personaProfile = "data:image/png;base64,${profileBase64}";\n`
+			}
+			if (thinkingBase64) {
+				personaInjectionScript += `window.personaThinking = "data:image/png;base64,${thinkingBase64}";\n`
+			}
+
+			// Part 3: Inject all scripts into the HTML
+			const finalInjectionScript = templateInjectionScript + personaInjectionScript
 			if (html.includes("window.clineClientId")) {
-				// Inject right after existing window assignments
-				html = html.replace(/(window\.clineClientId = "[^"]*";)/, `$1${imageInjectionScript}`)
-				console.log(`[CaretProviderWrapper] Injected template images after window.clineClientId`)
+				html = html.replace(/(window\.clineClientId = "[^"]*";)/, `$1${finalInjectionScript}`)
 			} else if (html.includes("</head>")) {
-				// Fallback: inject in head
-				const scriptTag = `<script>${imageInjectionScript}</script>`
-				html = html.replace("</head>", `${scriptTag}</head>`)
-				console.log(`[CaretProviderWrapper] Injected template images in head`)
+				html = html.replace("</head>", `<script>${finalInjectionScript}</script></head>`)
 			}
 
 			webviewView.webview.html = html
-			Logger.info(`[CaretProviderWrapper] Template images injected successfully. New HTML length: ${html.length}`)
+			Logger.info(`[CaretProviderWrapper] Image injection complete. New HTML length: ${html.length}`)
 		} catch (error) {
 			Logger.error(`[CaretProviderWrapper] Failed to inject template images: ${error}`)
 		}
@@ -263,12 +254,10 @@ export class CaretProviderWrapper implements vscode.WebviewViewProvider {
 				if (html.includes("window.clineClientId")) {
 					// Inject right after existing window assignments
 					html = html.replace(/(window\.clineClientId = "[^"]*";)/, `$1${imageInjectionScript}`)
-					console.log(`[CaretProviderWrapper] Injected banner image after window.clineClientId`)
 				} else if (html.includes("</head>")) {
 					// Fallback: inject in head
 					const scriptTag = `<script>${imageInjectionScript}</script>`
 					html = html.replace("</head>", `${scriptTag}</head>`)
-					console.log(`[CaretProviderWrapper] Injected banner image in head`)
 				}
 
 				webviewView.webview.html = html

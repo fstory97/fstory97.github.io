@@ -2,6 +2,7 @@ import { EmptyRequest } from "@shared/proto/cline/common"
 import { PersonaImages, PersonaProfile } from "@shared/proto/index.caret"
 import React, { createContext, type ReactNode, useCallback, useContext, useEffect, useRef, useState } from "react"
 import { PersonaServiceClient } from "../services/CaretGrpcClient"
+import { CaretWebviewLogger } from "../utils/webview-logger"
 
 // CARET MODIFICATION: Add window type definitions for persona images injected by CaretProvider.
 declare global {
@@ -27,11 +28,16 @@ export interface FullPersonaProfile {
 interface CaretStateContextType {
 	personaProfile?: FullPersonaProfile
 	updatePersona: (profile: PersonaProfile) => Promise<void>
+	showPersonaSelector: boolean
+	setShowPersonaSelector: (show: boolean) => void
 }
+
+const logger = new CaretWebviewLogger("CaretStateContext")
 
 const CaretStateContext = createContext<CaretStateContextType | undefined>(undefined)
 
 export const CaretStateContextProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
+	const [showPersonaSelector, setShowPersonaSelector] = useState(false)
 	const [personaProfile, setPersonaProfile] = useState<PersonaProfile | undefined>(undefined)
 	// CARET MODIFICATION: Initialize personaImages state from window object.
 	const [personaImages, setPersonaImages] = useState<PersonaImages | undefined>(() => {
@@ -49,15 +55,10 @@ export const CaretStateContextProvider: React.FC<{ children: ReactNode }> = ({ c
 		// Subscribe to persona changes from the backend
 		personaSubscriptionRef.current = PersonaServiceClient.subscribeToPersonaChanges(EmptyRequest.create(), {
 			onResponse: (images: PersonaImages) => {
-				console.log("[CARET-DEBUG] Received persona images update from gRPC stream", images)
 				setPersonaImages(images)
 			},
-			onError: (error: Error) => {
-				console.error("Error in Caret persona subscription:", error)
-			},
-			onComplete: () => {
-				console.log("Caret persona subscription completed")
-			},
+			onError: (error: Error) => {},
+			onComplete: () => {},
 		})
 
 		// Also, fetch the initial persona profile
@@ -66,7 +67,7 @@ export const CaretStateContextProvider: React.FC<{ children: ReactNode }> = ({ c
 				setPersonaProfile(profile)
 			})
 			.catch((error: Error) => {
-				console.error("Failed to fetch initial persona profile:", error)
+				logger.error("Failed to fetch initial persona profile:", error)
 			})
 
 		return () => {
@@ -86,7 +87,6 @@ export const CaretStateContextProvider: React.FC<{ children: ReactNode }> = ({ c
 				// Pass the entire profile object as per the corrected proto definition
 				await PersonaServiceClient.updatePersona({ profile })
 			} catch (error) {
-				console.error("Failed to update persona, rolling back:", error)
 				setPersonaProfile(previousProfile) // Rollback on failure
 				throw error
 			}
@@ -105,6 +105,8 @@ export const CaretStateContextProvider: React.FC<{ children: ReactNode }> = ({ c
 	const contextValue: CaretStateContextType = {
 		personaProfile: fullPersonaInfo,
 		updatePersona,
+		showPersonaSelector,
+		setShowPersonaSelector,
 	}
 
 	return <CaretStateContext.Provider value={contextValue}>{children}</CaretStateContext.Provider>

@@ -38,11 +38,17 @@ export class PersonaInitializer {
 			const personaImagesExist = await this.checkPersonaImagesExist()
 			Logger.debug(`[CARET-PERSONA] PersonaInitializer: 페르소나 이미지 존재 여부: ${personaImagesExist}`)
 
-			// 둘 다 존재하면 초기화 건너뛰기
-			if ((await fileExistsAtPath(personaMdPath)) && personaImagesExist) {
-				Logger.info("[CARET-PERSONA] PersonaInitializer: 페르소나가 이미 설정되어 있습니다. 초기화 건너  킵니다.")
-				return null
+			// persona.md 파일이 존재하면 초기화 건너뛰기
+			if (await fileExistsAtPath(personaMdPath)) {
+				const stats = await fs.stat(personaMdPath)
+				if (stats.size > 2) { // {}' 보다 크면 내용이 있는 것으로 간주
+					Logger.info("[CARET-PERSONA] PersonaInitializer: persona.md 파일이 이미 존재하고 내용이 있으므로 초기화를 건너뜁니다.")
+					return null
+				}
 			}
+
+			// persona.md가 비어있거나 없을 경우, 이미지 존재 여부와 관계없이 초기화 진행
+			Logger.info("[CARET-PERSONA] PersonaInitializer: 페르소나 설정이 필요하여 초기화를 진행합니다.")
 
 			// 3. template_characters.json 파일에서 기본 페르소나 찾기
 			const defaultPersona = await this.findDefaultPersona()

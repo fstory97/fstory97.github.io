@@ -573,13 +573,9 @@ const TaskHeader: React.FC<TaskHeaderProps> = ({
 												}}>
 												<div style={{ display: "flex", alignItems: "center", gap: "6px" }}>
 													<span style={{ fontWeight: "bold", color: "var(--vscode-charts-green)" }}>
-														{t(
-															"taskHeader.allStepsCompleted",
-															"All {{totalCount}} steps completed!",
-															{
-																totalCount: todoInfo.totalCount,
-															},
-														)}
+														{t("taskHeader.allStepsCompleted", "common", {
+															totalCount: todoInfo.totalCount,
+														})}
 													</span>
 												</div>
 												<span
@@ -595,10 +591,7 @@ const TaskHeader: React.FC<TaskHeaderProps> = ({
 														lineHeight: "1.4",
 													}}>
 													<div style={{ marginBottom: "2px" }}>
-														{t(
-															"taskHeader.newStepsGenerated",
-															"New steps may be generated based on the conversation.",
-														)}
+														{t("taskHeader.newStepsGenerated", "common")}
 													</div>
 												</div>
 											)}
