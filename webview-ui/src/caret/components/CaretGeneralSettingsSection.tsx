@@ -59,10 +59,10 @@ const CaretGeneralSettingsSection: React.FC<CaretGeneralSettingsSectionProps> = 
 
 									console.log("[PERSONA-DEBUG] setEnablePersonaSystem called with:", checked)
 								}}>
-								{t("persona.enablePersonaSystem", "common")}
+								{t("persona.enablePersonaSystem", "settings")}
 							</VSCodeCheckbox>
 							<p className="text-xs mt-[5px] text-[var(--vscode-descriptionForeground)]">
-								{t("persona.description", "common")}
+								{t("persona.description", "settings")}
 							</p>
 						</div>
 						{/* TODO: 페르소나 선택 UI 추가 */}

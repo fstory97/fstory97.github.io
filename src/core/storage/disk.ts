@@ -26,6 +26,8 @@ export const GlobalFileNames = {
 	windsurfRules: ".windsurfrules",
 	taskMetadata: "task_metadata.json",
 	persona: "persona.md", // CARET MODIFICATION: Added for persona feature
+	customInstructions: "custom_instructions.md", // CARET MODIFICATION: Added for legacy persona migration
+	templateCharacters: "template_characters.json", // CARET MODIFICATION: Added for persona template data
 }
 
 export async function getDocumentsPath(): Promise<string> {

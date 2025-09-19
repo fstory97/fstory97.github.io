@@ -1,7 +1,7 @@
 import fs from "fs/promises"
 import path from "path"
 import * as vscode from "vscode"
-import { ensureRulesDirectoryExists } from "./disk"
+import { ensureRulesDirectoryExists, GlobalFileNames } from "./disk"
 import { StateManager } from "./StateManager"
 
 export async function migrateWorkspaceToGlobalStorage(context: vscode.ExtensionContext) {
@@ -100,8 +100,7 @@ export async function migrateCustomInstructionsToGlobalRules(context: vscode.Ext
 			const globalRulesDir = await ensureRulesDirectoryExists()
 
 			// Use a fixed filename for custom instructions
-			const migrationFileName = "custom_instructions.md"
-			const migrationFilePath = path.join(globalRulesDir, migrationFileName)
+			const migrationFilePath = path.join(globalRulesDir, GlobalFileNames.customInstructions)
 
 			try {
 				// Check if file already exists to determine if we should append
