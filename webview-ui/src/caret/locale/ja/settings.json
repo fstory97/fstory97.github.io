@@ -470,15 +470,15 @@
 	"providers": {
 		"caret": {
 			"name": "Caret",
-			"description": "Caretはコーディングタスクに最適化された高品質なAIモデルを提供します。",
-			"login": "Caretアカウントでログイン",
-			"loginError": "Caretログイン失敗",
-			"apiKeyConfigured": "✓ APIキーが設定されました",
-			"features": "機能:",
-			"feature1": "最新モデルへのアクセス",
-			"feature2": "使用状況とクレジットを表示する請求ダッシュボード",
-			"feature3": "プロンプトプレイグラウンド",
-			"feature4": "その他の今後の機能"
+			"login": "ログイン",
+			"apiKeyConfigured": "Caretログイン済み",
+			"description": "Caretログインユーザーは無料提供クレジットでGoogleの最新Geminiモデルを利用できます",
+			"features": "個別のAPIキーなしで以下の機能をお楽しみください",
+			"feature1": "Gemini 2.5 Pro: 強力な推論能力",
+			"feature2": "Gemini 2.5 Flash: 高速で効率的な応答",
+			"feature3": "個別のAPIキーなしで即座にアクセス",
+			"feature4": "価格: 無料プランクレジットで利用",
+			"visit": "CaretのAPIキーを取得:"
 		},
 		"openrouter": {
 			"name": "OpenRouter",

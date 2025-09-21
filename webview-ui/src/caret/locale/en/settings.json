@@ -480,15 +480,15 @@
 	"providers": {
 		"caret": {
 			"name": "Caret",
-			"description": "Caret provides high-quality AI models with optimized performance for coding tasks.",
-			"login": "Login to Caret",
-			"loginError": "Failed to login to Caret",
-			"apiKeyConfigured": "✓ API key configured",
-			"features": "Features:",
-			"feature1": "Access to the latest models",
-			"feature2": "Billing dashboard to view usage and credits",
-			"feature3": "Prompt Playground",
-			"feature4": "More upcoming features"
+			"login": "Login",
+			"apiKeyConfigured": "Caret logged in",
+			"description": "Caret login users can access Google's latest Gemini models with free provided credits",
+			"features": "Enjoy the following features without separate API keys",
+			"feature1": "Gemini 2.5 Pro: Powerful reasoning capabilities",
+			"feature2": "Gemini 2.5 Flash: Fast and efficient responses",
+			"feature3": "Instant access without separate API keys",
+			"feature4": "Pricing: Use with free plan credits",
+			"visit": "Get Caret's API key:"
 		},
 		"openrouter": {
 			"name": "OpenRouter",

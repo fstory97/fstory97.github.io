@@ -463,15 +463,15 @@
 	"providers": {
 		"caret": {
 			"name": "Caret",
-			"description": "Caret提供专为编程任务优化的高质量AI模型。",
-			"login": "使用Caret账户登录",
-			"loginError": "Caret登录失败",
-			"apiKeyConfigured": "✓ API密钥已配置",
-			"features": "功能:",
-			"feature1": "访问最新模型",
-			"feature2": "账单仪表板以查看使用情况和积分",
-			"feature3": "提示词演练场",
-			"feature4": "更多即将推出的功能"
+			"login": "登录",
+			"apiKeyConfigured": "Caret已登录",
+			"description": "Caret登录用户可以使用免费提供的积分访问Google最新的Gemini模型",
+			"features": "无需单独API密钥即可享受以下功能",
+			"feature1": "Gemini 2.5 Pro：强大的推理能力",
+			"feature2": "Gemini 2.5 Flash：快速高效的响应",
+			"feature3": "无需单独API密钥即可立即访问",
+			"feature4": "价格：使用免费计划积分",
+			"visit": "获取Caret的API密钥："
 		},
 		"openrouter": {
 			"name": "OpenRouter",
