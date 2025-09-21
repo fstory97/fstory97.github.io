@@ -37,6 +37,7 @@ export class CaretJsonAdapter implements IPromptSystem {
         const sectionNames = [
             'BASE_PROMPT_INTRO',
             'CHATBOT_AGENT_MODES',
+            'COLLABORATIVE_PRINCIPLES',  // CARET MODIFICATION: Restore collaborative principles
             'CARET_SYSTEM_INFO',
             'CARET_CAPABILITIES', 
             'CARET_USER_INSTRUCTIONS',
@@ -235,7 +236,11 @@ export class CaretJsonAdapter implements IPromptSystem {
         let content = '';
         
         // Handle new comprehensive JSON structure
-        if (template.system_context?.sections) {
+        if (template.collaborative_principles?.sections) {
+            content = this.processTemplateSections(template.collaborative_principles.sections, isChatbotMode);
+        } else if (template.mode_system?.sections) {
+            content = this.processTemplateSections(template.mode_system.sections, isChatbotMode);
+        } else if (template.system_context?.sections) {
             content = this.processTemplateSections(template.system_context.sections, isChatbotMode);
         } else if (template.capabilities?.sections) {
             content = this.processTemplateSections(template.capabilities.sections, isChatbotMode);

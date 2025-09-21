@@ -940,19 +940,6 @@
 			"latencySortingDescription": "Sort providers by response time, prioritizing the provider with the lowest latency"
 		}
 	},
-	"providers.caret": {
-		"description": "Caret provides high-quality AI models with optimized performance for coding tasks.",
-		"login": "Login to Caret",
-		"or": "or",
-		"apiKeyConfigured": "✓ API key configured",
-		"features": "Features:",
-		"feature1": "Free tier available",
-		"feature2": "Optimized models for coding",
-		"feature3": "Fast response times",
-		"feature4": "Korean language support",
-		"visit": "Visit",
-		"getApiKey": "to sign up and get your API key."
-	},
 	"about": {
 		"feedbackPrompt": "If you have any questions or feedback, we welcome it anytime.",
 		"version": "Version",

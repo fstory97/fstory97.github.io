@@ -7,7 +7,7 @@ import { Empty } from "@shared/proto/cline/common"
 import * as fs from "fs/promises"
 import * as path from "path"
 import { Logger } from "@/services/logging/Logger"
-import type { Controller } from "../index"
+import type { Controller } from "@core/controller"
 
 /**
  * Handles updating the current persona

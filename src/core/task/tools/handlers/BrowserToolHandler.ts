@@ -72,6 +72,9 @@ export class BrowserToolHandler implements IFullyManagedTool {
 		// CARET MODIFICATION: Add debug logging for browser_action parameter issues
 		console.log(`[DEBUG BrowserToolHandler] block.params:`, JSON.stringify(block.params, null, 2))
 		console.log(`[DEBUG BrowserToolHandler] action:`, action)
+		console.log(`[DEBUG BrowserToolHandler] coordinate:`, coordinate)
+		console.log(`[DEBUG BrowserToolHandler] text:`, text)
+		console.log(`[DEBUG BrowserToolHandler] url:`, url)
 		console.log(
 			`[DEBUG BrowserToolHandler] browserActions includes action:`,
 			browserActions.includes(action as BrowserAction),
@@ -219,8 +222,20 @@ export class BrowserToolHandler implements IFullyManagedTool {
 					return closeResult
 			}
 		} catch (error) {
-			await config.services.browserSession.closeBrowser() // if any error occurs, the browser session is terminated
-			return `Error executing browser action: ${(error as Error).message}`
+			// CARET MODIFICATION: Don't close browser on navigation errors - just report the error
+			console.error(`[BrowserToolHandler] Error during browser action:`, error)
+			const errorMessage = (error as Error).message
+
+			// Only close browser for critical errors
+			if (
+				errorMessage.includes("Browser is not launched") ||
+				errorMessage.includes("Session closed") ||
+				errorMessage.includes("Target closed")
+			) {
+				await config.services.browserSession.closeBrowser()
+			}
+
+			return `Error executing browser action: ${errorMessage}`
 		}
 
 		// This should never be reached, but TypeScript requires a return

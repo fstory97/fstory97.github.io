@@ -5,8 +5,8 @@ import { PersonaStorage } from "@caret/services/persona/persona-storage"
 import { PersonaImages, PersonaProfile } from "@shared/proto/caret/persona"
 import type { EmptyRequest } from "@shared/proto/cline/common"
 import { Logger } from "@/services/logging/Logger"
-import { getRequestRegistry, type StreamingResponseHandler } from "../grpc-handler"
-import type { Controller } from "../index"
+import { getRequestRegistry, type StreamingResponseHandler } from "@core/controller/grpc-handler"
+import type { Controller } from "@core/controller"
 
 /**
  * Handles subscribing to persona changes

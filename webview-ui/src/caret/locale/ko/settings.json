@@ -900,19 +900,6 @@
 			"selectModelPlaceholder": "모델 선택..."
 		}
 	},
-	"providers.caret": {
-		"description": "Caret은 코딩 작업에 최적화된 고품질 AI 모델을 제공합니다.",
-		"login": "Caret에 로그인",
-		"or": "또는",
-		"apiKeyConfigured": "✓ API 키 구성됨",
-		"features": "기능:",
-		"feature1": "무료 티어 사용 가능",
-		"feature2": "코딩에 최적화된 모델",
-		"feature3": "빠른 응답 시간",
-		"feature4": "한국어 지원",
-		"visit": "방문하여",
-		"getApiKey": "API 키를 받고 가입하세요."
-	},
 	"rules": {
 		"section": {
 			"title": "규칙 관리",

@@ -2,9 +2,9 @@
   "capabilities": {
     "sections": [
       {
-        "content": "# AI CAPABILITIES\n\n## CHATBOT Mode\n- Code analysis & explanation\n- Technical Q&A and guidance\n- Code review and suggestions\n- Read-only file examination\n- Planning and architectural advice\n\n## AGENT Mode\n- Full tool access: CLI, files, browser\n- Autonomous task execution\n- Code generation and modification\n- System operations and automation\n- Project scaffolding and refactoring\n\n**Current Mode**: {{mode_system}} - {{mode_capabilities}}",
+        "content": "Core Abilities: Code analysis, technical guidance, project understanding, multi-language support, pattern recognition.\nEnvironment: {{working_dir}} on {{os}}.\nContext awareness through file tracking and AST parsing.",
         "mode": "both",
-        "tokens": "~120"
+        "tokens": "~50"
       }
     ]
   },

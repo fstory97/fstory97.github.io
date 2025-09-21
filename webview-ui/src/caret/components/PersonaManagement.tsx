@@ -41,19 +41,31 @@ export const PersonaManagement: React.FC<PersonaManagementProps> = ({ className 
 			const file = (e.target as HTMLInputElement).files?.[0]
 			if (file) {
 				const reader = new FileReader()
-				reader.onload = () => {
+				reader.onload = async () => {
 					const base64 = reader.result as string
 					setIsUploading(true)
 					setUploadMessage("")
 
-					// TODO: Replace with gRPC service call
-					// For now, update window variables directly for immediate UI feedback
+					// CARET MODIFICATION: Use updatePersona to save images like template selection does
 					try {
+						// Update window variables for immediate UI feedback
 						if (imageType === "normal") {
 							;(window as any).personaProfile = base64
 						} else {
 							;(window as any).personaThinking = base64
 						}
+
+						// Create updated profile with new image
+						const updatedProfile = {
+							name: personaProfile?.name || "Default",
+							description: personaProfile?.description || "Default Persona",
+							customInstruction: personaProfile?.customInstruction || "{}",
+							avatarUri: imageType === "normal" ? base64 : personaProfile?.avatarUri || "",
+							thinkingAvatarUri: imageType === "thinking" ? base64 : personaProfile?.thinkingAvatarUri || "",
+						}
+
+						// Use same updatePersona method as template selection
+						await updatePersona(updatedProfile)
 
 						setUploadMessage(t("upload.success", "persona") || "Upload successful!")
 						caretWebviewLogger.info("Image uploaded successfully", { imageType })

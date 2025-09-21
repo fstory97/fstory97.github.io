@@ -25,6 +25,10 @@
 
 # Changelog
 
+## [0.2.22]
+ - **System Prompt Enhancements**: Restored and supplemented Caret's unique collaborative attitude and cost-saving system prompts that were missing during Cline merging process
+ - **Translation Fix**: Fixed missing browser-related translations
+
 ## [0.2.21]
 
 - **Persona System Fixes & Improvements**:

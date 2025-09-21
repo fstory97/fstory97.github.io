@@ -133,7 +133,9 @@
 			"!**/generated",
 			"!**/proto",
 			"!**/webview-ui/src/caret/locale",
-			"!**/cline-latest"
+			"!**/cline-latest",
+			"!**/cline",
+			"!**/caret-old"
 		]
 	},
 	"plugins": [

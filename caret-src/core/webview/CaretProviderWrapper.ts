@@ -175,8 +175,11 @@ export class CaretProviderWrapper implements vscode.WebviewViewProvider {
 	 */
 	private setupCaretMessageHandling(webviewView: vscode.WebviewView): void {
 		const messageDisposable = webviewView.webview.onDidReceiveMessage(async (message) => {
-			Logger.debug(`[CaretProviderWrapper] Received message: ${JSON.stringify(message)}`)
-			
+			// CARET MODIFICATION: Suppress noisy getBrowserConnectionInfo logs
+			if (!(message.type === "grpc_request" && message.grpc_request?.method === "getBrowserConnectionInfo")) {
+				Logger.debug(`[CaretProviderWrapper] Received message: ${JSON.stringify(message)}`)
+			}
+
 			// Fire our own event
 			this._onDidReceiveMessage.fire(message)
 			try {
@@ -193,13 +196,19 @@ export class CaretProviderWrapper implements vscode.WebviewViewProvider {
 	 * Handle Caret-specific messages
 	 */
 	private async handleCaretMessage(message: any, webviewView: vscode.WebviewView): Promise<void> {
-		Logger.debug(`[CaretProviderWrapper] Processing message type: ${message.type}`)
+		// CARET MODIFICATION: Suppress noisy grpc_request logs
+		if (message.type !== "grpc_request") {
+			Logger.debug(`[CaretProviderWrapper] Processing message type: ${message.type}`)
+		}
 		switch (message.type) {
 			case "caret_load_persona_image":
 				await this.handleLoadPersonaImage(message, webviewView)
 				break
 			default:
-				Logger.debug(`[CaretProviderWrapper] Passing message to Cline: ${message.type}`)
+				// CARET MODIFICATION: Suppress noisy grpc_request logs
+				if (message.type !== "grpc_request") {
+					Logger.debug(`[CaretProviderWrapper] Passing message to Cline: ${message.type}`)
+				}
 				// Let Cline handle non-Caret messages
 				break
 		}

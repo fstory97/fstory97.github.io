@@ -2,9 +2,9 @@
   "task_objective": {
     "sections": [
       {
-        "content": "# TASK EXECUTION\n\n## Approach\n\n1. **Analyze**: Break down user task into clear, sequential goals\n2. **Execute**: Use tools methodically, one step at a time\n3. **Think**: Use <thinking> tags before tool selection\n4. **Verify**: Check required parameters before tool invocation\n5. **Complete**: Use attempt_completion when task is finished\n\n## Mode-Specific Behavior\n\n**CHATBOT**: Provide analysis, suggestions, and step-by-step guidance\n**AGENT**: Execute tasks autonomously with full tool access\n\n## Parameters\n- Missing required params → ask_followup_question\n- Optional params → proceed without asking\n- No pointless back-and-forth conversations",
+        "content": "Focus: Complete user's task efficiently.\nBreak complex tasks into steps. Verify before execution.\nNo unnecessary conversation. Direct technical communication.",
         "mode": "both",
-        "tokens": "~150"
+        "tokens": "~30"
       }
     ]
   },
