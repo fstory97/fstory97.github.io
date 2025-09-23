@@ -9,6 +9,7 @@ import {
 	basetenModels,
 	bedrockDefaultModelId,
 	bedrockModels,
+	caretModelInfoSaneDefaults,
 	cerebrasDefaultModelId,
 	cerebrasModels,
 	claudeCodeDefaultModelId,
@@ -236,6 +237,16 @@ export function normalizeApiConfiguration(
 				selectedModelId: liteLlmModelId || "",
 				selectedModelInfo: liteLlmModelInfo || liteLlmModelInfoSaneDefaults,
 			}
+		case "caret":
+			const caretModelId =
+				currentMode === "plan" ? apiConfiguration?.planModeCaretModelId : apiConfiguration?.actModeCaretModelId
+			const caretModelInfo =
+				currentMode === "plan" ? apiConfiguration?.planModeCaretModelInfo : apiConfiguration?.actModeCaretModelInfo
+			return {
+				selectedProvider: provider,
+				selectedModelId: caretModelId || "",
+				selectedModelInfo: caretModelInfo || caretModelInfoSaneDefaults,
+			}
 		case "xai":
 			return getProviderData(xaiModels, xaiDefaultModelId)
 		case "moonshot":
@@ -345,19 +356,6 @@ export function normalizeApiConfiguration(
 						? fireworksModels[fireworksModelId as keyof typeof fireworksModels]
 						: fireworksModels[fireworksDefaultModelId],
 			}
-		case "caret":
-			// Use OpenRouter-style pattern for Caret API
-			const caretModelId =
-				currentMode === "plan" ? apiConfiguration?.planModeOpenRouterModelId : apiConfiguration?.actModeOpenRouterModelId
-			const caretModelInfo =
-				currentMode === "plan"
-					? apiConfiguration?.planModeOpenRouterModelInfo
-					: apiConfiguration?.actModeOpenRouterModelInfo
-			return {
-				selectedProvider: provider,
-				selectedModelId: caretModelId || openRouterDefaultModelId,
-				selectedModelInfo: caretModelInfo || openRouterDefaultModelInfo,
-			}
 		default:
 			return getProviderData(anthropicModels, anthropicDefaultModelId)
 	}
@@ -381,6 +379,7 @@ export function getModeSpecificFields(apiConfiguration: ApiConfiguration | undef
 			fireworksModelId: undefined,
 			lmStudioModelId: undefined,
 			ollamaModelId: undefined,
+			caretModelId: undefined, // caret
 			liteLlmModelId: undefined,
 			requestyModelId: undefined,
 			openAiModelId: undefined,
@@ -393,6 +392,7 @@ export function getModeSpecificFields(apiConfiguration: ApiConfiguration | undef
 
 			// Model info objects
 			openAiModelInfo: undefined,
+			caretModelInfo: undefined, // caret
 			liteLlmModelInfo: undefined,
 			openRouterModelInfo: undefined,
 			requestyModelInfo: undefined,
@@ -442,6 +442,7 @@ export function getModeSpecificFields(apiConfiguration: ApiConfiguration | undef
 		// Model info objects
 		openAiModelInfo: mode === "plan" ? apiConfiguration.planModeOpenAiModelInfo : apiConfiguration.actModeOpenAiModelInfo,
 		liteLlmModelInfo: mode === "plan" ? apiConfiguration.planModeLiteLlmModelInfo : apiConfiguration.actModeLiteLlmModelInfo,
+		caretModelInfo: mode === "plan" ? apiConfiguration.planModeCaretModelInfo : apiConfiguration.actModeCaretModelInfo,
 		openRouterModelInfo:
 			mode === "plan" ? apiConfiguration.planModeOpenRouterModelInfo : apiConfiguration.actModeOpenRouterModelInfo,
 		requestyModelInfo:
@@ -548,6 +549,13 @@ export async function syncModeConfigurations(
 		case "vscode-lm":
 			updates.planModeVsCodeLmModelSelector = sourceFields.vsCodeLmModelSelector
 			updates.actModeVsCodeLmModelSelector = sourceFields.vsCodeLmModelSelector
+			break
+
+		case "caret":
+			updates.planModeCaretModelId = sourceFields.caretModelId
+			updates.actModeCaretModelId = sourceFields.caretModelId
+			updates.planModeCaretModelInfo = sourceFields.caretModelInfo
+			updates.actModeCaretModelInfo = sourceFields.caretModelInfo
 			break
 
 		case "litellm":
