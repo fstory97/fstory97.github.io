@@ -13,6 +13,9 @@ export function convertApiConfigurationToProtoApiConfiguration(config: ApiConfig
 		liteLlmBaseUrl: config.liteLlmBaseUrl,
 		liteLlmApiKey: config.liteLlmApiKey,
 		liteLlmUsePromptCache: config.liteLlmUsePromptCache,
+		caretBaseUrl: config.caretBaseUrl, // caret
+		caretApiKey: config.caretApiKey, // caret
+		caretUsePromptCache: config.caretUsePromptCache, // caret
 		openaiHeaders: config.openAiHeaders ? JSON.stringify(config.openAiHeaders) : undefined,
 		anthropicBaseUrl: config.anthropicBaseUrl,
 		openrouterApiKey: config.openRouterApiKey,
@@ -95,6 +98,8 @@ export function convertApiConfigurationToProtoApiConfiguration(config: ApiConfig
 		planModeLmStudioModelId: config.planModeLmStudioModelId,
 		planModeLiteLlmModelId: config.planModeLiteLlmModelId,
 		planModeLiteLlmModelInfo: config.planModeLiteLlmModelInfo ? JSON.stringify(config.planModeLiteLlmModelInfo) : undefined,
+		planModeCaretModelId: config.planModeCaretModelId, // caret
+		planModeCaretModelInfo: config.planModeCaretModelInfo ? JSON.stringify(config.planModeCaretModelInfo) : undefined, // caret
 		planModeRequestyModelId: config.planModeRequestyModelId,
 		planModeRequestyModelInfo: config.planModeRequestyModelInfo
 			? JSON.stringify(config.planModeRequestyModelInfo)
@@ -127,6 +132,8 @@ export function convertApiConfigurationToProtoApiConfiguration(config: ApiConfig
 		actModeLmStudioModelId: config.actModeLmStudioModelId,
 		actModeLiteLlmModelId: config.actModeLiteLlmModelId,
 		actModeLiteLlmModelInfo: config.actModeLiteLlmModelInfo ? JSON.stringify(config.actModeLiteLlmModelInfo) : undefined,
+		actModeCaretModelId: config.actModeCaretModelId, // caret
+		actModeCaretModelInfo: config.actModeCaretModelInfo ? JSON.stringify(config.actModeCaretModelInfo) : undefined, // caret
 		actModeRequestyModelId: config.actModeRequestyModelId,
 		actModeRequestyModelInfo: config.actModeRequestyModelInfo ? JSON.stringify(config.actModeRequestyModelInfo) : undefined,
 		actModeTogetherModelId: config.actModeTogetherModelId,
@@ -154,6 +161,9 @@ export function convertProtoApiConfigurationToApiConfiguration(protoConfig: Prot
 		liteLlmBaseUrl: protoConfig.liteLlmBaseUrl,
 		liteLlmApiKey: protoConfig.liteLlmApiKey,
 		liteLlmUsePromptCache: protoConfig.liteLlmUsePromptCache,
+		caretBaseUrl: protoConfig.caretBaseUrl, // caret
+		caretApiKey: protoConfig.caretApiKey, // caret
+		caretUsePromptCache: protoConfig.caretUsePromptCache, // caret
 		anthropicBaseUrl: protoConfig.anthropicBaseUrl,
 		openRouterApiKey: protoConfig.openrouterApiKey,
 		openRouterProviderSorting: protoConfig.openrouterProviderSorting,
@@ -227,6 +237,7 @@ export function convertProtoApiConfigurationToApiConfiguration(protoConfig: Prot
 		planModeOllamaModelId: protoConfig.planModeOllamaModelId,
 		planModeLmStudioModelId: protoConfig.planModeLmStudioModelId,
 		planModeLiteLlmModelId: protoConfig.planModeLiteLlmModelId,
+		planModeCaretModelId: protoConfig.planModeCaretModelId, // caret
 		planModeRequestyModelId: protoConfig.planModeRequestyModelId,
 		planModeTogetherModelId: protoConfig.planModeTogetherModelId,
 		planModeFireworksModelId: protoConfig.planModeFireworksModelId,
@@ -247,6 +258,7 @@ export function convertProtoApiConfigurationToApiConfiguration(protoConfig: Prot
 		actModeOllamaModelId: protoConfig.actModeOllamaModelId,
 		actModeLmStudioModelId: protoConfig.actModeLmStudioModelId,
 		actModeLiteLlmModelId: protoConfig.actModeLiteLlmModelId,
+		actModeCaretModelId: protoConfig.actModeCaretModelId, // caret
 		actModeRequestyModelId: protoConfig.actModeRequestyModelId,
 		actModeTogetherModelId: protoConfig.actModeTogetherModelId,
 		actModeFireworksModelId: protoConfig.actModeFireworksModelId,
@@ -274,6 +286,9 @@ export function convertProtoApiConfigurationToApiConfiguration(protoConfig: Prot
 		if (protoConfig.planModeLiteLlmModelInfo) {
 			config.planModeLiteLlmModelInfo = JSON.parse(protoConfig.planModeLiteLlmModelInfo)
 		}
+		if (protoConfig.planModeCaretModelInfo) {
+			config.planModeCaretModelInfo = JSON.parse(protoConfig.planModeCaretModelInfo)
+		}
 		if (protoConfig.planModeRequestyModelInfo) {
 			config.planModeRequestyModelInfo = JSON.parse(protoConfig.planModeRequestyModelInfo)
 		}
@@ -288,6 +303,9 @@ export function convertProtoApiConfigurationToApiConfiguration(protoConfig: Prot
 		}
 		if (protoConfig.actModeLiteLlmModelInfo) {
 			config.actModeLiteLlmModelInfo = JSON.parse(protoConfig.actModeLiteLlmModelInfo)
+		}
+		if (protoConfig.actModeCaretModelInfo) {
+			config.actModeCaretModelInfo = JSON.parse(protoConfig.actModeCaretModelInfo)
 		}
 		if (protoConfig.actModeRequestyModelInfo) {
 			config.actModeRequestyModelInfo = JSON.parse(protoConfig.actModeRequestyModelInfo)

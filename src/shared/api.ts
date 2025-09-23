@@ -21,6 +21,7 @@ export type ApiProvider =
 	| "vscode-lm"
 	| "cline"
 	| "litellm"
+	| "caret"
 	| "moonshot"
 	| "nebius"
 	| "fireworks"
@@ -46,6 +47,9 @@ export interface ApiHandlerOptions {
 	liteLlmBaseUrl?: string
 	liteLlmApiKey?: string
 	liteLlmUsePromptCache?: boolean
+	caretBaseUrl?: string // caret
+	caretApiKey?: string // caret
+	caretUsePromptCache?: boolean // caret
 	openAiHeaders?: Record<string, string> // Custom headers for OpenAI requests
 	anthropicBaseUrl?: string
 	openRouterApiKey?: string
@@ -112,8 +116,6 @@ export interface ApiHandlerOptions {
 	difyBaseUrl?: string
 	zaiApiKey?: string
 	zaiApiLine?: string
-	// CARET MODIFICATION: Add caretApiKey support
-	caretApiKey?: string
 	onRetryAttempt?: (attempt: number, maxRetries: number, delay: number, error: any) => void
 	// Plan mode configurations
 	planModeApiModelId?: string
@@ -130,6 +132,8 @@ export interface ApiHandlerOptions {
 	planModeLmStudioModelId?: string
 	planModeLiteLlmModelId?: string
 	planModeLiteLlmModelInfo?: LiteLLMModelInfo
+	planModeCaretModelId?: string // caret
+	planModeCaretModelInfo?: CaretModelInfo // caret
 	planModeRequestyModelId?: string
 	planModeRequestyModelInfo?: ModelInfo
 	planModeTogetherModelId?: string
@@ -161,6 +165,8 @@ export interface ApiHandlerOptions {
 	actModeLmStudioModelId?: string
 	actModeLiteLlmModelId?: string
 	actModeLiteLlmModelInfo?: LiteLLMModelInfo
+	actModeCaretModelId?: string // caret
+	actModeCaretModelInfo?: CaretModelInfo // caret
 	actModeRequestyModelId?: string
 	actModeRequestyModelInfo?: ModelInfo
 	actModeTogetherModelId?: string
@@ -2202,6 +2208,26 @@ export const mistralModels = {
 		outputPrice: 2.0,
 	},
 } as const satisfies Record<string, ModelInfo>
+
+// Caret
+// https://docs.litellm.ai/docs/
+export type CaretModelId = string
+export const caretDefaultModelId = "anthropic/claude-3-7-sonnet-20250219"
+export interface CaretModelInfo extends ModelInfo {
+	temperature?: number
+}
+
+export const caretModelInfoSaneDefaults: CaretModelInfo = {
+	maxTokens: -1,
+	contextWindow: 128_000,
+	supportsImages: true,
+	supportsPromptCache: true,
+	inputPrice: 0,
+	outputPrice: 0,
+	cacheWritesPrice: 0,
+	cacheReadsPrice: 0,
+	temperature: 0,
+}
 
 // LiteLLM
 // https://docs.litellm.ai/docs/

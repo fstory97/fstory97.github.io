@@ -47,6 +47,8 @@ export interface GlobalState {
 	userInfo: UserInfo | undefined
 	liteLlmBaseUrl: string | undefined
 	liteLlmUsePromptCache: boolean | undefined
+	caretBaseUrl: string | undefined // caret
+	caretUsePromptCache: boolean | undefined // caret
 	fireworksModelMaxCompletionTokens: number | undefined
 	fireworksModelMaxTokens: number | undefined
 	qwenApiLine: string | undefined
@@ -100,6 +102,8 @@ export interface GlobalState {
 	planModeLmStudioModelId: string | undefined
 	planModeLiteLlmModelId: string | undefined
 	planModeLiteLlmModelInfo: ModelInfo | undefined
+	planModeCaretModelId: string | undefined // caret
+	planModeCaretModelInfo: ModelInfo | undefined // caret
 	planModeRequestyModelId: string | undefined
 	planModeRequestyModelInfo: ModelInfo | undefined
 	planModeTogetherModelId: string | undefined
@@ -129,6 +133,8 @@ export interface GlobalState {
 	actModeLmStudioModelId: string | undefined
 	actModeLiteLlmModelId: string | undefined
 	actModeLiteLlmModelInfo: ModelInfo | undefined
+	actModeCaretModelId: string | undefined // caret
+	actModeCaretModelInfo: ModelInfo | undefined // caret
 	actModeRequestyModelId: string | undefined
 	actModeRequestyModelInfo: ModelInfo | undefined
 	actModeTogetherModelId: string | undefined
@@ -183,6 +189,7 @@ export interface Secrets {
 	doubaoApiKey: string | undefined
 	mistralApiKey: string | undefined
 	liteLlmApiKey: string | undefined
+	caretApiKey: string | undefined
 	authNonce: string | undefined
 	asksageApiKey: string | undefined
 	xaiApiKey: string | undefined

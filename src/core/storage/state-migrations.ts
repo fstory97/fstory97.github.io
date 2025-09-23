@@ -25,6 +25,8 @@ export async function migrateWorkspaceToGlobalStorage(context: vscode.ExtensionC
 		"lmStudioModelId",
 		"liteLlmModelId",
 		"liteLlmModelInfo",
+		"caretModelId", // caret
+		"caretModelInfo", // caret
 		"requestyModelId",
 		"requestyModelInfo",
 		"togetherModelId",
@@ -165,6 +167,8 @@ export async function migrateLegacyApiConfigurationToModeSpecific(context: vscod
 		const lmStudioModelId = await context.globalState.get("lmStudioModelId")
 		const liteLlmModelId = await context.globalState.get("liteLlmModelId")
 		const liteLlmModelInfo = await context.globalState.get("liteLlmModelInfo")
+		const caretModelId = await context.globalState.get("caretModelId") // caret
+		const caretModelInfo = await context.globalState.get("caretModelInfo") // caret
 		const requestyModelId = await context.globalState.get("requestyModelId")
 		const requestyModelInfo = await context.globalState.get("requestyModelInfo")
 		const togetherModelId = await context.globalState.get("togetherModelId")
@@ -251,6 +255,14 @@ export async function migrateLegacyApiConfigurationToModeSpecific(context: vscod
 				await context.globalState.update("planModeLiteLlmModelInfo", liteLlmModelInfo)
 				await context.globalState.update("actModeLiteLlmModelInfo", liteLlmModelInfo)
 			}
+			if (caretModelId !== undefined) {
+				await context.globalState.update("planModeCaretModelId", caretModelId)
+				await context.globalState.update("actModeCaretModelId", caretModelId)
+			}
+			if (caretModelInfo !== undefined) {
+				await context.globalState.update("planModeCaretModelInfo", caretModelInfo)
+				await context.globalState.update("actModeCaretModelInfo", caretModelInfo)
+			}
 			if (requestyModelId !== undefined) {
 				await context.globalState.update("planModeRequestyModelId", requestyModelId)
 				await context.globalState.update("actModeRequestyModelId", requestyModelId)
@@ -335,6 +347,12 @@ export async function migrateLegacyApiConfigurationToModeSpecific(context: vscod
 			}
 			if (liteLlmModelInfo !== undefined) {
 				await context.globalState.update("planModeLiteLlmModelInfo", liteLlmModelInfo)
+			}
+			if (caretModelId !== undefined) {
+				await context.globalState.update("planModeCaretModelId", caretModelId)
+			}
+			if (caretModelInfo !== undefined) {
+				await context.globalState.update("planModeCaretModelInfo", caretModelInfo)
 			}
 			if (requestyModelId !== undefined) {
 				await context.globalState.update("planModeRequestyModelId", requestyModelId)
@@ -433,6 +451,12 @@ export async function migrateLegacyApiConfigurationToModeSpecific(context: vscod
 			if (liteLlmModelInfo !== undefined) {
 				await context.globalState.update("actModeLiteLlmModelInfo", liteLlmModelInfo)
 			}
+			if (caretModelId !== undefined) {
+				await context.globalState.update("actModeCaretModelId", caretModelId)
+			}
+			if (caretModelInfo !== undefined) {
+				await context.globalState.update("actModeCaretModelInfo", caretModelInfo)
+			}
 			if (requestyModelId !== undefined) {
 				await context.globalState.update("actModeRequestyModelId", requestyModelId)
 			}
@@ -476,6 +500,8 @@ export async function migrateLegacyApiConfigurationToModeSpecific(context: vscod
 		await context.globalState.update("lmStudioModelId", undefined)
 		await context.globalState.update("liteLlmModelId", undefined)
 		await context.globalState.update("liteLlmModelInfo", undefined)
+		await context.globalState.update("caretModelId", undefined) // caret
+		await context.globalState.update("caretModelInfo", undefined) // caret
 		await context.globalState.update("requestyModelId", undefined)
 		await context.globalState.update("requestyModelInfo", undefined)
 		await context.globalState.update("togetherModelId", undefined)
@@ -530,6 +556,7 @@ export async function migrateWelcomeViewCompleted(context: vscode.ExtensionConte
 						config.actModeOllamaModelId,
 						config.actModeLmStudioModelId,
 						config.liteLlmApiKey,
+						config.caretApiKey, // caret
 						config.geminiApiKey,
 						config.openAiNativeApiKey,
 						config.deepSeekApiKey,

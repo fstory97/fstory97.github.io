@@ -34,6 +34,7 @@ export async function readSecretsFromDisk(context: ExtensionContext): Promise<Se
 		mistralApiKey,
 		fireworksApiKey,
 		liteLlmApiKey,
+		caretApiKey,
 		asksageApiKey,
 		xaiApiKey,
 		sambanovaApiKey,
@@ -70,6 +71,7 @@ export async function readSecretsFromDisk(context: ExtensionContext): Promise<Se
 		context.secrets.get("mistralApiKey") as Promise<string | undefined>,
 		context.secrets.get("fireworksApiKey") as Promise<string | undefined>,
 		context.secrets.get("liteLlmApiKey") as Promise<string | undefined>,
+		context.secrets.get("caretApiKey") as Promise<string | undefined>, // caret
 		context.secrets.get("asksageApiKey") as Promise<string | undefined>,
 		context.secrets.get("xaiApiKey") as Promise<string | undefined>,
 		context.secrets.get("sambanovaApiKey") as Promise<string | undefined>,
@@ -112,6 +114,7 @@ export async function readSecretsFromDisk(context: ExtensionContext): Promise<Se
 		asksageApiKey,
 		fireworksApiKey,
 		liteLlmApiKey,
+		caretApiKey,
 		doubaoApiKey,
 		mistralApiKey,
 		openAiNativeApiKey,
@@ -176,6 +179,8 @@ export async function readGlobalStateFromDisk(context: ExtensionContext): Promis
 	const browserSettings = context.globalState.get("browserSettings") as BrowserSettings | undefined
 	const liteLlmBaseUrl = context.globalState.get("liteLlmBaseUrl") as string | undefined
 	const liteLlmUsePromptCache = context.globalState.get("liteLlmUsePromptCache") as boolean | undefined
+	const caretBaseUrl = context.globalState.get("caretBaseUrl") as string | undefined
+	const caretUsePromptCache = context.globalState.get("caretUsePromptCache") as boolean | undefined
 	const fireworksModelMaxCompletionTokens = context.globalState.get("fireworksModelMaxCompletionTokens") as number | undefined
 	const fireworksModelMaxTokens = context.globalState.get("fireworksModelMaxTokens") as number | undefined
 	const userInfo = context.globalState.get("userInfo") as UserInfo | undefined
@@ -240,6 +245,8 @@ export async function readGlobalStateFromDisk(context: ExtensionContext): Promis
 	const planModeLmStudioModelId = context.globalState.get("planModeLmStudioModelId") as string | undefined
 	const planModeLiteLlmModelId = context.globalState.get("planModeLiteLlmModelId") as string | undefined
 	const planModeLiteLlmModelInfo = context.globalState.get("planModeLiteLlmModelInfo") as ModelInfo | undefined
+	const planModeCaretModelId = context.globalState.get("planModeCaretModelId") as string | undefined
+	const planModeCaretModelInfo = context.globalState.get("planModeCaretModelInfo") as ModelInfo | undefined
 	const planModeRequestyModelId = context.globalState.get("planModeRequestyModelId") as string | undefined
 	const planModeRequestyModelInfo = context.globalState.get("planModeRequestyModelInfo") as ModelInfo | undefined
 	const planModeTogetherModelId = context.globalState.get("planModeTogetherModelId") as string | undefined
@@ -275,6 +282,8 @@ export async function readGlobalStateFromDisk(context: ExtensionContext): Promis
 	const actModeLmStudioModelId = context.globalState.get("actModeLmStudioModelId") as string | undefined
 	const actModeLiteLlmModelId = context.globalState.get("actModeLiteLlmModelId") as string | undefined
 	const actModeLiteLlmModelInfo = context.globalState.get("actModeLiteLlmModelInfo") as ModelInfo | undefined
+	const actModeCaretModelId = context.globalState.get("actModeCaretModelId") as string | undefined // caret
+	const actModeCaretModelInfo = context.globalState.get("actModeCaretModelInfo") as ModelInfo | undefined // caret
 	const actModeRequestyModelId = context.globalState.get("actModeRequestyModelId") as string | undefined
 	const actModeRequestyModelInfo = context.globalState.get("actModeRequestyModelInfo") as ModelInfo | undefined
 	const actModeTogetherModelId = context.globalState.get("actModeTogetherModelId") as string | undefined
@@ -345,6 +354,8 @@ export async function readGlobalStateFromDisk(context: ExtensionContext): Promis
 		openRouterProviderSorting,
 		liteLlmBaseUrl,
 		liteLlmUsePromptCache,
+		caretBaseUrl, // caret
+		caretUsePromptCache, // caret
 		fireworksModelMaxCompletionTokens,
 		fireworksModelMaxTokens,
 		asksageApiUrl,
@@ -371,6 +382,8 @@ export async function readGlobalStateFromDisk(context: ExtensionContext): Promis
 		planModeLmStudioModelId,
 		planModeLiteLlmModelId,
 		planModeLiteLlmModelInfo,
+		planModeCaretModelId, // caret
+		planModeCaretModelInfo, // caret
 		planModeRequestyModelId,
 		planModeRequestyModelInfo,
 		planModeTogetherModelId,
@@ -402,6 +415,8 @@ export async function readGlobalStateFromDisk(context: ExtensionContext): Promis
 		actModeLmStudioModelId,
 		actModeLiteLlmModelId,
 		actModeLiteLlmModelInfo,
+		actModeCaretModelId, // caret
+		actModeCaretModelInfo, // caret
 		actModeRequestyModelId,
 		actModeRequestyModelInfo,
 		actModeTogetherModelId,
