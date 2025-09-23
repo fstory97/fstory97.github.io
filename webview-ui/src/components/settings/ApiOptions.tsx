@@ -18,8 +18,7 @@ import { AnthropicProvider } from "./providers/AnthropicProvider"
 import { AskSageProvider } from "./providers/AskSageProvider"
 import { BasetenProvider } from "./providers/BasetenProvider"
 import { BedrockProvider } from "./providers/BedrockProvider"
-// CARET MODIFICATION: Add Caret Provider
-import CaretProvider from "./providers/CaretProvider"
+import { CaretProvider } from "./providers/CaretProvider"
 import { CerebrasProvider } from "./providers/CerebrasProvider"
 import { ClaudeCodeProvider } from "./providers/ClaudeCodeProvider"
 // CARET MODIFICATION: Hide Cline Provider and use Caret Provider instead
@@ -383,9 +382,6 @@ const ApiOptions = ({ showModelOptions, apiErrorMessage, modelIdErrorMessage, is
 				<AnthropicProvider currentMode={currentMode} isPopup={isPopup} showModelOptions={showModelOptions} />
 			)}
 
-			{/* CARET MODIFICATION: Add Caret Provider UI */}
-			{apiConfiguration && selectedProvider === "caret" && <CaretProvider />}
-
 			{apiConfiguration && selectedProvider === "claude-code" && (
 				<ClaudeCodeProvider currentMode={currentMode} isPopup={isPopup} showModelOptions={showModelOptions} />
 			)}
@@ -464,6 +460,10 @@ const ApiOptions = ({ showModelOptions, apiErrorMessage, modelIdErrorMessage, is
 			)}
 			{apiConfiguration && selectedProvider === "litellm" && (
 				<LiteLlmProvider currentMode={currentMode} isPopup={isPopup} showModelOptions={showModelOptions} />
+			)}
+
+			{apiConfiguration && selectedProvider === "caret" && (
+				<CaretProvider currentMode={currentMode} isPopup={isPopup} showModelOptions={showModelOptions} /> // caret
 			)}
 
 			{apiConfiguration && selectedProvider === "lmstudio" && (
