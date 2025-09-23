@@ -1675,7 +1675,7 @@ export class Task {
 				? `# Preferred Language\n\nSpeak in ${preferredLanguage}.`
 				: ""
 
-	3ㅈ		const { globalToggles, localToggles: clineLocalToggles } = await refreshClineRulesToggles(
+		const { globalToggles, localToggles: clineLocalToggles } = await refreshClineRulesToggles(
 			this.controller,
 			this.cwd,
 		)
