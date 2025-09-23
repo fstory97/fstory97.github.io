@@ -14,7 +14,8 @@ import { loadProtoDescriptorSet } from "./proto-utils.mjs"
 
 const require = createRequire(import.meta.url)
 // CARET MODIFICATION: Use downloaded protoc instead of grpc-tools version for Windows compatibility
-const PROTOC = path.resolve("protoc-temp/bin/protoc.exe")
+const isWindows = process.platform === "win32"
+const PROTOC = path.resolve(isWindows ? "protoc-temp/bin/protoc.exe" : "/opt/homebrew/bin/protoc")
 
 const PROTO_DIR = path.resolve("proto")
 const TS_OUT_DIR = path.resolve("src/shared/proto")
@@ -22,7 +23,6 @@ const GRPC_JS_OUT_DIR = path.resolve("src/generated/grpc-js")
 const NICE_JS_OUT_DIR = path.resolve("src/generated/nice-grpc")
 const DESCRIPTOR_OUT_DIR = path.resolve("dist-standalone/proto")
 
-const isWindows = process.platform === "win32"
 const TS_PROTO_PLUGIN = isWindows
 	? path.resolve("node_modules/.bin/protoc-gen-ts_proto.cmd") // Use the .bin directory path for Windows
 	: require.resolve("ts-proto/protoc-gen-ts_proto")
