@@ -230,6 +230,7 @@ System prompt optimization provides more efficient AI responses.
 2. **Feature Suggestions** → Share new ideas
 3. **Code Contributions** → Fork then Pull Request
 4. **Document Translation** → Participate in other language translations
+5. **Contributor Guide** → Read [Repository Guidelines](./AGENTS.md) before opening a PR
 
 ## Support & Community
 

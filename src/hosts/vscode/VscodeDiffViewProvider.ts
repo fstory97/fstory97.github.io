@@ -69,7 +69,8 @@ export class VscodeDiffViewProvider extends DiffViewProvider {
 						query: Buffer.from(this.originalContent ?? "").toString("base64"),
 					}),
 					uri,
-					`${fileName}: ${fileExists ? "Original ↔ Cline's Changes" : "New File"} (Editable)`,
+					// CARET MODIFICATION: Changed "Cline's Changes" to "Caret's Changes" for correct branding.
+					`${fileName}: ${fileExists ? "Original ↔ Caret's Changes" : "New File"} (Editable)`,
 					{
 						preserveFocus: true,
 					},

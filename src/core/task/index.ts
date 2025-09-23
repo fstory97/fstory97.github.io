@@ -1675,17 +1675,23 @@ export class Task {
 				? `# Preferred Language\n\nSpeak in ${preferredLanguage}.`
 				: ""
 
-		const { globalToggles, localToggles } = await refreshClineRulesToggles(this.controller, this.cwd)
+	3ㅈ		const { globalToggles, localToggles: clineLocalToggles } = await refreshClineRulesToggles(
+			this.controller,
+			this.cwd,
+		)
 		const { caretLocalToggles, windsurfLocalToggles, cursorLocalToggles } = await refreshExternalRulesToggles(
 			this.controller,
 			this.cwd,
+			{
+			clineLocalToggles,
+			},
 		)
 
 		const globalClineRulesFilePath = await ensureRulesDirectoryExists()
 		const globalClineRulesFileInstructions = await getGlobalClineRules(globalClineRulesFilePath, globalToggles)
 		// CARET MODIFICATION: Rule priority system (.caretrules > .clinerules > .cursorrules > .windsurfrules)
 		const localCaretRulesFileInstructions = await getLocalCaretRules(this.cwd, caretLocalToggles)
-		const localClineRulesFileInstructions = await getLocalClineRules(this.cwd, localToggles)
+		const localClineRulesFileInstructions = await getLocalClineRules(this.cwd, clineLocalToggles)
 		const [localCursorRulesFileInstructions, localCursorRulesDirInstructions] = await getLocalCursorRules(
 			this.cwd,
 			cursorLocalToggles,
@@ -1719,7 +1725,7 @@ export class Task {
 			focusChainSettings: this.focusChainSettings,
 			globalClineRulesFileInstructions,
 			// CARET MODIFICATION: Use priority system - only pass the active rule instead of all rules
-			localClineRulesFileInstructions: activeRuleInstructions || localClineRulesFileInstructions,
+			localClineRulesFileInstructions: activeRuleInstructions,
 			localCursorRulesFileInstructions: undefined, // handled by priority system
 			localCursorRulesDirInstructions: undefined, // handled by priority system
 			localWindsurfRulesFileInstructions: undefined, // handled by priority system

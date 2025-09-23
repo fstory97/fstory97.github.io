@@ -33,7 +33,7 @@ const AboutSection = ({ version, renderSectionHeader }: AboutSectionProps) => {
 						{t("about.documentation_detailed", "settings")}
 					</VSCodeButton>
 				</div>
-				<Announcement hideAnnouncement={() => setShowAnnouncement(false)} />
+				<Announcement hideAnnouncement={() => setShowAnnouncement(false)} showCloseButton={false} />
 				<div className="mt-6 pt-4">
 					<CaretFooter />
 				</div>

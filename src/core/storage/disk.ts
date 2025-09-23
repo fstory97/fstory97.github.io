@@ -5,9 +5,30 @@ import { ClineMessage } from "@shared/ExtensionMessage"
 import { HistoryItem } from "@shared/HistoryItem"
 import { fileExistsAtPath } from "@utils/fs"
 import fs from "fs/promises"
+import fsSync from "fs"
 import os from "os"
 import * as path from "path"
 import * as vscode from "vscode"
+
+const resolveBrandSlug = () => {
+	try {
+		const packageJsonPath = path.join(process.cwd(), "package.json")
+		if (!fsSync.existsSync(packageJsonPath)) {
+			return "caret"
+		}
+		const packageJson = JSON.parse(fsSync.readFileSync(packageJsonPath, "utf8")) as { name?: string }
+		const rawName = packageJson?.name ?? "caret"
+		const normalized = String(rawName).toLowerCase().replace(/[^a-z0-9]/g, "")
+		return normalized || "caret"
+	} catch {
+		return "caret"
+	}
+}
+
+const BRAND_SLUG = resolveBrandSlug()
+const BRAND_RULES_DIR = `.${BRAND_SLUG}rules`
+const BRAND_WORKFLOWS_DIR = `${BRAND_RULES_DIR}/workflows`
+const BRAND_MCP_SETTINGS_FILE = `${BRAND_SLUG}_mcp_settings.json`
 
 export const GlobalFileNames = {
 	apiConversationHistory: "api_conversation_history.json",
@@ -17,10 +38,10 @@ export const GlobalFileNames = {
 	vercelAiGatewayModels: "vercel_ai_gateway_models.json",
 	groqModels: "groq_models.json",
 	basetenModels: "baseten_models.json",
-	mcpSettings: "caret_mcp_settings.json",
-	caretRules: ".caretrules", // CARET MODIFICATION: Added .caretrules support for rule priority system
-	clineRules: ".caretrules",
-	workflows: ".caretrules/workflows",
+	mcpSettings: BRAND_MCP_SETTINGS_FILE,
+	caretRules: BRAND_RULES_DIR, // CARET MODIFICATION: Added .caretrules support for rule priority system
+	clineRules: ".clinerules",
+	workflows: BRAND_WORKFLOWS_DIR,
 	cursorRulesDir: ".cursor/rules",
 	cursorRulesFile: ".cursorrules",
 	windsurfRules: ".windsurfrules",

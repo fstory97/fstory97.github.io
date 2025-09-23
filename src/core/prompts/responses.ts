@@ -1,6 +1,7 @@
 import { Anthropic } from "@anthropic-ai/sdk"
 import * as diff from "diff"
 import * as path from "path"
+import { GlobalFileNames } from "@core/storage/disk"
 import { Mode } from "@/shared/storage/types"
 import { ClineIgnoreController, LOCK_TEXT_SYMBOL } from "../ignore/ClineIgnoreController"
 
@@ -251,10 +252,10 @@ Otherwise, if you have not completed the task and do not need additional informa
 
 	// CARET MODIFICATION: Added .caretrules support for rule priority system
 	caretRulesLocalFileInstructions: (cwd: string, content: string) =>
-		`# .caretrules\n\nThe following is provided by a root-level .caretrules file where the user has specified instructions for this working directory (${cwd.toPosix()})\n\n${content}`,
+		`# ${GlobalFileNames.caretRules}\n\nThe following is provided by a root-level ${GlobalFileNames.caretRules} file where the user has specified instructions for this working directory (${cwd.toPosix()})\n\n${content}`,
 
 	caretRulesLocalDirectoryInstructions: (cwd: string, content: string) =>
-		`# .caretrules/\n\nThe following is provided by a root-level .caretrules/ directory where the user has specified instructions for this working directory (${cwd.toPosix()})\n\n${content}`,
+		`# ${GlobalFileNames.caretRules}/\n\nThe following is provided by a root-level ${GlobalFileNames.caretRules}/ directory where the user has specified instructions for this working directory (${cwd.toPosix()})\n\n${content}`,
 
 	windsurfRulesLocalFileInstructions: (cwd: string, content: string) =>
 		`# .windsurfrules\n\nThe following is provided by a root-level .windsurfrules file where the user has specified instructions for this working directory (${cwd.toPosix()})\n\n${content}`,
