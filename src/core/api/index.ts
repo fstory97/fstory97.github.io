@@ -8,6 +8,7 @@ import { AnthropicHandler } from "./providers/anthropic"
 import { AskSageHandler } from "./providers/asksage"
 import { BasetenHandler } from "./providers/baseten"
 import { AwsBedrockHandler } from "./providers/bedrock"
+import { CaretHandler } from "./providers/caret"
 import { CerebrasHandler } from "./providers/cerebras"
 import { ClaudeCodeHandler } from "./providers/claude-code"
 import { ClineHandler } from "./providers/cline"
@@ -263,6 +264,18 @@ function createHandlerForProvider(
 				openRouterModelId: mode === "plan" ? options.planModeOpenRouterModelId : options.actModeOpenRouterModelId,
 				openRouterModelInfo: mode === "plan" ? options.planModeOpenRouterModelInfo : options.actModeOpenRouterModelInfo,
 			})
+		case "caret": // caret
+			return new CaretHandler({
+				onRetryAttempt: options.onRetryAttempt,
+				caretApiKey: options.caretApiKey,
+				caretBaseUrl: options.caretBaseUrl,
+				caretModelId: mode === "plan" ? options.planModeCaretModelId : options.actModeCaretModelId,
+				caretModelInfo: mode === "plan" ? options.planModeCaretModelInfo : options.actModeCaretModelInfo,
+				thinkingBudgetTokens:
+					mode === "plan" ? options.planModeThinkingBudgetTokens : options.actModeThinkingBudgetTokens,
+				caretUsePromptCache: options.caretUsePromptCache,
+				ulid: options.ulid,
+			})
 		case "litellm":
 			return new LiteLlmHandler({
 				onRetryAttempt: options.onRetryAttempt,
@@ -389,19 +402,6 @@ function createHandlerForProvider(
 				zaiApiLine: options.zaiApiLine,
 				zaiApiKey: options.zaiApiKey,
 				apiModelId: mode === "plan" ? options.planModeApiModelId : options.actModeApiModelId,
-			})
-		// CARET MODIFICATION: Add CaretApiProvider support
-		case "caret":
-			return new CaretApiProvider({
-				onRetryAttempt: options.onRetryAttempt,
-				ulid: options.ulid,
-				reasoningEffort: mode === "plan" ? options.planModeReasoningEffort : options.actModeReasoningEffort,
-				thinkingBudgetTokens:
-					mode === "plan" ? options.planModeThinkingBudgetTokens : options.actModeThinkingBudgetTokens,
-				openRouterProviderSorting: options.openRouterProviderSorting,
-				openRouterModelId: mode === "plan" ? options.planModeOpenRouterModelId : options.actModeOpenRouterModelId,
-				openRouterModelInfo: mode === "plan" ? options.planModeOpenRouterModelInfo : options.actModeOpenRouterModelInfo,
-				caretApiKey: options.caretApiKey,
 			})
 		default:
 			return new AnthropicHandler({
