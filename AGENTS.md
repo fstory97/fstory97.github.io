@@ -14,3 +14,6 @@ Vitest powers unit tests (`*.test.ts`) in both `src/` and `webview-ui/src/`. Int
 
 ## Commit & Pull Request Guidelines
 Commit messages follow Conventional Commits (e.g., `feat(extension): add MCP registry cache`) with subjects under 72 characters and issue references like `#123` when relevant. Pull requests should summarize intent, list validation commands, and include artifacts (screenshots, recordings) for UI updates. Confirm lint, type-check, and targeted tests locally before requesting review.
+
+## B2B Branding Workflow
+When preparing a Caret → CodeCenter (or other brand) conversion, run the flow from `caret-b2b/tools/brand-converter.js` and document the session in `caret-b2b/worklog/`. If rules or guidelines change, update the matching entries in `.caretrules/workflows/` and this `AGENTS.md` together (and mirror the note in `CLAUDE.md` when access is available) so both AI and human contributors stay aligned.
