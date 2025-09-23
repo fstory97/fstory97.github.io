@@ -3,6 +3,7 @@
 import chalk from "chalk"
 import { execSync } from "child_process"
 import * as fs from "fs/promises"
+import fsSync from "fs"
 import { globby } from "globby"
 import { createRequire } from "module"
 import os from "os"
@@ -13,8 +14,21 @@ import { main as generateProtoBusSetup } from "./generate-protobus-setup.mjs"
 import { loadProtoDescriptorSet } from "./proto-utils.mjs"
 
 const require = createRequire(import.meta.url)
-// CARET MODIFICATION: Use downloaded protoc instead of grpc-tools version for Windows compatibility
-const PROTOC = path.resolve("protoc-temp/bin/protoc.exe")
+// CARET MODIFICATION: Use downloaded protoc when available (Windows .exe) and fall back on grpc-tools or system protoc.
+let PROTOC = path.resolve("protoc-temp/bin/protoc.exe")
+if (process.platform !== "win32") {
+	const localProtoc = path.resolve("protoc-temp/bin/protoc")
+	if (fsSync.existsSync(localProtoc)) {
+		PROTOC = localProtoc
+	} else {
+		const grpcToolsProtoc = path.resolve("node_modules/grpc-tools/bin/protoc")
+		if (fsSync.existsSync(grpcToolsProtoc)) {
+			PROTOC = grpcToolsProtoc
+		} else {
+			PROTOC = "protoc"
+		}
+	}
+}
 
 const PROTO_DIR = path.resolve("proto")
 const TS_OUT_DIR = path.resolve("src/shared/proto")
