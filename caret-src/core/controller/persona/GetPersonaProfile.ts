@@ -3,7 +3,7 @@
 import { PersonaStorage } from "@caret/services/persona/persona-storage"
 import { PersonaProfile } from "@shared/proto/caret/persona"
 import type { EmptyRequest } from "@shared/proto/cline/common"
-import type { Controller } from "../index"
+import type { Controller } from "@core/controller"
 
 /**
  * Handles getting the current persona profile

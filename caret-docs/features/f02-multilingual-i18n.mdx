@@ -372,9 +372,62 @@ const providerOptions = useMemo(() => [
 
 이 패턴을 통해 언어 설정 변경 시 UI가 즉시 올바른 번역으로 업데이트됩니다.
 
-## 🔧 **최근 수정 사항 (2025-09-16)**
+## 🔧 **최근 수정 사항 (2025-09-18)**
 
-### **Provider i18n 통합 작업 완료**
+### **Announcement 컴포넌트 동적화 및 버전 표시 개선**
+
+1. **Announcement.tsx 컴포넌트 개선**
+   - ✅ **버전 표시**: `minorVersion` 대신 전체 `version` 사용 (0.2.21 완전 표시)
+   - ✅ **동적 공지사항**: 하드코딩된 항목 대신 i18n 파일에서 동적으로 로드
+   - ✅ **유연한 구조**: 공지사항 개수에 관계없이 자동으로 처리
+   - ✅ **i18n 키 네이밍**: `.desc` → `-desc` 형식으로 수정 (i18n 계층구조 충돌 방지)
+
+2. **4개국어 CHANGELOG.md 통일**
+   - ✅ **v0.2.21 항목**: 한국어 버전 기준으로 영어, 일본어, 중국어 버전 모두 통일
+   - ✅ **페르소나 시스템 수정**: Bug Fix, Feature Enhancement, UX Improvement 구조로 일관성 확보
+   - ✅ **세부 설명**: `asset:/` URI 처리 문제, 초기 설정 플로우 변경, UI 개선 내용 포함
+
+3. **4개국어 announcement.json 구조화**
+   - ✅ **구조 통일**: `header`, `previousHeader`, `bullets.current/previous` 구조로 모든 언어 통일
+   - ✅ **키 네이밍**: `1-desc`, `2-desc` 형식으로 i18n 계층구조 문제 해결
+   - ✅ **내용 동기화**: 한국어 버전 기준으로 자연스러운 번역 제공
+
+### **i18n 키 네이밍 규칙 수정**
+
+**⚠️ 중요한 발견**: i18n 키에서 `.`(점)은 계층구조로 인식되어 문제 발생
+
+**❌ 문제가 있는 패턴:**
+```json
+{
+  "bullets": {
+    "current": {
+      "1": "제목",
+      "1.desc": "설명"  // 이것은 1 객체의 desc 속성으로 인식됨
+    }
+  }
+}
+```
+
+**✅ 올바른 패턴:**
+```json
+{
+  "bullets": {
+    "current": {
+      "1": "제목",
+      "1-desc": "설명"  // 별도의 키로 인식됨
+    }
+  }
+}
+```
+
+**코드 호출 예시:**
+```typescript
+// ✅ 올바른 사용
+const title = t(`bullets.current.${i}`, "announcement")
+const desc = t(`bullets.current.${i}-desc`, "announcement")
+```
+
+### **이전 수정 사항 (2025-09-16)**
 
 1. **OpenRouter Provider 통합**
    - ✅ `openRouterProvider.*` → `providers.openrouter.*` 통합 완료

@@ -121,7 +121,12 @@ async function generateVscodeProtobusServers(protobusServices) {
 		imports.push(`// ${domain} Service`)
 		servers.push(`const ${serviceName}Handlers: serviceTypes.${serviceName}Handlers = {`)
 		for (const [rpcName, _rpc] of Object.entries(def.service)) {
-			imports.push(`import { ${rpcName} } from "@core/controller/${dir}/${rpcName}"`)
+			// CARET MODIFICATION: Use @caret path for PersonaService
+			const importPath =
+				serviceName === "PersonaService"
+					? `@caret/core/controller/${dir}/${rpcName}`
+					: `@core/controller/${dir}/${rpcName}`
+			imports.push(`import { ${rpcName} } from "${importPath}"`)
 			servers.push(`    ${rpcName}: ${rpcName},`)
 		}
 		servers.push(`} \n`)
@@ -162,7 +167,10 @@ async function generateStandaloneProtobusServiceSetup(protobusServices) {
 		const serviceNamespace = name === "PersonaService" ? "caret" : "cline"
 		handlerSetup.push(`    server.addService(${serviceNamespace}.${name}Service, {`)
 		for (const [rpcName, rpc] of Object.entries(def.service)) {
-			imports.push(`import { ${rpcName} } from "@core/controller/${dir}/${rpcName}"`)
+			// CARET MODIFICATION: Use @caret path for PersonaService
+			const importPath =
+				name === "PersonaService" ? `@caret/core/controller/${dir}/${rpcName}` : `@core/controller/${dir}/${rpcName}`
+			imports.push(`import { ${rpcName} } from "${importPath}"`)
 			const caretRequestTypes = [
 				"PersonaProfile",
 				"UpdatePersonaRequest",
@@ -226,6 +234,10 @@ function getDomainName(serviceName) {
 	return serviceName.replace(/Service$/, "")
 }
 function getDirName(serviceName) {
+	// CARET MODIFICATION: Handle CaretSystemService specifically to avoid incorrect path generation.
+	if (serviceName === "CaretSystemService") {
+		return "persona" // Place handlers in the 'persona' directory for now.
+	}
 	const domain = getDomainName(serviceName)
 	return domain.charAt(0).toLowerCase() + domain.slice(1)
 }

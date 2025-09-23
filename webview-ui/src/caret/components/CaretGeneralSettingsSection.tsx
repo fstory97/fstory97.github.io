@@ -1,4 +1,7 @@
 // CARET MODIFICATION: Copy-and-Modify from caret-main - General Settings Section with i18n
+
+// CARET MODIFICATION: Import feature configuration for conditional rendering
+import { getCurrentFeatureConfig } from "@shared/CaretBrandConfig"
 import { VSCodeCheckbox, VSCodeLink } from "@vscode/webview-ui-toolkit/react"
 import React from "react"
 import Section from "@/components/settings/Section"
@@ -19,6 +22,8 @@ const CaretGeneralSettingsSection: React.FC<CaretGeneralSettingsSectionProps> = 
 	// CARET MODIFICATION: Add telemetry setting with i18n, modeSystem, and persona system restored
 	const { telemetrySetting, modeSystem, enablePersonaSystem, setEnablePersonaSystem } = useExtensionState()
 	const { currentLanguage } = useCaretI18n()
+	// CARET MODIFICATION: Get feature configuration
+	const brandConfig = getCurrentFeatureConfig()
 
 	return (
 		<div className="flex flex-col gap-4">
@@ -35,8 +40,8 @@ const CaretGeneralSettingsSection: React.FC<CaretGeneralSettingsSectionProps> = 
 					<UnifiedLanguageSetting />
 				</div>
 
-				{/* CARET MODIFICATION: 페르소나 설정 - Caret 모드일 때만 표시 */}
-				{modeSystem === "caret" && (
+				{/* CARET MODIFICATION: 페르소나 설정 - Caret 모드이고 브랜드 설정에서 허용할 때만 표시 */}
+				{brandConfig.showPersonaSettings && modeSystem === "caret" && (
 					<div className="mb-6">
 						<div className="mb-[5px]">
 							<VSCodeCheckbox
@@ -54,10 +59,10 @@ const CaretGeneralSettingsSection: React.FC<CaretGeneralSettingsSectionProps> = 
 
 									console.log("[PERSONA-DEBUG] setEnablePersonaSystem called with:", checked)
 								}}>
-								{t("persona.enablePersonaSystem", "common")}
+								{t("persona.enablePersonaSystem", "settings")}
 							</VSCodeCheckbox>
 							<p className="text-xs mt-[5px] text-[var(--vscode-descriptionForeground)]">
-								{t("persona.description", "common")}
+								{t("persona.description", "settings")}
 							</p>
 						</div>
 						{/* TODO: 페르소나 선택 UI 추가 */}

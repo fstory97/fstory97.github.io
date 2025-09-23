@@ -366,9 +366,7 @@ const BrowserSessionRow = memo((props: BrowserSessionRowProps) => {
 					<span className="codicon codicon-inspect" style={browserIconStyle}></span>
 				)}
 				<span style={approveTextStyle}>
-					{isAutoApproved
-						? t("chat.caretIsUsingBrowser", "Caret is using the browser:")
-						: t("caretWantsToUseBrowser", "browser")}
+					{isAutoApproved ? t("caretIsUsingBrowser", "common") : t("caretWantsToUseBrowser", "browser")}
 				</span>
 			</div>
 			<div
@@ -481,7 +479,7 @@ const BrowserSessionRow = memo((props: BrowserSessionRowProps) => {
 						<VSCodeButton
 							disabled={currentPageIndex === pages.length - 1 || isBrowsing}
 							onClick={() => setCurrentPageIndex((i) => i + 1)}>
-							{t("browser.paginationNext", "Next")}
+							{t("paginationNext", "browser")}
 						</VSCodeButton>
 					</div>
 				</div>
@@ -590,17 +588,17 @@ const BrowserActionBox = ({ action, coordinate, text }: { action: BrowserAction;
 	const getBrowserActionText = (action: BrowserAction, coordinate?: string, text?: string) => {
 		switch (action) {
 			case "launch":
-				return t("browser.actionLaunch", "Launch browser at {{text}}", { text: text || "" })
+				return t("browser.action.launch", "settings", { text: text || "" })
 			case "click":
-				return t("browser.actionClick", "Click ({{coordinate}})", { coordinate: coordinate?.replace(",", ", ") || "" })
+				return t("browser.action.click", "settings", { coordinate: coordinate?.replace(",", ", ") || "" })
 			case "type":
-				return t("browser.actionType", 'Type "{{text}}"', { text: text || "" })
+				return t("browser.action.type", "settings", { text: text || "" })
 			case "scroll_down":
-				return t("browser.actionScrollDown", "Scroll down")
+				return t("browser.action.scrollDown", "settings")
 			case "scroll_up":
-				return t("browser.actionScrollUp", "Scroll up")
+				return t("browser.action.scrollUp", "settings")
 			case "close":
-				return t("browser.actionClose", "Close browser")
+				return t("browser.action.close", "settings")
 			default:
 				return action
 		}
@@ -610,7 +608,7 @@ const BrowserActionBox = ({ action, coordinate, text }: { action: BrowserAction;
 			<div style={browserActionBoxContainerInnerStyle}>
 				<div style={browseActionRowContainerStyle}>
 					<span style={browseActionRowStyle}>
-						<span style={browseActionTextStyle}>{t("browser.browseAction", "Browse Action: ")}</span>
+						<span style={browseActionTextStyle}>{t("browseActionLabel", "settings")}: </span>
 						{getBrowserActionText(action, coordinate, text)}
 					</span>
 				</div>

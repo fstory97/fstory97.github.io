@@ -36,48 +36,42 @@ The latestAnnouncementId is now automatically generated from the extension's pac
 Patch releases (3.19.1 → 3.19.2) will not trigger new announcements.
 */
 const Announcement = ({ hideAnnouncement }: AnnouncementProps) => {
-	const minorVersion = packageJson.version.split(".").slice(0, 2).join(".") // 2.0.0 -> 2.0
+	const version = packageJson.version // Use full version for better visibility
+
+	// Dynamically get current bullet points
+	const getCurrentBullets = () => {
+		const bullets = []
+		let i = 1
+		while (true) {
+			const title = t(`bullets.current.${i}`, "announcement", { fallback: "" })
+			const desc = t(`bullets.current.${i}-desc`, "announcement", { fallback: "" })
+
+			if (!title || title === `bullets.current.${i}`) break
+
+			bullets.push({ title, desc })
+			i++
+		}
+		return bullets
+	}
+
+	const currentBullets = getCurrentBullets()
+
 	return (
 		<div style={containerStyle}>
 			<VSCodeButton appearance="icon" data-testid="close-button" onClick={hideAnnouncement} style={closeIconStyle}>
 				<span className="codicon codicon-close"></span>
 			</VSCodeButton>
-			<h3 style={h3TitleStyle}>{t("announcement.newVersion", "common", { version: minorVersion })}</h3>
+			<h3 style={h3TitleStyle}>{t("header", "announcement", { version })}</h3>
 			<ul style={ulStyle}>
-				<li>
-					<b>{t("bullets.current.1", "announcement")}:</b> {t("bullets.current.1-desc", "announcement")}
-				</li>
-				<li>
-					<b>{t("bullets.current.2", "announcement")}:</b> {t("bullets.current.2-desc", "announcement")}
-				</li>
-				<li>
-					<b>{t("bullets.current.3", "announcement")}:</b> {t("bullets.current.3-desc", "announcement")}
-				</li>
-				<li>
-					<b>{t("bullets.current.4", "announcement")}:</b>{" "}
-					<VSCodeLink href="https://docs.caret.team/ko/getting-started/what-is-caret" style={linkStyle}>
-						{t("links.korean", "announcement")}
-					</VSCodeLink>
-					{" / "}
-					<VSCodeLink href="https://docs.caret.team/ja/getting-started/what-is-caret" style={linkStyle}>
-						{t("links.japanese", "announcement")}
-					</VSCodeLink>
-					{" / "}
-					<VSCodeLink href="https://docs.caret.team/zh/getting-started/what-is-caret" style={linkStyle}>
-						{t("links.chinese", "announcement")}
-					</VSCodeLink>
-					{" / "}
-					<VSCodeLink href="https://docs.caret.team/en/getting-started/what-is-caret" style={linkStyle}>
-						{t("links.english", "announcement")}
-					</VSCodeLink>
-				</li>
-				<li>
-					<b>{t("bullets.current.5", "announcement")}:</b> {t("bullets.current.5-desc", "announcement")}
-				</li>
+				{currentBullets.map((bullet, index) => (
+					<li key={index + 1}>
+						<b>{bullet.title}:</b> {bullet.desc}
+					</li>
+				))}
 			</ul>
 			<Accordion className="pl-0">
 				<AccordionItem
-					aria-label={t("announcement.previousUpdates", "common")}
+					aria-label={t("previousHeader", "announcement")}
 					classNames={{
 						trigger: "bg-transparent border-0 pl-0 pb-0 w-fit",
 						title: "font-bold text-[var(--vscode-foreground)]",
@@ -85,20 +79,26 @@ const Announcement = ({ hideAnnouncement }: AnnouncementProps) => {
 							"text-[var(--vscode-foreground)] mb-0.5 -rotate-180 data-[open=true]:-rotate-90 rtl:rotate-0 rtl:data-[open=true]:-rotate-90",
 					}}
 					key="1"
-					title={t("announcement.previousUpdates", "common")}>
+					title={t("previousHeader", "announcement")}>
 					<ul style={ulStyle}>
-						<li>
-							<b>{t("bullets.previous.1", "announcement")}:</b> {t("bullets.previous.1-desc", "announcement")}
-						</li>
-						<li>
-							<b>{t("bullets.previous.2", "announcement")}:</b> {t("bullets.previous.2-desc", "announcement")}
-						</li>
-						<li>
-							<b>{t("bullets.previous.3", "announcement")}:</b> {t("bullets.previous.3-desc", "announcement")}
-						</li>
-						<li>
-							<b>{t("bullets.previous.4", "announcement")}:</b> {t("bullets.previous.4-desc", "announcement")}
-						</li>
+						{(() => {
+							const bullets = []
+							let i = 1
+							while (true) {
+								const title = t(`bullets.previous.${i}`, "announcement", { fallback: "" })
+								const desc = t(`bullets.previous.${i}-desc`, "announcement", { fallback: "" })
+
+								if (!title || title === `bullets.previous.${i}`) break
+
+								bullets.push(
+									<li key={i}>
+										<b>{title}:</b> {desc}
+									</li>,
+								)
+								i++
+							}
+							return bullets
+						})()}
 					</ul>
 				</AccordionItem>
 			</Accordion>

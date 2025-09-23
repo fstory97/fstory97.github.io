@@ -47,7 +47,8 @@ export async function getShadowGitPath(globalStoragePath: string, _taskId: strin
 export async function getWorkingDirectory(): Promise<string> {
 	const cwd = await getCwd()
 	if (!cwd) {
-		throw new Error("No workspace detected. Please open Cline in a workspace to use checkpoints.")
+		// CARET MODIFICATION: Changed "Cline" to "Caret" for brand consistency
+		throw new Error("No workspace detected. Please open Caret in a workspace to use checkpoints.")
 	}
 
 	// Check if directory exists and we have read permissions

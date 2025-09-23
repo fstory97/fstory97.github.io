@@ -14,7 +14,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ### 🚨 File Modification Protocol (.cline backup deprecated - use CARET MODIFICATION only)
 Before modifying ANY Cline original file:
-1. **Check if it's protected**: `src/`, `webview-ui/`, `proto/`, `scripts/`, `evals/`, `docs/`, `locales/`, root configs
+1. **Check if it's protected**: `src/`, `webview-ui/`, `proto/`, `scripts/`, `evals/`, `docs/`, `locales/`, root configs/
 2. **Add comment**: `// CARET MODIFICATION: [clear description]`
 3. **Minimal changes**: Maximum 1-3 lines per file
 4. **Complete replacement**: Never comment out old code
@@ -254,6 +254,49 @@ The project uses protobuf for type-safe communication:
 - Extension state persisted via VS Code's storage API
 - Context tracking for file changes and model usage
 - State migrations handled in `src/core/storage/state-migrations.ts`
+
+### Internationalization (i18n)
+Caret supports multilingual UI with 4 languages: Korean, English, Japanese, Chinese.
+
+**Namespace Rules**:
+- Use **feature-based namespaces**: Each major feature has its own JSON file
+- `common.json`: Shared UI elements (`button.save`, `error.generic`)
+- `settings.json`: Settings page content (`settings.tabs.api`, `providers.openrouter.name`)
+- `chat.json`: Chat interface content
+- Other feature-specific namespaces as needed
+
+**Translation Function Usage**:
+```typescript
+import { t } from '@/caret/utils/i18n'
+
+// ✅ Correct pattern
+t('button.save', 'common')                    // Basic usage
+t('providers.openrouter.name', 'settings')   // Provider translations
+t('message.welcome', 'common', { user: 'John' }) // With variables
+
+// ❌ Wrong patterns - NEVER include namespace in key
+t('common.button.save')                       // Wrong
+t('settings.providers.openrouter.name')      // Wrong
+```
+
+**Dynamic Translation Pattern** (for language switching):
+```typescript
+// Convert static constants to dynamic functions
+export const getMenuItems = () => [
+    { label: t('menu.file', 'common') },
+    { label: t('menu.edit', 'common') }
+]
+
+// Use with useMemo in components
+const { language } = useCaretI18nContext()
+const menuItems = useMemo(() => getMenuItems(), [language])
+```
+
+**Key Guidelines**:
+- Place translations in correct namespace (`settings` vs `common`)
+- Provider keys follow `providers.{providerId}.{key}` pattern
+- Model picker keys: `providers.{providerId}.modelPicker.{key}`
+- Always use namespace as second parameter, never in key name
 
 ## Key Files to Understand
 

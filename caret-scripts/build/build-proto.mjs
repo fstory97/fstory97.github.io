@@ -117,6 +117,12 @@ async function postProcessGeneratedFiles() {
 				modified = true
 			}
 
+			// CARET MODIFICATION: Fix import paths for Persona controller
+			if (content.includes("@core/controller/persona/")) {
+				content = content.replace(/@core\/controller\/persona\//g, "@caret/core/controller/persona/")
+				modified = true
+			}
+
 			// Fix 3: Fix namespace issues in all generated files with Caret references
 			const caretMatches = content.match(/(cline\.Caret|"cline\.Caret)[A-Za-z]*/g) || []
 			if (caretMatches.length > 0) {

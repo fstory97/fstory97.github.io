@@ -12,5 +12,6 @@
 	},
 	"caretWantsToUseBrowser": "캐럿이 브라우저를 사용하려고 합니다:",
 	"paginationStep": "{{currentPage}} / {{totalPages}} 단계",
-	"paginationPrevious": "이전"
+	"paginationPrevious": "이전",
+	"paginationNext": "다음"
 }

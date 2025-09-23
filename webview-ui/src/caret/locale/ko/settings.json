@@ -152,7 +152,8 @@
 		"version": "버전",
 		"title": "정보",
 		"description": "Caret 버전을 확인하고 관련 정보를 볼 수 있습니다.",
-		"documentation": "문서"
+		"documentation": "문서",
+		"documentation_detailed": "상세 설명서"
 	},
 	"labels": {
 		"version": "버전",
@@ -441,16 +442,16 @@
 	},
 	"providers": {
 		"caret": {
-			"name": "Caret",
-			"description": "Caret은 코딩 작업에 최적화된 성능을 가진 고품질 AI 모델을 제공합니다.",
-			"login": "Caret 계정으로 로그인",
-			"loginError": "Caret 로그인 실패",
-			"apiKeyConfigured": "✓ API 키가 구성되었습니다",
-			"features": "기능:",
-			"feature1": "최신 모델에 대한 액세스",
-			"feature2": "사용량 및 크레딧을 볼 수 있는 결제 대시보드",
-			"feature3": "프롬프트 플레이그라운드",
-			"feature4": "더 많은 예정된 기능"
+			"name": "캐럿(Caret)",
+			"login": "로그인",
+			"apiKeyConfigured": "캐럿 로그인됨",
+			"description": "캐럿 로그인 사용자는 무료 제공 크레딧으로 Google의 최신 Gemini 모델을 사용할 수 있습니다",
+			"features": "별도의 API 키 없이 다음 기능을 즐기세요",
+			"feature1": "Gemini 2.5 Pro: 강력한 추론 능력",
+			"feature2": "Gemini 2.5 Flash: 빠르고 효율적인 응답",
+			"feature3": "별도의 API 키 없이 즉시 사용 가능",
+			"feature4": "가격: 무료 플랜 크레딧으로 사용",
+			"visit": "캐럿의 API키 얻기 :"
 		},
 		"openrouter": {
 			"name": "OpenRouter",
@@ -898,19 +899,6 @@
 			"retryButton": "재시도",
 			"selectModelPlaceholder": "모델 선택..."
 		}
-	},
-	"providers.caret": {
-		"description": "Caret은 코딩 작업에 최적화된 고품질 AI 모델을 제공합니다.",
-		"login": "Caret에 로그인",
-		"or": "또는",
-		"apiKeyConfigured": "✓ API 키 구성됨",
-		"features": "기능:",
-		"feature1": "무료 티어 사용 가능",
-		"feature2": "코딩에 최적화된 모델",
-		"feature3": "빠른 응답 시간",
-		"feature4": "한국어 지원",
-		"visit": "방문하여",
-		"getApiKey": "API 키를 받고 가입하세요."
 	},
 	"rules": {
 		"section": {

@@ -4,8 +4,10 @@ import { PersonaService } from "@caret/services/persona/persona-service"
 import { PersonaStorage } from "@caret/services/persona/persona-storage"
 import { UpdatePersonaRequest } from "@shared/proto/caret/persona"
 import { Empty } from "@shared/proto/cline/common"
+import * as fs from "fs/promises"
+import * as path from "path"
 import { Logger } from "@/services/logging/Logger"
-import type { Controller } from "../index"
+import type { Controller } from "@core/controller"
 
 /**
  * Handles updating the current persona
@@ -23,25 +25,27 @@ export async function UpdatePersona(controller: Controller, request: UpdatePerso
 		const personaStorage = new PersonaStorage()
 		const personaService = PersonaService.getInstance()
 
-		// Handle base64 image data if present
+		// Handle both base64 and asset:// URI image data
 		let avatarBuffer: Buffer | undefined
 		let thinkingAvatarBuffer: Buffer | undefined
 
-		try {
-			if (profile.avatarUri.startsWith("data:image/png;base64,")) {
-				avatarBuffer = Buffer.from(profile.avatarUri.replace(/^data:image\/png;base64,/, ""), "base64")
+		const loadImageToBuffer = async (uri: string): Promise<Buffer | undefined> => {
+			try {
+				if (uri.startsWith("data:image/png;base64,")) {
+					return Buffer.from(uri.replace(/^data:image\/png;base64,/, ""), "base64")
+				} else if (uri.startsWith("asset:/")) {
+					const cleanPath = uri.replace("asset:/", "")
+					const imagePath = path.join(controller.context.extensionPath, cleanPath)
+					return await fs.readFile(imagePath)
+				}
+			} catch (error) {
+				Logger.warn(`Failed to load or parse image URI ${uri}: ${error}`)
 			}
-		} catch (error) {
-			Logger.warn(`Failed to parse avatar image: ${error}`)
+			return undefined
 		}
 
-		try {
-			if (profile.thinkingAvatarUri.startsWith("data:image/png;base64,")) {
-				thinkingAvatarBuffer = Buffer.from(profile.thinkingAvatarUri.replace(/^data:image\/png;base64,/, ""), "base64")
-			}
-		} catch (error) {
-			Logger.warn(`Failed to parse thinking avatar image: ${error}`)
-		}
+		avatarBuffer = await loadImageToBuffer(profile.avatarUri)
+		thinkingAvatarBuffer = await loadImageToBuffer(profile.thinkingAvatarUri)
 
 		// Save both to persona.md file AND global storage for backward compatibility
 		const savePromises = [

@@ -4,7 +4,7 @@ import * as vscode from "vscode"
 import { Logger } from "@/services/logging/Logger"
 import { PersonaStorage } from "./persona-storage"
 import { fileExistsAtPath, writeFile } from "@utils/fs"
-import { ensureRulesDirectoryExists } from "@/core/storage/disk"
+import { ensureRulesDirectoryExists, GlobalFileNames } from "@/core/storage/disk"
 
 /**
  * 페르소나 초기화를 담당하는 클래스
@@ -31,18 +31,24 @@ export class PersonaInitializer {
 
 			// 1. persona.md 파일 존재 여부 확인
 			const globalRulesDir = await ensureRulesDirectoryExists()
-			const personaMdPath = path.join(globalRulesDir, "persona.md")
+			const personaMdPath = path.join(globalRulesDir, GlobalFileNames.persona)
 			Logger.debug(`[CARET-PERSONA] PersonaInitializer: persona.md 경로: ${personaMdPath}`)
 
 			// 2. 페르소나 이미지 존재 여부 확인
 			const personaImagesExist = await this.checkPersonaImagesExist()
 			Logger.debug(`[CARET-PERSONA] PersonaInitializer: 페르소나 이미지 존재 여부: ${personaImagesExist}`)
 
-			// 둘 다 존재하면 초기화 건너뛰기
-			if ((await fileExistsAtPath(personaMdPath)) && personaImagesExist) {
-				Logger.info("[CARET-PERSONA] PersonaInitializer: 페르소나가 이미 설정되어 있습니다. 초기화 건너  킵니다.")
-				return null
+			// persona.md 파일이 존재하면 초기화 건너뛰기
+			if (await fileExistsAtPath(personaMdPath)) {
+				const stats = await fs.stat(personaMdPath)
+				if (stats.size > 2) { // {}' 보다 크면 내용이 있는 것으로 간주
+					Logger.info("[CARET-PERSONA] PersonaInitializer: persona.md 파일이 이미 존재하고 내용이 있으므로 초기화를 건너뜁니다.")
+					return null
+				}
 			}
+
+			// persona.md가 비어있거나 없을 경우, 이미지 존재 여부와 관계없이 초기화 진행
+			Logger.info("[CARET-PERSONA] PersonaInitializer: 페르소나 설정이 필요하여 초기화를 진행합니다.")
 
 			// 3. template_characters.json 파일에서 기본 페르소나 찾기
 			const defaultPersona = await this.findDefaultPersona()
@@ -105,7 +111,7 @@ export class PersonaInitializer {
 				this.context.extensionPath,
 				"assets",
 				"template_characters",
-				"template_characters.json",
+				GlobalFileNames.templateCharacters,
 			)
 
 			const templatesRaw = await fs.readFile(templatePath, "utf-8")
@@ -153,7 +159,7 @@ export class PersonaInitializer {
 			}
 
 			const globalRulesDir = await ensureRulesDirectoryExists()
-			const personaMdPath = path.join(globalRulesDir, "persona.md")
+			const personaMdPath = path.join(globalRulesDir, GlobalFileNames.persona)
 
 			// CARET MODIFICATION: persona.md 파일을 쓰기 전에 디렉토리가 존재하는지 확인하고 없으면 생성
 			const personaMdDir = path.dirname(personaMdPath)
@@ -291,7 +297,7 @@ export class PersonaInitializer {
 	public async cleanupLegacyCustomInstructions(): Promise<void> {
 		try {
 			const globalRulesDir = await ensureRulesDirectoryExists()
-			const customInstructionsPath = path.join(globalRulesDir, "custom_instructions.md")
+			const customInstructionsPath = path.join(globalRulesDir, GlobalFileNames.customInstructions)
 			
 			if (await fileExistsAtPath(customInstructionsPath)) {
 				await fs.unlink(customInstructionsPath)
@@ -316,7 +322,7 @@ export async function resetPersonaData(context: vscode.ExtensionContext): Promis
 		// 2. persona.md 파일 삭제
 		try {
 			const globalRulesDir = await ensureRulesDirectoryExists()
-			const personaMdPath = path.join(globalRulesDir, "persona.md")
+			const personaMdPath = path.join(globalRulesDir, GlobalFileNames.persona)
 			if (await fileExistsAtPath(personaMdPath)) {
 				await fs.unlink(personaMdPath)
 				Logger.info("[CARET-PERSONA] persona.md file deleted.")

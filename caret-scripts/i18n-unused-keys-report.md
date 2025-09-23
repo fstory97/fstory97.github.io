@@ -18,16 +18,16 @@ locale 파일에 정의되어 있지만 컴포넌트에서 참조되지 않는 �
 
 | Key | Namespace | Available Locales | Count |
 |-----|-----------|------------------|-------|
-| `bullets.current.1.desc` | announcement | en, ja, zh | 3 |
-| `bullets.current.2.desc` | announcement | en, ja, zh | 3 |
-| `bullets.current.3.desc` | announcement | en, ja, zh | 3 |
+| `bullets.current.1-desc` | announcement | en, ja, zh | 3 |
+| `bullets.current.2-desc` | announcement | en, ja, zh | 3 |
+| `bullets.current.3-desc` | announcement | en, ja, zh | 3 |
 | `bullets.current.4-desc` | announcement | ko | 1 |
-| `bullets.current.4.desc` | announcement | en, ja, zh | 3 |
-| `bullets.current.5.desc` | announcement | en, ja, zh | 3 |
-| `bullets.previous.1.desc` | announcement | en, ja, zh | 3 |
-| `bullets.previous.2.desc` | announcement | en, ja, zh | 3 |
-| `bullets.previous.3.desc` | announcement | en, ja, zh | 3 |
-| `bullets.previous.4.desc` | announcement | en, ja, zh | 3 |
+| `bullets.current.4-desc` | announcement | en, ja, zh | 3 |
+| `bullets.current.5-desc` | announcement | en, ja, zh | 3 |
+| `bullets.previous.1-desc` | announcement | en, ja, zh | 3 |
+| `bullets.previous.2-desc` | announcement | en, ja, zh | 3 |
+| `bullets.previous.3-desc` | announcement | en, ja, zh | 3 |
+| `bullets.previous.4-desc` | announcement | en, ja, zh | 3 |
 | `header` | announcement | ko, en, ja, zh | 4 |
 | `previousHeader` | announcement | ko, en, ja, zh | 4 |
 | `brandMarketplace.caretPreparing` | chat | ko, en, ja, zh | 4 |
@@ -110,7 +110,7 @@ locale 파일에 정의되어 있지만 컴포넌트에서 참조되지 않는 �
 | `announcement.joinUs` | common | ko, en, ja, zh | 4 |
 | `announcement.previousFeatures.claude1M.description` | common | ko, en, ja, zh | 4 |
 | `announcement.previousFeatures.claude1M.title` | common | ko, en, ja, zh | 4 |
-| `announcement.previousFeatures.optimizedClaude4.description` | common | ko, en, ja, zh | 4 |
+| `announcement.previousFeatures.optimizedClaude4-description` | common | ko, en, ja, zh | 4 |
 | `announcement.previousFeatures.optimizedClaude4.title` | common | ko, en, ja, zh | 4 |
 | `announcement.previousFeatures.workflows.description` | common | ko, en, ja, zh | 4 |
 | `announcement.previousFeatures.workflows.title` | common | ko, en, ja, zh | 4 |
@@ -471,9 +471,9 @@ locale 파일에 정의되어 있지만 컴포넌트에서 참조되지 않는 �
 | `settings.openAIReasoningEffort.high` | common | ko, en, ja, zh | 4 |
 | `settings.openAIReasoningEffort.label` | common | ko, en, ja, zh | 4 |
 | `settings.openRouter.clearSearch` | common | ko, ja, zh | 3 |
-| `settings.openRouter.featured.claudeSonnet4.description` | common | ko, ja, zh | 3 |
+| `settings.openRouter.featured.claudeSonnet4-description` | common | ko, ja, zh | 3 |
 | `settings.openRouter.featured.claudeSonnet4.label` | common | ko, ja, zh | 3 |
-| `settings.openRouter.featured.gpt5.description` | common | ko, ja, zh | 3 |
+| `settings.openRouter.featured.gpt5-description` | common | ko, ja, zh | 3 |
 | `settings.openRouter.featured.gpt5.label` | common | ko, ja, zh | 3 |
 | `settings.openRouter.featured.grok.description` | common | ko, ja, zh | 3 |
 | `settings.openRouter.featured.grok.label` | common | ko, ja, zh | 3 |
@@ -578,7 +578,7 @@ locale 파일에 정의되어 있지만 컴포넌트에서 참조되지 않는 �
 | `welcome.viewAllHistory` | common | ko, en, ja, zh | 4 |
 | `gemini.gemini-2-5-flash-preview-05-20.description` | models | ko, ja, zh | 3 |
 | `gemini.gemini-2-5-flash-preview-05-20.name` | models | ko, ja, zh | 3 |
-| `gemini.gemini-2-5-pro-preview-06-05.description` | models | ko, ja, zh | 3 |
+| `gemini.gemini-2-5-pro-preview-06-05-description` | models | ko, ja, zh | 3 |
 | `gemini.gemini-2-5-pro-preview-06-05.name` | models | ko, ja, zh | 3 |
 | `infoTextCustomInstructions` | persona | ko, en, ja, zh | 4 |
 | `normalState` | persona | ko, en, ja, zh | 4 |
@@ -778,7 +778,7 @@ locale 파일에 정의되어 있지만 컴포넌트에서 참조되지 않는 �
 | `providers.cline.description` | settings | ko, en, ja, zh | 4 |
 | `providers.gemini.models.gemini-2-5-flash-preview-05-20.description` | settings | ko, en, ja, zh | 4 |
 | `providers.gemini.models.gemini-2-5-flash-preview-05-20.name` | settings | ko, en, ja, zh | 4 |
-| `providers.gemini.models.gemini-2-5-pro-preview-06-05.description` | settings | ko, en, ja, zh | 4 |
+| `providers.gemini.models.gemini-2-5-pro-preview-06-05-description` | settings | ko, en, ja, zh | 4 |
 | `providers.gemini.models.gemini-2-5-pro-preview-06-05.name` | settings | ko, en, ja, zh | 4 |
 | `providers.litellm.description` | settings | ko, en, ja, zh | 4 |
 | `providers.openai.description` | settings | ko, en, ja, zh | 4 |
@@ -936,23 +936,23 @@ locale 파일에 정의되어 있지만 컴포넌트에서 참조되지 않는 �
 | `bullets.previous.3-desc` 🔥 | announcement | en, ja, zh | 1 | ko |
 | `bullets.previous.4-desc` 🔥 | announcement | en, ja, zh | 1 | ko |
 | `account.youthProtection` 🔥 | common | en, ja, zh | 1 | ko |
-| `bullets.current.1.desc` ⚪ | announcement | ko | 0 | en, ja, zh |
-| `bullets.current.2.desc` ⚪ | announcement | ko | 0 | en, ja, zh |
-| `bullets.current.3.desc` ⚪ | announcement | ko | 0 | en, ja, zh |
+| `bullets.current.1-desc` ⚪ | announcement | ko | 0 | en, ja, zh |
+| `bullets.current.2-desc` ⚪ | announcement | ko | 0 | en, ja, zh |
+| `bullets.current.3-desc` ⚪ | announcement | ko | 0 | en, ja, zh |
 | `bullets.current.4-desc` ⚪ | announcement | en, ja, zh | 0 | ko |
-| `bullets.current.4.desc` ⚪ | announcement | ko | 0 | en, ja, zh |
-| `bullets.current.5.desc` ⚪ | announcement | ko | 0 | en, ja, zh |
-| `bullets.previous.1.desc` ⚪ | announcement | ko | 0 | en, ja, zh |
-| `bullets.previous.2.desc` ⚪ | announcement | ko | 0 | en, ja, zh |
-| `bullets.previous.3.desc` ⚪ | announcement | ko | 0 | en, ja, zh |
-| `bullets.previous.4.desc` ⚪ | announcement | ko | 0 | en, ja, zh |
+| `bullets.current.4-desc` ⚪ | announcement | ko | 0 | en, ja, zh |
+| `bullets.current.5-desc` ⚪ | announcement | ko | 0 | en, ja, zh |
+| `bullets.previous.1-desc` ⚪ | announcement | ko | 0 | en, ja, zh |
+| `bullets.previous.2-desc` ⚪ | announcement | ko | 0 | en, ja, zh |
+| `bullets.previous.3-desc` ⚪ | announcement | ko | 0 | en, ja, zh |
+| `bullets.previous.4-desc` ⚪ | announcement | ko | 0 | en, ja, zh |
 | `persona.enablePersonaSystem` ⚪ | common | en | 0 | ko, ja, zh |
 | `rulesModal.ariaLabel.CaretRulesButton` ⚪ | common | ko, ja, zh | 0 | en |
 | `rulesModal.tooltip.manageRulesWorkflows` ⚪ | common | ko, ja, zh | 0 | en |
 | `settings.openRouter.clearSearch` ⚪ | common | en | 0 | ko, ja, zh |
-| `settings.openRouter.featured.claudeSonnet4.description` ⚪ | common | en | 0 | ko, ja, zh |
+| `settings.openRouter.featured.claudeSonnet4-description` ⚪ | common | en | 0 | ko, ja, zh |
 | `settings.openRouter.featured.claudeSonnet4.label` ⚪ | common | en | 0 | ko, ja, zh |
-| `settings.openRouter.featured.gpt5.description` ⚪ | common | en | 0 | ko, ja, zh |
+| `settings.openRouter.featured.gpt5-description` ⚪ | common | en | 0 | ko, ja, zh |
 | `settings.openRouter.featured.gpt5.label` ⚪ | common | en | 0 | ko, ja, zh |
 | `settings.openRouter.featured.grok.description` ⚪ | common | en | 0 | ko, ja, zh |
 | `settings.openRouter.featured.grok.label` ⚪ | common | en | 0 | ko, ja, zh |
@@ -967,7 +967,7 @@ locale 파일에 정의되어 있지만 컴포넌트에서 참조되지 않는 �
 | `settings.sapAiCore.placeholder` ⚪ | common | en | 0 | ko, ja, zh |
 | `gemini.gemini-2-5-flash-preview-05-20.description` ⚪ | models | en | 0 | ko, ja, zh |
 | `gemini.gemini-2-5-flash-preview-05-20.name` ⚪ | models | en | 0 | ko, ja, zh |
-| `gemini.gemini-2-5-pro-preview-06-05.description` ⚪ | models | en | 0 | ko, ja, zh |
+| `gemini.gemini-2-5-pro-preview-06-05-description` ⚪ | models | en | 0 | ko, ja, zh |
 | `gemini.gemini-2-5-pro-preview-06-05.name` ⚪ | models | en | 0 | ko, ja, zh |
 | `basetenModelPicker.clearSearch` ⚪ | settings | en | 0 | ko, ja, zh |
 | `basetenModelPicker.description` ⚪ | settings | en | 0 | ko, ja, zh |
@@ -1218,7 +1218,7 @@ Total components using i18n: **134**
 | `settings\sections\BrowserSettingsSection.tsx` | 20 | `settings.browser.checkingConnection`, `settings.browser.connected`, `settings.browser.notConnected` (+17 more) |
 | `history\HistoryView.tsx` | 19 | `history.historyView.deleteSelectedWithCount`, `history.deleteAllHistory`, `history.title` (+16 more) |
 | `mcp\configuration\tabs\installed\server-row\ServerRow.tsx` | 18 | `chat.serverRow.timeout30Seconds`, `chat.serverRow.timeout1Minute`, `chat.serverRow.timeout5Minutes` (+15 more) |
-| `settings\OpenRouterModelPicker.tsx` | 18 | `settings.providers.openrouter.featured.claudeSonnet4.description`, `settings.providers.openrouter.featured.claudeSonnet4.label`, `settings.providers.openrouter.featured.gpt5.description` (+15 more) |
+| `settings\OpenRouterModelPicker.tsx` | 18 | `settings.providers.openrouter.featured.claudeSonnet4-description`, `settings.providers.openrouter.featured.claudeSonnet4.label`, `settings.providers.openrouter.featured.gpt5-description` (+15 more) |
 | `settings\providers\LiteLlmProvider.tsx` | 18 | `settings.liteLlmProvider.baseUrlPlaceholder`, `settings.baseUrlField.label`, `settings.liteLlmProvider.apiKeyPlaceholder` (+15 more) |
 | `settings\providers\OpenRouterProvider.tsx` | 18 | `settings.openRouterProvider.balanceDisplay.tooltip`, `settings.openRouterProvider.balanceDisplay.label`, `settings.openRouterProvider.balanceDisplay.loading` (+15 more) |
 | `chat\task-header\TaskHeader.tsx` | 16 | `common.taskHeader.currentTokens`, `common.taskHeader.contextWindowUsage`, `common.taskHeader.maxContextWindow` (+13 more) |

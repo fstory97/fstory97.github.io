@@ -1,6 +1,8 @@
 // CARET MODIFICATION: Refactored to use caret-main architecture with improved navigation
 // Original Cline backed up to: WelcomeView.tsx.cline
 
+// CARET MODIFICATION: Import feature configuration for redirect behavior
+import { getCurrentFeatureConfig } from "@shared/CaretBrandConfig"
 import { BooleanRequest } from "@shared/proto/cline/common"
 import { VSCodeButton } from "@vscode/webview-ui-toolkit/react"
 import React, { useEffect, useState } from "react"
@@ -9,16 +11,21 @@ import CaretFooter from "@/caret/components/CaretFooter"
 import CaretWelcomeSection from "@/caret/components/CaretWelcomeSection"
 // CARET MODIFICATION: URL 상수 및 UiServiceClient 임포트
 import { CARET_URLS } from "@/caret/constants/urls"
+import { useCaretState } from "@/caret/context/CaretStateContext"
 import { useCaretI18n } from "@/caret/hooks/useCaretI18n"
 import { t } from "@/caret/utils/i18n"
+import { CaretWebviewLogger } from "@/caret/utils/webview-logger"
 import PreferredLanguageSetting from "@/components/settings/PreferredLanguageSetting"
 import { useExtensionState } from "@/context/ExtensionStateContext"
 // CARET MODIFICATION: UiServiceClient 임포트 추가
 import { StateServiceClient, UiServiceClient } from "@/services/grpc-client"
 import { validateApiConfiguration } from "@/utils/validate"
 
+const logger = new CaretWebviewLogger("WelcomeView")
+
 const WelcomeView = () => {
 	const { apiConfiguration, mode, version, caretBanner } = useExtensionState()
+	const { setShowPersonaSelector } = useCaretState()
 	const { currentLanguage } = useCaretI18n()
 	const [apiErrorMessage, setApiErrorMessage] = useState<string | undefined>(undefined)
 	const [showApiOptions, setShowApiOptions] = useState(false)
@@ -27,23 +34,28 @@ const WelcomeView = () => {
 
 	const handleSubmitApiKey = async () => {
 		try {
-			// CARET MODIFICATION: API 설정 완료 후 History/Home으로 이동 (Cline의 Settings 페이지 대신)
-			console.log("[WelcomeView] API configuration saved, completing welcome flow")
+			// CARET MODIFICATION: API 설정 완료 후 브랜드 설정에 따라 다른 처리
+			const featureConfig = getCurrentFeatureConfig()
 
-			// Welcome view를 완료로 표시
-			await StateServiceClient.setWelcomeViewCompleted(BooleanRequest.create({ value: true }))
+			if (featureConfig.redirectAfterApiSetup === "persona") {
+				// 페르소나 선택 창을 띄움
+				setShowPersonaSelector(true)
+				// Welcome view를 완료로 표시 (ChatView로 바로 넘어가지 않도록)
+				await StateServiceClient.setWelcomeViewCompleted(BooleanRequest.create({ value: true }))
+			} else {
+				// 'home' - 바로 ChatView로 이동
+				await StateServiceClient.setWelcomeViewCompleted(BooleanRequest.create({ value: true }))
+				// 페르소나 선택을 건너뛰고 바로 메인 화면으로
+			}
 
 			// API 설정 페이지 닫기
 			setShowApiOptions(false)
-
-			console.log("[WelcomeView] Welcome view completed, user will see History/Home")
 		} catch (error) {
-			console.error("Failed to complete welcome view:", error)
+			logger.error("Failed to complete welcome view:", error)
 		}
 	}
 
 	const handleShowApiOptions = async () => {
-		console.log("[WelcomeView] Starting API setup")
 		setShowApiOptions(true)
 	}
 
@@ -56,7 +68,7 @@ const WelcomeView = () => {
 		try {
 			await UiServiceClient.openUrl({ value: link })
 		} catch (error) {
-			console.error(`Failed to open external link: ${link}`, error)
+			logger.error(`Failed to open external link ${link}:`, error)
 		}
 	}
 

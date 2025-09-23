@@ -8,6 +8,13 @@ import { Logger } from "@/services/logging/Logger"
 import { SimplePersona, SimplePersonaImages } from "./simple-persona"
 import { Controller } from "@core/controller"
 
+// CARET MODIFICATION: Constants for persona image filenames and directory
+const PERSONA_CONSTANTS = {
+	IMAGES_DIR: "personas",
+	PROFILE_IMAGE: "agent_profile.png",
+	THINKING_IMAGE: "agent_thinking.png",
+} as const
+
 export class PersonaStorage {
 	public async getPersona(controller: Controller): Promise<SimplePersona> {
 		const rulesDir = await ensureRulesDirectoryExists()
@@ -32,11 +39,10 @@ export class PersonaStorage {
 	public async loadSimplePersonaImages(controller: Controller): Promise<SimplePersonaImages | null> {
 		try {
 			// Load persona images from globalStorage file system
-			const personaDir = path.join(controller.context.globalStorageUri.fsPath, "personas")
-			const profilePath = path.join(personaDir, "agent_profile.png")
-			const thinkingPath = path.join(personaDir, "agent_thinking.png")
+			const personaDir = path.join(controller.context.globalStorageUri.fsPath, PERSONA_CONSTANTS.IMAGES_DIR)
+			const profilePath = path.join(personaDir, PERSONA_CONSTANTS.PROFILE_IMAGE)
+			const thinkingPath = path.join(personaDir, PERSONA_CONSTANTS.THINKING_IMAGE)
 
-			const fs = await import("fs/promises")
 			const { fileExistsAtPath } = await import("@utils/fs")
 
 			if (!(await fileExistsAtPath(profilePath)) || !(await fileExistsAtPath(thinkingPath))) {
@@ -57,7 +63,7 @@ export class PersonaStorage {
 		Logger.info(`Saving persona profile for: ${profile.name}`)
 		try {
 			const rulesDir = await ensureRulesDirectoryExists()
-			const personaMdPath = path.join(rulesDir, "persona.md")
+			const personaMdPath = path.join(rulesDir, GlobalFileNames.persona)
 
 			await writeFile(personaMdPath, profile.customInstruction)
 			Logger.debug(`Persona profile saved to ${personaMdPath}`)
@@ -70,13 +76,12 @@ export class PersonaStorage {
 	public async savePersonaImages(controller: Controller, images: SimplePersonaImages): Promise<void> {
 		try {
 			// Save persona images to globalStorage file system
-			const personaDir = path.join(controller.context.globalStorageUri.fsPath, "personas")
-			const fs = await import("fs/promises")
+			const personaDir = path.join(controller.context.globalStorageUri.fsPath, PERSONA_CONSTANTS.IMAGES_DIR)
 
 			await fs.mkdir(personaDir, { recursive: true })
 
-			const profilePath = path.join(personaDir, "agent_profile.png")
-			const thinkingPath = path.join(personaDir, "agent_thinking.png")
+			const profilePath = path.join(personaDir, PERSONA_CONSTANTS.PROFILE_IMAGE)
+			const thinkingPath = path.join(personaDir, PERSONA_CONSTANTS.THINKING_IMAGE)
 
 			await fs.writeFile(profilePath, images.avatar)
 			await fs.writeFile(thinkingPath, images.thinkingAvatar)

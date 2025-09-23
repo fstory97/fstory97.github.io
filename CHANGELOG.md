@@ -25,13 +25,16 @@
 
 # Changelog
 
-## [0.2.1]
+## [0.2.22]
+ - **System Prompt Enhancements**: Restored and supplemented Caret's unique collaborative attitude and cost-saving system prompts that were missing during Cline merging process
+ - **Translation Fix**: Fixed missing browser-related translations
 
-- **UI Improvements and Bug Fixes**:
-  - **Enhanced Multilingual Support**: Added missing translations for Chinese and Japanese.
-  - **Bug Fixes**: Corrected shortcut key bugs and an error with starting new tasks with context.
-  - **Documentation Link Update**: Updated the link to the user manual.
-  - **UI Adjustment**: Resolved an issue where the 'Agent' button wrapped to two lines in the Korean interface.
+## [0.2.21]
+
+- **Persona System Fixes & Improvements**:
+  - **Bug Fix**: Fixed a critical bug where persona images would reset to the default Caret avatar on app restart. This issue occurred because the backend handler was not properly processing `asset:/` URIs from template personas, preventing images from being saved to global storage.
+  - **Feature Enhancement**: Changed the initial setup flow. After API key submission, users are now guided directly to the persona template selector to set up their persona immediately.
+  - **UX Improvement**: Improved and consolidated the instructional text for the persona selector for better clarity. (Korean/English)
 
 ## [0.2.0]
 

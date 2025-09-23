@@ -35,7 +35,7 @@ const formatTiers = (
 			return (
 				<span key={index} style={{ paddingLeft: "15px" }}>
 					{formatPrice(price)}
-					{t("modelInfoView.millionTokensLabel", "settings")} (
+					{t("modelInfo.tokensSuffix", "common")} (
 					{tier.contextWindow === Number.POSITIVE_INFINITY || tier.contextWindow >= Number.MAX_SAFE_INTEGER ? (
 						<span>
 							{">"} {prevLimit.toLocaleString()}
@@ -45,7 +45,7 @@ const formatTiers = (
 							{"<="} {tier.contextWindow?.toLocaleString()}
 						</span>
 					)}
-					{t("modelInfoView.tokensSuffix", "common")}
+					{t("modelInfo.tokensSuffix", "common")}
 					{index < arr.length - 1 && <br />}
 				</span>
 			)

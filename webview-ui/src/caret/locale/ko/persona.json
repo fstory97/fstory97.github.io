@@ -3,13 +3,13 @@
 	"thinkingState": "생각 중 이미지",
 	"selector": {
 		"title": "AI 에이전트 템플릿 캐릭터 설정",
-		"description": "원하는 캐릭터를 선택하세요. 선택한 캐릭터는 자유롭게 편집하여 나만의 퍼스나로 쓸 수 있습니다.",
+		"description": "원하는 캐릭터를 선택하세요. 선택한 페르소나는 '규칙' 메뉴에서 편집하고 '일반 설정' 에서 켜고 끌 수 있습니다.",
 		"selectButtonText": "선택",
 		"selectedButtonText": "선택됨",
 		"infoTextCustomInstructions": "선택된 페르소나의 지시사항이 custom_instructions.md (전역 규칙)에 저장됩니다."
 	},
 	"selectorTitle": "AI 에이전트 템플릿 캐릭터 설정",
-	"selectorDescription": "원하는 캐릭터를 선택하세요. 선택한 캐릭터는 자유롭게 편집하여 나만의 퍼스나로 쓸 수 있습니다.",
+	"selectorDescription": "원하는 캐릭터를 선택하세요. 선택한 페르소나는 '규칙' 메뉴에서 편집하고 '일반 설정' 에서 켜고 끌 수 있습니다.",
 	"infoTextCustomInstructions": "선택된 페르소나의 지시사항이 custom_instructions.md (전역 규칙)에 저장됩니다.",
 	"upload": {
 		"normal": "기본 이미지 업로드",
