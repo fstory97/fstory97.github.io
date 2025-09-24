@@ -226,6 +226,7 @@ export class StateManager {
 			caretBaseUrl, // caret
 			caretApiKey, // caret
 			caretUsePromptCache, // caret
+			caretUserProfile, // caret
 			qwenApiLine,
 			moonshotApiLine,
 			zaiApiLine,
@@ -421,6 +422,7 @@ export class StateManager {
 			liteLlmUsePromptCache,
 			caretBaseUrl, // caret
 			caretUsePromptCache, // caret
+			caretUserProfile, // caret
 			qwenApiLine,
 			moonshotApiLine,
 			zaiApiLine,
@@ -663,6 +665,7 @@ export class StateManager {
 			mistralApiKey: this.secretsCache["mistralApiKey"],
 			liteLlmApiKey: this.secretsCache["liteLlmApiKey"],
 			caretApiKey: this.secretsCache["caretApiKey"], // caret
+			caretAuthToken: this.secretsCache["caretAuthToken"], // caret
 			fireworksApiKey: this.secretsCache["fireworksApiKey"],
 			asksageApiKey: this.secretsCache["asksageApiKey"],
 			xaiApiKey: this.secretsCache["xaiApiKey"],
@@ -705,6 +708,7 @@ export class StateManager {
 			liteLlmUsePromptCache: this.globalStateCache["liteLlmUsePromptCache"],
 			caretBaseUrl: this.globalStateCache["caretBaseUrl"], // caret
 			caretUsePromptCache: this.globalStateCache["caretUsePromptCache"], // caret
+			caretUserProfile: this.globalStateCache["caretUserProfile"], // caret
 			qwenApiLine: this.globalStateCache["qwenApiLine"],
 			moonshotApiLine: this.globalStateCache["moonshotApiLine"],
 			zaiApiLine: this.globalStateCache["zaiApiLine"],

@@ -1,4 +1,5 @@
 import type { LanguageModelChatSelector } from "../core/api/providers/types"
+import { CaretUser } from "./CaretAccount"
 
 export type ApiProvider =
 	| "anthropic"
@@ -50,6 +51,8 @@ export interface ApiHandlerOptions {
 	caretBaseUrl?: string // caret
 	caretApiKey?: string // caret
 	caretUsePromptCache?: boolean // caret
+	caretUserProfile?: CaretUser // caret
+	caretAuthToken?: string // caret
 	openAiHeaders?: Record<string, string> // Custom headers for OpenAI requests
 	anthropicBaseUrl?: string
 	openRouterApiKey?: string

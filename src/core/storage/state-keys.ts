@@ -3,6 +3,7 @@ import { FocusChainSettings } from "@shared/FocusChainSettings"
 import { LanguageModelChatSelector } from "vscode"
 import { AutoApprovalSettings } from "@/shared/AutoApprovalSettings"
 import { BrowserSettings } from "@/shared/BrowserSettings"
+import { CaretUser } from "@/shared/CaretAccount"
 import { ClineRulesToggles } from "@/shared/cline-rules"
 import { HistoryItem } from "@/shared/HistoryItem"
 import { McpDisplayMode } from "@/shared/McpDisplayMode"
@@ -167,6 +168,7 @@ export interface GlobalState {
 		  }
 		| undefined
 	// CARET MODIFICATION: Persona image storage for persona system
+	caretUserProfile: CaretUser | undefined //caret
 }
 
 export interface Secrets {
@@ -189,7 +191,6 @@ export interface Secrets {
 	doubaoApiKey: string | undefined
 	mistralApiKey: string | undefined
 	liteLlmApiKey: string | undefined
-	caretApiKey: string | undefined
 	authNonce: string | undefined
 	asksageApiKey: string | undefined
 	xaiApiKey: string | undefined
@@ -206,6 +207,9 @@ export interface Secrets {
 	basetenApiKey: string | undefined
 	vercelAiGatewayApiKey: string | undefined
 	difyApiKey: string | undefined
+
+	caretAuthToken: string | undefined //caret
+	caretApiKey: string | undefined //caret
 }
 
 export interface LocalState {

@@ -38,8 +38,9 @@ type CachedData = {
 }
 
 const AccountView = ({ onDone, clineUser, organizations, activeOrganization }: AccountViewProps) => {
-	// CARET MODIFICATION: Access caretUser from ExtensionStateContext for Caret account system
-	const { caretUser } = useExtensionState()
+	const { apiConfiguration } = useExtensionState()
+	console.log("<===== account view apiConfiguration=====>", apiConfiguration)
+	const caretUser = apiConfiguration?.caretUserProfile
 
 	return (
 		<div className="fixed inset-0 flex flex-col overflow-hidden pt-[10px] pl-[20px]">
@@ -50,7 +51,7 @@ const AccountView = ({ onDone, clineUser, organizations, activeOrganization }: A
 			<div className="flex-grow overflow-hidden pr-[8px] flex flex-col">
 				<div className="h-full mb-[5px]">
 					{/* CARET MODIFICATION: Priority to caretUser, fallback to clineUser, then AccountWelcomeView */}
-					{caretUser?.uid ? (
+					{caretUser?.id ? (
 						<CaretAccountView caretUser={caretUser} />
 					) : clineUser?.uid ? (
 						<ClineAccountView
@@ -60,6 +61,11 @@ const AccountView = ({ onDone, clineUser, organizations, activeOrganization }: A
 						/>
 					) : (
 						<AccountWelcomeView />
+					)}
+					{caretUser?.id && (
+						<div>
+							{caretUser.email} {caretUser.displayName} {caretUser.id} {apiConfiguration?.caretAuthToken}
+						</div>
 					)}
 				</div>
 			</div>

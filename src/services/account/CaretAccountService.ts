@@ -11,10 +11,10 @@ import type {
 	CaretUserResponse,
 } from "@shared/CaretAccount"
 import axios, { AxiosRequestConfig, AxiosResponse } from "axios"
-
 export class CaretAccountService {
 	private static instance: CaretAccountService
-	private readonly _baseUrl = "https://api.caret.team" // CARET MODIFICATION: Use Caret API server
+	// private readonly _baseUrl = "https://api.caret.team" // CARET MODIFICATION: Use Caret API server
+	private readonly _baseUrl = "https://localhost:4000" // CARET MODIFICATION: Use Caret API server
 
 	constructor() {
 		// CARET MODIFICATION: No additional dependencies needed
@@ -54,7 +54,8 @@ export class CaretAccountService {
 		console.log(`[CARET-ACCOUNT-SERVICE] 📡 Making authenticated request to: ${url}`)
 
 		// CARET MODIFICATION: Get Auth0 token from CaretGlobalManager
-		const auth0Token = await CaretGlobalManager.getAuth0Token()
+		const auth0Token = await CaretGlobalManager.authToken
+		console.log("Caret Account Service auth0Token=====>", auth0Token)
 		console.log(`[CARET-ACCOUNT-SERVICE] 🔑 Auth0 token retrieved:`, auth0Token ? "✅ Present" : "❌ Missing")
 
 		if (!auth0Token) {
@@ -312,7 +313,7 @@ export class CaretAccountService {
 			// CARET MODIFICATION: Refresh Auth0 token instead of Cline auth service
 			console.log("[CARET-ACCOUNT-SERVICE] 🔄 Refreshing Auth0 token after account switch...")
 			try {
-				await CaretGlobalManager.refreshAuth0Token()
+				// await CaretGlobalManager.refreshAuth0Token()
 				console.log("[CARET-ACCOUNT-SERVICE] ✅ Auth0 token refreshed successfully")
 			} catch (refreshError) {
 				console.error("[CARET-ACCOUNT-SERVICE] ❌ Failed to refresh Auth0 token:", refreshError)

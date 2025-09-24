@@ -16,10 +16,10 @@ export async function caretAccountLoginClicked(
 
 	try {
 		// CARET MODIFICATION: Use CaretGlobalManager for Auth0 login
-		const loginUrl = await CaretGlobalManager.login()
+		await CaretGlobalManager.login()
 		console.log("[CARET-HANDLER] ✅ Auth0 login successful")
 
-		return { value: loginUrl || "https://caret.team/dashboard" }
+		return { value: "https://caret.team/dashboard" }
 	} catch (error) {
 		console.error("[CARET-HANDLER] ❌ Caret login failed:", error)
 		return { value: "https://caret.team/login" }

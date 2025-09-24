@@ -1,10 +1,14 @@
 // CARET MODIFICATION: Caret Account types - based on ClineAccount but for Caret API server
 
-export interface CaretUserResponse {
+export interface CaretUser {
 	id: string
-	email: string
-	displayName: string
-	photoUrl: string
+	email?: string
+	displayName?: string
+	photoUrl?: string
+	appBaseUrl?: string
+}
+
+export interface CaretUserResponse extends CaretUser {
 	createdAt: string
 	updatedAt: string
 	// CARET MODIFICATION: Support for Caret organizations structure

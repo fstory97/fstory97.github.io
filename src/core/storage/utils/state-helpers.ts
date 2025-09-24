@@ -5,6 +5,7 @@ import { ExtensionContext, LanguageModelChatSelector } from "vscode"
 import { Controller } from "@/core/controller"
 import { AutoApprovalSettings, DEFAULT_AUTO_APPROVAL_SETTINGS } from "@/shared/AutoApprovalSettings"
 import { BrowserSettings, DEFAULT_BROWSER_SETTINGS } from "@/shared/BrowserSettings"
+import { CaretUser } from "@/shared/CaretAccount"
 import { ClineRulesToggles } from "@/shared/cline-rules"
 import { DEFAULT_FOCUS_CHAIN_SETTINGS, FocusChainSettings } from "@/shared/FocusChainSettings"
 import { HistoryItem } from "@/shared/HistoryItem"
@@ -35,6 +36,7 @@ export async function readSecretsFromDisk(context: ExtensionContext): Promise<Se
 		fireworksApiKey,
 		liteLlmApiKey,
 		caretApiKey,
+		caretAuthToken,
 		asksageApiKey,
 		xaiApiKey,
 		sambanovaApiKey,
@@ -72,6 +74,7 @@ export async function readSecretsFromDisk(context: ExtensionContext): Promise<Se
 		context.secrets.get("fireworksApiKey") as Promise<string | undefined>,
 		context.secrets.get("liteLlmApiKey") as Promise<string | undefined>,
 		context.secrets.get("caretApiKey") as Promise<string | undefined>, // caret
+		context.secrets.get("caretAuthToken") as Promise<string | undefined>, // caret
 		context.secrets.get("asksageApiKey") as Promise<string | undefined>,
 		context.secrets.get("xaiApiKey") as Promise<string | undefined>,
 		context.secrets.get("sambanovaApiKey") as Promise<string | undefined>,
@@ -115,6 +118,7 @@ export async function readSecretsFromDisk(context: ExtensionContext): Promise<Se
 		fireworksApiKey,
 		liteLlmApiKey,
 		caretApiKey,
+		caretAuthToken,
 		doubaoApiKey,
 		mistralApiKey,
 		openAiNativeApiKey,
@@ -181,6 +185,7 @@ export async function readGlobalStateFromDisk(context: ExtensionContext): Promis
 	const liteLlmUsePromptCache = context.globalState.get("liteLlmUsePromptCache") as boolean | undefined
 	const caretBaseUrl = context.globalState.get("caretBaseUrl") as string | undefined
 	const caretUsePromptCache = context.globalState.get("caretUsePromptCache") as boolean | undefined
+	const caretUserProfile = context.globalState.get("caretUserProfile") as CaretUser | undefined
 	const fireworksModelMaxCompletionTokens = context.globalState.get("fireworksModelMaxCompletionTokens") as number | undefined
 	const fireworksModelMaxTokens = context.globalState.get("fireworksModelMaxTokens") as number | undefined
 	const userInfo = context.globalState.get("userInfo") as UserInfo | undefined
@@ -356,6 +361,7 @@ export async function readGlobalStateFromDisk(context: ExtensionContext): Promis
 		liteLlmUsePromptCache,
 		caretBaseUrl, // caret
 		caretUsePromptCache, // caret
+		caretUserProfile, // caret
 		fireworksModelMaxCompletionTokens,
 		fireworksModelMaxTokens,
 		asksageApiUrl,

@@ -1,10 +1,12 @@
 import { caretModelInfoSaneDefaults } from "@shared/api"
 import { Mode } from "@shared/storage/types"
-import { VSCodeCheckbox, VSCodeLink } from "@vscode/webview-ui-toolkit/react"
+import { VSCodeButton, VSCodeCheckbox, VSCodeLink } from "@vscode/webview-ui-toolkit/react"
 import { useState } from "react"
 import { t } from "@/caret/utils/i18n"
 import { useExtensionState } from "@/context/ExtensionStateContext"
 import { getAsVar, VSC_DESCRIPTION_FOREGROUND } from "@/utils/vscStyles"
+import { handleLogin, handleLogout } from "../CaretAuthHandler"
+import { ApiKeyField } from "../common/ApiKeyField"
 import { DebouncedTextField } from "../common/DebouncedTextField"
 import { ModelInfoView } from "../common/ModelInfoView"
 import ThinkingBudgetSlider from "../ThinkingBudgetSlider"
@@ -25,6 +27,8 @@ interface CaretProviderProps {
  */
 export const CaretProvider = ({ showModelOptions, isPopup, currentMode }: CaretProviderProps) => {
 	const { apiConfiguration } = useExtensionState()
+	console.log("<===== caret providerapiConfiguration=====>", apiConfiguration)
+	const caretUser = apiConfiguration?.caretUserProfile
 	const { handleFieldChange, handleModeFieldChange } = useApiConfigurationHandlers()
 
 	// Get the normalized configuration
@@ -36,8 +40,110 @@ export const CaretProvider = ({ showModelOptions, isPopup, currentMode }: CaretP
 	// Local state for collapsible model configuration section
 	const [modelConfigurationSelected, setModelConfigurationSelected] = useState(false)
 
+	// Show profile page if authenticated
+	if (caretUser) {
+		const name = caretUser.displayName
+		return (
+			<div style={{ display: "flex", flexDirection: "column", gap: 10, marginTop: 2 }}>
+				<p style={{ color: "var(--vscode-descriptionForeground)", fontSize: 13, margin: 0 }}>
+					{t("providers.caret.profile", "settings")}
+				</p>
+
+				{/* User Profile Section */}
+				<div
+					style={{
+						display: "flex",
+						flexDirection: "column",
+						gap: 8,
+						padding: 12,
+						backgroundColor: "var(--vscode-editor-background)",
+						borderRadius: 4,
+						border: "1px solid var(--vscode-widget-border)",
+					}}>
+					{name && (
+						<div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+							<strong style={{ fontSize: 14, color: "var(--vscode-foreground)" }}>{name}</strong>
+						</div>
+					)}
+					<div style={{ fontSize: 12, color: "var(--vscode-descriptionForeground)" }}>{caretUser.email}</div>
+					{typeof caretUser.id === "string" && (
+						<div style={{ fontSize: 11, color: "var(--vscode-descriptionForeground)" }}>ID: {caretUser.id}</div>
+					)}
+				</div>
+
+				{/* Actions */}
+				<div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
+					<VSCodeButton appearance="secondary" className="w-full" onClick={handleLogout} style={{ minWidth: "120px" }}>
+						{t("providers.caret.logout", "settings")}
+					</VSCodeButton>
+
+					<ApiKeyField
+						initialValue={apiConfiguration?.caretApiKey || ""}
+						onChange={(value) => handleFieldChange("caretApiKey", value)}
+						providerName={t("providers.caret.name", "settings")}
+						signupUrl="https://caret.team"
+					/>
+				</div>
+
+				{apiConfiguration?.caretApiKey && (
+					<p style={{ fontSize: 12, color: "var(--vscode-foreground)", margin: 0 }}>
+						{t("providers.caret.apiKeyConfigured", "settings")}
+						{apiConfiguration?.caretApiKey}
+					</p>
+				)}
+
+				<div style={{ display: "flex", flexDirection: "column", gap: 6, marginTop: 8 }}>
+					<p style={{ fontSize: 12, color: "var(--vscode-descriptionForeground)", margin: 0 }}>
+						{t("providers.caret.features", "settings")}
+					</p>
+					<ul style={{ fontSize: 11, color: "var(--vscode-descriptionForeground)", margin: 0, paddingLeft: 16 }}>
+						<li>{t("providers.caret.feature1", "settings")}</li>
+						<li>{t("providers.caret.feature2", "settings")}</li>
+						<li>{t("providers.caret.feature3", "settings")}</li>
+						<li>{t("providers.caret.feature4", "settings")}</li>
+					</ul>
+				</div>
+			</div>
+		)
+	}
+
 	return (
-		<div>
+		<div style={{ display: "flex", flexDirection: "column", gap: 10, marginTop: 2 }}>
+			<p style={{ color: "var(--vscode-descriptionForeground)", fontSize: 13, margin: 0 }}>
+				{t("providers.caret.description", "settings")}
+			</p>
+
+			<div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
+				<VSCodeButton appearance="primary" className="w-full" onClick={handleLogin} style={{ minWidth: "120px" }}>
+					{t("providers.caret.login", "settings")}
+				</VSCodeButton>
+				{/* 
+				<ApiKeyField
+					initialValue={apiConfiguration?.caretApiKey || ""}
+					onChange={(value) => handleFieldChange("caretApiKey", value)}
+					providerName={t("providers.caret.name", "settings")}
+					signupUrl="https://caret.team"
+				/> */}
+			</div>
+
+			{/* {apiConfiguration?.caretApiKey && (
+				<p style={{ fontSize: 12, color: "var(--vscode-foreground)", margin: 0 }}>
+					{t("providers.caret.apiKeyConfigured", "settings")}
+				</p>
+			)}
+
+			<div style={{ display: "flex", flexDirection: "column", gap: 6, marginTop: 8 }}>
+				<p style={{ fontSize: 12, color: "var(--vscode-descriptionForeground)", margin: 0 }}>
+					{t("providers.caret.features", "settings")}
+				</p>
+				<ul style={{ fontSize: 11, color: "var(--vscode-descriptionForeground)", margin: 0, paddingLeft: 16 }}>
+					<li>{t("providers.caret.feature1", "settings")}</li>
+					<li>{t("providers.caret.feature2", "settings")}</li>
+					<li>{t("providers.caret.feature3", "settings")}</li>
+					<li>{t("providers.caret.feature4", "settings")}</li>
+					<p></p>
+				</ul>
+			</div>
 			<DebouncedTextField
 				initialValue={apiConfiguration?.caretBaseUrl || ""}
 				onChange={(value) => handleFieldChange("caretBaseUrl", value)}
@@ -82,7 +188,7 @@ export const CaretProvider = ({ showModelOptions, isPopup, currentMode }: CaretP
 						</p>
 					</>
 				)}
-			</div>
+			</div> */}
 
 			<ThinkingBudgetSlider currentMode={currentMode} />
 			<p

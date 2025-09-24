@@ -1,7 +1,7 @@
 import type React from "react"
 import { createContext, useCallback, useContext, useEffect, useRef, useState } from "react"
 import "../../../src/shared/webview/types"
-import { CaretGlobalManager } from "@caret/managers/CaretGlobalManager"
+// import { CaretGlobalManager } from "@caret/managers/CaretGlobalManager"
 // CARET MODIFICATION: Caret 전역 브랜드 모드 시스템 타입과 유틸리티 임포트 (caret-src에서)
 import { type CaretModeSystem } from "@caret/shared/ModeSystem"
 import { DEFAULT_AUTO_APPROVAL_SETTINGS } from "@shared/AutoApprovalSettings"
@@ -652,52 +652,52 @@ export const ExtensionStateContextProvider: React.FC<{
 		// CARET MODIFICATION: Persona system now managed by backend globalState only
 
 		// CARET MODIFICATION: CaretGlobalManager에서 Auth0 사용자 정보 폴링
-		const checkCaretAuth = async () => {
-			try {
-				const globalManager = CaretGlobalManager.get()
+		// const checkCaretAuth = async () => {
+		// 	try {
+		// 		const globalManager = CaretGlobalManager.get()
 
-				if (globalManager.isAuthenticated()) {
-					const userInfo = globalManager.getUserInfo()
-					if (userInfo) {
-						const newCaretUser: CaretUser = {
-							uid: userInfo.sub || userInfo.id || "caret-user",
-							email: userInfo.email,
-							displayName: userInfo.name || userInfo.nickname,
-							photoUrl: userInfo.picture,
-							appBaseUrl: "https://caret.team",
-						}
-						setCaretUserState((prevUser) => {
-							// Only update if user info changed to avoid unnecessary re-renders
-							if (!prevUser || prevUser.uid !== newCaretUser.uid || prevUser.email !== newCaretUser.email) {
-								console.log("[CARET-AUTH] CaretUser updated:", newCaretUser)
-								return newCaretUser
-							}
-							return prevUser
-						})
-					}
-				} else {
-					setCaretUserState((prevUser) => {
-						if (prevUser !== null) {
-							console.log("[CARET-AUTH] CaretUser cleared")
-							return null
-						}
-						return prevUser
-					})
-				}
-			} catch (error) {
-				console.warn("[CARET-AUTH] Failed to check Caret auth status:", error)
-			}
-		}
+		// 		if (globalManager.isAuthenticated()) {
+		// 			const userInfo = globalManager.getUserInfo()
+		// 			if (userInfo) {
+		// 				const newCaretUser: CaretUser = {
+		// 					uid: userInfo.sub || userInfo.id || "caret-user",
+		// 					email: userInfo.email,
+		// 					displayName: userInfo.name || userInfo.nickname,
+		// 					photoUrl: userInfo.picture,
+		// 					appBaseUrl: "https://caret.team",
+		// 				}
+		// 				setCaretUserState((prevUser) => {
+		// 					// Only update if user info changed to avoid unnecessary re-renders
+		// 					if (!prevUser || prevUser.uid !== newCaretUser.uid || prevUser.email !== newCaretUser.email) {
+		// 						console.log("[CARET-AUTH] CaretUser updated:", newCaretUser)
+		// 						return newCaretUser
+		// 					}
+		// 					return prevUser
+		// 				})
+		// 			}
+		// 		} else {
+		// 			setCaretUserState((prevUser) => {
+		// 				if (prevUser !== null) {
+		// 					console.log("[CARET-AUTH] CaretUser cleared")
+		// 					return null
+		// 				}
+		// 				return prevUser
+		// 			})
+		// 		}
+		// 	} catch (error) {
+		// 		console.warn("[CARET-AUTH] Failed to check Caret auth status:", error)
+		// 	}
+		// }
 
 		// Initial check
-		checkCaretAuth()
+		// checkCaretAuth()
 
 		// Polling every 5 seconds to check for Auth0 token changes
-		const authPollingInterval = setInterval(checkCaretAuth, 5000)
+		// const authPollingInterval = setInterval(checkCaretAuth, 5000)
 
 		// Clean up subscriptions when component unmounts
 		return () => {
-			clearInterval(authPollingInterval)
+			// clearInterval(authPollingInterval)
 			if (stateSubscriptionRef.current) {
 				stateSubscriptionRef.current()
 				stateSubscriptionRef.current = null

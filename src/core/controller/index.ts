@@ -1,10 +1,12 @@
 import { Anthropic } from "@anthropic-ai/sdk"
+import { CaretGlobalManager } from "@caret/managers/CaretGlobalManager"
 import { buildApiHandler } from "@core/api"
 import { cleanupLegacyCheckpoints } from "@integrations/checkpoints/CheckpointMigration"
 import { downloadTask } from "@integrations/misc/export-markdown"
 import { ClineAccountService } from "@services/account/ClineAccountService"
 import { McpHub } from "@services/mcp/McpHub"
 import { ApiProvider, ModelInfo } from "@shared/api"
+import { CaretUser } from "@shared/CaretAccount"
 import { ChatContent } from "@shared/ChatContent"
 import { ExtensionState, Platform } from "@shared/ExtensionMessage"
 import { HistoryItem } from "@shared/HistoryItem"
@@ -154,6 +156,42 @@ export class Controller {
 
 	async setUserInfo(info?: UserInfo) {
 		this.stateManager.setGlobalState("userInfo", info)
+	}
+
+	// CARET MODIFICATION: Integrate CaretGlobalManager userInfo with StateManager setSecret
+	syncCaretUserInfoToSecret() {
+		try {
+			const caretUserInfo = CaretGlobalManager.userInfo
+			const customToken = CaretGlobalManager.authToken as string
+			if (caretUserInfo) {
+				console.log("[Controller] 🔑 Syncing Caret user info to secret storage", caretUserInfo)
+				this.stateManager.setGlobalState("caretUserProfile", caretUserInfo)
+				this.stateManager.setSecret("caretApiKey", caretUserInfo.apiKey)
+				this.stateManager.setSecret("caretAuthToken", customToken)
+				console.log("[Controller] ✅ Caret user info stored in secret storage")
+			} else {
+				console.log("[Controller] ⚠️ No Caret user info available to sync")
+			}
+		} catch (error) {
+			console.error("[Controller] ❌ Failed to sync Caret user info to secret:", error)
+		}
+	}
+
+	// CARET MODIFICATION: Retrieve Caret user info from secret storage
+	getCaretUserInfoFromSecret(): CaretUser | undefined {
+		try {
+			const userInfo = this.stateManager.getGlobalStateKey("caretUserProfile")
+			if (userInfo) {
+				console.log("[Controller] 📋 Retrieved Caret user info from secret storage")
+				return userInfo
+			} else {
+				console.log("[Controller] ⚠️ No Caret user info found in secret storage")
+				return undefined
+			}
+		} catch (error) {
+			console.error("[Controller] ❌ Failed to retrieve Caret user info from secret:", error)
+			return undefined
+		}
 	}
 
 	async initTask(task?: string, images?: string[], files?: string[], historyItem?: HistoryItem) {
@@ -313,9 +351,13 @@ export class Controller {
 
 	async handleAuthCallback(customToken: string, provider: string | null = null) {
 		try {
-			await this.authService.handleAuthCallback(customToken, provider ? provider : "google")
+			if (provider !== "caret") {
+				await this.authService.handleAuthCallback(customToken, provider ? provider : "google")
+			}
 
-			const _clineProvider: ApiProvider = "cline"
+			if (customToken && provider === "caret") {
+				this.syncCaretUserInfoToSecret()
+			}
 
 			// Get current settings to determine how to update providers
 			const planActSeparateModelsSetting = this.stateManager.getGlobalStateKey("planActSeparateModelsSetting")
@@ -326,7 +368,7 @@ export class Controller {
 			const currentApiConfiguration = this.stateManager.getApiConfiguration()
 
 			// CARET MODIFICATION: Set default provider to openrouter instead of cline for auth callback
-			const defaultProvider: ApiProvider = "openrouter" // Use openrouter as default instead of cline
+			const defaultProvider: ApiProvider = provider === "caret" ? "caret" : "openrouter" // Use openrouter as default instead of cline
 
 			const updatedConfig = { ...currentApiConfiguration }
 
