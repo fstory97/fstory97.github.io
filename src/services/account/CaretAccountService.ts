@@ -11,6 +11,7 @@ import type {
 	CaretUserResponse,
 } from "@shared/CaretAccount"
 import axios, { AxiosRequestConfig, AxiosResponse } from "axios"
+import { WebviewProvider } from "@/core/webview/WebviewProvider"
 export class CaretAccountService {
 	private static instance: CaretAccountService
 	// private readonly _baseUrl = "https://api.caret.team" // CARET MODIFICATION: Use Caret API server
@@ -54,14 +55,21 @@ export class CaretAccountService {
 		console.log(`[CARET-ACCOUNT-SERVICE] 📡 Making authenticated request to: ${url}`)
 
 		// CARET MODIFICATION: Get Auth0 token from CaretGlobalManager
-		const auth0Token = await CaretGlobalManager.authToken
+		let auth0Token = await CaretGlobalManager.authToken
 		console.log("Caret Account Service auth0Token=====>", auth0Token)
 		console.log(`[CARET-ACCOUNT-SERVICE] 🔑 Auth0 token retrieved:`, auth0Token ? "✅ Present" : "❌ Missing")
+
+		if (!auth0Token) {
+			console.warn("[CARET-ACCOUNT-SERVICE] ⚠️ Auth0 token missing, attempting fallback")
+			auth0Token = this.getFallbackCaretAuthToken()
+		}
 
 		if (!auth0Token) {
 			console.error("[CARET-ACCOUNT-SERVICE] ❌ Auth0 token not found")
 			throw new Error("Auth0 token not found. Please log in to your Caret account.")
 		}
+
+		console.log("Caret Account Service auth0Token=====>", auth0Token)
 
 		const requestConfig: AxiosRequestConfig = {
 			...config,
@@ -106,10 +114,34 @@ export class CaretAccountService {
 		if (response.statusText === "No Content") {
 			console.log(`[CARET-ACCOUNT-SERVICE] ✅ No content response for ${endpoint}`)
 			return {} as T // Return empty object if no content
-		} else {
-			console.log(`[CARET-ACCOUNT-SERVICE] ✅ Successful response for ${endpoint}:`, typeof response.data.data)
-			return response.data.data as T
 		}
+
+		console.log(`[CARET-ACCOUNT-SERVICE] ✅ Successful response for ${endpoint}:`, typeof response.data.data)
+		return response.data.data as T
+	}
+
+	/**
+	 * Retrieves caretAuthToken stored via StateManager as a fallback when the in-memory token is unavailable.
+	 */
+	private getFallbackCaretAuthToken(): string | undefined {
+		try {
+			const instances = WebviewProvider.getAllInstances()
+			for (const instance of instances) {
+				const stateManager = instance.controller?.stateManager
+				if (!stateManager) {
+					continue
+				}
+				const apiConfiguration = stateManager.getApiConfiguration()
+				const storedToken = apiConfiguration?.caretAuthToken
+				if (storedToken) {
+					console.log("[CARET-ACCOUNT-SERVICE] 🔁 Using caretAuthToken fallback from state manager")
+					return storedToken
+				}
+			}
+		} catch (error) {
+			console.error("[CARET-ACCOUNT-SERVICE] ❌ Failed to read caretAuthToken fallback:", error)
+		}
+		return undefined
 	}
 
 	/**
