@@ -2,9 +2,9 @@
   "system_context": {
     "sections": [
       {
-        "content": "# SYSTEM CONTEXT\n\n## Environment\n\n**OS**: {{os}} | **Shell**: {{shell}} | **Home**: {{home_dir}} | **CWD**: {{working_dir}}\n\n## Mode Context\n\n{{mode_system}} mode active - behavior optimized for {{mode_description}}.",
+        "content": "# SYSTEM CONTEXT\n\n## Environment\n\n**OS**: {{os}} | **Shell**: {{shell}} | **Home**: {{home_dir}} | **CWD**: {{working_dir}}",
         "mode": "both",
-        "tokens": "~80"
+        "tokens": "~60"
       }
     ]
   },

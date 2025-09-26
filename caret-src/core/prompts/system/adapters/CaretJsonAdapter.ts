@@ -36,7 +36,7 @@ export class CaretJsonAdapter implements IPromptSystem {
 
         const sectionNames = [
             'BASE_PROMPT_INTRO',
-            'CHATBOT_AGENT_MODES',
+            'AGENT_BEHAVIOR_DIRECTIVES', // Replaces CHATBOT_AGENT_MODES
             'COLLABORATIVE_PRINCIPLES',  // CARET MODIFICATION: Restore collaborative principles
             'CARET_SYSTEM_INFO',
             'CARET_CAPABILITIES', 
@@ -242,6 +242,14 @@ export class CaretJsonAdapter implements IPromptSystem {
             content = this.processTemplateSections(template.mode_system.sections, isChatbotMode);
         } else if (template.system_context?.sections) {
             content = this.processTemplateSections(template.system_context.sections, isChatbotMode);
+        } else if (template.behavior_directives?.persona) { // Handle new AGENT_BEHAVIOR_DIRECTIVES.json
+            const directives = template.behavior_directives;
+            const mode = isChatbotMode ? directives.modes.chatbot : directives.modes.agent;
+            content = [
+                mode.header,
+                directives.persona,
+                ...mode.directive
+            ].join('\n');
         } else if (template.capabilities?.sections) {
             content = this.processTemplateSections(template.capabilities.sections, isChatbotMode);
         } else if (template.file_editing?.sections) {
@@ -296,22 +304,7 @@ export class CaretJsonAdapter implements IPromptSystem {
      * Substitutes template variables with appropriate values.
      */
     private substituteTemplateVars(content: string, isChatbotMode: boolean, context?: CaretSystemPromptContext): string {
-        const currentMode = isChatbotMode ? 'CHATBOT' : 'AGENT';
-        const modeSystem = isChatbotMode ? 'chatbot' : 'agent';
-        const modeDescription = isChatbotMode 
-            ? 'conversational assistance and planning'
-            : 'autonomous task execution';
-        const modeCapabilities = isChatbotMode
-            ? 'Focused on analysis, guidance, and planning without file modifications'
-            : 'Full autonomous capabilities with complete tool access';
-        
-        console.log(`[CaretJsonAdapter] 🔧 Template substitution: isChatbotMode=${isChatbotMode}, currentMode=${currentMode}`);
-        
         const result = content
-            .replace(/\{\{current_mode\}\}/g, currentMode)
-            .replace(/\{\{mode_system\}\}/g, modeSystem)
-            .replace(/\{\{mode_description\}\}/g, modeDescription)
-            .replace(/\{\{mode_capabilities\}\}/g, modeCapabilities)
             .replace(/\{\{working_dir\}\}/g, process.cwd())
             .replace(/\{\{os\}\}/g, process.platform)
             .replace(/\{\{shell\}\}/g, process.env.SHELL || '/bin/bash')
@@ -319,10 +312,6 @@ export class CaretJsonAdapter implements IPromptSystem {
             .replace(/\{\{custom_instructions\}\}/g, this.getCustomInstructions(context))
             .replace(/\{\{mcp_servers_list\}\}/g, 'No MCP servers currently connected');
             
-        if (content.includes('{{current_mode}}')) {
-            console.log(`[CaretJsonAdapter] ✅ Template substitution completed: {{current_mode}} → ${currentMode}`);
-        }
-        
         return result;
     }
 

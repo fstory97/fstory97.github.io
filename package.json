@@ -2,7 +2,7 @@
 	"name": "caret",
 	"displayName": "Caret",
 	"description": "🎯 Transform your coding workflow with the most intelligent AI assistant for Visual Studio Code. Autonomous code generation, multi-file refactoring, and 20+ AI models. Supports: 한국어, 日本語, 中文.",
-	"version": "0.2.22",
+	"version": "0.2.3",
 	"icon": "assets/icons/icon.png",
 	"engines": {
 		"vscode": "^1.84.0"
