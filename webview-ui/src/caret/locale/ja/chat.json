@@ -52,7 +52,7 @@
 	"addFilesImages": "ファイルと画像を追加",
 	"mode": {
 		"tooltip": {
-			"description": "{{mode}}モードでは、Caretは{{action}}",
+			"description": "{{mode_type}}モードでは、Caretは{{action}}",
 			"act": {
 				"action": "すぐにタスクを完了します"
 			},

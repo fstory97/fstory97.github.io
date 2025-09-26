@@ -1,3 +1,4 @@
+import { caretDefaultModelId } from "@shared/api"
 import { mentionRegex, mentionRegexGlobal } from "@shared/context-mentions"
 import { EmptyRequest, StringRequest } from "@shared/proto/cline/common"
 import { FileSearchRequest, FileSearchType, RelativePathsRequest } from "@shared/proto/cline/file"
@@ -1171,8 +1172,10 @@ const ChatTextArea = forwardRef<HTMLTextAreaElement, ChatTextAreaProps>(
 					return `${selectedProvider}:${ollamaModelId}`
 				case "litellm":
 					return `${selectedProvider}:${liteLlmModelId}`
-				case "caret":
-					return `${selectedProvider}:${caretModelId}`
+				case "caret": {
+					const fallbackCaretModelId = caretModelId || selectedModelId || caretDefaultModelId
+					return `${selectedProvider}:${fallbackCaretModelId}`
+				}
 				case "requesty":
 					return `${selectedProvider}:${requestyModelId}`
 				case "anthropic":
@@ -1802,7 +1805,7 @@ const ChatTextArea = forwardRef<HTMLTextAreaElement, ChatTextAreaProps>(
 						hintText={t("mode.tooltip.toggle", "chat", { metaKey: metaKeyChar })}
 						style={{ zIndex: 1000 }}
 						tipText={t("mode.tooltip.description", "chat", {
-							mode:
+							mode_type:
 								shownTooltipMode === "act"
 									? modeSystem === "caret"
 										? t("mode.agent.label", "chat")
@@ -1810,7 +1813,7 @@ const ChatTextArea = forwardRef<HTMLTextAreaElement, ChatTextAreaProps>(
 									: modeSystem === "caret"
 										? t("mode.chatbot.label", "chat")
 										: t("mode.plan.label", "chat"),
-							action: shownTooltipMode === "act" ? t("mode.act.action", "chat") : t("mode.plan.action", "chat"),
+							action: shownTooltipMode === "act" ? t("mode.act.label", "chat") : t("mode.plan.label", "chat"),
 						})}
 						visible={shownTooltipMode !== null}>
 						<SwitchContainer data-testid="mode-switch" disabled={false} onClick={onModeToggle}>

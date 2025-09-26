@@ -53,7 +53,7 @@
 	"addFilesImages": "Add Files & Images",
 	"mode": {
 		"tooltip": {
-			"description": "In {{mode}} mode, Caret will {{action}}",
+			"description": "In {{mode_type}} mode, Caret will {{action}}",
 			"act": {
 				"action": "complete the task immediately"
 			},

@@ -210,7 +210,7 @@ export class CaretAccountService {
 				id: userInfo.user_id,
 				email: userInfo.user_email,
 				displayName: userInfo.metadata?.display_name || userInfo.user_alias || userInfo.user_email,
-				model: userInfo.models?.[0],
+				models: userInfo.models,
 				photoUrl: userInfo.metadata?.avatar_url,
 				apiKey: profile.key,
 				spend: userInfo.spend,

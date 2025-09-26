@@ -1,5 +1,5 @@
 import { Anthropic } from "@anthropic-ai/sdk"
-import { CaretModelInfo, caretDefaultModelId, caretModelInfoSaneDefaults } from "@shared/api"
+import { CaretModelInfo, caretDefaultModelId, caretModels } from "@shared/api"
 import OpenAI from "openai"
 import { ApiHandler, CommonApiHandlerOptions } from ".."
 import { withRetry } from "../retry"
@@ -8,7 +8,6 @@ import { ApiStream } from "../transform/stream"
 
 interface CaretHandlerOptions extends CommonApiHandlerOptions {
 	caretApiKey?: string
-	caretBaseUrl?: string
 	caretModelId?: string
 	caretModelInfo?: CaretModelInfo
 	thinkingBudgetTokens?: number
@@ -52,8 +51,8 @@ export class CaretHandler implements ApiHandler {
 			}
 			try {
 				this.client = new OpenAI({
-					baseURL: this.options.caretBaseUrl || "http://localhost:4000",
-					apiKey: this.options.caretApiKey || "noop",
+					baseURL: "http://localhost:4000",
+					apiKey: this.options.caretApiKey,
 				})
 			} catch (error) {
 				throw new Error(`Error creating Caret client: ${error.message}`)
@@ -342,7 +341,7 @@ export class CaretHandler implements ApiHandler {
 	getModel() {
 		return {
 			id: this.options.caretModelId || caretDefaultModelId,
-			info: this.options.caretModelInfo || caretModelInfoSaneDefaults,
+			info: this.options.caretModelInfo || caretModels[caretDefaultModelId],
 		}
 	}
 }

@@ -56,6 +56,7 @@
 	},
 	"modelSelector": {
 		"label": "Model",
+		"placeholder": "Select a model...",
 		"selectModelPlaceholder": "Select a model..."
 	},
 	"pricing": {
@@ -656,6 +657,8 @@
     "caret": {
       "name": "Caret",
 			"login": "Login",
+      "profile": "Profile",
+      "logout": "Logout",
 			"apiKeyConfigured": "Caret logged in",
 			"description": "Caret login users can access Google's latest Gemini models with free provided credits",
 			"features": "Enjoy the following features without separate API keys",
@@ -687,7 +690,28 @@
 			"description2": "for more information.",
 			"unifiedInterfaceHelpText": "LiteLLM provides a unified interface to access various LLM providers' models. See their",
 			"quickstartGuideLinkText": "quickstart guide",
-			"forMoreInformationText": "for more information."
+			"forMoreInformationText": "for more information.",
+      "modelPicker": {
+				"starIconFilled": "★",
+				"starIconEmpty": "☆",
+				"featuredModelDescriptionBest": "Recommended for Caret's agent coding",
+				"featuredModelLabelBest": "Best",
+				"featuredModelDescriptionNew": "Cutting-edge models for complex, long-horizon tasks",
+				"featuredModelLabelNew": "New",
+				"featuredModelDescriptionFree": "Advanced model with 262K context for complex coding",
+				"featuredModelLabelFree": "Free",
+				"modelLabel": "모델",
+				"searchPlaceholder": "모델 검색 및 선택...",
+				"clearSearch": "검색 지우기",
+				"switchTo1M": "1M 컨텍스트 창 모델로 전환",
+				"switchToOneMContext": "1M 컨텍스트 창 모델로 전환",
+				"switchToTwoHundredKContext": "Switch to 200K context window model",
+				"fetchModelsDescription": "The extension automatically fetches the latest list of models available on ",
+				"linkText": "OpenRouter.",
+				"unsureModelChoice": "If you're unsure which model to choose, Caret works best with ",
+				"recommendedModel": "anthropic/claude-3-7-sonnet-latest.",
+				"searchFreeOptions": "To find free options currently available, try searching for \"free\"."
+			}
 		},
 		"litellm": {
 			"name": "LiteLLM",

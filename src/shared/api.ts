@@ -136,7 +136,7 @@ export interface ApiHandlerOptions {
 	planModeLiteLlmModelId?: string
 	planModeLiteLlmModelInfo?: LiteLLMModelInfo
 	planModeCaretModelId?: string // caret
-	planModeCaretModelInfo?: CaretModelInfo // caret
+	planModeCaretModelInfo?: ModelInfo // caret
 	planModeRequestyModelId?: string
 	planModeRequestyModelInfo?: ModelInfo
 	planModeTogetherModelId?: string
@@ -169,7 +169,7 @@ export interface ApiHandlerOptions {
 	actModeLiteLlmModelId?: string
 	actModeLiteLlmModelInfo?: LiteLLMModelInfo
 	actModeCaretModelId?: string // caret
-	actModeCaretModelInfo?: CaretModelInfo // caret
+	actModeCaretModelInfo?: ModelInfo // caret
 	actModeRequestyModelId?: string
 	actModeRequestyModelInfo?: ModelInfo
 	actModeTogetherModelId?: string
@@ -2213,24 +2213,54 @@ export const mistralModels = {
 } as const satisfies Record<string, ModelInfo>
 
 // Caret
-// https://docs.litellm.ai/docs/
-export type CaretModelId = string
-export const caretDefaultModelId = "anthropic/claude-3-7-sonnet-20250219"
+// https://docs.caret.team/docs/
+export type CaretModelId = keyof typeof caretModels
 export interface CaretModelInfo extends ModelInfo {
 	temperature?: number
 }
-
-export const caretModelInfoSaneDefaults: CaretModelInfo = {
-	maxTokens: -1,
-	contextWindow: 128_000,
-	supportsImages: true,
-	supportsPromptCache: true,
-	inputPrice: 0,
-	outputPrice: 0,
-	cacheWritesPrice: 0,
-	cacheReadsPrice: 0,
-	temperature: 0,
-}
+export const caretDefaultModelId = "gemini/gemini-2.5-flash"
+export const caretModels = {
+	"gemini/gemini-2.5-pro": {
+		maxTokens: 65536,
+		contextWindow: 1_048_576,
+		supportsImages: true,
+		supportsPromptCache: true,
+		supportsGlobalEndpoint: true,
+		inputPrice: 2.5,
+		outputPrice: 15,
+		cacheReadsPrice: 0.625,
+		thinkingConfig: {
+			maxBudget: 32767,
+		},
+		tiers: [
+			{
+				contextWindow: 200000,
+				inputPrice: 1.25,
+				outputPrice: 10,
+				cacheReadsPrice: 0.31,
+			},
+			{
+				contextWindow: Infinity,
+				inputPrice: 2.5,
+				outputPrice: 15,
+				cacheReadsPrice: 0.625,
+			},
+		],
+	},
+	"gemini/gemini-2.5-flash": {
+		maxTokens: 65536,
+		contextWindow: 1_048_576,
+		supportsImages: true,
+		supportsPromptCache: true,
+		supportsGlobalEndpoint: true,
+		inputPrice: 0.3,
+		outputPrice: 2.5,
+		thinkingConfig: {
+			maxBudget: 24576,
+			outputPrice: 3.5,
+		},
+	},
+} as const satisfies Record<string, ModelInfo>
 
 // LiteLLM
 // https://docs.litellm.ai/docs/

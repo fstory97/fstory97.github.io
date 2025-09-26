@@ -22,6 +22,8 @@ import { convertProtoMcpServersToMcpServers } from "@shared/proto-conversions/mc
 import {
 	basetenDefaultModelId,
 	basetenModels,
+	caretDefaultModelId,
+	caretModels,
 	groqDefaultModelId,
 	groqModels,
 	type ModelInfo,
@@ -63,6 +65,7 @@ interface ExtensionStateContextType extends ExtensionState {
 	openAiModels: string[]
 	requestyModels: Record<string, ModelInfo>
 	groqModels: Record<string, ModelInfo>
+	caretModels: Record<string, ModelInfo>
 	basetenModels: Record<string, ModelInfo>
 	huggingFaceModels: Record<string, ModelInfo>
 	vercelAiGatewayModels: Record<string, ModelInfo>
@@ -112,6 +115,7 @@ interface ExtensionStateContextType extends ExtensionState {
 	setMcpServers: (value: McpServer[]) => void
 	setRequestyModels: (value: Record<string, ModelInfo>) => void
 	setGroqModels: (value: Record<string, ModelInfo>) => void
+	setCaretModels: (value: Record<string, ModelInfo>) => void
 	setBasetenModels: (value: Record<string, ModelInfo>) => void
 	setHuggingFaceModels: (value: Record<string, ModelInfo>) => void
 	setVercelAiGatewayModels: (value: Record<string, ModelInfo>) => void
@@ -281,6 +285,9 @@ export const ExtensionStateContextProvider: React.FC<{
 	})
 	const [groqModelsState, setGroqModels] = useState<Record<string, ModelInfo>>({
 		[groqDefaultModelId]: groqModels[groqDefaultModelId],
+	})
+	const [caretModelsState, setCaretModels] = useState<Record<string, ModelInfo>>({
+		[caretDefaultModelId]: caretModels[caretDefaultModelId],
 	})
 	const [basetenModelsState, setBasetenModels] = useState<Record<string, ModelInfo>>({
 		[basetenDefaultModelId]: basetenModels[basetenDefaultModelId],
@@ -790,6 +797,7 @@ export const ExtensionStateContextProvider: React.FC<{
 		openAiModels,
 		requestyModels,
 		groqModels: groqModelsState,
+		caretModels: caretModelsState,
 		basetenModels: basetenModelsState,
 		huggingFaceModels,
 		vercelAiGatewayModels,
@@ -885,6 +893,7 @@ export const ExtensionStateContextProvider: React.FC<{
 		setMcpServers: (mcpServers: McpServer[]) => setMcpServers(mcpServers),
 		setRequestyModels: (models: Record<string, ModelInfo>) => setRequestyModels(models),
 		setGroqModels: (models: Record<string, ModelInfo>) => setGroqModels(models),
+		setCaretModels: (models: Record<string, ModelInfo>) => setCaretModels(models),
 		setBasetenModels: (models: Record<string, ModelInfo>) => setBasetenModels(models),
 		setHuggingFaceModels: (models: Record<string, ModelInfo>) => setHuggingFaceModels(models),
 		setVercelAiGatewayModels: (models: Record<string, ModelInfo>) => setVercelAiGatewayModels(models),

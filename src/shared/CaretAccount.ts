@@ -7,7 +7,7 @@ export interface CaretUser {
 	photoUrl?: string
 	appBaseUrl?: string
 	apiKey: string
-	model: string
+	models: string[]
 	spend: number
 }
 
@@ -17,7 +17,6 @@ export interface CaretProfileResponse {
 		user_alias: string
 		user_email: string
 		metadata: { display_name: string; avatar_url: string }
-		organization_memberships?: unknown[]
 		models: string[]
 		spend: number
 	}

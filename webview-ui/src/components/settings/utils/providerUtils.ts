@@ -9,7 +9,8 @@ import {
 	basetenModels,
 	bedrockDefaultModelId,
 	bedrockModels,
-	caretModelInfoSaneDefaults,
+	caretDefaultModelId,
+	caretModels,
 	cerebrasDefaultModelId,
 	cerebrasModels,
 	claudeCodeDefaultModelId,
@@ -245,7 +246,7 @@ export function normalizeApiConfiguration(
 			return {
 				selectedProvider: provider,
 				selectedModelId: caretModelId || "",
-				selectedModelInfo: caretModelInfo || caretModelInfoSaneDefaults,
+				selectedModelInfo: caretModelInfo || caretModels[caretDefaultModelId],
 			}
 		case "xai":
 			return getProviderData(xaiModels, xaiDefaultModelId)
@@ -430,6 +431,7 @@ export function getModeSpecificFields(apiConfiguration: ApiConfiguration | undef
 		openAiModelId: mode === "plan" ? apiConfiguration.planModeOpenAiModelId : apiConfiguration.actModeOpenAiModelId,
 		openRouterModelId:
 			mode === "plan" ? apiConfiguration.planModeOpenRouterModelId : apiConfiguration.actModeOpenRouterModelId,
+		caretModelId: mode === "plan" ? apiConfiguration.planModeCaretModelId : apiConfiguration.actModeCaretModelId,
 		groqModelId: mode === "plan" ? apiConfiguration.planModeGroqModelId : apiConfiguration.actModeGroqModelId,
 		basetenModelId: mode === "plan" ? apiConfiguration.planModeBasetenModelId : apiConfiguration.actModeBasetenModelId,
 		huggingFaceModelId:

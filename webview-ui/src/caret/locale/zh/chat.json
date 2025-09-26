@@ -52,7 +52,7 @@
 	"addFilesImages": "添加文件和图像",
 	"mode": {
 		"tooltip": {
-			"description": "在{{mode}}模式下，Caret将{{action}}",
+			"description": "在{{mode_type}}模式下，Caret将{{action}}",
 			"act": {
 				"action": "立即完成任务"
 			},

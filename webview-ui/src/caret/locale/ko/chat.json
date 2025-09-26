@@ -53,7 +53,7 @@
 	"addFilesImages": "파일 및 이미지 추가",
 	"mode": {
 		"tooltip": {
-			"description": "{{mode}} 모드에서 Caret은 {{action}}",
+			"description": "{{mode_type}} 모드에서 Caret은 {{action}}",
 			"act": {
 				"action": "즉시 작업을 완료합니다"
 			},

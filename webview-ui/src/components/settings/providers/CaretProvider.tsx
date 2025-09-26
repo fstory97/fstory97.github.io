@@ -1,14 +1,15 @@
-import { caretModelInfoSaneDefaults } from "@shared/api"
+import { caretModels } from "@shared/api"
 import { Mode } from "@shared/storage/types"
-import { VSCodeButton, VSCodeCheckbox, VSCodeLink } from "@vscode/webview-ui-toolkit/react"
+import { VSCodeButton, VSCodeLink } from "@vscode/webview-ui-toolkit/react"
 import { useState } from "react"
 import { t } from "@/caret/utils/i18n"
 import { useExtensionState } from "@/context/ExtensionStateContext"
 import { getAsVar, VSC_DESCRIPTION_FOREGROUND } from "@/utils/vscStyles"
 import { handleLogin, handleLogout } from "../CaretAuthHandler"
-import { DebouncedTextField } from "../common/DebouncedTextField"
+import CaretModelPicker from "../CaretModelPicker"
 import { ModelInfoView } from "../common/ModelInfoView"
-import { getModeSpecificFields, normalizeApiConfiguration } from "../utils/providerUtils"
+import { ModelSelector } from "../common/ModelSelector"
+import { normalizeApiConfiguration } from "../utils/providerUtils"
 import { useApiConfigurationHandlers } from "../utils/useApiConfigurationHandlers"
 
 /**
@@ -25,7 +26,6 @@ interface CaretProviderProps {
  */
 export const CaretProvider = ({ showModelOptions, isPopup, currentMode }: CaretProviderProps) => {
 	const { apiConfiguration } = useExtensionState()
-	console.log("<===== caret provider apiConfiguration=====>", apiConfiguration)
 	const caretUser = apiConfiguration?.caretUserProfile
 
 	// Get the normalized configuration
@@ -44,7 +44,7 @@ export const CaretProvider = ({ showModelOptions, isPopup, currentMode }: CaretP
 				</p>
 
 				{/* User Profile Section */}
-				<div
+				{/* <div
 					style={{
 						display: "flex",
 						flexDirection: "column",
@@ -60,14 +60,16 @@ export const CaretProvider = ({ showModelOptions, isPopup, currentMode }: CaretP
 						</div>
 					)}
 					<div style={{ fontSize: 12, color: "var(--vscode-descriptionForeground)" }}>{caretUser.email}</div>
-				</div>
+				</div> */}
+
+				{showModelOptions && <CaretModelPicker currentMode={currentMode} isPopup={isPopup} />}
 
 				{/* Actions */}
-				<div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
+				{/* <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
 					<VSCodeButton appearance="secondary" className="w-full" onClick={handleLogout} style={{ minWidth: "120px" }}>
 						{t("providers.caret.logout", "settings")}
 					</VSCodeButton>
-				</div>
+				</div> */}
 			</div>
 		)
 	}
