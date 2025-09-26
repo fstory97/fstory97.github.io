@@ -327,6 +327,9 @@ export class StateManager {
 			actModeVercelAiGatewayModelInfo,
 		} = apiConfiguration
 
+		const hasCaretUserProfile = Object.hasOwn(apiConfiguration, "caretUserProfile")
+		const caretUserProfileToStore = hasCaretUserProfile ? caretUserProfile : this.globalStateCache["caretUserProfile"]
+
 		// Batch update global state keys
 		this.setGlobalStateBatch({
 			// Plan mode configuration updates
@@ -422,7 +425,7 @@ export class StateManager {
 			liteLlmUsePromptCache,
 			caretBaseUrl, // caret
 			caretUsePromptCache, // caret
-			caretUserProfile, // caret
+			caretUserProfile: caretUserProfileToStore, // caret
 			qwenApiLine,
 			moonshotApiLine,
 			zaiApiLine,

@@ -7,7 +7,6 @@ import { VSCodeButton } from "@vscode/webview-ui-toolkit/react"
 import { memo, useCallback } from "react"
 import { caretWebviewLogger } from "@/caret/utils/CaretWebviewLogger"
 import { t } from "@/caret/utils/i18n"
-import VSCodeButtonLink from "@/components/common/VSCodeButtonLink"
 import { CaretAccountServiceClient } from "@/services/grpc-client"
 
 type CaretAccountViewProps = {
