@@ -2,25 +2,39 @@
 
 export interface CaretUser {
 	id: string
-	email?: string
-	displayName?: string
+	email: string
+	displayName: string
 	photoUrl?: string
 	appBaseUrl?: string
+	apiKey: string
+	model: string
+	spend: number
+}
+
+export interface CaretProfileResponse {
+	user_info: {
+		user_id: string
+		user_alias: string
+		user_email: string
+		metadata: { display_name: string; avatar_url: string }
+		organization_memberships?: unknown[]
+		models: string[]
+		spend: number
+	}
+	key: string
+}
+
+export type CaretUserOrganization = {
+	active: boolean
+	memberId: string
+	name: string
+	organizationId: string
+	roles: Array<"admin" | "member" | "owner">
 }
 
 export interface CaretUserResponse extends CaretUser {
-	createdAt: string
-	updatedAt: string
-	// CARET MODIFICATION: Support for Caret organizations structure
-	organizations: [
-		{
-			active: boolean
-			memberId: string
-			name: string
-			organizationId: string
-			roles: ["admin" | "member" | "owner"]
-		},
-	]
+	createdAt?: string
+	updatedAt?: string
 }
 
 export interface CaretBalanceResponse {

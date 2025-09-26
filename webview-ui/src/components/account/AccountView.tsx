@@ -62,11 +62,6 @@ const AccountView = ({ onDone, clineUser, organizations, activeOrganization }: A
 					) : (
 						<AccountWelcomeView />
 					)}
-					{caretUser?.id && (
-						<div>
-							{caretUser.email} {caretUser.displayName} {caretUser.id} {apiConfiguration?.caretAuthToken}
-						</div>
-					)}
 				</div>
 			</div>
 		</div>

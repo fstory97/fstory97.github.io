@@ -2,6 +2,7 @@ import * as vscode from "vscode"
 import type { CaretModeSystem } from "@caret/shared/ModeSystem"
 import { randomBytes } from "crypto"
 import { CaretUser } from "@/shared/CaretAccount"
+import { CaretAccountService } from "@services/account/CaretAccountService"
 
 /**
  * Singleton class for global Caret functionality access
@@ -153,12 +154,10 @@ export class CaretGlobalManager {
 		// Fetch user profile using Apollo Client
 		try {
 			// this._userInfo = await this.apolloManager.getUserProfile()
-      this._userInfo = {
-        id: "test",
-        email: "test@test.com",
-        displayName: "Test User",
-        photoUrl: "https://via.placeholder.com/150",
-      }
+			const caretAccountService = CaretAccountService.getInstance()
+			const userInfo = await caretAccountService.fetchMe()
+			console.log("Caret Global Manager userInfo=====>", userInfo)
+			this._userInfo = userInfo
 			console.log("[CARET-GLOBAL-MANAGER] ✅ User profile loaded:", this._userInfo?.email)
 		} catch (error) {
 			console.error("[CARET-GLOBAL-MANAGER] ❌ Failed to fetch user profile:", error)

@@ -159,13 +159,16 @@ export class Controller {
 	}
 
 	// CARET MODIFICATION: Integrate CaretGlobalManager userInfo with StateManager setSecret
-	syncCaretUserInfoToSecret() {
+	async syncCaretUserInfoToSecret() {
 		try {
 			const caretUserInfo = CaretGlobalManager.userInfo
 			const customToken = CaretGlobalManager.authToken as string
 			if (caretUserInfo) {
 				console.log("[Controller] 🔑 Syncing Caret user info to secret storage", caretUserInfo)
 				this.stateManager.setGlobalState("caretUserProfile", caretUserInfo)
+				this.stateManager.setGlobalState("caretBaseUrl", "http://localhost:4000")
+				this.stateManager.setGlobalState("planModeCaretModelId", caretUserInfo.model)
+				this.stateManager.setGlobalState("actModeCaretModelId", caretUserInfo.model)
 				this.stateManager.setSecret("caretApiKey", caretUserInfo.apiKey)
 				this.stateManager.setSecret("caretAuthToken", customToken)
 				console.log("[Controller] ✅ Caret user info stored in secret storage")
@@ -178,7 +181,7 @@ export class Controller {
 	}
 
 	// CARET MODIFICATION: Retrieve Caret user info from secret storage
-	getCaretUserInfoFromSecret(): CaretUser | undefined {
+	async getCaretUserInfoFromSecret(): Promise<CaretUser | undefined> {
 		try {
 			const userInfo = this.stateManager.getGlobalStateKey("caretUserProfile")
 			if (userInfo) {

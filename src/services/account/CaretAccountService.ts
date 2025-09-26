@@ -7,15 +7,17 @@ import type {
 	CaretOrganizationBalanceResponse,
 	CaretOrganizationUsageTransaction,
 	CaretPaymentTransaction,
+	CaretProfileResponse,
 	CaretUsageTransaction,
 	CaretUserResponse,
 } from "@shared/CaretAccount"
 import axios, { AxiosRequestConfig, AxiosResponse } from "axios"
 import { WebviewProvider } from "@/core/webview/WebviewProvider"
+
 export class CaretAccountService {
 	private static instance: CaretAccountService
 	// private readonly _baseUrl = "https://api.caret.team" // CARET MODIFICATION: Use Caret API server
-	private readonly _baseUrl = "https://localhost:4000" // CARET MODIFICATION: Use Caret API server
+	private readonly _baseUrl = "http://localhost:4000" // CARET MODIFICATION: Use Caret API server
 
 	constructor() {
 		// CARET MODIFICATION: No additional dependencies needed
@@ -101,23 +103,19 @@ export class CaretAccountService {
 			throw new Error(`Request to ${endpoint} failed with status ${status}`)
 		}
 
-		if (response.statusText !== "No Content" && (!response.data || !response.data.data)) {
-			console.error(`[CARET-ACCOUNT-SERVICE] ❌ Invalid response from ${endpoint} API`)
-			throw new Error(`Invalid response from ${endpoint} API`)
-		}
-
-		if (typeof response.data === "object" && !response.data.success) {
-			console.error(`[CARET-ACCOUNT-SERVICE] ❌ API error:`, response.data.error)
-			throw new Error(`API error: ${response.data.error}`)
-		}
-
-		if (response.statusText === "No Content") {
+		if (response.status === 204 || response.statusText === "No Content") {
 			console.log(`[CARET-ACCOUNT-SERVICE] ✅ No content response for ${endpoint}`)
-			return {} as T // Return empty object if no content
+			return {} as T
 		}
 
-		console.log(`[CARET-ACCOUNT-SERVICE] ✅ Successful response for ${endpoint}:`, typeof response.data.data)
-		return response.data.data as T
+		const payload = response.data
+		if (payload == null) {
+			console.error(`[CARET-ACCOUNT-SERVICE] ❌ Empty response body from ${endpoint} API`)
+			throw new Error(`Empty response from ${endpoint} API`)
+		}
+
+		console.log(`[CARET-ACCOUNT-SERVICE] ✅ Successful response for ${endpoint} (primitive payload)`)
+		return payload as T
 	}
 
 	/**
@@ -193,36 +191,6 @@ export class CaretAccountService {
 	}
 
 	/**
-	 * RPC variant that fetches the user's payment transactions without posting to webview
-	 * CARET MODIFICATION: Uses Caret API endpoints
-	 * @returns Payment transactions or undefined if failed
-	 */
-	async fetchPaymentTransactionsRPC(): Promise<CaretPaymentTransaction[] | undefined> {
-		try {
-			console.log("[CARET-ACCOUNT-SERVICE] 💳 Fetching payment transactions...")
-			const me = await this.fetchMe()
-			if (!me || !me.id) {
-				console.error("[CARET-ACCOUNT-SERVICE] ❌ Failed to fetch user ID for payment transactions")
-				return undefined
-			}
-
-			// CARET MODIFICATION: Use Caret API v1 endpoint
-			const data = await this.authenticatedRequest<{ paymentTransactions: CaretPaymentTransaction[] }>(
-				`/api/v1/account/payments`,
-			)
-			console.log(
-				"[CARET-ACCOUNT-SERVICE] ✅ Payment transactions fetched:",
-				data.paymentTransactions?.length || 0,
-				"items",
-			)
-			return data.paymentTransactions
-		} catch (error) {
-			console.error("[CARET-ACCOUNT-SERVICE] ❌ Failed to fetch payment transactions (RPC):", error)
-			return undefined
-		}
-	}
-
-	/**
 	 * Fetches the current user data
 	 * CARET MODIFICATION: Uses Caret API endpoints and Auth0 user info
 	 * @returns CaretUserResponse or undefined if failed
@@ -231,87 +199,32 @@ export class CaretAccountService {
 		try {
 			console.log("[CARET-ACCOUNT-SERVICE] 👤 Fetching current user data...")
 
-			// CARET MODIFICATION: Use Caret API v1 endpoint
-			const data = await this.authenticatedRequest<CaretUserResponse>(`/api/v1/account/profile`)
-			console.log("[CARET-ACCOUNT-SERVICE] ✅ User data fetched:", data.email)
-			return data
+			const profile = await this.authenticatedRequest<CaretProfileResponse>(`/user/profile`)
+			const userInfo = profile?.user_info
+			if (!userInfo || !userInfo.user_id) {
+				console.error("[CARET-ACCOUNT-SERVICE] ❌ User profile payload missing required fields", userInfo)
+				throw new Error("User profile response missing user_id")
+			}
+
+			const caretUser: CaretUserResponse = {
+				id: userInfo.user_id,
+				email: userInfo.user_email,
+				displayName: userInfo.metadata?.display_name || userInfo.user_alias || userInfo.user_email,
+				model: userInfo.models?.[0],
+				photoUrl: userInfo.metadata?.avatar_url,
+				apiKey: profile.key,
+				spend: userInfo.spend,
+			}
+
+			console.log("[CARET-ACCOUNT-SERVICE] ✅ User data fetched:", {
+				id: caretUser.id,
+				email: caretUser.email,
+				displayName: caretUser.displayName,
+				apiKeyPresent: !!caretUser.apiKey,
+			})
+			return caretUser
 		} catch (error) {
 			console.error("[CARET-ACCOUNT-SERVICE] ❌ Failed to fetch user data (RPC):", error)
-			return undefined
-		}
-	}
-
-	/**
-	 * Fetches the current user's organizations
-	 * CARET MODIFICATION: Uses Caret API endpoints
-	 * @returns CaretUserResponse["organizations"] or undefined if failed
-	 */
-	async fetchUserOrganizationsRPC(): Promise<CaretUserResponse["organizations"] | undefined> {
-		try {
-			console.log("[CARET-ACCOUNT-SERVICE] 🏢 Fetching user organizations...")
-			const me = await this.fetchMe()
-			if (!me || !me.organizations) {
-				console.error("[CARET-ACCOUNT-SERVICE] ❌ Failed to fetch user organizations")
-				return undefined
-			}
-			console.log("[CARET-ACCOUNT-SERVICE] ✅ Organizations fetched:", me.organizations.length, "organizations")
-			return me.organizations
-		} catch (error) {
-			console.error("[CARET-ACCOUNT-SERVICE] ❌ Failed to fetch user organizations (RPC):", error)
-			return undefined
-		}
-	}
-
-	/**
-	 * Fetches the current user's organization credits
-	 * CARET MODIFICATION: Uses Caret API endpoints
-	 * @returns {Promise<CaretOrganizationBalanceResponse>} A promise that resolves to the active organization balance.
-	 */
-	async fetchOrganizationCreditsRPC(organizationId: string): Promise<CaretOrganizationBalanceResponse | undefined> {
-		try {
-			console.log("[CARET-ACCOUNT-SERVICE] 🏢💰 Fetching organization credits for:", organizationId)
-
-			// CARET MODIFICATION: Use Caret API v1 endpoint
-			const data = await this.authenticatedRequest<CaretOrganizationBalanceResponse>(
-				`/api/v1/organizations/${organizationId}/balance`,
-			)
-			console.log("[CARET-ACCOUNT-SERVICE] ✅ Organization balance fetched:", data.balance)
-			return data
-		} catch (error) {
-			console.error("[CARET-ACCOUNT-SERVICE] ❌ Failed to fetch active organization balance (RPC):", error)
-			return undefined
-		}
-	}
-
-	/**
-	 * Fetches the current user's organization transactions
-	 * CARET MODIFICATION: Uses Caret API endpoints
-	 * @returns {Promise<CaretOrganizationUsageTransaction[]>} A promise that resolves to the active organization transactions.
-	 */
-	async fetchOrganizationUsageTransactionsRPC(
-		organizationId: string,
-	): Promise<CaretOrganizationUsageTransaction[] | undefined> {
-		try {
-			console.log("[CARET-ACCOUNT-SERVICE] 🏢📈 Fetching organization usage transactions for:", organizationId)
-			const me = await this.fetchMe()
-			if (!me || !me.id) {
-				console.error("[CARET-ACCOUNT-SERVICE] ❌ Failed to fetch user ID for active organization transactions")
-				return undefined
-			}
-			const memberId = me.organizations.find((org) => org.organizationId === organizationId)?.memberId
-			if (!memberId) {
-				console.error("[CARET-ACCOUNT-SERVICE] ❌ Failed to find member ID for active organization transactions")
-				return undefined
-			}
-
-			// CARET MODIFICATION: Use Caret API v1 endpoint
-			const data = await this.authenticatedRequest<{ items: CaretOrganizationUsageTransaction[] }>(
-				`/api/v1/organizations/${organizationId}/members/${memberId}/usages`,
-			)
-			console.log("[CARET-ACCOUNT-SERVICE] ✅ Organization transactions fetched:", data.items?.length || 0, "items")
-			return data.items
-		} catch (error) {
-			console.error("[CARET-ACCOUNT-SERVICE] ❌ Failed to fetch active organization transactions (RPC):", error)
 			return undefined
 		}
 	}
