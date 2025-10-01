@@ -165,6 +165,30 @@ Press Ctrl+' to open chat window
 Type "Hello! Create a React component for me"
 ```
 
+## 🚀 Caret's 11 Core Features
+
+Caret extends Cline with powerful new capabilities while maintaining 100% compatibility:
+
+<div align="center">
+
+| Feature | Description | Documentation |
+|---------|-------------|---------------|
+| **f01** | **Common Utilities** | Shared utility functions and helpers | [📖 Details](https://github.com/aicoding-caret/caret/blob/main/caret-docs/features/f01-common-util.mdx) |
+| **f02** | **Multilingual i18n** | 4-language support (EN/KO/JA/ZH) | [📖 Details](https://github.com/aicoding-caret/caret/blob/main/caret-docs/features/f02-multilingual-i18n.mdx) |
+| **f03** | **Branding & UI System** | Dynamic brand switching (Caret/Cline) | [📖 Details](https://github.com/aicoding-caret/caret/blob/main/caret-docs/features/f03-branding-ui.mdx) |
+| **f04** | **Caret Account System** | User authentication and management | [📖 Details](https://github.com/aicoding-caret/caret/blob/main/caret-docs/features/f04-caret-account.mdx) |
+| **f05** | **Rule Priority System** | Multi-layer rule configuration | [📖 Details](https://github.com/aicoding-caret/caret/blob/main/caret-docs/features/f05-rule-priority-system.mdx) |
+| **f06** | **JSON Dynamic System Prompts** | Flexible prompt management | [📖 Details](https://github.com/aicoding-caret/caret/blob/main/caret-docs/features/f06-json-system-prompt.mdx) |
+| **f07** | **Chatbot/Agent Mode** | Dual interaction modes | [📖 Details](https://github.com/aicoding-caret/caret/blob/main/caret-docs/features/f07-chatbot-agent.mdx) |
+| **f08** | **Persona System** | Customizable AI companions | [📖 Details](https://github.com/aicoding-caret/caret/blob/main/caret-docs/features/f08-persona-system.mdx) |
+| **f09** | **Feature Config System** | Modular feature management | [📖 Details](https://github.com/aicoding-caret/caret/blob/main/caret-docs/features/f09-feature-config-system.mdx) |
+| **f10** | **LiteLLM Model Fetching** | Real-time model discovery | [📖 Details](https://github.com/aicoding-caret/caret/blob/main/caret-docs/features/f10-litellm-model-fetching.mdx) |
+| **f11** | **Input History System** | Terminal-like command history | [📖 Details](https://github.com/aicoding-caret/caret/blob/main/caret-docs/features/f11-input-history-system.mdx) |
+
+</div>
+
+→ **[View Complete Features Index](https://github.com/aicoding-caret/caret/blob/main/caret-docs/features/index.mdx)**
+
 ## Outstanding Performance and Economy
 
 <div align="center">

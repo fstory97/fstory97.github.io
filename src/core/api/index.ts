@@ -1,9 +1,9 @@
 import { Anthropic } from "@anthropic-ai/sdk"
+import { BrandedApiProvider } from "@caret/api/providers/BrandedApiProvider"
 import { ApiConfiguration, ModelInfo, QwenApiRegions } from "@shared/api"
 import { Mode } from "@shared/storage/types"
-import { BrandedApiProvider } from "../../../caret-src/api/providers/BrandedApiProvider"
 // CARET MODIFICATION: Import CaretApiProvider and BrandedApiProvider for t04 systems
-import { CaretApiProvider } from "../../../src/api/providers/CaretApiProvider"
+import { CaretApiProvider } from "@/api/providers/CaretApiProvider"
 import { AnthropicHandler } from "./providers/anthropic"
 import { AskSageHandler } from "./providers/asksage"
 import { BasetenHandler } from "./providers/baseten"

@@ -87,7 +87,12 @@
       "Bash(do echo \"=== $lang chat.json taskHeader 키 개수 ===\")",
       "Bash(do echo \"=== $lang settings.json browser.action 확인 ===\")",
       "Bash(do echo \"=== $lang settings.json browser section ===\")",
-      "Bash(git rm:*)"
+      "Bash(git rm:*)",
+      "Bash(git remote add:*)",
+      "Bash(git fetch:*)",
+      "Bash(npx vitest run:*)",
+      "Bash(npm test)",
+      "WebSearch"
     ],
     "deny": [],
     "ask": []

@@ -12,6 +12,7 @@ import DynamicTextArea from "react-textarea-autosize"
 import { useClickAway, useWindowSize } from "react-use"
 import styled from "styled-components"
 import { useCaretI18n } from "@/caret/hooks/useCaretI18n"
+import { useInputHistory } from "@/caret/hooks/useInputHistory" // CARET MODIFICATION: Persistent input history functionality
 import ContextMenu from "@/components/chat/ContextMenu"
 import { CHAT_CONSTANTS } from "@/components/chat/chat-view/constants"
 import SlashCommandMenu from "@/components/chat/SlashCommandMenu"
@@ -85,6 +86,7 @@ interface ChatTextAreaProps {
 	shouldDisableFilesAndImages: boolean
 	onHeightChange?: (height: number) => void
 	onFocusChange?: (isFocused: boolean) => void
+	inputHistory?: string[] // CARET MODIFICATION: Persistent input history functionality
 }
 
 interface GitCommit {
@@ -278,6 +280,7 @@ const ChatTextArea = forwardRef<HTMLTextAreaElement, ChatTextAreaProps>(
 			shouldDisableFilesAndImages,
 			onHeightChange,
 			onFocusChange,
+			inputHistory = [], // CARET MODIFICATION: Persistent input history functionality
 		},
 		ref,
 	) => {
@@ -327,6 +330,13 @@ const ChatTextArea = forwardRef<HTMLTextAreaElement, ChatTextAreaProps>(
 
 		// Add a ref to track previous menu state
 		const prevShowModelSelector = useRef(showModelSelector)
+
+		// CARET MODIFICATION: Persistent input history functionality - hook for handling arrow key navigation
+		const { handleKeyDown: handleHistoryKeyDown } = useInputHistory({
+			history: inputHistory,
+			inputValue,
+			setInputValue,
+		})
 
 		// Fetch git commits when Git is selected or when typing a hash
 		useEffect(() => {
@@ -504,6 +514,11 @@ const ChatTextArea = forwardRef<HTMLTextAreaElement, ChatTextAreaProps>(
 
 		const handleKeyDown = useCallback(
 			(event: React.KeyboardEvent<HTMLTextAreaElement>) => {
+				// CARET MODIFICATION: Handle persistent input history before other key events
+				if (handleHistoryKeyDown(event)) {
+					return
+				}
+
 				if (showSlashCommandsMenu) {
 					if (event.key === "Escape") {
 						setShowSlashCommandsMenu(false)
@@ -693,6 +708,7 @@ const ChatTextArea = forwardRef<HTMLTextAreaElement, ChatTextAreaProps>(
 				slashCommandsQuery,
 				handleSlashCommandsSelect,
 				sendingDisabled,
+				handleHistoryKeyDown,
 			],
 		)
 
@@ -951,7 +967,7 @@ const ChatTextArea = forwardRef<HTMLTextAreaElement, ChatTextAreaProps>(
 
 			processedText = processedText
 				.replace(/\n$/, "\n\n")
-				.replace(/[<>&]/g, (c) => ({ "<": "&lt;", ">": "&gt;", "&": "&amp;" })[c] || c)
+				.replace(/[<>&]/g, (c) => ({ "<": "<", ">": ">", "&": "&" })[c] || c)
 				// highlight @mentions
 				.replace(mentionRegexGlobal, '<mark class="mention-context-textarea-highlight">$&</mark>')
 

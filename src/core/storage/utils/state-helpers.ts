@@ -1,6 +1,6 @@
-import { ApiProvider, BedrockModelId, ModelInfo } from "@shared/api"
 // CARET MODIFICATION: Import feature configuration for persona defaults
-import { getCurrentFeatureConfig } from "@shared/CaretBrandConfig"
+import { getCurrentFeatureConfig } from "@caret/shared/FeatureConfig"
+import { ApiProvider, BedrockModelId, ModelInfo } from "@shared/api"
 import { ExtensionContext, LanguageModelChatSelector } from "vscode"
 import { Controller } from "@/core/controller"
 import { AutoApprovalSettings, DEFAULT_AUTO_APPROVAL_SETTINGS } from "@/shared/AutoApprovalSettings"

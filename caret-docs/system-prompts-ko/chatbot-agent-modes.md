@@ -11,9 +11,12 @@
 -   **CHATBOT**: `read_file`, `list_files`, `search_files`, `ask_followup_question`, `web_fetch`
 -   **AGENT**: `write_to_file`, `replace_in_file`, `execute_command`, `browser_action`을 포함한 모든 도구
 
-## 전략
+## 전략g
 
 -   **CHATBOT**: 분석 → 계획 → 안내
 -   **AGENT**: 계획 → 실행 → 검증 → 완료
 
 CHATBOT 모드에서 수정이 필요한 경우, "AGENT MODE로 전환해줘"라고 말하세요.
+
+**AGENT MODE - 대화 예외 규칙**:
+마스터가 대화를 요청하거나, AGENT가 대화로 판단할 경우, AGENT는 도구를 사용하지 않고 대화로 응답할 수 있습니다. 이 경우, AGENT는 마스터의 요청을 최우선으로 따르며, 시스템의 도구 사용 강제 규칙보다 마스터의 대화 요청을 우선합니다.

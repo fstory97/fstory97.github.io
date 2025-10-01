@@ -1,24 +1,26 @@
 {
-    "header": "🎉 v{{version}} New Features",
+    "header": "🎉 v0.2.4 New Features",
     "previousHeader": "Previous Updates:",
     "bullets": {
         "current": {
-            "1": "Persona System Fixes & Improvements",
-            "1-desc": "Fixed a critical bug where persona images would reset on restart. Enhanced initial setup flow and improved UI clarity.",
-            "2": "UI Improvements & Bug Fixes",
-            "2-desc": "Added missing translations for Chinese and Japanese, resolved shortcut key bugs and minor UI issues.",
-            "3": "Documentation Link Updates",
-            "3-desc": "Updated user manual links for easier access to help and guidance."
+            "1": "LiteLLM Model Support & Settings Refactoring",
+            "1-desc": "Implemented LiteLLM model fetching and refactored CaretBrandConfig to FeatureConfig for increased flexibility in settings management.",
+            "2": "Strengthened Agent Protocol",
+            "2-desc": "Strengthened the agent protocol for explicit approval, making AI behavior control clearer, and added flexibility to converse without tool usage when the Master requests a conversation.",
+            "3": "UI Layout Bug Fix",
+            "3-desc": "Fixed ActionButtons layout overflow when two buttons are displayed, improving UI stability.",
+            "4": "Input History Feature Added",
+            "4-desc": "You can now easily navigate and reuse previously sent messages using the up/down arrow keys in the chat input box."
         },
         "previous": {
-            "1": "Cline v3.26.6 Merge",
-            "1-desc": "Latest GPT-5, Claude 4, Grok model support and architecture improvements",
-            "2": "15+ New API Providers",
-            "2-desc": "Integration with Hugging Face, Groq, and 15+ other new services",
-            "3": "Task Management (Focus Chain)",
-            "3-desc": "Automatic to-do list generation and tracking for complex tasks",
-            "4": "4-Language User Manual",
-            "4-desc": "New manual release"
+            "1": "System Prompt Enhancements",
+            "1-desc": "Restored and supplemented Caret's unique collaborative attitude and cost-saving system prompts that were missing during Cline merging process.",
+            "2": "Persona Image Storage Improvement",
+            "2-desc": "Improved user uploaded images to persist after app restart, using the same logic as template selection.",
+            "3": "Enhanced Multilingual Support",
+            "3-desc": "Added missing Chinese and Japanese translations and improved UI wording.",
+            "4": "Bug Fixes & Stability Improvements",
+            "4-desc": "Fixed various bugs including shortcut key issues and UI layout problems, enhancing overall stability."
         }
     },
     "links": {

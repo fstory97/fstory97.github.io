@@ -1,3 +1,4 @@
+import { getCurrentFeatureConfig } from "@caret/shared/FeatureConfig"
 import { ApiConfiguration, fireworksDefaultModelId } from "@shared/api"
 import type { ExtensionContext } from "vscode"
 import { STATE_MANAGER_NOT_INITIALIZED } from "./error-messages"
@@ -49,6 +50,16 @@ export class StateManager {
 			// Populate the caches with all extension state fields
 			// Use populate method to avoid triggering persistence during initialization
 			this.populateCache(globalState, secrets, workspaceState)
+
+			// CARET MODIFICATION: Set default provider on first launch
+			if (!this.globalStateCache.planModeApiProvider && !this.globalStateCache.actModeApiProvider) {
+				const featureConfig = getCurrentFeatureConfig()
+				this.globalStateCache.planModeApiProvider = featureConfig.defaultProvider as any
+				this.globalStateCache.actModeApiProvider = featureConfig.defaultProvider as any
+				this.pendingGlobalState.add("planModeApiProvider")
+				this.pendingGlobalState.add("actModeApiProvider")
+				this.scheduleDebouncedPersistence()
+			}
 
 			this.isInitialized = true
 		} catch (error) {

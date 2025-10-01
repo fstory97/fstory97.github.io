@@ -2,8 +2,8 @@
 
 import chalk from "chalk"
 import { execSync } from "child_process"
-import * as fs from "fs/promises"
 import fsSync from "fs"
+import * as fs from "fs/promises"
 import { globby } from "globby"
 import { createRequire } from "module"
 import os from "os"
@@ -131,6 +131,19 @@ async function postProcessGeneratedFiles() {
 				modified = true
 			}
 
+			// CARET MODIFICATION: Fix import paths for fetchLiteLlmModels
+			if (content.includes("@caret/core/controller/caretSystem/FetchLiteLlmModels")) {
+				content = content.replace(
+					/@caret\/core\/controller\/caretSystem\/FetchLiteLlmModels/g,
+					"@caret/core/controller/fetchLiteLlmModels",
+				)
+				content = content.replace(
+					/@\/core\/controller\/caret\/fetchLiteLlmModels/g,
+					"@caret/core/controller/fetchLiteLlmModels",
+				)
+				modified = true
+			}
+
 			// CARET MODIFICATION: Fix import paths for Persona controller
 			if (content.includes("@core/controller/persona/")) {
 				content = content.replace(/@core\/controller\/persona\//g, "@caret/core/controller/persona/")
@@ -183,6 +196,9 @@ async function postProcessGeneratedFiles() {
 				content = content.replace(/cline\.SetCaretModeResponse/g, "caret.SetCaretModeResponse")
 				content = content.replace(/cline\.GetCaretModeRequest/g, "caret.GetCaretModeRequest")
 				content = content.replace(/cline\.GetCaretModeResponse/g, "caret.GetCaretModeResponse")
+				// CARET MODIFICATION: Fix LiteLLM service types
+				content = content.replace(/cline\.FetchLiteLlmModelsRequest/g, "caret.FetchLiteLlmModelsRequest")
+				content = content.replace(/cline\.FetchLiteLlmModelsResponse/g, "caret.FetchLiteLlmModelsResponse")
 
 				const changesCount =
 					originalContent !== content ? (originalContent.match(/cline\.(Caret|GetCaret)/g) || []).length : 0

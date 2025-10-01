@@ -1,5 +1,6 @@
 // type that represents json data that is sent from extension to webview, called ExtensionMessage and has 'type' enum which can be 'plusButtonClicked' or 'settingsButtonClicked' or 'hello'
 
+import { FeatureConfig } from "@caret/shared/FeatureConfig"
 import { AutoApprovalSettings } from "./AutoApprovalSettings"
 import { ApiConfiguration } from "./api"
 import { BrowserSettings } from "./BrowserSettings"
@@ -67,6 +68,7 @@ export interface ExtensionState {
 	globalClineRulesToggles: ClineRulesToggles
 	localClineRulesToggles: ClineRulesToggles
 	localCaretRulesToggles: ClineRulesToggles // CARET MODIFICATION: Add caret rules
+	inputHistory?: string[] // CARET MODIFICATION: Persistent input history
 	localWorkflowToggles: ClineRulesToggles
 	globalWorkflowToggles: ClineRulesToggles
 	localCursorRulesToggles: ClineRulesToggles
@@ -77,6 +79,7 @@ export interface ExtensionState {
 	focusChainSettings: FocusChainSettings
 	focusChainFeatureFlagEnabled?: boolean
 	customPrompt?: string
+	featureConfig?: FeatureConfig // CARET MODIFICATION: Add feature config
 	// CARET MODIFICATION: Add caretBanner for Caret welcome page logo
 	caretBanner?: string
 	// CARET MODIFICATION: Persona system settings (independent from modeSystem)

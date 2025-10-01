@@ -25,6 +25,13 @@
 
 # Changelog
 
+## [0.2.4] - 2025-10-01
+ - **New Feature**: Implement input history with arrow keys in the chat input box.
+ - **New Feature**: Implement LiteLLM model fetching and refactor CaretBrandConfig to FeatureConfig
+ - **Enhancement**: Strengthen agent protocol for explicit approval, adding conversational flexibility
+ - **Enhancement**: Refactor system prompt and add Korean docs (especially for COLLABORATIVE_PRINCIPLES)
+ - **Bug Fix**: Fix ActionButtons layout overflow when two buttons are displayed
+
 ## [0.2.22]
  - **System Prompt Enhancements**: Restored and supplemented Caret's unique collaborative attitude and cost-saving system prompts that were missing during Cline merging process
  - **Translation Fix**: Fixed missing browser-related translations

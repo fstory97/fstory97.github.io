@@ -1,0 +1,9 @@
+{
+	"showPersonaSettings": true,
+	"defaultPersonaEnabled": true,
+	"redirectAfterApiSetup": "persona",
+	"defaultModeSystem": "caret",
+	"firstListingProvider": "caret",
+	"defaultProvider": "openrouter",
+	"showOnlyDefaultProvider": false
+}

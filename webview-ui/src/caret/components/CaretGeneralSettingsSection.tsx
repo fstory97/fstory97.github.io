@@ -1,7 +1,7 @@
 // CARET MODIFICATION: Copy-and-Modify from caret-main - General Settings Section with i18n
 
 // CARET MODIFICATION: Import feature configuration for conditional rendering
-import { getCurrentFeatureConfig } from "@shared/CaretBrandConfig"
+// Frontend는 ExtensionState의 featureConfig 사용
 import { VSCodeCheckbox, VSCodeLink } from "@vscode/webview-ui-toolkit/react"
 import React from "react"
 import Section from "@/components/settings/Section"
@@ -20,10 +20,8 @@ interface CaretGeneralSettingsSectionProps {
 
 const CaretGeneralSettingsSection: React.FC<CaretGeneralSettingsSectionProps> = ({ renderSectionHeader }) => {
 	// CARET MODIFICATION: Add telemetry setting with i18n, modeSystem, and persona system restored
-	const { telemetrySetting, modeSystem, enablePersonaSystem, setEnablePersonaSystem } = useExtensionState()
+	const { telemetrySetting, modeSystem, enablePersonaSystem, setEnablePersonaSystem, featureConfig } = useExtensionState()
 	const { currentLanguage } = useCaretI18n()
-	// CARET MODIFICATION: Get feature configuration
-	const brandConfig = getCurrentFeatureConfig()
 
 	return (
 		<div className="flex flex-col gap-4">
@@ -41,7 +39,7 @@ const CaretGeneralSettingsSection: React.FC<CaretGeneralSettingsSectionProps> = 
 				</div>
 
 				{/* CARET MODIFICATION: 페르소나 설정 - Caret 모드이고 브랜드 설정에서 허용할 때만 표시 */}
-				{brandConfig.showPersonaSettings && modeSystem === "caret" && (
+				{featureConfig?.showPersonaSettings && modeSystem === "caret" && (
 					<div className="mb-6">
 						<div className="mb-[5px]">
 							<VSCodeCheckbox

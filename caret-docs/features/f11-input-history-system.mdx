@@ -1,0 +1,314 @@
+# 채팅 입력 히스토리 시스템 (Input History System)
+
+Caret의 **채팅 입력 히스토리 시스템**은 터미널과 일관된 사용자 경험을 제공하는 영구 저장 기반의 메시지 히스토리 관리 시스템입니다.
+
+## 📋 **기능 개요**
+
+### **핵심 개념**
+- **터미널 일관성**: bash/zsh와 동일한 위/아래 화살표 키 탐색
+- **영구 저장**: VS Code 워크스페이스별 히스토리 영구 보관
+- **즉시 저장**: 메시지 전송 시점에 히스토리 추가
+- **정확성**: AI 응답 혼입 없이 사용자 입력만 순수 저장
+
+### **Cline 대비 개선사항**
+| 구분 | Cline | Caret |
+|---|---|---|
+| **히스토리 기능** | ❌ 없음 | ✅ 완전 구현 |
+| **저장 방식** | - | ✅ 영구 저장 |
+| **사용자 경험** | - | ✅ 터미널과 일관된 UX |
+| **데이터 정확성** | - | ✅ 사용자 입력만 저장 |
+
+## 🏗️ **시스템 아키텍처**
+
+### **파일 구조**
+```
+webview-ui/src/caret/hooks/
+├── usePersistentInputHistory.ts    # 영구 저장 로직
+└── useInputHistory.ts              # 키보드 탐색 로직
+
+src/shared/
+└── ExtensionMessage.ts             # inputHistory 필드 정의
+
+webview-ui/src/context/
+└── ExtensionStateContext.tsx       # setInputHistory setter
+
+webview-ui/src/components/chat/
+├── ChatView.tsx                    # 메시지 핸들러 확장
+├── ChatTextArea.tsx                # 키보드 이벤트 처리
+└── chat-view/components/layout/
+    └── InputSection.tsx            # Props 중계
+```
+
+### **데이터 흐름**
+```
+사용자 입력 → addToHistory() → 세션 메모리 → 영구 저장
+                                        ↓
+키보드 이벤트 ← useInputHistory ← 통합 히스토리 ← 로드
+```
+
+## 🔧 **핵심 구현**
+
+### **1. 영구 저장 훅**
+```typescript
+// usePersistentInputHistory.ts
+export function usePersistentInputHistory() {
+    const { inputHistory: persistentHistory, setInputHistory } = useExtensionState()
+    const [sessionHistory, setSessionHistory] = useState<string[]>([])
+
+    // 통합 히스토리 (영구 + 세션)
+    const combinedHistory = [...currentPersistentHistory, ...sessionHistory]
+
+    const addToHistory = useCallback((text: string) => {
+        if (!text.trim()) return
+
+        // 중복 제거
+        if (combinedHistory[combinedHistory.length - 1] === text.trim()) return
+
+        // 세션에 추가
+        setSessionHistory(prev => [...prev, text.trim()])
+
+        // 10개씩 모아서 영구 저장 (성능 최적화)
+        if (sessionHistory.length >= 10) {
+            const newPersistentHistory = [...currentPersistentHistory, ...sessionHistory, text.trim()]
+                .slice(-MAX_HISTORY_SIZE) // 최대 1000개 제한
+
+            setInputHistory(newPersistentHistory)
+            setSessionHistory([]) // 세션 초기화
+        }
+    }, [combinedHistory, sessionHistory, currentPersistentHistory, setInputHistory])
+
+    return { inputHistory: combinedHistory, addToHistory }
+}
+```
+
+### **2. 키보드 탐색 훅**
+```typescript
+// useInputHistory.ts
+export function useInputHistory({ history, inputValue, setInputValue }: UseInputHistoryParams) {
+    const [historyIndex, setHistoryIndex] = useState(-1)
+    const [currentInput, setCurrentInput] = useState("")
+
+    const handleKeyDown = useCallback((event: React.KeyboardEvent<HTMLTextAreaElement>) => {
+        if (history.length === 0) return false
+
+        if (event.key === "ArrowUp" || event.key === "ArrowDown") {
+            // 커서가 텍스트 시작/끝에 있을 때만 히스토리 탐색
+            if (event.currentTarget.selectionStart === 0 ||
+                event.currentTarget.selectionStart === inputValue.length) {
+                event.preventDefault()
+            } else {
+                return false
+            }
+
+            let newIndex: number
+            if (event.key === "ArrowUp") {
+                newIndex = historyIndex === -1 ? history.length - 1 : Math.max(0, historyIndex - 1)
+            } else {
+                newIndex = historyIndex === -1 ? -1 : Math.min(history.length, historyIndex + 1)
+            }
+
+            setHistoryIndex(newIndex)
+
+            if (newIndex >= 0 && newIndex < history.length) {
+                setInputValue(history[newIndex])
+            } else {
+                setInputValue(currentInput)
+                setHistoryIndex(-1)
+            }
+            return true
+        }
+        return false
+    }, [history, historyIndex, currentInput, inputValue, setInputValue])
+
+    return { handleKeyDown }
+}
+```
+
+### **3. ExtensionState 확장**
+```typescript
+// ExtensionMessage.ts
+export interface ExtensionState {
+    // ... 기존 필드들
+    inputHistory?: string[] // CARET MODIFICATION: Persistent input history
+    // ... 기타 필드들
+}
+
+// ExtensionStateContext.tsx
+interface ExtensionStateContextType {
+    // ... 기존 메서드들
+    setInputHistory: (history: string[]) => void // CARET MODIFICATION: Input history setter
+}
+
+// 구현
+setInputHistory: (history) =>
+    setState((prevState) => ({
+        ...prevState,
+        inputHistory: history,
+    })),
+```
+
+### **4. 메시지 핸들러 확장**
+```typescript
+// ChatView.tsx
+export default function ChatView() {
+    // CARET MODIFICATION: Persistent input history functionality
+    const { inputHistory, addToHistory } = usePersistentInputHistory()
+
+    // CARET MODIFICATION: Enhanced message handler with history tracking
+    const enhancedMessageHandlers = useMemo(() => ({
+        ...messageHandlers,
+        handleSendMessage: async (text: string, images: string[], files: string[]) => {
+            addToHistory(text) // 히스토리에 추가
+            return await messageHandlers.handleSendMessage(text, images, files)
+        }
+    }), [messageHandlers, addToHistory])
+
+    return (
+        <InputSection
+            messageHandlers={enhancedMessageHandlers} // 확장된 핸들러 사용
+            inputHistory={inputHistory} // 히스토리 전달
+        />
+    )
+}
+```
+
+### **5. 키보드 이벤트 통합**
+```typescript
+// ChatTextArea.tsx
+const ChatTextArea = forwardRef<HTMLTextAreaElement, ChatTextAreaProps>(({
+    inputHistory = [], // CARET MODIFICATION: Persistent input history functionality
+    // ... 기타 props
+}, ref) => {
+    // CARET MODIFICATION: Persistent input history functionality
+    const { handleKeyDown: handleHistoryKeyDown } = useInputHistory({
+        history: inputHistory,
+        inputValue,
+        setInputValue,
+    })
+
+    const handleKeyDown = useCallback((event: React.KeyboardEvent<HTMLTextAreaElement>) => {
+        // CARET MODIFICATION: Handle persistent input history before other key events
+        if (handleHistoryKeyDown(event)) {
+            return
+        }
+
+        // 기존 키보드 이벤트 처리...
+    }, [handleHistoryKeyDown, /* 기타 의존성 */])
+})
+```
+
+## 💾 **저장 및 성능**
+
+### **저장 방식**
+- **메모리**: 현재 세션의 임시 히스토리 (즉시 접근)
+- **영구 저장**: VS Code workspace state (세션 간 유지)
+- **배치 저장**: 10개씩 모아서 저장 (성능 최적화)
+
+### **성능 최적화**
+```typescript
+const MAX_HISTORY_SIZE = 1000  // 최대 1000개 항목
+
+// 배치 저장 (10개씩)
+if (sessionHistory.length >= 10) {
+    setInputHistory(newPersistentHistory)
+    setSessionHistory([]) // 세션 초기화
+}
+
+// 세션 종료 시 남은 히스토리 저장
+window.addEventListener('beforeunload', saveOnUnload)
+```
+
+### **메모리 사용량**
+- **1000개 항목**: 평균 200자 × 1000 = 약 200KB
+- **중복 제거**: 연속된 동일 입력 자동 제거
+- **자동 정리**: 1000개 초과 시 오래된 항목 삭제
+
+## 🎯 **사용자 경험**
+
+### **터미널과 일관된 동작**
+1. **위쪽 화살표**: 이전 입력으로 이동
+2. **아래쪽 화살표**: 다음 입력으로 이동 (또는 현재 입력으로 복원)
+3. **커서 위치 고려**: 텍스트 시작/끝에서만 히스토리 탐색
+4. **세션 유지**: VS Code 재시작 후에도 히스토리 보존
+
+### **실제 사용 흐름**
+```
+1. 사용자: "파일 목록을 보여줘" (Enter)
+   → 히스토리에 저장됨
+
+2. 사용자: "README.md 파일을 읽어줘" (Enter)
+   → 히스토리에 저장됨
+
+3. 사용자: 입력창에서 ↑ 키 누름
+   → "README.md 파일을 읽어줘" 표시
+
+4. 사용자: ↑ 키 한 번 더 누름
+   → "파일 목록을 보여줘" 표시
+
+5. 사용자: ↓ 키 누름
+   → "README.md 파일을 읽어줘" 표시
+```
+
+## 🔄 **최소 침습 원칙**
+
+모든 수정사항은 `// CARET MODIFICATION:` 주석으로 명확히 표시:
+
+```typescript
+// CARET MODIFICATION: Persistent input history functionality
+const { inputHistory, addToHistory } = usePersistentInputHistory()
+
+// CARET MODIFICATION: Enhanced message handler with history tracking
+const enhancedMessageHandlers = useMemo(() => ({
+    ...messageHandlers,
+    handleSendMessage: async (text: string, images: string[], files: string[]) => {
+        addToHistory(text) // 히스토리에 추가
+        return await messageHandlers.handleSendMessage(text, images, files)
+    }
+}), [messageHandlers, addToHistory])
+
+inputHistory?: string[] // CARET MODIFICATION: Persistent input history functionality
+```
+
+## 🧪 **테스트 및 검증**
+
+### **기능 테스트**
+```bash
+# 1. 컴파일 확인
+npm run compile
+
+# 2. 개발 환경 실행
+npm run watch
+
+# 3. F5로 VS Code 개발 창 실행
+# 4. 여러 메시지 입력 후 위/아래 화살표로 탐색 테스트
+# 5. VS Code 재시작 후 히스토리 유지 확인
+```
+
+### **검증 포인트**
+- ✅ 사용자 입력만 저장 (AI 응답 혼입 없음)
+- ✅ 위/아래 화살표 키 정상 동작
+- ✅ 커서 위치에 따른 조건부 탐색
+- ✅ VS Code 재시작 후 히스토리 유지
+- ✅ 중복 입력 자동 제거
+- ✅ 최대 크기 제한 동작
+
+## 📊 **기술적 장점**
+
+### **vs 기존 필터링 방식**
+| 비교 항목 | 기존 방식 (삭제됨) | 현재 방식 (Caret) |
+|---|---|---|
+| **정확성** | AI 응답 혼입 | 사용자 입력만 |
+| **성능** | 매번 필터링 연산 | 즉시 접근 |
+| **저장** | 임시 (세션 종료시 삭제) | 영구 저장 |
+| **일관성** | - | 터미널과 동일한 UX |
+
+### **구현 복잡도**
+- **프론트엔드 전용**: 백엔드 수정 불필요
+- **기존 아키텍처 활용**: ExtensionState 패턴 재사용
+- **최소 침습**: 총 5개 파일에 주석 표시된 수정사항만 추가
+
+---
+
+**문서 버전**: v1.0 (2025-10-01)
+**담당**: Luke Yang + Claude Code
+**관련 작업**: [20251001-3-input-history-implementation-guide-v2.md]

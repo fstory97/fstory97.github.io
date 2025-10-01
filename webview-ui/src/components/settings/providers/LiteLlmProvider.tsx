@@ -1,9 +1,11 @@
 import { liteLlmModelInfoSaneDefaults } from "@shared/api"
+import * as proto from "@shared/proto"
 import { Mode } from "@shared/storage/types"
-import { VSCodeCheckbox, VSCodeLink } from "@vscode/webview-ui-toolkit/react"
+import { VSCodeButton, VSCodeCheckbox, VSCodeDropdown, VSCodeLink, VSCodeOption } from "@vscode/webview-ui-toolkit/react"
 import { useState } from "react"
 import { t } from "@/caret/utils/i18n"
 import { useExtensionState } from "@/context/ExtensionStateContext"
+import { CaretSystemServiceClient } from "@/services/grpc-client"
 import { getAsVar, VSC_DESCRIPTION_FOREGROUND } from "@/utils/vscStyles"
 import { DebouncedTextField } from "../common/DebouncedTextField"
 import { ModelInfoView } from "../common/ModelInfoView"
@@ -36,6 +38,46 @@ export const LiteLlmProvider = ({ showModelOptions, isPopup, currentMode }: Lite
 	// Local state for collapsible model configuration section
 	const [modelConfigurationSelected, setModelConfigurationSelected] = useState(false)
 
+	// CARET MODIFICATION: Local state for model fetching
+	const [liteLlmModels, setLiteLlmModels] = useState<string[]>([])
+	const [isLoadingModels, setIsLoadingModels] = useState(false)
+	const [modelsError, setModelsError] = useState<string | null>(null)
+
+	// CARET MODIFICATION: Function to fetch models from LiteLLM
+	const handleFetchModels = async () => {
+		if (!apiConfiguration?.liteLlmBaseUrl) {
+			setModelsError(t("providers.litellm.baseUrlRequired", "settings"))
+			return
+		}
+
+		setIsLoadingModels(true)
+		setModelsError(null)
+
+		try {
+			const request = proto.caret.FetchLiteLlmModelsRequest.create({
+				baseUrl: apiConfiguration.liteLlmBaseUrl,
+				apiKey: apiConfiguration.liteLlmApiKey || "",
+			})
+
+			const response = await CaretSystemServiceClient.FetchLiteLlmModels(request)
+
+			if (response.success) {
+				setLiteLlmModels(response.models || [])
+				if (response.models.length === 0) {
+					setModelsError(t("providers.litellm.noModelsFound", "settings"))
+				}
+			} else {
+				setModelsError(response.errorMessage || t("providers.litellm.fetchError", "settings"))
+				setLiteLlmModels([])
+			}
+		} catch (error) {
+			setModelsError(error instanceof Error ? error.message : t("providers.litellm.fetchError", "settings"))
+			setLiteLlmModels([])
+		} finally {
+			setIsLoadingModels(false)
+		}
+	}
+
 	return (
 		<div>
 			<DebouncedTextField
@@ -54,15 +96,58 @@ export const LiteLlmProvider = ({ showModelOptions, isPopup, currentMode }: Lite
 				type="password">
 				<span style={{ fontWeight: 500 }}>{t("providers.litellm.apiKeyLabel", "settings")}</span>
 			</DebouncedTextField>
-			<DebouncedTextField
-				initialValue={liteLlmModelId || ""}
-				onChange={(value) =>
-					handleModeFieldChange({ plan: "planModeLiteLlmModelId", act: "actModeLiteLlmModelId" }, value, currentMode)
-				}
-				placeholder={t("providers.litellm.modelIdPlaceholder", "settings")}
-				style={{ width: "100%" }}>
-				<span style={{ fontWeight: 500 }}>{t("providers.litellm.modelIdLabel", "settings")}</span>
-			</DebouncedTextField>
+			{/* CARET MODIFICATION: Replace text field with dropdown and fetch button */}
+			<div style={{ display: "flex", gap: "10px", alignItems: "flex-end" }}>
+				<div style={{ flex: 1 }}>
+					<span style={{ fontWeight: 500, display: "block", marginBottom: "5px" }}>
+						{t("providers.litellm.modelIdLabel", "settings")}
+					</span>
+					{liteLlmModels.length > 0 ? (
+						<VSCodeDropdown
+							onChange={(e: any) => {
+								const value = e.target.value
+								handleModeFieldChange(
+									{ plan: "planModeLiteLlmModelId", act: "actModeLiteLlmModelId" },
+									value,
+									currentMode,
+								)
+							}}
+							style={{ width: "100%" }}
+							value={liteLlmModelId || ""}>
+							<VSCodeOption value="">{t("providers.litellm.selectModelPlaceholder", "settings")}</VSCodeOption>
+							{liteLlmModels.map((model) => (
+								<VSCodeOption key={model} value={model}>
+									{model}
+								</VSCodeOption>
+							))}
+						</VSCodeDropdown>
+					) : (
+						<DebouncedTextField
+							initialValue={liteLlmModelId || ""}
+							onChange={(value) =>
+								handleModeFieldChange(
+									{ plan: "planModeLiteLlmModelId", act: "actModeLiteLlmModelId" },
+									value,
+									currentMode,
+								)
+							}
+							placeholder={t("providers.litellm.modelIdPlaceholder", "settings")}
+							style={{ width: "100%" }}
+						/>
+					)}
+				</div>
+				<VSCodeButton
+					disabled={isLoadingModels || !apiConfiguration?.liteLlmBaseUrl}
+					onClick={handleFetchModels}
+					style={{ minWidth: "120px" }}>
+					{isLoadingModels
+						? t("providers.litellm.fetchingModels", "settings")
+						: t("providers.litellm.fetchModels", "settings")}
+				</VSCodeButton>
+			</div>
+			{modelsError && (
+				<p style={{ color: "var(--vscode-errorForeground)", fontSize: "12px", marginTop: "5px" }}>{modelsError}</p>
+			)}
 
 			<div style={{ display: "flex", flexDirection: "column", marginTop: 10, marginBottom: 10 }}>
 				{selectedModelInfo.supportsPromptCache && (

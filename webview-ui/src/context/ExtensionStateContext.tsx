@@ -118,6 +118,7 @@ interface ExtensionStateContextType extends ExtensionState {
 	setGlobalClineRulesToggles: (toggles: Record<string, boolean>) => void
 	setLocalClineRulesToggles: (toggles: Record<string, boolean>) => void
 	setLocalCaretRulesToggles: (toggles: Record<string, boolean>) => void // CARET MODIFICATION: Add caret rules setter
+	setInputHistory: (history: string[]) => void // CARET MODIFICATION: Input history setter
 	setLocalCursorRulesToggles: (toggles: Record<string, boolean>) => void
 	setLocalWindsurfRulesToggles: (toggles: Record<string, boolean>) => void
 	setLocalWorkflowToggles: (toggles: Record<string, boolean>) => void
@@ -907,6 +908,13 @@ export const ExtensionStateContextProvider: React.FC<{
 			setState((prevState) => ({
 				...prevState,
 				localCaretRulesToggles: toggles,
+			})),
+		setInputHistory: (
+			history, // CARET MODIFICATION: Input history setter implementation
+		) =>
+			setState((prevState) => ({
+				...prevState,
+				inputHistory: history,
 			})),
 		setLocalCursorRulesToggles: (toggles) =>
 			setState((prevState) => ({
