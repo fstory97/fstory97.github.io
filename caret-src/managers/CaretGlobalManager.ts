@@ -23,6 +23,9 @@ export class CaretGlobalManager {
 	private _auth0Client?: Auth0Client
 	private _jwtToken?: string
 	private _userInfo?: any
+	// CARET MODIFICATION: Input history management fields
+	private _inputHistory: string[] = []
+	private _inputHistoryResolver?: (history: string[]) => Promise<void>
 
 	private constructor() {}
 
@@ -256,9 +259,9 @@ export class CaretGlobalManager {
 
 		try {
 			// Force refresh token
-			manager._jwtToken = await manager._auth0Client.getTokenSilently({ 
+			manager._jwtToken = await manager._auth0Client.getTokenSilently({
 				// Force refresh by ignoring cache (Auth0 SDK specific)
-				ignoreCache: true 
+				ignoreCache: true
 			})
 			manager._userInfo = await manager._auth0Client.getUser()
 			console.log("[CARET-GLOBAL-MANAGER] ✅ Auth0 token refreshed successfully")
@@ -268,5 +271,66 @@ export class CaretGlobalManager {
 			manager._jwtToken = undefined
 			manager._userInfo = undefined
 		}
+	}
+
+	// CARET MODIFICATION: Input history management methods
+	/**
+	 * Initialize input history resolver (called from webview context)
+	 */
+	public initializeInputHistoryResolver(resolver: (history: string[]) => Promise<void>): void {
+		this._inputHistoryResolver = resolver
+	}
+
+	/**
+	 * Get input history
+	 */
+	public async getInputHistory(): Promise<string[]> {
+		// Return cached history if available
+		return this._inputHistory
+	}
+
+	/**
+	 * Set input history and save to backend
+	 */
+	public async setInputHistory(history: string[]): Promise<void> {
+		this._inputHistory = history // Update local cache
+
+		// Save to backend via resolver if available
+		if (this._inputHistoryResolver) {
+			try {
+				await this._inputHistoryResolver(history)
+				console.log("[CARET-GLOBAL-MANAGER] ✅ Input history saved to backend")
+			} catch (error) {
+				console.error("[CARET-GLOBAL-MANAGER] ❌ Failed to save input history:", error)
+				throw error
+			}
+		} else {
+			console.warn("[CARET-GLOBAL-MANAGER] Input history resolver not initialized")
+		}
+	}
+
+	/**
+	 * Load input history from backend (called during initialization)
+	 */
+	public setInputHistoryCache(history: string[]): void {
+		this._inputHistory = history
+		console.log(`[CARET-GLOBAL-MANAGER] ✅ Input history cache updated with ${history.length} items`)
+	}
+
+	// Static accessors for input history
+	public static async getInputHistory(): Promise<string[]> {
+		return CaretGlobalManager.get().getInputHistory()
+	}
+
+	public static async setInputHistory(history: string[]): Promise<void> {
+		return CaretGlobalManager.get().setInputHistory(history)
+	}
+
+	public static initInputHistoryResolver(resolver: (history: string[]) => Promise<void>): void {
+		CaretGlobalManager.get().initializeInputHistoryResolver(resolver)
+	}
+
+	public static setInputHistoryCache(history: string[]): void {
+		CaretGlobalManager.get().setInputHistoryCache(history)
 	}
 }

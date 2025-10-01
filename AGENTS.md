@@ -9,6 +9,14 @@ Run `pnpm run compile` for type-checking, linting, and bundling. Use `pnpm run w
 ## Coding Style & Naming Conventions
 Biome enforces formatting (tabs width 4, trailing commas, sorted imports). Favor camelCase for functions and variables, PascalCase for classes and React components, and UPPER_SNAKE_CASE for shared constants. Keep helpers near their consumers (e.g., `src/utils/`, `webview-ui/src/lib/`). Before pushing, run `pnpm run lint` and `pnpm run format:fix` to align with repository standards.
 
+## Caret State Management Pattern
+For persistent Caret state that requires backend integration, use the CaretGlobalManager singleton pattern:
+- **Hybrid storage**: Local cache for fast access, gRPC backend for persistence
+- **Cross-session**: State survives VS Code restart/workspace switching
+- **Example**: Input history, user preferences, authentication state
+- **Implementation**: Add methods to `caret-src/managers/CaretGlobalManager.ts` using `StateServiceClient.updateSettings()` for backend communication
+- **Usage**: Static accessors like `CaretGlobalManager.getInputHistory()` for frontend hooks
+
 ## Testing Guidelines
 Vitest powers unit tests (`*.test.ts`) in both `src/` and `webview-ui/src/`. Integration flows rely on `vscode-test`, while browser-driven cases live in `src/test/e2e` using Playwright. After behavioral changes, capture coverage with `pnpm run test:coverage` (or the webview equivalent) and ensure Playwright specs clean up temporary workspaces.
 

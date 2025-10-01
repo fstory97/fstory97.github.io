@@ -32,6 +32,7 @@ describe("FeatureConfig Integration Tests", () => {
 				firstListingProvider: "openrouter",
 				defaultProvider: "openrouter",
 				showOnlyDefaultProvider: false,
+				showCostInformation: true,
 			}
 
 			// When: UI에서 페르소나 표시 여부 확인
@@ -51,6 +52,7 @@ describe("FeatureConfig Integration Tests", () => {
 				firstListingProvider: "litellm",
 				defaultProvider: "litellm",
 				showOnlyDefaultProvider: true,
+				showCostInformation: false,
 			}
 
 			// When: UI에서 페르소나 표시 여부 확인
@@ -70,6 +72,7 @@ describe("FeatureConfig Integration Tests", () => {
 				firstListingProvider: "openrouter",
 				defaultProvider: "openrouter",
 				showOnlyDefaultProvider: false,
+				showCostInformation: true,
 			}
 
 			// When: API 설정 완료 후 리다이렉트 위치 확인
@@ -89,6 +92,7 @@ describe("FeatureConfig Integration Tests", () => {
 				firstListingProvider: "litellm",
 				defaultProvider: "litellm",
 				showOnlyDefaultProvider: true,
+				showCostInformation: false,
 			}
 
 			// When: API 설정 완료 후 리다이렉트 위치 확인
@@ -110,6 +114,7 @@ describe("FeatureConfig Integration Tests", () => {
 				firstListingProvider: "litellm",
 				defaultProvider: "litellm",
 				showOnlyDefaultProvider: true,
+				showCostInformation: false,
 			}
 
 			// When: 프로바이더 표시 설정 확인
@@ -131,6 +136,7 @@ describe("FeatureConfig Integration Tests", () => {
 				firstListingProvider: "openrouter",
 				defaultProvider: "openrouter",
 				showOnlyDefaultProvider: false,
+				showCostInformation: true,
 			}
 
 			// When: 프로바이더 표시 설정 확인

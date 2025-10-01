@@ -25,7 +25,7 @@
 
 # Changelog
 
-## [0.2.4] - 2025-10-01
+## [0.2.3] - 2025-10-01
  - **New Feature**: Implement input history with arrow keys in the chat input box.
  - **New Feature**: Implement LiteLLM model fetching and refactor CaretBrandConfig to FeatureConfig
  - **Enhancement**: Strengthen agent protocol for explicit approval, adding conversational flexibility

@@ -1,4 +1,5 @@
 import { buildApiHandler } from "@core/api"
+import { Logger } from "@services/logging/Logger"
 import { Empty } from "@shared/proto/cline/common"
 import {
 	PlanActMode,
@@ -181,13 +182,13 @@ export async function updateSettings(controller: Controller, request: UpdateSett
 			const previousMode = controller.stateManager.getGlobalStateKey("caretModeSystem")
 			const modeSystem = request.modeSystem === "caret" ? "caret" : "cline"
 			controller.stateManager.setGlobalState("caretModeSystem", modeSystem)
-			console.log(`[BACKEND] caretModeSystem changed: ${previousMode} -> ${modeSystem}`)
+			Logger.info(`[MODE-SYSTEM] caretModeSystem changed: ${previousMode} -> ${modeSystem}`)
 		}
 
 		// CARET MODIFICATION: Update persona system settings
 		if (request.enablePersonaSystem !== undefined) {
 			controller.stateManager.setGlobalState("enablePersonaSystem", request.enablePersonaSystem)
-			console.log(`[BACKEND] enablePersonaSystem changed: ${request.enablePersonaSystem}`)
+			Logger.info(`[PERSONA-SYSTEM] enablePersonaSystem changed: ${request.enablePersonaSystem}`)
 		}
 
 		if (request.currentPersona !== undefined) {
@@ -198,6 +199,12 @@ export async function updateSettings(controller: Controller, request: UpdateSett
 		// if (request.personaProfile !== undefined) {
 		//	controller.stateManager.setGlobalState("personaProfile", request.personaProfile)
 		// }
+
+		// CARET MODIFICATION: Update input history setting
+		if (request.inputHistory !== undefined) {
+			controller.stateManager.setGlobalState("inputHistory", request.inputHistory)
+			Logger.info(`[INPUT-HISTORY] Backend updated with ${request.inputHistory.length} items`)
+		}
 
 		// Post updated state to webview
 		await controller.postStateToWebview()

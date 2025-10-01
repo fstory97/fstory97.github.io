@@ -1,57 +1,65 @@
+// CARET MODIFICATION: Persistent input history hook using CaretGlobalManager pattern
 import { useCallback, useEffect, useState } from "react"
+import { caretWebviewLogger } from "@/caret/utils/webview-logger"
 import { useExtensionState } from "@/context/ExtensionStateContext"
+import { StateServiceClient } from "@/services/grpc-client"
+import { CaretGlobalManager } from "../../../../caret-src/managers/CaretGlobalManager"
 
 const MAX_HISTORY_SIZE = 1000
 
 export function usePersistentInputHistory() {
-	const { inputHistory: persistentHistory, setInputHistory } = useExtensionState()
-	const [sessionHistory, setSessionHistory] = useState<string[]>([])
+	const { inputHistory: stateInputHistory } = useExtensionState()
+	const [localHistory, setLocalHistory] = useState<string[]>([])
 
-	// 영구 저장된 히스토리 로드
-	const currentPersistentHistory = persistentHistory || []
+	// Initialize CaretGlobalManager resolver once
+	useEffect(() => {
+		const saveToBackend = async (history: string[]) => {
+			await StateServiceClient.updateSettings({
+				inputHistory: history,
+			})
+		}
+		CaretGlobalManager.initInputHistoryResolver(saveToBackend)
+		caretWebviewLogger.info("[INPUT-HISTORY] CaretGlobalManager resolver initialized")
+	}, [])
 
-	// 통합 히스토리 (영구 + 세션)
-	const combinedHistory = [...currentPersistentHistory, ...sessionHistory]
+	// Load from backend state when available
+	useEffect(() => {
+		if (stateInputHistory !== undefined) {
+			setLocalHistory(stateInputHistory)
+			// Also update CaretGlobalManager cache
+			CaretGlobalManager.setInputHistoryCache(stateInputHistory)
+			caretWebviewLogger.info(`[INPUT-HISTORY] Hook loaded ${stateInputHistory.length} items from backend state`)
+		}
+	}, [stateInputHistory])
 
-	// 히스토리에 추가
+	// Add new item to history
 	const addToHistory = useCallback(
-		(text: string) => {
+		async (text: string) => {
 			if (!text.trim()) return
 
-			// 중복 제거 (마지막 항목과 같으면 추가하지 않음)
-			if (combinedHistory[combinedHistory.length - 1] === text.trim()) return
+			// Remove duplicates (don't add if same as last item)
+			if (localHistory[localHistory.length - 1] === text.trim()) return
 
-			// 세션 히스토리에 추가
-			setSessionHistory((prev) => [...prev, text.trim()])
+			const newHistory = [...localHistory, text.trim()].slice(-MAX_HISTORY_SIZE)
 
-			// 주기적으로 영구 저장소에 저장 (세션당 10개씩 모아서)
-			if (sessionHistory.length >= 10) {
-				const newPersistentHistory = [...currentPersistentHistory, ...sessionHistory, text.trim()].slice(
-					-MAX_HISTORY_SIZE,
-				) // 최대 크기 제한
+			// Update local state immediately for UI responsiveness
+			setLocalHistory(newHistory)
 
-				setInputHistory(newPersistentHistory)
-				setSessionHistory([]) // 세션 히스토리 초기화
+			// Save to backend via CaretGlobalManager
+			try {
+				await CaretGlobalManager.setInputHistory(newHistory)
+				caretWebviewLogger.info(`[INPUT-HISTORY] Saved history item: "${text.trim().substring(0, 50)}..."`)
+			} catch (error) {
+				caretWebviewLogger.error("[INPUT-HISTORY] Failed to save input history:", error)
+				// Rollback local state on failure
+				setLocalHistory(localHistory)
 			}
 		},
-		[combinedHistory, sessionHistory, currentPersistentHistory, setInputHistory],
+		[localHistory],
 	)
 
-	// 세션 종료 시 남은 히스토리 저장
-	useEffect(() => {
-		const saveOnUnload = () => {
-			if (sessionHistory.length > 0) {
-				const newPersistentHistory = [...currentPersistentHistory, ...sessionHistory].slice(-MAX_HISTORY_SIZE)
-				setInputHistory(newPersistentHistory)
-			}
-		}
-
-		window.addEventListener("beforeunload", saveOnUnload)
-		return () => window.removeEventListener("beforeunload", saveOnUnload)
-	}, [sessionHistory, currentPersistentHistory, setInputHistory])
-
 	return {
-		inputHistory: combinedHistory,
+		inputHistory: localHistory,
 		addToHistory,
 	}
 }

@@ -203,9 +203,48 @@ vscode.postMessage({ type: 'custom/message', payload: data })
 
 **Implementation Steps**:
 1. Define service in `proto/caret/*.proto`
-2. Run `npm run protos` to generate client/server code  
+2. Run `npm run protos` to generate client/server code
 3. Implement handler in `src/core/controller/[service]/`
 4. Use generated `*ServiceClient` in frontend
+
+### Caret State Management Pattern
+**CRITICAL**: Use CaretGlobalManager for persistent Caret state that needs backend integration:
+
+**✅ Correct - CaretGlobalManager Pattern**:
+```typescript
+// CaretGlobalManager.ts - Add state management methods
+export class CaretGlobalManager {
+  private _inputHistory: string[] = []
+
+  public async getInputHistory(): Promise<string[]> {
+    if (this._inputHistory.length === 0) {
+      const response = await StateServiceClient.getSettings()
+      this._inputHistory = response.inputHistory || []
+    }
+    return this._inputHistory
+  }
+
+  public async setInputHistory(history: string[]): Promise<void> {
+    this._inputHistory = history // Local cache for performance
+    await StateServiceClient.updateSettings({ inputHistory: history })
+  }
+
+  // Static accessors for convenience
+  public static async getInputHistory(): Promise<string[]> {
+    return CaretGlobalManager.get().getInputHistory()
+  }
+}
+
+// Usage in frontend hooks
+const { inputHistory, addToHistory } = usePersistentInputHistory()
+// Inside hook: await CaretGlobalManager.setInputHistory(newHistory)
+```
+
+**Pattern Benefits**:
+- **Hybrid Storage**: Local cache (fast access) + gRPC backend (persistence)
+- **Cross-Session**: Survives VS Code restart/workspace switching
+- **Singleton Access**: Consistent state across all components
+- **Type Safety**: Full TypeScript integration via gRPC
 
 ### Path Aliases
 The project uses TypeScript path aliases defined in `tsconfig.json`:

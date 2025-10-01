@@ -8,14 +8,21 @@ interface UseInputHistoryParams {
 
 export function useInputHistory({ history, inputValue, setInputValue }: UseInputHistoryParams) {
 	const [historyIndex, setHistoryIndex] = useState(-1)
-	const [currentInput, setCurrentInput] = useState("")
+	const [originalInput, setOriginalInput] = useState("") // 사용자가 타이핑한 원본 텍스트
+	const [isNavigatingHistory, setIsNavigatingHistory] = useState(false)
 
 	useEffect(() => {
-		if (historyIndex !== -1 && inputValue !== history[historyIndex]) {
-			setHistoryIndex(-1)
+		// 히스토리 탐색 중이 아닐 때만 원본 입력을 업데이트
+		if (!isNavigatingHistory) {
+			setOriginalInput(inputValue)
 		}
-		setCurrentInput(inputValue)
-	}, [inputValue, history, historyIndex])
+
+		// 사용자가 직접 입력을 변경했을 때 히스토리 모드 종료
+		if (historyIndex !== -1 && !isNavigatingHistory && inputValue !== history[historyIndex]) {
+			setHistoryIndex(-1)
+			setOriginalInput(inputValue)
+		}
+	}, [inputValue, history, historyIndex, isNavigatingHistory])
 
 	const handleKeyDown = useCallback(
 		(event: React.KeyboardEvent<HTMLTextAreaElement>) => {
@@ -31,6 +38,13 @@ export function useInputHistory({ history, inputValue, setInputValue }: UseInput
 					return false
 				}
 
+				// 히스토리 탐색 시작 시 현재 입력을 원본으로 저장
+				if (historyIndex === -1) {
+					setOriginalInput(inputValue)
+				}
+
+				setIsNavigatingHistory(true)
+
 				let newIndex: number
 				if (event.key === "ArrowUp") {
 					newIndex = historyIndex === -1 ? history.length - 1 : Math.max(0, historyIndex - 1)
@@ -43,15 +57,22 @@ export function useInputHistory({ history, inputValue, setInputValue }: UseInput
 				if (newIndex >= 0 && newIndex < history.length) {
 					setInputValue(history[newIndex])
 				} else {
-					setInputValue(currentInput)
+					// 히스토리 탐색 종료 - 원본 입력으로 복구
+					setInputValue(originalInput)
 					setHistoryIndex(-1)
+					setIsNavigatingHistory(false)
 				}
 				return true
+			} else {
+				// 다른 키를 누르면 히스토리 탐색 모드 종료
+				if (isNavigatingHistory) {
+					setIsNavigatingHistory(false)
+				}
 			}
 
 			return false
 		},
-		[history, historyIndex, currentInput, inputValue, setInputValue],
+		[history, historyIndex, originalInput, inputValue, setInputValue, isNavigatingHistory],
 	)
 
 	return { handleKeyDown }

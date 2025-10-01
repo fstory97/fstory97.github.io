@@ -1,5 +1,5 @@
 {
-    "header": "🎉 v0.2.4의 새로운 기능",
+    "header": "🎉 v{{version}}의 새로운 기능",
     "previousHeader": "이전 업데이트:",
     "bullets": {
         "current": {

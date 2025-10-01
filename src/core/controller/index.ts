@@ -635,6 +635,8 @@ export class Controller {
 		const enablePersonaSystem = this.stateManager.getGlobalStateKey("enablePersonaSystem") ?? modeSystem === "caret"
 		const currentPersona = this.stateManager.getGlobalStateKey("currentPersona")
 		const personaProfile = this.stateManager.getGlobalStateKey("personaProfile")
+		// CARET MODIFICATION: Add input history
+		const inputHistory = this.stateManager.getGlobalStateKey("inputHistory")
 		const localClineRulesToggles = this.stateManager.getWorkspaceStateKey("localClineRulesToggles")
 		const localWindsurfRulesToggles = this.stateManager.getWorkspaceStateKey("localWindsurfRulesToggles")
 		const localCursorRulesToggles = this.stateManager.getWorkspaceStateKey("localCursorRulesToggles")
@@ -705,6 +707,8 @@ export class Controller {
 			enablePersonaSystem,
 			currentPersona,
 			personaProfile,
+			// CARET MODIFICATION: Include input history
+			inputHistory,
 		}
 	}
 

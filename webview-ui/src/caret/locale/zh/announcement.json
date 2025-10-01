@@ -1,5 +1,5 @@
 {
-    "header": "🎉 v0.2.4 的新功能",
+    "header": "🎉 v{{version}} 的新功能",
     "previousHeader": "以前的更新:",
     "bullets": {
         "current": {

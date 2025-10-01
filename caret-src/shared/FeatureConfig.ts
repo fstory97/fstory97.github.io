@@ -19,6 +19,8 @@ export interface FeatureConfig {
 	defaultProvider: string
 	/** 기본 프로바이더만 표시할지 여부 */
 	showOnlyDefaultProvider: boolean
+	/** 비용 정보 표시 여부 */
+	showCostInformation: boolean
 	// 향후 추가될 기능별 옵션들
 }
 

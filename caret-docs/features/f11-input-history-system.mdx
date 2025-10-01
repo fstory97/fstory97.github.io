@@ -22,15 +22,12 @@ Caret의 **채팅 입력 히스토리 시스템**은 터미널과 일관된 사�
 
 ### **파일 구조**
 ```
+caret-src/managers/
+└── CaretGlobalManager.ts           # 통합 상태 관리 및 gRPC 연동
+
 webview-ui/src/caret/hooks/
-├── usePersistentInputHistory.ts    # 영구 저장 로직
+├── usePersistentInputHistory.ts    # CaretGlobalManager 연동 로직
 └── useInputHistory.ts              # 키보드 탐색 로직
-
-src/shared/
-└── ExtensionMessage.ts             # inputHistory 필드 정의
-
-webview-ui/src/context/
-└── ExtensionStateContext.tsx       # setInputHistory setter
 
 webview-ui/src/components/chat/
 ├── ChatView.tsx                    # 메시지 핸들러 확장
@@ -41,43 +38,53 @@ webview-ui/src/components/chat/
 
 ### **데이터 흐름**
 ```
-사용자 입력 → addToHistory() → 세션 메모리 → 영구 저장
-                                        ↓
-키보드 이벤트 ← useInputHistory ← 통합 히스토리 ← 로드
+사용자 입력 → addToHistory() → StateServiceClient → 백엔드 저장 (updateSettings)
+                     ↓                                      ↓
+               로컬 캐시 업데이트                     getStateToPostToWebview()
+                     ↓                                      ↓
+키보드 이벤트 ← useInputHistory ← useExtensionState ← ExtensionStateContext
 ```
 
 ## 🔧 **핵심 구현**
 
-### **1. 영구 저장 훅**
+### **1. ExtensionState 직접 구독 훅**
 ```typescript
 // usePersistentInputHistory.ts
 export function usePersistentInputHistory() {
-    const { inputHistory: persistentHistory, setInputHistory } = useExtensionState()
-    const [sessionHistory, setSessionHistory] = useState<string[]>([])
+    const { inputHistory: stateInputHistory } = useExtensionState()
+    const [localHistory, setLocalHistory] = useState<string[]>([])
 
-    // 통합 히스토리 (영구 + 세션)
-    const combinedHistory = [...currentPersistentHistory, ...sessionHistory]
+    // 백엔드 상태 직접 구독으로 로딩 문제 해결
+    useEffect(() => {
+        if (stateInputHistory !== undefined) {
+            setLocalHistory(stateInputHistory)
+            CaretGlobalManager.setInputHistoryCache(stateInputHistory)
+            caretWebviewLogger.info(`[INPUT-HISTORY] Hook loaded ${stateInputHistory.length} items from backend state`)
+        }
+    }, [stateInputHistory])
 
-    const addToHistory = useCallback((text: string) => {
+    const addToHistory = useCallback(async (text: string) => {
         if (!text.trim()) return
 
         // 중복 제거
-        if (combinedHistory[combinedHistory.length - 1] === text.trim()) return
+        if (localHistory[localHistory.length - 1] === text.trim()) return
 
-        // 세션에 추가
-        setSessionHistory(prev => [...prev, text.trim()])
+        const newHistory = [...localHistory, text.trim()].slice(-MAX_HISTORY_SIZE)
 
-        // 10개씩 모아서 영구 저장 (성능 최적화)
-        if (sessionHistory.length >= 10) {
-            const newPersistentHistory = [...currentPersistentHistory, ...sessionHistory, text.trim()]
-                .slice(-MAX_HISTORY_SIZE) // 최대 1000개 제한
+        // 로컬 상태 즉시 업데이트 (UI 반응성)
+        setLocalHistory(newHistory)
 
-            setInputHistory(newPersistentHistory)
-            setSessionHistory([]) // 세션 초기화
+        // 백엔드 저장 via gRPC
+        try {
+            await CaretGlobalManager.setInputHistory(newHistory)
+            caretWebviewLogger.info(`[INPUT-HISTORY] Saved history item: "${text.trim().substring(0, 50)}..."`)
+        } catch (error) {
+            caretWebviewLogger.error("[INPUT-HISTORY] Failed to save input history:", error)
+            setLocalHistory(localHistory) // 실패 시 롤백
         }
-    }, [combinedHistory, sessionHistory, currentPersistentHistory, setInputHistory])
+    }, [localHistory])
 
-    return { inputHistory: combinedHistory, addToHistory }
+    return { inputHistory: localHistory, addToHistory }
 }
 ```
 
@@ -124,41 +131,75 @@ export function useInputHistory({ history, inputValue, setInputValue }: UseInput
 }
 ```
 
-### **3. ExtensionState 확장**
+### **3. CaretGlobalManager 확장**
 ```typescript
-// ExtensionMessage.ts
-export interface ExtensionState {
-    // ... 기존 필드들
-    inputHistory?: string[] // CARET MODIFICATION: Persistent input history
-    // ... 기타 필드들
-}
+// CaretGlobalManager.ts - 캐시 및 백엔드 저장 담당
+export class CaretGlobalManager {
+    private _inputHistory: string[] = []
+    private _inputHistoryResolver?: (history: string[]) => Promise<void>
 
-// ExtensionStateContext.tsx
-interface ExtensionStateContextType {
-    // ... 기존 메서드들
-    setInputHistory: (history: string[]) => void // CARET MODIFICATION: Input history setter
-}
+    // gRPC 백엔드 저장 리졸버 초기화
+    public initializeInputHistoryResolver(resolver: (history: string[]) => Promise<void>): void {
+        this._inputHistoryResolver = resolver
+    }
 
-// 구현
-setInputHistory: (history) =>
-    setState((prevState) => ({
-        ...prevState,
-        inputHistory: history,
-    })),
+    // 캐시된 히스토리 반환 (빠른 접근)
+    public async getInputHistory(): Promise<string[]> {
+        return this._inputHistory
+    }
+
+    // 백엔드 저장 + 캐시 업데이트
+    public async setInputHistory(history: string[]): Promise<void> {
+        this._inputHistory = history // 로컬 캐시 업데이트
+
+        // 백엔드 저장 via resolver
+        if (this._inputHistoryResolver) {
+            try {
+                await this._inputHistoryResolver(history)
+                console.log("[CARET-GLOBAL-MANAGER] ✅ Input history saved to backend")
+            } catch (error) {
+                console.error("[CARET-GLOBAL-MANAGER] ❌ Failed to save input history:", error)
+            }
+        }
+    }
+
+    // 백엔드에서 로드된 데이터를 캐시에 설정
+    public setInputHistoryCache(history: string[]): void {
+        this._inputHistory = history
+        console.log(`[CARET-GLOBAL-MANAGER] ✅ Input history cache updated with ${history.length} items`)
+    }
+
+    // Static accessors
+    public static async getInputHistory(): Promise<string[]> {
+        return CaretGlobalManager.get().getInputHistory()
+    }
+
+    public static async setInputHistory(history: string[]): Promise<void> {
+        return CaretGlobalManager.get().setInputHistory(history)
+    }
+
+    public static initInputHistoryResolver(resolver: (history: string[]) => Promise<void>): void {
+        CaretGlobalManager.get().initializeInputHistoryResolver(resolver)
+    }
+
+    public static setInputHistoryCache(history: string[]): void {
+        CaretGlobalManager.get().setInputHistoryCache(history)
+    }
+}
 ```
 
 ### **4. 메시지 핸들러 확장**
 ```typescript
 // ChatView.tsx
 export default function ChatView() {
-    // CARET MODIFICATION: Persistent input history functionality
+    // CARET MODIFICATION: CaretGlobalManager를 통한 persistent input history
     const { inputHistory, addToHistory } = usePersistentInputHistory()
 
-    // CARET MODIFICATION: Enhanced message handler with history tracking
+    // CARET MODIFICATION: Enhanced message handler with async history tracking
     const enhancedMessageHandlers = useMemo(() => ({
         ...messageHandlers,
         handleSendMessage: async (text: string, images: string[], files: string[]) => {
-            addToHistory(text) // 히스토리에 추가
+            await addToHistory(text) // CaretGlobalManager를 통한 비동기 저장
             return await messageHandlers.handleSendMessage(text, images, files)
         }
     }), [messageHandlers, addToHistory])
@@ -200,28 +241,30 @@ const ChatTextArea = forwardRef<HTMLTextAreaElement, ChatTextAreaProps>(({
 ## 💾 **저장 및 성능**
 
 ### **저장 방식**
-- **메모리**: 현재 세션의 임시 히스토리 (즉시 접근)
-- **영구 저장**: VS Code workspace state (세션 간 유지)
-- **배치 저장**: 10개씩 모아서 저장 (성능 최적화)
+- **로컬 캐시**: CaretGlobalManager 메모리 (즉시 접근)
+- **백엔드 저장**: gRPC StateServiceClient (영구 유지)
+- **즉시 저장**: 입력마다 즉시 백엔드 저장 (데이터 안전성)
 
 ### **성능 최적화**
 ```typescript
 const MAX_HISTORY_SIZE = 1000  // 최대 1000개 항목
 
-// 배치 저장 (10개씩)
-if (sessionHistory.length >= 10) {
-    setInputHistory(newPersistentHistory)
-    setSessionHistory([]) // 세션 초기화
+// CaretGlobalManager의 하이브리드 캐싱
+public async getInputHistory(): Promise<string[]> {
+    if (this._inputHistory.length === 0) {
+        // 초기 로드 시에만 백엔드 호출
+        const response = await StateServiceClient.getSettings()
+        this._inputHistory = response.inputHistory || []
+    }
+    return this._inputHistory // 이후 빠른 메모리 접근
 }
-
-// 세션 종료 시 남은 히스토리 저장
-window.addEventListener('beforeunload', saveOnUnload)
 ```
 
 ### **메모리 사용량**
 - **1000개 항목**: 평균 200자 × 1000 = 약 200KB
 - **중복 제거**: 연속된 동일 입력 자동 제거
 - **자동 정리**: 1000개 초과 시 오래된 항목 삭제
+- **gRPC 효율성**: 바이너리 프로토콜로 빠른 전송
 
 ## 🎯 **사용자 경험**
 
@@ -303,12 +346,40 @@ npm run watch
 | **일관성** | - | 터미널과 동일한 UX |
 
 ### **구현 복잡도**
-- **프론트엔드 전용**: 백엔드 수정 불필요
+- **백엔드 수정 포함**: `getStateToPostToWebview()` 수정으로 전체 플로우 완성
 - **기존 아키텍처 활용**: ExtensionState 패턴 재사용
-- **최소 침습**: 총 5개 파일에 주석 표시된 수정사항만 추가
+- **최소 침습**: 총 6개 파일에 주석 표시된 수정사항만 추가
+
+## 🔧 **문제 해결 과정**
+
+### **초기 문제: 웹뷰 리로드 시 히스토리 누락**
+**증상**: 백엔드 저장 성공하지만 리로드 후 히스토리 복원 안됨
+
+**원인**: `getStateToPostToWebview()`에서 `inputHistory` 전송 누락
+```typescript
+// 수정 전: inputHistory 조회/전송 없음
+// 수정 후: 백엔드 상태 조회 및 전송 추가
+const inputHistory = this.stateManager.getGlobalStateKey("inputHistory")
+return { ..., inputHistory }
+```
+
+**해결**:
+1. 백엔드 상태 조회 추가 (`src/core/controller/index.ts`)
+2. Hook에서 `useExtensionState()` 직접 구독
+3. 로깅 시스템 개선 (Logger.info + caretWebviewLogger)
+
+### **로딩 플로우 완성**
+```
+웹뷰 초기화 → subscribeToState → getStateToPostToWebview() → inputHistory 포함
+     ↓
+ExtensionStateContext → useExtensionState() → usePersistentInputHistory
+     ↓
+setLocalHistory(stateInputHistory) → 히스토리 복원 완료
+```
 
 ---
 
-**문서 버전**: v1.0 (2025-10-01)
+**문서 버전**: v2.0 (2025-10-01 완전 구현 완료)
 **담당**: Luke Yang + Claude Code
 **관련 작업**: [20251001-3-input-history-implementation-guide-v2.md]
+**최종 검증**: ✅ 웹뷰 리로드 시 히스토리 복원 확인됨

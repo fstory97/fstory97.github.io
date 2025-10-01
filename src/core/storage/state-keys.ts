@@ -160,7 +160,8 @@ export interface GlobalState {
 				thinking_avatar_uri?: string
 		  }
 		| undefined
-	// CARET MODIFICATION: Persona image storage for persona system
+	// CARET MODIFICATION: Input history for chat persistence
+	inputHistory: string[] | undefined
 }
 
 export interface Secrets {

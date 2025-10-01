@@ -10,6 +10,10 @@ Extract keywords from user request to categorize work:
 Keywords: architecture, design, structure, system, scaling, fork, Cline modification
 → Read: caret-architecture-and-implementation-guide.mdx, extension-architecture.mmd
 
+**B2B Branding & Conversion**:
+Keywords: b2b, brand, codecenter, conversion, slexn
+→ Read: b2b-branding-workflow.md
+
 **AI System Development**:
 Keywords: AI, message, system prompt, chatbot, agent, conversation
 → Read: ai-message-flow-guide.mdx, system-prompt-implementation.mdx

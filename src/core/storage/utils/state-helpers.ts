@@ -212,6 +212,8 @@ export async function readGlobalStateFromDisk(context: ExtensionContext): Promis
 	const enablePersonaSystem = context.globalState.get("enablePersonaSystem") as boolean | undefined
 	const currentPersona = context.globalState.get("currentPersona") as string | undefined
 	const personaProfile = context.globalState.get("personaProfile") as GlobalState["personaProfile"]
+	// CARET MODIFICATION: Input history for chat persistence
+	const inputHistory = context.globalState.get("inputHistory") as GlobalState["inputHistory"]
 
 	const mcpMarketplaceCatalog = context.globalState.get("mcpMarketplaceCatalog") as GlobalState["mcpMarketplaceCatalog"]
 	const qwenCodeOauthPath = context.globalState.get("qwenCodeOauthPath") as GlobalState["qwenCodeOauthPath"]
@@ -296,8 +298,8 @@ export async function readGlobalStateFromDisk(context: ExtensionContext): Promis
 	if (planModeApiProvider) {
 		apiProvider = planModeApiProvider
 	} else {
-		// New users should default to openrouter, since they've opted to use an API key instead of signing in
-		apiProvider = "openrouter"
+		// CARET MODIFICATION: Use FeatureConfig defaultProvider instead of hardcoded openrouter
+		apiProvider = getCurrentFeatureConfig().defaultProvider as ApiProvider
 	}
 
 	const mcpResponsesCollapsed = mcpResponsesCollapsedRaw ?? false
@@ -459,7 +461,8 @@ export async function readGlobalStateFromDisk(context: ExtensionContext): Promis
 			})(),
 		currentPersona: currentPersona,
 		personaProfile: personaProfile,
-		// CARET MODIFICATION: Persona image storage for persona system
+		// CARET MODIFICATION: Input history for chat persistence
+		inputHistory: inputHistory,
 	}
 }
 

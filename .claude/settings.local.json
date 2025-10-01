@@ -92,7 +92,8 @@
       "Bash(git fetch:*)",
       "Bash(npx vitest run:*)",
       "Bash(npm test)",
-      "WebSearch"
+      "WebSearch",
+      "Bash(git rebase:*)"
     ],
     "deny": [],
     "ask": []

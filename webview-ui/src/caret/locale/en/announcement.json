@@ -1,5 +1,5 @@
 {
-    "header": "🎉 v0.2.4 New Features",
+    "header": "🎉 v{{version}} New Features",
     "previousHeader": "Previous Updates:",
     "bullets": {
         "current": {
