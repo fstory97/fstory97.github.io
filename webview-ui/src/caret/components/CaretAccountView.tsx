@@ -4,7 +4,8 @@
 import { type CaretUsage, CaretUser } from "@shared/CaretAccount"
 import * as proto from "@shared/proto/index"
 import { VSCodeButton } from "@vscode/webview-ui-toolkit/react"
-import { memo, useCallback, useEffect, useRef, useState } from "react"
+import deepEqual from "fast-deep-equal"
+import { memo, useCallback, useEffect, useMemo, useRef, useState } from "react"
 import { caretWebviewLogger } from "@/caret/utils/CaretWebviewLogger"
 import { t } from "@/caret/utils/i18n"
 import { CaretAccountServiceClient } from "@/services/grpc-client"
@@ -33,6 +34,8 @@ const mapSummaryToUsage = (summary?: proto.caret.CaretUsageSummary | null, fallb
 	completion_tokens: summary?.completionTokens ?? fallback.completion_tokens ?? 0,
 	total_tokens: summary?.totalTokens ?? fallback.total_tokens ?? 0,
 })
+
+const areCaretUsersEqual = (a: CaretUser, b: CaretUser) => deepEqual(a, b)
 
 const normalizeCaretUser = (user: CaretUser): CaretUser => ({
 	...user,
@@ -134,7 +137,10 @@ const CaretAccountView = memo(({ caretUser }: CaretAccountViewProps) => {
 					return
 				}
 
-				setResolvedUser((prev) => mergeCaretUserWithProfile(prev, response))
+				setResolvedUser((prev) => {
+					const next = mergeCaretUserWithProfile(prev, response)
+					return areCaretUsersEqual(prev, next) ? prev : next
+				})
 				lastFetchedProfileIdRef.current = response.id || incomingId || null
 				caretWebviewLogger.info("[CARET-ACCOUNT-VIEW] ✅ Caret profile resolved", {
 					id: response.id,
@@ -153,10 +159,13 @@ const CaretAccountView = memo(({ caretUser }: CaretAccountViewProps) => {
 	}, [caretUser.id])
 
 	const { id, email, displayName, dailyUsage, monthlyUsage } = resolvedUser
-	const usageRows = [
-		{ key: "daily", label: t("account.dailyUsage", "common"), usage: dailyUsage },
-		{ key: "monthly", label: t("account.monthlyUsage", "common"), usage: monthlyUsage },
-	]
+	const usageRows = useMemo(
+		() => [
+			{ key: "daily", label: t("account.dailyUsage", "common"), usage: dailyUsage },
+			{ key: "monthly", label: t("account.monthlyUsage", "common"), usage: monthlyUsage },
+		],
+		[dailyUsage, monthlyUsage],
+	)
 
 	const handleLogout = useCallback(async () => {
 		caretWebviewLogger.info("[CARET-ACCOUNT-VIEW] 🚪 User logout requested via gRPC")
