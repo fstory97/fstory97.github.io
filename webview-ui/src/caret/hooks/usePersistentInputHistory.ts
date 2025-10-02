@@ -1,9 +1,8 @@
-// CARET MODIFICATION: Persistent input history hook using CaretGlobalManager pattern
+// CARET MODIFICATION: Persistent input history hook using gRPC
 import { useCallback, useEffect, useState } from "react"
 import { caretWebviewLogger } from "@/caret/utils/webview-logger"
 import { useExtensionState } from "@/context/ExtensionStateContext"
 import { StateServiceClient } from "@/services/grpc-client"
-import { CaretGlobalManager } from "../../../../caret-src/managers/CaretGlobalManager"
 
 const MAX_HISTORY_SIZE = 1000
 
@@ -11,23 +10,10 @@ export function usePersistentInputHistory() {
 	const { inputHistory: stateInputHistory } = useExtensionState()
 	const [localHistory, setLocalHistory] = useState<string[]>([])
 
-	// Initialize CaretGlobalManager resolver once
-	useEffect(() => {
-		const saveToBackend = async (history: string[]) => {
-			await StateServiceClient.updateSettings({
-				inputHistory: history,
-			})
-		}
-		CaretGlobalManager.initInputHistoryResolver(saveToBackend)
-		caretWebviewLogger.info("[INPUT-HISTORY] CaretGlobalManager resolver initialized")
-	}, [])
-
 	// Load from backend state when available
 	useEffect(() => {
 		if (stateInputHistory !== undefined) {
 			setLocalHistory(stateInputHistory)
-			// Also update CaretGlobalManager cache
-			CaretGlobalManager.setInputHistoryCache(stateInputHistory)
 			caretWebviewLogger.info(`[INPUT-HISTORY] Hook loaded ${stateInputHistory.length} items from backend state`)
 		}
 	}, [stateInputHistory])
@@ -45,9 +31,11 @@ export function usePersistentInputHistory() {
 			// Update local state immediately for UI responsiveness
 			setLocalHistory(newHistory)
 
-			// Save to backend via CaretGlobalManager
+			// Save to backend via gRPC
 			try {
-				await CaretGlobalManager.setInputHistory(newHistory)
+				await StateServiceClient.updateSettings({
+					inputHistory: newHistory,
+				})
 				caretWebviewLogger.info(`[INPUT-HISTORY] Saved history item: "${text.trim().substring(0, 50)}..."`)
 			} catch (error) {
 				caretWebviewLogger.error("[INPUT-HISTORY] Failed to save input history:", error)
