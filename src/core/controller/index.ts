@@ -1,5 +1,7 @@
 import { Anthropic } from "@anthropic-ai/sdk"
 import { CaretGlobalManager } from "@caret/managers/CaretGlobalManager"
+// CARET MODIFICATION: Import brand config
+import { getCurrentFeatureConfig } from "@caret/shared/FeatureConfig"
 import { buildApiHandler } from "@core/api"
 import { cleanupLegacyCheckpoints } from "@integrations/checkpoints/CheckpointMigration"
 import { downloadTask } from "@integrations/misc/export-markdown"
@@ -23,6 +25,7 @@ import * as vscode from "vscode"
 import { clineEnvConfig } from "@/config"
 import { HostProvider } from "@/hosts/host-provider"
 import { AuthService } from "@/services/auth/AuthService"
+import { Logger } from "@/services/logging/Logger"
 import { PostHogClientProvider, telemetryService } from "@/services/posthog/PostHogClientProvider"
 import { ShowMessageType } from "@/shared/proto/host/window"
 import { getLatestAnnouncementId } from "@/utils/announcements"
@@ -135,8 +138,8 @@ export class Controller {
 			const apiConfiguration = this.stateManager.getApiConfiguration()
 			const updatedConfig = {
 				...apiConfiguration,
-				planModeApiProvider: "openrouter" as ApiProvider,
-				actModeApiProvider: "openrouter" as ApiProvider,
+				planModeApiProvider: getCurrentFeatureConfig().defaultProvider as ApiProvider,
+				actModeApiProvider: getCurrentFeatureConfig().defaultProvider as ApiProvider,
 			}
 			this.stateManager.setApiConfiguration(updatedConfig)
 
@@ -371,7 +374,9 @@ export class Controller {
 			const currentApiConfiguration = this.stateManager.getApiConfiguration()
 
 			// CARET MODIFICATION: Set default provider to openrouter instead of cline for auth callback
-			const defaultProvider: ApiProvider = provider === "caret" ? "caret" : "openrouter" // Use openrouter as default instead of cline
+			// const defaultProvider: ApiProvider = provider === "caret" ? "caret" : "openrouter" // Use openrouter as default instead of cline
+
+			const defaultProvider: ApiProvider = getCurrentFeatureConfig().defaultProvider as ApiProvider // Use openrouter as default instead of cline
 
 			const updatedConfig = { ...currentApiConfiguration }
 
@@ -669,12 +674,16 @@ export class Controller {
 		const customPrompt = this.stateManager.getGlobalStateKey("customPrompt")
 		const mcpResponsesCollapsed = this.stateManager.getGlobalStateKey("mcpResponsesCollapsed")
 		const terminalOutputLineLimit = this.stateManager.getGlobalStateKey("terminalOutputLineLimit")
+		const featureConfig = getCurrentFeatureConfig()
+		Logger.debug(`[Controller] 📋 Loaded featureConfig to send to webview: ${JSON.stringify(featureConfig)}`)
 		// CARET MODIFICATION: Add caretModeSystem to state transmission
 		const modeSystem = this.stateManager.getGlobalStateKey("caretModeSystem")
 		// CARET MODIFICATION: Add persona system settings
 		const enablePersonaSystem = this.stateManager.getGlobalStateKey("enablePersonaSystem") ?? modeSystem === "caret"
 		const currentPersona = this.stateManager.getGlobalStateKey("currentPersona")
 		const personaProfile = this.stateManager.getGlobalStateKey("personaProfile")
+		// CARET MODIFICATION: Add input history
+		const inputHistory = this.stateManager.getGlobalStateKey("inputHistory")
 		const localClineRulesToggles = this.stateManager.getWorkspaceStateKey("localClineRulesToggles")
 		const localWindsurfRulesToggles = this.stateManager.getWorkspaceStateKey("localWindsurfRulesToggles")
 		const localCursorRulesToggles = this.stateManager.getWorkspaceStateKey("localCursorRulesToggles")
@@ -738,12 +747,15 @@ export class Controller {
 			mcpResponsesCollapsed,
 			terminalOutputLineLimit,
 			customPrompt,
+			featureConfig: featureConfig,
 			// CARET MODIFICATION: Include modeSystem in state transmission
 			modeSystem,
 			// CARET MODIFICATION: Include persona system settings
 			enablePersonaSystem,
 			currentPersona,
 			personaProfile,
+			// CARET MODIFICATION: Include input history
+			inputHistory,
 		}
 	}
 

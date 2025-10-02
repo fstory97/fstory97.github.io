@@ -122,6 +122,7 @@ interface ExtensionStateContextType extends ExtensionState {
 	setGlobalClineRulesToggles: (toggles: Record<string, boolean>) => void
 	setLocalClineRulesToggles: (toggles: Record<string, boolean>) => void
 	setLocalCaretRulesToggles: (toggles: Record<string, boolean>) => void // CARET MODIFICATION: Add caret rules setter
+	setInputHistory: (history: string[]) => void // CARET MODIFICATION: Input history setter
 	setLocalCursorRulesToggles: (toggles: Record<string, boolean>) => void
 	setLocalWindsurfRulesToggles: (toggles: Record<string, boolean>) => void
 	setLocalWorkflowToggles: (toggles: Record<string, boolean>) => void
@@ -402,6 +403,28 @@ export const ExtensionStateContextProvider: React.FC<{
 							}
 							if (newState.mode !== undefined) {
 								localStorage.setItem("caret.mode", newState.mode)
+							}
+
+							// CARET MODIFICATION: Load input history to CaretGlobalManager
+							if (newState.inputHistory !== undefined) {
+								try {
+									// Import CaretGlobalManager dynamically to avoid circular deps
+									import("../../../caret-src/managers/CaretGlobalManager")
+										.then(({ CaretGlobalManager }) => {
+											CaretGlobalManager.setInputHistoryCache(newState.inputHistory || [])
+											caretWebviewLogger.debug(
+												`[INPUT-HISTORY] Loaded ${newState.inputHistory?.length || 0} items from backend to CaretGlobalManager`,
+											)
+										})
+										.catch((error) => {
+											caretWebviewLogger.warn("[INPUT-HISTORY] Failed to import CaretGlobalManager:", error)
+										})
+								} catch (error) {
+									caretWebviewLogger.warn(
+										"[INPUT-HISTORY] Failed to load input history to CaretGlobalManager:",
+										error,
+									)
+								}
 							}
 
 							// Update welcome screen state based on API configuration
@@ -884,6 +907,7 @@ export const ExtensionStateContextProvider: React.FC<{
 				// 백엔드에 modeSystem 변경 전송
 				StateServiceClient.updateSettings({
 					modeSystem: modeSystem,
+					inputHistory: [], // CARET MODIFICATION: Required field for proto compatibility
 				})
 				console.log(`[API] StateServiceClient.updateSettings called with modeSystem: ${modeSystem}`)
 			} catch (error) {
@@ -916,6 +940,13 @@ export const ExtensionStateContextProvider: React.FC<{
 			setState((prevState) => ({
 				...prevState,
 				localCaretRulesToggles: toggles,
+			})),
+		setInputHistory: (
+			history, // CARET MODIFICATION: Input history setter implementation
+		) =>
+			setState((prevState) => ({
+				...prevState,
+				inputHistory: history,
 			})),
 		setLocalCursorRulesToggles: (toggles) =>
 			setState((prevState) => ({
@@ -963,6 +994,7 @@ export const ExtensionStateContextProvider: React.FC<{
 			try {
 				StateServiceClient.updateSettings({
 					enablePersonaSystem: enabled,
+					inputHistory: [], // CARET MODIFICATION: Required field for proto compatibility
 				})
 				if (isChanging) {
 					caretWebviewLogger.debug("Sent to backend via StateServiceClient:", enabled)

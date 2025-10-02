@@ -95,7 +95,7 @@ const ApiOptions = ({
 	forcePlanActSeparate,
 }: ApiOptionsProps) => {
 	// Use full context state for immediate save payload
-	const { apiConfiguration } = useExtensionState()
+	const { apiConfiguration, featureConfig } = useExtensionState()
 
 	// CARET MODIFICATION: Use i18n context to detect language changes
 	const { language } = useCaretI18nContext()
@@ -143,6 +143,10 @@ const ApiOptions = ({
 		// CARET MODIFICATION: Restore original Cline provider list, add Caret provider, hide Cline by default
 		const showClineProvider = typeof process !== "undefined" && process.env?.CARET_SHOW_CLINE_PROVIDER === "true"
 
+		if (!featureConfig) {
+			return []
+		}
+
 		const baseOptions = [
 			{ value: "caret", label: t("providers.caret.name", "settings") },
 			{ value: "openrouter", label: t("providers.openrouter.name", "settings") },
@@ -186,7 +190,26 @@ const ApiOptions = ({
 			baseOptions.unshift({ value: "cline", label: t("providers.cline.name", "settings") })
 		}
 
-		return baseOptions
+		// CARET MODIFICATION: Sort providers to show the first listing provider at the top
+		const processedOptions = [...baseOptions]
+
+		const firstProvider = featureConfig.firstListingProvider
+		if (firstProvider) {
+			const firstProviderIndex = processedOptions.findIndex((option) => option.value === firstProvider)
+			if (firstProviderIndex > 0) {
+				const [firstProviderOption] = processedOptions.splice(firstProviderIndex, 1)
+				processedOptions.unshift(firstProviderOption)
+			}
+		}
+
+		// CARET MODIFICATION: Show only the default provider if the flag is set
+		if (featureConfig.showOnlyDefaultProvider) {
+			const defaultProvider = featureConfig.defaultProvider
+			const defaultProviderOption = processedOptions.find((option) => option.value === defaultProvider)
+			return defaultProviderOption ? [defaultProviderOption] : []
+		}
+
+		return processedOptions
 	}, [language])
 
 	const currentProviderLabel = useMemo(() => {

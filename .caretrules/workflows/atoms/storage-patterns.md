@@ -58,29 +58,69 @@ const globalSettings = context.globalState.get('globalSettings');
 ```
 
 ## Implementation Pattern
+
+### Standard VS Code Storage
 ```typescript
 export class StorageService {
   constructor(private context: vscode.ExtensionContext) {}
-  
+
   // Workspace-scoped
   getChatSettings(): ChatSettings {
     return this.context.workspaceState.get('chatSettings', defaultChatSettings);
   }
-  
+
   setChatSettings(settings: ChatSettings): void {
     this.context.workspaceState.update('chatSettings', settings);
   }
-  
-  // Global-scoped  
+
+  // Global-scoped
   getGlobalPreferences(): GlobalPreferences {
     return this.context.globalState.get('globalSettings', defaultGlobalSettings);
   }
-  
+
   setGlobalPreferences(prefs: GlobalPreferences): void {
     this.context.globalState.update('globalSettings', prefs);
   }
 }
 ```
+
+### Caret-Specific: CaretGlobalManager Pattern
+**Use for**: Caret state that needs gRPC backend integration and cross-session persistence
+
+```typescript
+// CaretGlobalManager singleton with backend integration
+export class CaretGlobalManager {
+  private _inputHistory: string[] = []
+
+  // Load from backend via gRPC
+  public async getInputHistory(): Promise<string[]> {
+    if (this._inputHistory.length === 0) {
+      const response = await StateServiceClient.getSettings()
+      this._inputHistory = response.inputHistory || []
+    }
+    return this._inputHistory
+  }
+
+  // Save to backend via gRPC
+  public async setInputHistory(history: string[]): Promise<void> {
+    this._inputHistory = history // Local cache
+    await StateServiceClient.updateSettings({
+      inputHistory: history
+    })
+  }
+
+  // Static accessors for convenience
+  public static async getInputHistory(): Promise<string[]> {
+    return CaretGlobalManager.get().getInputHistory()
+  }
+}
+```
+
+**Pattern Benefits**:
+- **Hybrid Storage**: Local cache (fast access) + gRPC backend (persistence)
+- **Cross-Session**: Survives VS Code restart/workspace switching
+- **Singleton Access**: Consistent state management across components
+- **Type Safety**: Full TypeScript integration via generated gRPC clients
 
 ## Related Workflows
 - Apply when implementing new features with `/modification-levels`

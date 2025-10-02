@@ -169,6 +169,8 @@ export interface GlobalState {
 		| undefined
 	// CARET MODIFICATION: Persona image storage for persona system
 	caretUserProfile: CaretUser | undefined //caret
+	// CARET MODIFICATION: Input history for chat persistence
+	inputHistory: string[] | undefined
 }
 
 export interface Secrets {

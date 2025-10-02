@@ -1,3 +1,4 @@
+import { getCurrentFeatureConfig } from "@caret/shared/FeatureConfig"
 import { COMMAND_OUTPUT_STRING, COMMAND_REQ_APP_STRING } from "@shared/combineCommandSequences"
 import {
 	ClineApiReqInfo,
@@ -151,6 +152,7 @@ export const ChatRowContent = memo(
 		sendMessageFromChatRow,
 		onSetQuote,
 	}: ChatRowContentProps) => {
+		const featureConfig = getCurrentFeatureConfig()
 		const { mcpServers, mcpMarketplaceCatalog, onRelinquishControl, apiConfiguration, modeSystem, enablePersonaSystem } =
 			useExtensionState()
 
@@ -937,7 +939,7 @@ export const ChatRowContent = memo(
 										{/* Need to render this every time since it affects height of row by 2px */}
 										<VSCodeBadge
 											style={{
-												opacity: cost != null && cost > 0 ? 1 : 0,
+												opacity: cost != null && cost > 0 && featureConfig.showCostInformation ? 1 : 0,
 											}}>
 											${Number(cost || 0)?.toFixed(4)}
 										</VSCodeBadge>

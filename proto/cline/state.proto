@@ -133,6 +133,8 @@ message UpdateSettingsRequest {
   optional bool enable_persona_system = 902;
   optional string current_persona = 903;
   // optional caret.PersonaProfile persona_profile = 904;  // CARET MODIFICATION: Temporarily commented to resolve import cycle
+  // CARET MODIFICATION: Input history for chat persistence (904 + 100 = 1004 to avoid conflicts)
+  repeated string input_history = 1004;
 }
 
 // Complete API Configuration message

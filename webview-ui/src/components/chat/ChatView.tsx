@@ -6,6 +6,7 @@ import { getApiMetrics } from "@shared/getApiMetrics"
 import { BooleanRequest, StringRequest } from "@shared/proto/cline/common"
 import { useCallback, useEffect, useMemo } from "react"
 import { useMount } from "react-use"
+import { usePersistentInputHistory } from "@/caret/hooks/usePersistentInputHistory" // CARET MODIFICATION: Persistent input history
 import { t } from "@/caret/utils/i18n"
 import { normalizeApiConfiguration } from "@/components/settings/utils/providerUtils"
 import { useExtensionState } from "@/context/ExtensionStateContext"
@@ -329,6 +330,21 @@ const ChatView = ({ isHidden, showAnnouncement, hideAnnouncement, showHistoryVie
 		return groupMessages(visibleMessages)
 	}, [visibleMessages])
 
+	// CARET MODIFICATION: Persistent input history functionality
+	const { inputHistory, addToHistory } = usePersistentInputHistory()
+
+	// CARET MODIFICATION: Enhanced message handler with history tracking
+	const enhancedMessageHandlers = useMemo(
+		() => ({
+			...messageHandlers,
+			handleSendMessage: async (text: string, images: string[], files: string[]) => {
+				addToHistory(text) // 히스토리에 추가
+				return await messageHandlers.handleSendMessage(text, images, files)
+			},
+		}),
+		[messageHandlers, addToHistory],
+	)
+
 	// Use scroll behavior hook
 	const scrollBehavior = useScrollBehavior(messages, visibleMessages, groupedMessages, expandedRows, setExpandedRows)
 
@@ -391,11 +407,12 @@ const ChatView = ({ isHidden, showAnnouncement, hideAnnouncement, showHistoryVie
 				/>
 				<InputSection
 					chatState={chatState}
-					messageHandlers={messageHandlers}
+					inputHistory={inputHistory} // CARET MODIFICATION: Use enhanced handlers with history tracking
+					messageHandlers={enhancedMessageHandlers}
 					placeholderText={placeholderText}
 					scrollBehavior={scrollBehavior}
 					selectFilesAndImages={selectFilesAndImages}
-					shouldDisableFilesAndImages={shouldDisableFilesAndImages}
+					shouldDisableFilesAndImages={shouldDisableFilesAndImages} // CARET MODIFICATION: Pass persistent input history
 				/>
 			</footer>
 		</ChatLayout>

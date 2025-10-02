@@ -13,17 +13,11 @@ import path from "path"
 import { Controller } from "@/core/controller"
 import { Logger } from "@/services/logging/Logger" // CARET MODIFICATION: Use Logger for debugging
 
-/**
- * CARET MODIFICATION: Helper function to disable all toggles while preserving file paths
- * Used for rule priority system implementation
- */
-function _disableAllToggles(toggles: ClineRulesToggles): ClineRulesToggles {
-	const disabledToggles: ClineRulesToggles = {}
-	for (const filePath in toggles) {
-		disabledToggles[filePath] = false
-	}
-	return disabledToggles
-}
+export type RulePrioritySource = "caret" | "cline" | "cursor" | "windsurf" | null
+
+const cloneToggles = (toggles?: ClineRulesToggles | undefined): ClineRulesToggles => ({
+	...(toggles || {}),
+})
 
 /**
  * Refreshes the toggles for caret, windsurf and cursor rules
@@ -32,25 +26,32 @@ function _disableAllToggles(toggles: ClineRulesToggles): ClineRulesToggles {
 export async function refreshExternalRulesToggles(
 	controller: Controller,
 	workingDirectory: string,
+	options?: {
+		clineLocalToggles?: ClineRulesToggles
+	},
 ): Promise<{
 	caretLocalToggles: ClineRulesToggles
+	clineLocalToggles: ClineRulesToggles
 	windsurfLocalToggles: ClineRulesToggles
 	cursorLocalToggles: ClineRulesToggles
+	activeSource: RulePrioritySource
 }> {
 	// CARET MODIFICATION: Implement rule priority system (.caretrules > .clinerules > .cursorrules > .windsurfrules)
 
 	// Step 1: Get current toggles for all rule types
-	const localCaretRulesToggles = controller.stateManager.getWorkspaceStateKey("localCaretRulesToggles")
-	const localWindsurfRulesToggles = controller.stateManager.getWorkspaceStateKey("localWindsurfRulesToggles")
-	const localCursorRulesToggles = controller.stateManager.getWorkspaceStateKey("localCursorRulesToggles")
+	const localCaretRulesToggles = cloneToggles(controller.stateManager.getWorkspaceStateKey("localCaretRulesToggles"))
+	const localWindsurfRulesToggles = cloneToggles(controller.stateManager.getWorkspaceStateKey("localWindsurfRulesToggles"))
+	const localCursorRulesToggles = cloneToggles(controller.stateManager.getWorkspaceStateKey("localCursorRulesToggles"))
+	const localClineRulesToggles = cloneToggles(options?.clineLocalToggles)
 
 	// Step 2: Synchronize toggles normally (this handles file discovery and cleanup)
 	// CARET MODIFICATION: .caretrules is a directory, not a file (like .clinerules)
 	const localCaretRulesFilePath = path.resolve(workingDirectory, GlobalFileNames.caretRules)
 	Logger.debug(`[CARET] Rules path: ${localCaretRulesFilePath}`)
 	Logger.debug(`[CARET] Current toggles: ${JSON.stringify(localCaretRulesToggles)}`)
+	const caretDirectorySegment = path.basename(GlobalFileNames.caretRules)
 	const updatedLocalCaretToggles = await synchronizeRuleToggles(localCaretRulesFilePath, localCaretRulesToggles, "", [
-		[".caretrules", "workflows"],
+		[caretDirectorySegment, "workflows"],
 	])
 	Logger.debug(`[CARET] Updated toggles: ${JSON.stringify(updatedLocalCaretToggles)}`)
 
@@ -73,53 +74,62 @@ export async function refreshExternalRulesToggles(
 	const updatedLocalCursorToggles = combineRuleToggles(updatedLocalCursorToggles1, updatedLocalCursorToggles2)
 	Logger.debug(`[CURSOR] Combined toggles: ${JSON.stringify(updatedLocalCursorToggles)}`)
 
-	// Step 3: Apply priority logic ONLY for newly discovered files, preserve user toggle states
+	// Step 3: Apply priority logic so only a single rule source stays active per priority order
 	const caretHasFiles = Object.keys(updatedLocalCaretToggles).length > 0
+	const clineHasFiles = Object.keys(localClineRulesToggles).length > 0
+	const cursorHasFiles = Object.keys(updatedLocalCursorToggles).length > 0
 	const windsurfHasFiles = Object.keys(updatedLocalWindsurfToggles).length > 0
-	const _cursorHasFiles = Object.keys(updatedLocalCursorToggles).length > 0
 
-	// CARET MODIFICATION: Only apply priority for new files, not existing user toggles
-	// Check if we have NEW files (not just existing toggles)
-	const currentCaretToggles = controller.stateManager.getWorkspaceStateKey("localCaretRulesToggles")
-	const currentWindsurfToggles = controller.stateManager.getWorkspaceStateKey("localWindsurfRulesToggles")
-	const currentCursorToggles = controller.stateManager.getWorkspaceStateKey("localCursorRulesToggles")
+	let effectiveCaretToggles = updatedLocalCaretToggles
+	let effectiveClineToggles = localClineRulesToggles
+	let effectiveCursorToggles = updatedLocalCursorToggles
+	let effectiveWindsurfToggles = updatedLocalWindsurfToggles
+	let activeSource: RulePrioritySource = null
 
-	// Find truly new files (exist in updated but not in current)
-	// CARET MODIFICATION: Handle undefined toggles safely
-	const newCaretFiles = Object.keys(updatedLocalCaretToggles).filter((path) => !(path in (currentCaretToggles || {})))
-	const newWindsurfFiles = Object.keys(updatedLocalWindsurfToggles).filter((path) => !(path in (currentWindsurfToggles || {})))
-	const newCursorFiles = Object.keys(updatedLocalCursorToggles).filter((path) => !(path in (currentCursorToggles || {})))
-
-	// Apply priority only if new caret files are discovered
-	if (newCaretFiles.length > 0 && caretHasFiles) {
-		// Only disable newly discovered files from lower priority rules
-		for (const path of newWindsurfFiles) {
-			updatedLocalWindsurfToggles[path] = false
-		}
-		for (const path of newCursorFiles) {
-			updatedLocalCursorToggles[path] = false
-		}
-	} else if (newWindsurfFiles.length > 0 && windsurfHasFiles && newCaretFiles.length === 0) {
-		// Only disable newly discovered cursor files if no new caret files
-		for (const path of newCursorFiles) {
-			updatedLocalCursorToggles[path] = false
-		}
+	if (caretHasFiles) {
+		activeSource = "caret"
+		effectiveClineToggles = {}
+		effectiveCursorToggles = {}
+		effectiveWindsurfToggles = {}
+	} else if (clineHasFiles) {
+		activeSource = "cline"
+		effectiveCaretToggles = cloneToggles(localClineRulesToggles)
+		effectiveClineToggles = {}
+		effectiveCursorToggles = {}
+		effectiveWindsurfToggles = {}
+	} else if (cursorHasFiles) {
+		activeSource = "cursor"
+		effectiveCaretToggles = {}
+		effectiveClineToggles = {}
+		effectiveWindsurfToggles = {}
+	} else if (windsurfHasFiles) {
+		activeSource = "windsurf"
+		effectiveCaretToggles = {}
+		effectiveClineToggles = {}
+		effectiveCursorToggles = {}
+	} else {
+		effectiveCaretToggles = {}
+		effectiveClineToggles = {}
+		effectiveCursorToggles = {}
+		effectiveWindsurfToggles = {}
 	}
-	// Preserve all existing user toggle states
 
-	// Step 4: Save updated toggles
-	controller.stateManager.setWorkspaceState("localCaretRulesToggles", updatedLocalCaretToggles)
-	controller.stateManager.setWorkspaceState("localWindsurfRulesToggles", updatedLocalWindsurfToggles)
-	controller.stateManager.setWorkspaceState("localCursorRulesToggles", updatedLocalCursorToggles)
+	controller.stateManager.setWorkspaceState("localCaretRulesToggles", effectiveCaretToggles)
+	controller.stateManager.setWorkspaceState("localWindsurfRulesToggles", effectiveWindsurfToggles)
+	controller.stateManager.setWorkspaceState("localCursorRulesToggles", effectiveCursorToggles)
+	controller.stateManager.setWorkspaceState("localClineRulesToggles", effectiveClineToggles)
 
-	Logger.debug(`[CARET] FINAL - returning toggles: ${JSON.stringify(updatedLocalCaretToggles)}`)
-	Logger.debug(`[WINDSURF] FINAL - returning toggles: ${JSON.stringify(updatedLocalWindsurfToggles)}`)
-	Logger.debug(`[CURSOR] FINAL - returning toggles: ${JSON.stringify(updatedLocalCursorToggles)}`)
+	Logger.debug(`[CARET] FINAL - returning toggles: ${JSON.stringify(effectiveCaretToggles)}`)
+	Logger.debug(`[CLINE] FINAL - returning toggles: ${JSON.stringify(effectiveClineToggles)}`)
+	Logger.debug(`[CURSOR] FINAL - returning toggles: ${JSON.stringify(effectiveCursorToggles)}`)
+	Logger.debug(`[WINDSURF] FINAL - returning toggles: ${JSON.stringify(effectiveWindsurfToggles)}`)
 
 	return {
-		caretLocalToggles: updatedLocalCaretToggles,
-		windsurfLocalToggles: updatedLocalWindsurfToggles,
-		cursorLocalToggles: updatedLocalCursorToggles,
+		caretLocalToggles: effectiveCaretToggles,
+		clineLocalToggles: effectiveClineToggles,
+		windsurfLocalToggles: effectiveWindsurfToggles,
+		cursorLocalToggles: effectiveCursorToggles,
+		activeSource,
 	}
 }
 
@@ -206,7 +216,9 @@ export const getLocalCaretRules = async (cwd: string, toggles: ClineRulesToggles
 		if (await isDirectory(caretRulesFilePath)) {
 			// CARET MODIFICATION: Handle .caretrules as directory (like .clinerules)
 			try {
-				const rulesFilePaths = await readDirectory(caretRulesFilePath, [[".caretrules", "workflows"]])
+				const rulesFilePaths = await readDirectory(caretRulesFilePath, [
+					[path.basename(GlobalFileNames.caretRules), "workflows"],
+				])
 
 				const rulesFilesTotalContent = await getRuleFilesTotalContent(rulesFilePaths, cwd, toggles)
 				if (rulesFilesTotalContent) {

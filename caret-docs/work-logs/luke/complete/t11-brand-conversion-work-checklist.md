@@ -13,7 +13,7 @@
 2. **브랜드 변환 시스템 개선**
    - 블랙리스트 보호 시스템으로 caret-scripts 경로 보호
    - backward 기능 제거로 복잡도 감소
-   - 동적 브랜드 설정 파일 시스템 (.caret-brand-config.json)
+   - 동적 기능 설정 파일 시스템 (.caret-feature-config.json)
    - 브랜드 정보 노출 방지 (generic feature toggle 방식)
 
 3. **TDD 완료**
@@ -30,7 +30,7 @@
 - **페르소나 숨김**: `brandConfig.showPersonaSettings && modeSystem === "caret"`
 - **페르소나 기본값**: 브랜드별 `defaultPersonaEnabled` 설정
 - **리다이렉트 분기**: API 설정 후 persona vs home 선택
-- **동적 설정**: `.caret-brand-config.json` 파일 기반
+- **동적 설정**: `.caret-feature-config.json` 파일 기반
 
 **🧪 테스트 상태:**
 - 컴파일: ✅ 성공
@@ -54,7 +54,7 @@
   - [x] 브랜드별 설정 분리 (Caret vs CodeCenter)
 
 - [x] **동적 브랜드 설정 시스템**
-  - [x] .caret-brand-config.json 파일 기반 설정
+  - [x] .caret-feature-config.json 파일 기반 설정
   - [x] getCurrentFeatureConfig() 함수 구현
   - [x] 런타임 브랜드 감지 및 설정 적용
 

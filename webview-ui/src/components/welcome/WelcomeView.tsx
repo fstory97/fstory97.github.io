@@ -2,7 +2,7 @@
 // Original Cline backed up to: WelcomeView.tsx.cline
 
 // CARET MODIFICATION: Import feature configuration for redirect behavior
-import { getCurrentFeatureConfig } from "@shared/CaretBrandConfig"
+// Frontend는 ExtensionState의 featureConfig 사용
 import { BooleanRequest } from "@shared/proto/cline/common"
 import { VSCodeButton } from "@vscode/webview-ui-toolkit/react"
 import React, { useEffect, useState } from "react"
@@ -24,7 +24,7 @@ import { validateApiConfiguration } from "@/utils/validate"
 const logger = new CaretWebviewLogger("WelcomeView")
 
 const WelcomeView = () => {
-	const { apiConfiguration, mode, version, caretBanner } = useExtensionState()
+	const { apiConfiguration, mode, version, caretBanner, featureConfig } = useExtensionState()
 	const { setShowPersonaSelector } = useCaretState()
 	const { currentLanguage } = useCaretI18n()
 	const [apiErrorMessage, setApiErrorMessage] = useState<string | undefined>(undefined)
@@ -35,9 +35,8 @@ const WelcomeView = () => {
 	const handleSubmitApiKey = async () => {
 		try {
 			// CARET MODIFICATION: API 설정 완료 후 브랜드 설정에 따라 다른 처리
-			const featureConfig = getCurrentFeatureConfig()
 
-			if (featureConfig.redirectAfterApiSetup === "persona") {
+			if (featureConfig?.redirectAfterApiSetup === "persona") {
 				// 페르소나 선택 창을 띄움
 				setShowPersonaSelector(true)
 				// Welcome view를 완료로 표시 (ChatView로 바로 넘어가지 않도록)

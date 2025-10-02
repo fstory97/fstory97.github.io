@@ -7,6 +7,7 @@ import packageJson from "../../../../package.json"
 
 interface AnnouncementProps {
 	hideAnnouncement: () => void
+	showCloseButton?: boolean
 }
 
 const containerStyle: CSSProperties = {
@@ -35,7 +36,7 @@ Announcements are automatically shown when the major.minor version changes (for 
 The latestAnnouncementId is now automatically generated from the extension's package.json version. 
 Patch releases (3.19.1 → 3.19.2) will not trigger new announcements.
 */
-const Announcement = ({ hideAnnouncement }: AnnouncementProps) => {
+const Announcement = ({ hideAnnouncement, showCloseButton = true }: AnnouncementProps) => {
 	const version = packageJson.version // Use full version for better visibility
 
 	// Dynamically get current bullet points
@@ -58,9 +59,11 @@ const Announcement = ({ hideAnnouncement }: AnnouncementProps) => {
 
 	return (
 		<div style={containerStyle}>
-			<VSCodeButton appearance="icon" data-testid="close-button" onClick={hideAnnouncement} style={closeIconStyle}>
-				<span className="codicon codicon-close"></span>
-			</VSCodeButton>
+			{showCloseButton && (
+				<VSCodeButton appearance="icon" data-testid="close-button" onClick={hideAnnouncement} style={closeIconStyle}>
+					<span className="codicon codicon-close"></span>
+				</VSCodeButton>
+			)}
 			<h3 style={h3TitleStyle}>{t("header", "announcement", { version })}</h3>
 			<ul style={ulStyle}>
 				{currentBullets.map((bullet, index) => (

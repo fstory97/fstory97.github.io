@@ -2,6 +2,7 @@
 
 import chalk from "chalk"
 import { execSync } from "child_process"
+import fsSync from "fs"
 import * as fs from "fs/promises"
 import { globby } from "globby"
 import { createRequire } from "module"
@@ -13,9 +14,22 @@ import { main as generateProtoBusSetup } from "./generate-protobus-setup.mjs"
 import { loadProtoDescriptorSet } from "./proto-utils.mjs"
 
 const require = createRequire(import.meta.url)
-// CARET MODIFICATION: Use downloaded protoc instead of grpc-tools version for Windows compatibility
+// CARET MODIFICATION: Use downloaded protoc when available (Windows .exe) and fall back on grpc-tools or system protoc.
+let PROTOC = path.resolve("protoc-temp/bin/protoc.exe")
 const isWindows = process.platform === "win32"
-const PROTOC = path.resolve(isWindows ? "protoc-temp/bin/protoc.exe" : "/opt/homebrew/bin/protoc")
+if (!isWindows) {
+	const localProtoc = path.resolve("protoc-temp/bin/protoc")
+	if (fsSync.existsSync(localProtoc)) {
+		PROTOC = localProtoc
+	} else {
+		const grpcToolsProtoc = path.resolve("node_modules/grpc-tools/bin/protoc")
+		if (fsSync.existsSync(grpcToolsProtoc)) {
+			PROTOC = grpcToolsProtoc
+		} else {
+			PROTOC = "protoc"
+		}
+	}
+}
 
 const PROTO_DIR = path.resolve("proto")
 const TS_OUT_DIR = path.resolve("src/shared/proto")
@@ -117,6 +131,19 @@ async function postProcessGeneratedFiles() {
 				modified = true
 			}
 
+			// CARET MODIFICATION: Fix import paths for fetchLiteLlmModels
+			if (content.includes("@caret/core/controller/caretSystem/FetchLiteLlmModels")) {
+				content = content.replace(
+					/@caret\/core\/controller\/caretSystem\/FetchLiteLlmModels/g,
+					"@caret/core/controller/fetchLiteLlmModels",
+				)
+				content = content.replace(
+					/@\/core\/controller\/caret\/fetchLiteLlmModels/g,
+					"@caret/core/controller/fetchLiteLlmModels",
+				)
+				modified = true
+			}
+
 			// CARET MODIFICATION: Fix import paths for Persona controller
 			if (content.includes("@core/controller/persona/")) {
 				content = content.replace(/@core\/controller\/persona\//g, "@caret/core/controller/persona/")
@@ -169,6 +196,9 @@ async function postProcessGeneratedFiles() {
 				content = content.replace(/cline\.SetCaretModeResponse/g, "caret.SetCaretModeResponse")
 				content = content.replace(/cline\.GetCaretModeRequest/g, "caret.GetCaretModeRequest")
 				content = content.replace(/cline\.GetCaretModeResponse/g, "caret.GetCaretModeResponse")
+				// CARET MODIFICATION: Fix LiteLLM service types
+				content = content.replace(/cline\.FetchLiteLlmModelsRequest/g, "caret.FetchLiteLlmModelsRequest")
+				content = content.replace(/cline\.FetchLiteLlmModelsResponse/g, "caret.FetchLiteLlmModelsResponse")
 
 				const changesCount =
 					originalContent !== content ? (originalContent.match(/cline\.(Caret|GetCaret)/g) || []).length : 0
