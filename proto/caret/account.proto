@@ -29,6 +29,9 @@ service CaretAccountService {
   // (balance, usage transactions, payment transactions)
   rpc getCaretUserCredits(cline.EmptyRequest) returns (CaretUserCreditsData);
 
+  // Fetches the current Caret user profile, including usage summaries and organizations
+  rpc getCaretUserProfile(cline.EmptyRequest) returns (CaretUserProfile);
+
   // Fetches Caret organization credits data
   rpc getCaretOrganizationCredits(GetCaretOrganizationCreditsRequest) returns (CaretOrganizationCreditsData);
 
@@ -83,6 +86,31 @@ message CaretUserOrganizationsResponse {
 // CARET MODIFICATION: Caret organization update request (using 1000+ offset for merge compatibility)
 message CaretUserOrganizationUpdateRequest {
   optional string organization_id = 1001;
+}
+
+// CARET MODIFICATION: Caret usage summary for profile (using 1000+ offset for merge compatibility)
+message CaretUsageSummary {
+  double spend = 1001;
+  optional string currency = 1002;
+  int32 prompt_tokens = 1003;
+  int32 completion_tokens = 1004;
+  int32 total_tokens = 1005;
+}
+
+// CARET MODIFICATION: Caret user profile response (using 1000+ offset for merge compatibility)
+message CaretUserProfile {
+  string id = 1001;
+  optional string email = 1002;
+  optional string display_name = 1003;
+  optional string photo_url = 1004;
+  optional string app_base_url = 1005;
+  optional string api_key = 1006;
+  repeated string models = 1007;
+  CaretUsageSummary daily_usage = 1008;
+  CaretUsageSummary monthly_usage = 1009;
+  repeated CaretUserOrganization organizations = 1010;
+  optional string created_at = 1011;
+  optional string updated_at = 1012;
 }
 
 // CARET MODIFICATION: Caret user credits data structure (using 1000+ offset for merge compatibility)

@@ -4,13 +4,70 @@
 import { type CaretUsage, CaretUser } from "@shared/CaretAccount"
 import * as proto from "@shared/proto/index"
 import { VSCodeButton } from "@vscode/webview-ui-toolkit/react"
-import { memo, useCallback } from "react"
+import { memo, useCallback, useEffect, useState } from "react"
 import { caretWebviewLogger } from "@/caret/utils/CaretWebviewLogger"
 import { t } from "@/caret/utils/i18n"
 import { CaretAccountServiceClient } from "@/services/grpc-client"
 import { formatCurrencyAmount } from "@/utils/format"
 
 const tokenFormatter = new Intl.NumberFormat()
+
+const fallbackUsage: CaretUsage = {
+	spend: 0,
+	currency: "USD",
+	prompt_tokens: 0,
+	completion_tokens: 0,
+	total_tokens: 0,
+}
+
+const ensureUsage = (usage?: CaretUsage | null): CaretUsage => ({
+	spend: usage?.spend ?? 0,
+	currency: usage?.currency ?? undefined,
+	prompt_tokens: usage?.prompt_tokens ?? 0,
+	completion_tokens: usage?.completion_tokens ?? 0,
+	total_tokens: usage?.total_tokens ?? 0,
+})
+
+const mapSummaryToUsage = (summary?: proto.caret.CaretUsageSummary | null, fallback: CaretUsage = fallbackUsage): CaretUsage => ({
+	spend: summary?.spend ?? fallback.spend ?? 0,
+	currency: summary?.currency ?? fallback.currency ?? undefined,
+	prompt_tokens: summary?.promptTokens ?? fallback.prompt_tokens ?? 0,
+	completion_tokens: summary?.completionTokens ?? fallback.completion_tokens ?? 0,
+	total_tokens: summary?.totalTokens ?? fallback.total_tokens ?? 0,
+})
+
+const normalizeCaretUser = (user: CaretUser): CaretUser => ({
+	...user,
+	dailyUsage: ensureUsage(user.dailyUsage),
+	monthlyUsage: ensureUsage(user.monthlyUsage),
+	organizations: user.organizations ?? [],
+})
+
+const mergeCaretUserWithProfile = (baseUser: CaretUser, profile: proto.caret.CaretUserProfile): CaretUser => {
+	const normalizedBase = normalizeCaretUser(baseUser)
+
+	const mappedOrganizations = profile.organizations?.map((organization) => ({
+		active: organization.active ?? false,
+		memberId: organization.memberId ?? "",
+		name: organization.name ?? "",
+		organizationId: organization.organizationId ?? "",
+		roles: (organization.roles ?? []) as Array<"admin" | "member" | "owner">,
+	}))
+
+	return {
+		...normalizedBase,
+		id: profile.id || normalizedBase.id,
+		email: profile.email ?? normalizedBase.email,
+		displayName: profile.displayName ?? normalizedBase.displayName,
+		photoUrl: profile.photoUrl ?? normalizedBase.photoUrl,
+		appBaseUrl: profile.appBaseUrl ?? normalizedBase.appBaseUrl,
+		apiKey: profile.apiKey ?? normalizedBase.apiKey,
+		models: profile.models?.length ? [...profile.models] : normalizedBase.models,
+		dailyUsage: mapSummaryToUsage(profile.dailyUsage, normalizedBase.dailyUsage),
+		monthlyUsage: mapSummaryToUsage(profile.monthlyUsage, normalizedBase.monthlyUsage),
+		organizations: mappedOrganizations?.length ? mappedOrganizations : normalizedBase.organizations,
+	}
+}
 
 const formatTokenCount = (value?: number | null) => {
 	if (typeof value !== "number" || !Number.isFinite(value)) {
@@ -36,7 +93,41 @@ type CaretAccountViewProps = {
 }
 
 const CaretAccountView = memo(({ caretUser }: CaretAccountViewProps) => {
-	const { id, email, displayName, dailyUsage, monthlyUsage } = caretUser
+	const [resolvedUser, setResolvedUser] = useState<CaretUser>(() => normalizeCaretUser(caretUser))
+
+	useEffect(() => {
+		setResolvedUser(normalizeCaretUser(caretUser))
+	}, [caretUser])
+
+	useEffect(() => {
+		let isMounted = true
+
+		const fetchProfile = async () => {
+			caretWebviewLogger.info("[CARET-ACCOUNT-VIEW] 🔄 Fetching Caret user profile via gRPC")
+			try {
+				const response = await CaretAccountServiceClient.getCaretUserProfile(proto.cline.EmptyRequest.create({}))
+				if (!isMounted || !response) {
+					return
+				}
+
+				setResolvedUser((prev) => mergeCaretUserWithProfile(prev, response))
+				caretWebviewLogger.info("[CARET-ACCOUNT-VIEW] ✅ Caret profile fetched", {
+					id: response.id,
+					email: response.email,
+				})
+			} catch (error) {
+				caretWebviewLogger.error("[CARET-ACCOUNT-VIEW] ❌ Failed to fetch Caret profile", error)
+			}
+		}
+
+		fetchProfile()
+
+		return () => {
+			isMounted = false
+		}
+	}, [caretUser.id])
+
+	const { id, email, displayName, dailyUsage, monthlyUsage } = resolvedUser
 	const usageRows = [
 		{ key: "daily", label: t("account.dailyUsage", "common"), usage: dailyUsage },
 		{ key: "monthly", label: t("account.monthlyUsage", "common"), usage: monthlyUsage },
