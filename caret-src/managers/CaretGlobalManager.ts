@@ -222,65 +222,6 @@ export class CaretGlobalManager {
 		return CaretGlobalManager.get().getUserInfo()
 	}
 
-	// CARET MODIFICATION: Additional Auth0 methods for CaretAccountService integration
-	/**
-	 * Get Auth0 token for API requests (used by CaretAccountService)
-	 */
-	public static async getAuth0Token(): Promise<string | undefined> {
-		const manager = CaretGlobalManager.get()
-		if (!manager._auth0Client) {
-			console.warn("[CARET-GLOBAL-MANAGER] Auth0 client not initialized")
-			return undefined
-		}
-
-		try {
-			// Try to get token silently first
-			if (manager._jwtToken) {
-				console.log("[CARET-GLOBAL-MANAGER] ✅ Using cached Auth0 token")
-				return manager._jwtToken
-			}
-
-			// Check if user is authenticated and get token
-			if (await manager._auth0Client.isAuthenticated()) {
-				manager._jwtToken = await manager._auth0Client.getTokenSilently()
-				console.log("[CARET-GLOBAL-MANAGER] ✅ Auth0 token retrieved silently")
-				return manager._jwtToken
-			}
-
-			console.warn("[CARET-GLOBAL-MANAGER] User not authenticated")
-			return undefined
-		} catch (error) {
-			console.error("[CARET-GLOBAL-MANAGER] ❌ Failed to get Auth0 token:", error)
-			return undefined
-		}
-	}
-
-	/**
-	 * Refresh Auth0 token after account operations
-	 */
-	public static async refreshAuth0Token(): Promise<void> {
-		const manager = CaretGlobalManager.get()
-		if (!manager._auth0Client) {
-			console.warn("[CARET-GLOBAL-MANAGER] Auth0 client not initialized for refresh")
-			return
-		}
-
-		try {
-			// Force refresh token
-			manager._jwtToken = await manager._auth0Client.getTokenSilently({
-				// Force refresh by ignoring cache (Auth0 SDK specific)
-				ignoreCache: true
-			})
-			manager._userInfo = await manager._auth0Client.getUser()
-			console.log("[CARET-GLOBAL-MANAGER] ✅ Auth0 token refreshed successfully")
-		} catch (error) {
-			console.error("[CARET-GLOBAL-MANAGER] ❌ Failed to refresh Auth0 token:", error)
-			// Clear tokens on refresh failure
-			manager._jwtToken = undefined
-			manager._userInfo = undefined
-		}
-	}
-
 	// CARET MODIFICATION: Input history management methods
 	/**
 	 * Initialize input history resolver (called from webview context)

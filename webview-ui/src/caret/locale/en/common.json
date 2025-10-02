@@ -270,7 +270,15 @@
 		"payAsYouGo": "Pay as you go",
 		"organization": "Organization",
 		"payAsYouGoDescription": "* Additional charges apply after all subscription usage is exhausted.",
-		"title": "Account"
+		"title": "Account",
+		"usageSummary": "Usage summary",
+		"timeframe": "Timeframe",
+		"dailyUsage": "Daily usage",
+		"monthlyUsage": "Monthly usage",
+		"promptTokens": "Prompt tokens",
+		"completionTokens": "Completion tokens",
+		"totalTokens": "Tokens",
+		"totalCost": "Cost"
 	},
 	"common": {
 		"and": "and",

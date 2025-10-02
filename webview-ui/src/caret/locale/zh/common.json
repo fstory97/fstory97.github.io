@@ -250,7 +250,15 @@
 		"payAsYouGo": "按使用付费",
 		"organization": "组织",
 		"payAsYouGoDescription": "* 所有订阅使用量耗尽后适用额外收费。",
-		"title": "账户"
+		"title": "账户",
+		"usageSummary": "使用量概览",
+		"timeframe": "时间范围",
+		"dailyUsage": "每日使用量",
+		"monthlyUsage": "每月使用量",
+		"promptTokens": "提示词 Token",
+		"completionTokens": "完成 Token",
+		"totalTokens": "总 Token 数",
+		"totalCost": "总费用"
 	},
 	"account": {
 		"signUpWithCaret": "登录和注册",

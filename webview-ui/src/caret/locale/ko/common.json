@@ -261,6 +261,14 @@
     "email": "이메일",
     "displayName": "이름",
     "spend": "비용",
+    "usageSummary": "사용량 요약",
+    "timeframe": "기간",
+    "dailyUsage": "일간 사용량",
+    "monthlyUsage": "월간 사용량",
+    "promptTokens": "프롬프트 토큰",
+    "completionTokens": "완료 토큰",
+    "totalTokens": "총 토큰 수",
+    "totalCost": "총 비용",
     "logout": "로그아웃"
 	},
 	"common": {

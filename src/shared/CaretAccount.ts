@@ -1,5 +1,12 @@
 // CARET MODIFICATION: Caret Account types - based on ClineAccount but for Caret API server
 
+export interface CaretUsage {
+	spend: number
+	currency?: string
+	prompt_tokens: number
+	completion_tokens: number
+	total_tokens: number
+}
 export interface CaretUser {
 	id: string
 	email: string
@@ -8,7 +15,8 @@ export interface CaretUser {
 	appBaseUrl?: string
 	apiKey: string
 	models: string[]
-	spend: number
+	dailyUsage: CaretUsage
+	monthlyUsage: CaretUsage
 }
 
 export interface CaretProfileResponse {
@@ -18,8 +26,9 @@ export interface CaretProfileResponse {
 		user_email: string
 		metadata: { display_name: string; avatar_url: string }
 		models: string[]
-		spend: number
 	}
+	daily_usage: CaretUsage
+	monthly_usage: CaretUsage
 	key: string
 }
 

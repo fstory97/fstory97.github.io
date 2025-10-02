@@ -250,7 +250,15 @@
 		"payAsYouGo": "従量課金制",
 		"organization": "組織",
 		"payAsYouGoDescription": "* すべてのサブスクリプション使用量が使い果たされた後、追加料金が適用されます。",
-		"title": "アカウント"
+		"title": "アカウント",
+		"usageSummary": "使用状況サマリー",
+		"timeframe": "期間",
+		"dailyUsage": "日次の使用量",
+		"monthlyUsage": "月次の使用量",
+		"promptTokens": "プロンプトトークン",
+		"completionTokens": "完了トークン",
+		"totalTokens": "合計トークン数",
+		"totalCost": "合計コスト"
 	},
 	"account": {
 		"signUpWithCaret": "Caretアカウントでログイン＆サインアップ",

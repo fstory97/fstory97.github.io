@@ -143,54 +143,6 @@ export class CaretAccountService {
 	}
 
 	/**
-	 * RPC variant that fetches the user's current credit balance without posting to webview
-	 * CARET MODIFICATION: Uses Caret API endpoints
-	 * @returns Balance data or undefined if failed
-	 */
-	async fetchBalanceRPC(): Promise<CaretBalanceResponse | undefined> {
-		try {
-			console.log("[CARET-ACCOUNT-SERVICE] 💰 Fetching balance...")
-			const me = await this.fetchMe()
-			if (!me || !me.id) {
-				console.error("[CARET-ACCOUNT-SERVICE] ❌ Failed to fetch user ID for balance")
-				return undefined
-			}
-
-			// CARET MODIFICATION: Use Caret API v1 endpoint
-			const data = await this.authenticatedRequest<CaretBalanceResponse>(`/api/v1/account/balance`)
-			console.log("[CARET-ACCOUNT-SERVICE] ✅ Balance fetched successfully:", data.balance)
-			return data
-		} catch (error) {
-			console.error("[CARET-ACCOUNT-SERVICE] ❌ Failed to fetch balance (RPC):", error)
-			return undefined
-		}
-	}
-
-	/**
-	 * RPC variant that fetches the user's usage transactions without posting to webview
-	 * CARET MODIFICATION: Uses Caret API endpoints
-	 * @returns Usage transactions or undefined if failed
-	 */
-	async fetchUsageTransactionsRPC(): Promise<CaretUsageTransaction[] | undefined> {
-		try {
-			console.log("[CARET-ACCOUNT-SERVICE] 📈 Fetching usage transactions...")
-			const me = await this.fetchMe()
-			if (!me || !me.id) {
-				console.error("[CARET-ACCOUNT-SERVICE] ❌ Failed to fetch user ID for usage transactions")
-				return undefined
-			}
-
-			// CARET MODIFICATION: Use Caret API v1 endpoint
-			const data = await this.authenticatedRequest<{ items: CaretUsageTransaction[] }>(`/api/v1/account/usage`)
-			console.log("[CARET-ACCOUNT-SERVICE] ✅ Usage transactions fetched:", data.items?.length || 0, "items")
-			return data.items
-		} catch (error) {
-			console.error("[CARET-ACCOUNT-SERVICE] ❌ Failed to fetch usage transactions (RPC):", error)
-			return undefined
-		}
-	}
-
-	/**
 	 * Fetches the current user data
 	 * CARET MODIFICATION: Uses Caret API endpoints and Auth0 user info
 	 * @returns CaretUserResponse or undefined if failed
@@ -199,7 +151,7 @@ export class CaretAccountService {
 		try {
 			console.log("[CARET-ACCOUNT-SERVICE] 👤 Fetching current user data...")
 
-			const profile = await this.authenticatedRequest<CaretProfileResponse>(`/user/profile`)
+			const profile = await this.authenticatedRequest<CaretProfileResponse>(`/user/caret_profile`)
 			const userInfo = profile?.user_info
 			if (!userInfo || !userInfo.user_id) {
 				console.error("[CARET-ACCOUNT-SERVICE] ❌ User profile payload missing required fields", userInfo)
@@ -213,8 +165,11 @@ export class CaretAccountService {
 				models: userInfo.models,
 				photoUrl: userInfo.metadata?.avatar_url,
 				apiKey: profile.key,
-				spend: userInfo.spend,
+				dailyUsage: profile.daily_usage,
+				monthlyUsage: profile.monthly_usage,
 			}
+			console.log("Caret Account Service dailyUsage=====>", profile.daily_usage)
+			console.log("Caret Account Service monthlyUsage=====>", profile.monthly_usage)
 
 			console.log("[CARET-ACCOUNT-SERVICE] ✅ User data fetched:", {
 				id: caretUser.id,
