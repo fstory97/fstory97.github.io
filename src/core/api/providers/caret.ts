@@ -9,6 +9,7 @@ import { ApiStream } from "../transform/stream"
 interface CaretHandlerOptions extends CommonApiHandlerOptions {
 	caretApiKey?: string
 	caretModelId?: string
+	caretBaseUrl?: string
 	caretModelInfo?: CaretModelInfo
 	thinkingBudgetTokens?: number
 	caretUsePromptCache?: boolean

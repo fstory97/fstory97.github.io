@@ -3,7 +3,8 @@ import { useCallback, useEffect, useState } from "react"
 import { caretWebviewLogger } from "@/caret/utils/webview-logger"
 import { useExtensionState } from "@/context/ExtensionStateContext"
 import { StateServiceClient } from "@/services/grpc-client"
-import { CaretGlobalManager } from "../../../../caret-src/managers/CaretGlobalManager"
+
+// import { CaretGlobalManager } from "../../../../caret-src/managers/CaretGlobalManager"
 
 const MAX_HISTORY_SIZE = 1000
 
@@ -18,7 +19,7 @@ export function usePersistentInputHistory() {
 				inputHistory: history,
 			})
 		}
-		CaretGlobalManager.initInputHistoryResolver(saveToBackend)
+		// CaretGlobalManager.initInputHistoryResolver(saveToBackend)
 		caretWebviewLogger.info("[INPUT-HISTORY] CaretGlobalManager resolver initialized")
 	}, [])
 
@@ -27,7 +28,7 @@ export function usePersistentInputHistory() {
 		if (stateInputHistory !== undefined) {
 			setLocalHistory(stateInputHistory)
 			// Also update CaretGlobalManager cache
-			CaretGlobalManager.setInputHistoryCache(stateInputHistory)
+			// CaretGlobalManager.setInputHistoryCache(stateInputHistory)
 			caretWebviewLogger.info(`[INPUT-HISTORY] Hook loaded ${stateInputHistory.length} items from backend state`)
 		}
 	}, [stateInputHistory])
@@ -47,7 +48,7 @@ export function usePersistentInputHistory() {
 
 			// Save to backend via CaretGlobalManager
 			try {
-				await CaretGlobalManager.setInputHistory(newHistory)
+				// await CaretGlobalManager.setInputHistory(newHistory)
 				caretWebviewLogger.info(`[INPUT-HISTORY] Saved history item: "${text.trim().substring(0, 50)}..."`)
 			} catch (error) {
 				caretWebviewLogger.error("[INPUT-HISTORY] Failed to save input history:", error)
