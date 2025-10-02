@@ -143,6 +143,84 @@ export class CaretAccountService {
 	}
 
 	/**
+	 * RPC variant that fetches the user's current credit balance without posting to webview
+	 * CARET MODIFICATION: Uses Caret API endpoints
+	 * @returns Balance data or undefined if failed
+	 */
+	async fetchBalanceRPC(): Promise<CaretBalanceResponse | undefined> {
+		try {
+			console.log("[CARET-ACCOUNT-SERVICE] 💰 Fetching balance...")
+			const me = await this.fetchMe()
+			if (!me || !me.id) {
+				console.error("[CARET-ACCOUNT-SERVICE] ❌ Failed to fetch user ID for balance")
+				return undefined
+			}
+
+			// CARET MODIFICATION: Use Caret API v1 endpoint
+			const data = await this.authenticatedRequest<CaretBalanceResponse>(`/api/v1/account/balance`)
+			console.log("[CARET-ACCOUNT-SERVICE] ✅ Balance fetched successfully:", data.balance)
+			return data
+		} catch (error) {
+			console.error("[CARET-ACCOUNT-SERVICE] ❌ Failed to fetch balance (RPC):", error)
+			return undefined
+		}
+	}
+
+	/**
+	 * RPC variant that fetches the user's usage transactions without posting to webview
+	 * CARET MODIFICATION: Uses Caret API endpoints
+	 * @returns Usage transactions or undefined if failed
+	 */
+	async fetchUsageTransactionsRPC(): Promise<CaretUsageTransaction[] | undefined> {
+		try {
+			console.log("[CARET-ACCOUNT-SERVICE] 📈 Fetching usage transactions...")
+			const me = await this.fetchMe()
+			if (!me || !me.id) {
+				console.error("[CARET-ACCOUNT-SERVICE] ❌ Failed to fetch user ID for usage transactions")
+				return undefined
+			}
+
+			// CARET MODIFICATION: Use Caret API v1 endpoint
+			const data = await this.authenticatedRequest<{ items: CaretUsageTransaction[] }>(`/api/v1/account/usage`)
+			console.log("[CARET-ACCOUNT-SERVICE] ✅ Usage transactions fetched:", data.items?.length || 0, "items")
+			return data.items
+		} catch (error) {
+			console.error("[CARET-ACCOUNT-SERVICE] ❌ Failed to fetch usage transactions (RPC):", error)
+			return undefined
+		}
+	}
+
+	/**
+	 * RPC variant that fetches the user's payment transactions without posting to webview
+	 * CARET MODIFICATION: Uses Caret API endpoints
+	 * @returns Payment transactions or undefined if failed
+	 */
+	async fetchPaymentTransactionsRPC(): Promise<CaretPaymentTransaction[] | undefined> {
+		try {
+			console.log("[CARET-ACCOUNT-SERVICE] 💳 Fetching payment transactions...")
+			const me = await this.fetchMe()
+			if (!me || !me.id) {
+				console.error("[CARET-ACCOUNT-SERVICE] ❌ Failed to fetch user ID for payment transactions")
+				return undefined
+			}
+
+			// CARET MODIFICATION: Use Caret API v1 endpoint
+			const data = await this.authenticatedRequest<{ paymentTransactions: CaretPaymentTransaction[] }>(
+				`/api/v1/account/payments`,
+			)
+			console.log(
+				"[CARET-ACCOUNT-SERVICE] ✅ Payment transactions fetched:",
+				data.paymentTransactions?.length || 0,
+				"items",
+			)
+			return data.paymentTransactions
+		} catch (error) {
+			console.error("[CARET-ACCOUNT-SERVICE] ❌ Failed to fetch payment transactions (RPC):", error)
+			return undefined
+		}
+	}
+
+	/**
 	 * Fetches the current user data
 	 * CARET MODIFICATION: Uses Caret API endpoints and Auth0 user info
 	 * @returns CaretUserResponse or undefined if failed
@@ -167,6 +245,7 @@ export class CaretAccountService {
 				apiKey: profile.key,
 				dailyUsage: profile.daily_usage,
 				monthlyUsage: profile.monthly_usage,
+				organizations: [],
 			}
 			console.log("Caret Account Service dailyUsage=====>", profile.daily_usage)
 			console.log("Caret Account Service monthlyUsage=====>", profile.monthly_usage)
@@ -180,6 +259,81 @@ export class CaretAccountService {
 			return caretUser
 		} catch (error) {
 			console.error("[CARET-ACCOUNT-SERVICE] ❌ Failed to fetch user data (RPC):", error)
+			return undefined
+		}
+	}
+
+	/**
+	 * Fetches the current user's organizations
+	 * CARET MODIFICATION: Uses Caret API endpoints
+	 * @returns CaretUserResponse["organizations"] or undefined if failed
+	 */
+	async fetchUserOrganizationsRPC(): Promise<CaretUserResponse["organizations"] | undefined> {
+		try {
+			console.log("[CARET-ACCOUNT-SERVICE] 🏢 Fetching user organizations...")
+			const me = await this.fetchMe()
+			if (!me || !me.organizations) {
+				console.error("[CARET-ACCOUNT-SERVICE] ❌ Failed to fetch user organizations")
+				return undefined
+			}
+			console.log("[CARET-ACCOUNT-SERVICE] ✅ Organizations fetched:", me.organizations.length, "organizations")
+			return me.organizations
+		} catch (error) {
+			console.error("[CARET-ACCOUNT-SERVICE] ❌ Failed to fetch user organizations (RPC):", error)
+			return undefined
+		}
+	}
+
+	/**
+	 * Fetches the current user's organization credits
+	 * CARET MODIFICATION: Uses Caret API endpoints
+	 * @returns {Promise<CaretOrganizationBalanceResponse>} A promise that resolves to the active organization balance.
+	 */
+	async fetchOrganizationCreditsRPC(organizationId: string): Promise<CaretOrganizationBalanceResponse | undefined> {
+		try {
+			console.log("[CARET-ACCOUNT-SERVICE] 🏢💰 Fetching organization credits for:", organizationId)
+
+			// CARET MODIFICATION: Use Caret API v1 endpoint
+			const data = await this.authenticatedRequest<CaretOrganizationBalanceResponse>(
+				`/api/v1/organizations/${organizationId}/balance`,
+			)
+			console.log("[CARET-ACCOUNT-SERVICE] ✅ Organization balance fetched:", data.balance)
+			return data
+		} catch (error) {
+			console.error("[CARET-ACCOUNT-SERVICE] ❌ Failed to fetch active organization balance (RPC):", error)
+			return undefined
+		}
+	}
+
+	/**
+	 * Fetches the current user's organization transactions
+	 * CARET MODIFICATION: Uses Caret API endpoints
+	 * @returns {Promise<CaretOrganizationUsageTransaction[]>} A promise that resolves to the active organization transactions.
+	 */
+	async fetchOrganizationUsageTransactionsRPC(
+		organizationId: string,
+	): Promise<CaretOrganizationUsageTransaction[] | undefined> {
+		try {
+			console.log("[CARET-ACCOUNT-SERVICE] 🏢📈 Fetching organization usage transactions for:", organizationId)
+			const me = await this.fetchMe()
+			if (!me || !me.id) {
+				console.error("[CARET-ACCOUNT-SERVICE] ❌ Failed to fetch user ID for active organization transactions")
+				return undefined
+			}
+			const memberId = me.organizations.find((org) => org.organizationId === organizationId)?.memberId
+			if (!memberId) {
+				console.error("[CARET-ACCOUNT-SERVICE] ❌ Failed to find member ID for active organization transactions")
+				return undefined
+			}
+
+			// CARET MODIFICATION: Use Caret API v1 endpoint
+			const data = await this.authenticatedRequest<{ items: CaretOrganizationUsageTransaction[] }>(
+				`/api/v1/organizations/${organizationId}/members/${memberId}/usages`,
+			)
+			console.log("[CARET-ACCOUNT-SERVICE] ✅ Organization transactions fetched:", data.items?.length || 0, "items")
+			return data.items
+		} catch (error) {
+			console.error("[CARET-ACCOUNT-SERVICE] ❌ Failed to fetch active organization transactions (RPC):", error)
 			return undefined
 		}
 	}

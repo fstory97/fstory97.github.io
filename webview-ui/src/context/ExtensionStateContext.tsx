@@ -406,26 +406,26 @@ export const ExtensionStateContextProvider: React.FC<{
 							}
 
 							// CARET MODIFICATION: Load input history to CaretGlobalManager
-							if (newState.inputHistory !== undefined) {
-								try {
-									// Import CaretGlobalManager dynamically to avoid circular deps
-									import("../../../caret-src/managers/CaretGlobalManager")
-										.then(({ CaretGlobalManager }) => {
-											CaretGlobalManager.setInputHistoryCache(newState.inputHistory || [])
-											caretWebviewLogger.debug(
-												`[INPUT-HISTORY] Loaded ${newState.inputHistory?.length || 0} items from backend to CaretGlobalManager`,
-											)
-										})
-										.catch((error) => {
-											caretWebviewLogger.warn("[INPUT-HISTORY] Failed to import CaretGlobalManager:", error)
-										})
-								} catch (error) {
-									caretWebviewLogger.warn(
-										"[INPUT-HISTORY] Failed to load input history to CaretGlobalManager:",
-										error,
-									)
-								}
-							}
+							// if (newState.inputHistory !== undefined) {
+							// 	try {
+							// 		// Import CaretGlobalManager dynamically to avoid circular deps
+							// 		import("../../../caret-src/managers/CaretGlobalManager")
+							// 			.then(({ CaretGlobalManager }) => {
+							// 				CaretGlobalManager.setInputHistoryCache(newState.inputHistory || [])
+							// 				caretWebviewLogger.debug(
+							// 					`[INPUT-HISTORY] Loaded ${newState.inputHistory?.length || 0} items from backend to CaretGlobalManager`,
+							// 				)
+							// 			})
+							// 			.catch((error) => {
+							// 				caretWebviewLogger.warn("[INPUT-HISTORY] Failed to import CaretGlobalManager:", error)
+							// 			})
+							// 	} catch (error) {
+							// 		caretWebviewLogger.warn(
+							// 			"[INPUT-HISTORY] Failed to load input history to CaretGlobalManager:",
+							// 			error,
+							// 		)
+							// 	}
+							// }
 
 							// Update welcome screen state based on API configuration
 							setShowWelcome(!newState.welcomeViewCompleted)

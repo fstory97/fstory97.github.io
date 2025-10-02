@@ -17,6 +17,7 @@ export interface CaretUser {
 	models: string[]
 	dailyUsage: CaretUsage
 	monthlyUsage: CaretUsage
+	organizations: CaretUserOrganization[]
 }
 
 export interface CaretProfileResponse {
