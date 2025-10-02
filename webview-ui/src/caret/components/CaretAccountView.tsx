@@ -4,13 +4,11 @@
 import { type CaretUsage, CaretUser } from "@shared/CaretAccount"
 import * as proto from "@shared/proto/index"
 import { VSCodeButton } from "@vscode/webview-ui-toolkit/react"
-import { memo, useCallback, useEffect, useState } from "react"
+import { memo, useCallback, useEffect, useRef, useState } from "react"
 import { caretWebviewLogger } from "@/caret/utils/CaretWebviewLogger"
 import { t } from "@/caret/utils/i18n"
 import { CaretAccountServiceClient } from "@/services/grpc-client"
-import { formatCurrencyAmount } from "@/utils/format"
-
-const tokenFormatter = new Intl.NumberFormat()
+import { formatCurrencyAmount, formatLargeNumber } from "@/utils/format"
 
 const fallbackUsage: CaretUsage = {
 	spend: 0,
@@ -69,14 +67,6 @@ const mergeCaretUserWithProfile = (baseUser: CaretUser, profile: proto.caret.Car
 	}
 }
 
-const formatTokenCount = (value?: number | null) => {
-	if (typeof value !== "number" || !Number.isFinite(value)) {
-		return "0"
-	}
-
-	return tokenFormatter.format(value)
-}
-
 const formatUsageCost = (usage?: CaretUsage | null) => {
 	if (!usage) {
 		return "$0.00"
@@ -94,36 +84,71 @@ type CaretAccountViewProps = {
 
 const CaretAccountView = memo(({ caretUser }: CaretAccountViewProps) => {
 	const [resolvedUser, setResolvedUser] = useState<CaretUser>(() => normalizeCaretUser(caretUser))
+	const lastFetchedProfileIdRef = useRef<string | null>(null)
+	const fetchedProfileKeysRef = useRef<Set<string>>(new Set())
+	const profileFetchPromisesRef = useRef<Map<string, Promise<proto.caret.CaretUserProfile | undefined>>>(new Map())
 
 	useEffect(() => {
 		setResolvedUser(normalizeCaretUser(caretUser))
 	}, [caretUser])
 
 	useEffect(() => {
-		let isMounted = true
+		const incomingId = caretUser.id ?? ""
+		const profileKey = incomingId || "__missing__"
+		if (fetchedProfileKeysRef.current.has(profileKey)) {
+			return
+		}
 
-		const fetchProfile = async () => {
-			caretWebviewLogger.info("[CARET-ACCOUNT-VIEW] 🔄 Fetching Caret user profile via gRPC")
-			try {
-				const response = await CaretAccountServiceClient.getCaretUserProfile(proto.cline.EmptyRequest.create({}))
-				if (!isMounted || !response) {
+		let promise = profileFetchPromisesRef.current.get(profileKey)
+		if (!promise) {
+			caretWebviewLogger.info("[CARET-ACCOUNT-VIEW] 🔄 Resolving Caret user profile", {
+				incomingId,
+				lastFetchedId: lastFetchedProfileIdRef.current,
+			})
+
+			promise = CaretAccountServiceClient.getCaretUserProfile(proto.cline.EmptyRequest.create({}))
+				.then((response) => {
+					if (response) {
+						fetchedProfileKeysRef.current.add(profileKey)
+						if (response.id) {
+							fetchedProfileKeysRef.current.add(response.id)
+						}
+					}
+					return response
+				})
+				.catch((error) => {
+					fetchedProfileKeysRef.current.delete(profileKey)
+					throw error
+				})
+				.finally(() => {
+					profileFetchPromisesRef.current.delete(profileKey)
+				})
+
+			profileFetchPromisesRef.current.set(profileKey, promise)
+		}
+
+		let isActive = true
+		promise
+			.then((response) => {
+				if (!isActive || !response) {
 					return
 				}
 
 				setResolvedUser((prev) => mergeCaretUserWithProfile(prev, response))
-				caretWebviewLogger.info("[CARET-ACCOUNT-VIEW] ✅ Caret profile fetched", {
+				lastFetchedProfileIdRef.current = response.id || incomingId || null
+				caretWebviewLogger.info("[CARET-ACCOUNT-VIEW] ✅ Caret profile resolved", {
 					id: response.id,
 					email: response.email,
 				})
-			} catch (error) {
-				caretWebviewLogger.error("[CARET-ACCOUNT-VIEW] ❌ Failed to fetch Caret profile", error)
-			}
-		}
-
-		fetchProfile()
+			})
+			.catch((error) => {
+				if (isActive) {
+					caretWebviewLogger.error("[CARET-ACCOUNT-VIEW] ❌ Failed to fetch Caret profile", error)
+				}
+			})
 
 		return () => {
-			isMounted = false
+			isActive = false
 		}
 	}, [caretUser.id])
 
@@ -202,7 +227,7 @@ const CaretAccountView = memo(({ caretUser }: CaretAccountViewProps) => {
 						{usageRows.map(({ key, label, usage }) => (
 							<div className="grid grid-cols-3 gap-3 py-2" key={key}>
 								<div className="font-medium">{label}</div>
-								<div className="text-right">{formatTokenCount(usage?.total_tokens)}</div>
+								<div className="text-right">{formatLargeNumber(usage?.total_tokens)}</div>
 								<div className="text-right">{formatUsageCost(usage)}</div>
 							</div>
 						))}
