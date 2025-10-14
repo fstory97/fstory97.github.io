@@ -14,6 +14,9 @@ import { forwardRef, useCallback, useEffect, useLayoutEffect, useMemo, useRef, u
 import DynamicTextArea from "react-textarea-autosize"
 import { useClickAway, useWindowSize } from "react-use"
 import styled from "styled-components"
+import { useInputHistory } from "@/caret/hooks/useInputHistory"
+// CARET MODIFICATION: Import i18n for Chatbot/Agent mode labels
+import { t } from "@/caret/utils/i18n"
 import ContextMenu from "@/components/chat/ContextMenu"
 import { CHAT_CONSTANTS } from "@/components/chat/chat-view/constants"
 import SlashCommandMenu from "@/components/chat/SlashCommandMenu"
@@ -90,6 +93,7 @@ interface ChatTextAreaProps {
 	shouldDisableFilesAndImages: boolean
 	onHeightChange?: (height: number) => void
 	onFocusChange?: (isFocused: boolean) => void
+	inputHistory?: string[] // CARET MODIFICATION: Persistent input history functionality
 }
 
 interface GitCommit {
@@ -112,6 +116,9 @@ const SwitchOption = styled.div.withConfig({
 	font-size: 12px;
 	width: 50%;
 	text-align: center;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
 
 	&:hover {
 		background-color: ${(props) => (!props.isActive ? "var(--vscode-toolbar-hoverBackground)" : "transparent")};
@@ -119,6 +126,7 @@ const SwitchOption = styled.div.withConfig({
 `
 
 const SwitchContainer = styled.div<{ disabled: boolean }>`
+	position: relative;
 	display: flex;
 	align-items: center;
 	background-color: var(--vscode-editor-background);
@@ -129,8 +137,10 @@ const SwitchContainer = styled.div<{ disabled: boolean }>`
 	opacity: ${(props) => (props.disabled ? 0.5 : 1)};
 	transform: scale(0.85);
 	transform-origin: right center;
-	margin-left: -10px; // compensate for the transform so flex spacing works
-	user-select: none; // Prevent text selection
+	margin-left: -10px;
+	user-select: none;
+	width: 180px;
+	height: 28px;
 `
 
 const Slider = styled.div.withConfig({
@@ -273,6 +283,7 @@ const ChatTextArea = forwardRef<HTMLTextAreaElement, ChatTextAreaProps>(
 			shouldDisableFilesAndImages,
 			onHeightChange,
 			onFocusChange,
+			inputHistory = [], // CARET MODIFICATION: Persistent input history functionality
 		},
 		ref,
 	) => {
@@ -286,6 +297,7 @@ const ChatTextArea = forwardRef<HTMLTextAreaElement, ChatTextAreaProps>(
 			showChatModelSelector: showModelSelector,
 			setShowChatModelSelector: setShowModelSelector,
 			dictationSettings,
+			modeSystem, // CARET MODIFICATION: Get modeSystem for Chatbot/Agent vs Plan/Act labels
 		} = useExtensionState()
 		const { clineUser } = useClineAuth()
 		const [isTextAreaFocused, setIsTextAreaFocused] = useState(false)
@@ -328,6 +340,13 @@ const ChatTextArea = forwardRef<HTMLTextAreaElement, ChatTextAreaProps>(
 		const [fileSearchResults, setFileSearchResults] = useState<SearchResult[]>([])
 		const [searchLoading, setSearchLoading] = useState(false)
 		const [, metaKeyChar] = useMetaKeyDetection(platform)
+
+		// CARET MODIFICATION: Persistent input history functionality - hook for handling arrow key navigation
+		const { handleKeyDown: handleHistoryKeyDown } = useInputHistory({
+			history: inputHistory,
+			inputValue,
+			setInputValue,
+		})
 
 		// Add a ref to track previous menu state
 		const prevShowModelSelector = useRef(showModelSelector)
@@ -517,6 +536,14 @@ const ChatTextArea = forwardRef<HTMLTextAreaElement, ChatTextAreaProps>(
 		)
 		const handleKeyDown = useCallback(
 			(event: React.KeyboardEvent<HTMLTextAreaElement>) => {
+				// CARET MODIFICATION: Handle input history navigation (ArrowUp/Down) when menus are not shown
+				if (!showSlashCommandsMenu && !showContextMenu) {
+					const handled = handleHistoryKeyDown(event)
+					if (handled) {
+						return
+					}
+				}
+
 				if (showSlashCommandsMenu) {
 					if (event.key === "Escape") {
 						setShowSlashCommandsMenu(false)
@@ -589,13 +616,13 @@ const ChatTextArea = forwardRef<HTMLTextAreaElement, ChatTextAreaProps>(
 							}
 
 							// Find the index of the next selectable option
-							const currentSelectableIndex = selectableOptions.findIndex((option) => option === options[prevIndex])
+							const currentSelectableIndex = selectableOptions.indexOf(options[prevIndex])
 
 							const newSelectableIndex =
 								(currentSelectableIndex + direction + selectableOptions.length) % selectableOptions.length
 
 							// Find the index of the selected option in the original options array
-							return options.findIndex((option) => option === selectableOptions[newSelectableIndex])
+							return options.indexOf(selectableOptions[newSelectableIndex])
 						})
 						return
 					}
@@ -710,6 +737,7 @@ const ChatTextArea = forwardRef<HTMLTextAreaElement, ChatTextAreaProps>(
 				slashCommandsQuery,
 				handleSlashCommandsSelect,
 				sendingDisabled,
+				handleHistoryKeyDown, // CARET MODIFICATION: Add history navigation handler
 			],
 		)
 
@@ -1772,10 +1800,15 @@ const ChatTextArea = forwardRef<HTMLTextAreaElement, ChatTextAreaProps>(
 						</ButtonGroup>
 					</div>
 					{/* Tooltip for Plan/Act toggle remains outside the conditional rendering */}
+					{/* CARET MODIFICATION: Tooltip for Plan/Act or Chatbot/Agent toggle based on modeSystem */}
 					<Tooltip
 						hintText={`Toggle w/ ${togglePlanActKeys}`}
 						style={{ zIndex: 1000 }}
-						tipText={`In ${shownTooltipMode === "act" ? "Act" : "Plan"}  mode, Cline will ${shownTooltipMode === "act" ? "complete the task immediately" : "gather information to architect a plan"}`}
+						tipText={
+							modeSystem === "caret"
+								? `In ${shownTooltipMode === "act" ? t("mode.agent.label", "chat") : t("mode.chatbot.label", "chat")} mode, Caret will ${shownTooltipMode === "act" ? "assist with coding tasks with full tool access" : "provide analysis and suggestions without modifying files"}`
+								: `In ${shownTooltipMode === "act" ? "Act" : "Plan"}  mode, Cline will ${shownTooltipMode === "act" ? "complete the task immediately" : "gather information to architect a plan"}`
+						}
 						visible={shownTooltipMode !== null}>
 						<SwitchContainer data-testid="mode-switch" disabled={false} onClick={onModeToggle}>
 							<Slider isAct={mode === "act"} isPlan={mode === "plan"} />
@@ -1785,7 +1818,7 @@ const ChatTextArea = forwardRef<HTMLTextAreaElement, ChatTextAreaProps>(
 								onMouseLeave={() => setShownTooltipMode(null)}
 								onMouseOver={() => setShownTooltipMode("plan")}
 								role="switch">
-								Plan
+								{modeSystem === "caret" ? t("mode.chatbot.label", "chat") : t("mode.plan.label", "chat")}
 							</SwitchOption>
 							<SwitchOption
 								aria-checked={mode === "act"}
@@ -1793,7 +1826,7 @@ const ChatTextArea = forwardRef<HTMLTextAreaElement, ChatTextAreaProps>(
 								onMouseLeave={() => setShownTooltipMode(null)}
 								onMouseOver={() => setShownTooltipMode("act")}
 								role="switch">
-								Act
+								{modeSystem === "caret" ? t("mode.agent.label", "chat") : t("mode.act.label", "chat")}
 							</SwitchOption>
 						</SwitchContainer>
 					</Tooltip>

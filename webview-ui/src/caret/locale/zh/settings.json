@@ -1,0 +1,1024 @@
+{
+	"rules": {
+		"section": {
+			"title": "规则管理",
+			"description": "管理项目规则文件和设置优先级。",
+			"workspaceRules": "工作区规则",
+			"globalRules": "全局规则",
+			"caretRules": ".caretrules 文件",
+			"clineRules": ".clinerules 文件",
+			"cursorRules": ".cursorrules 文件",
+			"windsurfRules": ".windsurfrules 文件"
+		},
+		"priority": {
+			"title": "规则优先级",
+			"description": "规则文件优先级：.caretrules > .clinerules > .cursorrules > .windsurfrules",
+			"info": "当存在更高优先级的规则时，较低优先级的规则会自动禁用。"
+		},
+		"buttons": {
+			"toggle": "切换",
+			"enable": "启用",
+			"disable": "禁用",
+			"refresh": "刷新"
+		},
+		"status": {
+			"enabled": "已启用",
+			"disabled": "已禁用",
+			"notFound": "文件未找到",
+			"loading": "加载中..."
+		}
+	},
+	"settingsView": {
+		"title": "Caret 设置"
+	},
+	"tabs": {
+		"apiConfiguration": {
+			"name": "API 配置",
+			"tooltip": "API 配置",
+			"header": "API 配置"
+		},
+		"general": {
+			"name": "常规",
+			"tooltip": "常规设置",
+			"header": "常规设置"
+		},
+		"features": {
+			"name": "功能",
+			"tooltip": "功能设置",
+			"header": "功能设置"
+		},
+		"browser": {
+			"name": "浏览器",
+			"tooltip": "浏览器设置",
+			"header": "浏览器设置"
+		},
+		"terminal": {
+			"name": "终端",
+			"tooltip": "终端设置",
+			"header": "终端设置"
+		},
+		"debug": {
+			"name": "调试",
+			"tooltip": "调试工具",
+			"header": "调试"
+		},
+		"about": {
+			"name": "关于",
+			"tooltip": "关于 Caret",
+			"header": "关于"
+		},
+		"title": "Caret 设置"
+	},
+	"planMode": "计划模式",
+	"actMode": "执行模式",
+	"useDifferentModels": "为计划和执行模式使用不同的模型",
+	"useDifferentModelsDescription": "在计划和执行模式之间切换时，将保留在上一个模式中使用的API和模型。例如，当使用强推理模型来构建计划，然后用便宜的编码模型来执行时，这可能会有所帮助。",
+	"theme": {
+		"dark": "深色主题",
+		"light": "浅色主题",
+		"auto": "自动主题"
+	},
+	"appearance": {
+		"fontSize": "字体大小",
+		"lineHeight": "行高",
+		"fontFamily": "字体系列"
+	},
+	"modelSelector": {
+		"label": "模型",
+		"placeholder": "选择模型...",
+		"selectModelPlaceholder": "选择模型..."
+	},
+	"pricing": {
+		"inputPrice": "输入价格: {{price}}/百万令牌",
+		"cacheReadPrice": "缓存读取价格: {{price}}/百万令牌",
+		"outputPriceStandard": "输出价格 (标准): {{price}}/百万令牌",
+		"outputPriceReasoning": "输出价格 (推理预算 > 0): {{price}}/百万令牌",
+		"contextWindow": "上下文窗口: {{size}}/百万令牌",
+		"perMillionTokens": "/百万令牌"
+	},
+	"modelInfo": {
+		"supportsImages": "支持图像",
+		"supportsBrowserUse": "支持浏览器使用",
+		"contextWindow": "上下文窗口: {{size}}"
+	},
+	"modeSystem": {
+		"label": "模式系统",
+		"description": "选择 Caret 或 Cline 模式。",
+		"options": {
+			"caret": "Caret",
+			"cline": "Cline"
+		}
+	},
+	"settings": {
+		"preferredLanguage": {
+			"label": "首选语言",
+			"description": "选择 Caret 用于交流的语言。"
+		},
+		"unifiedLanguage": {
+			"label": "语言",
+			"description": "设置AI回复和界面的语言。带有 🎨 的语言支持AI和界面。"
+		}
+	},
+	"buttons": {
+		"save": "保存",
+		"cancel": "取消",
+		"reset": "重置",
+		"done": "完成",
+		"close": "关闭",
+		"apply": "应用",
+		"test": "测试",
+		"refresh": "刷新",
+		"launchBrowser": "启动浏览器",
+		"launchingBrowser": "正在启动浏览器...",
+		"discardChanges": "丢弃更改"
+	},
+	"messages": {
+		"unsavedChanges": "您有未保存的更改。仍要继续吗？",
+		"settingsSaved": "设置已保存。",
+		"settingsReset": "设置已重置。",
+		"errorSaving": "保存设置时出错。",
+		"errorLoading": "加载设置时出错。",
+		"confirmReset": "您确定要将所有设置重置为默认值吗？此操作无法撤销。",
+		"confirmResetGlobal": "您确定也要重置全局设置吗？",
+		"loading": "加载中...",
+		"noChanges": "无更改。",
+		"unsavedChangesTitle": "未保存的更改"
+	},
+	"sections": {
+		"apiConfiguration": {
+			"title": "API 配置",
+			"description": "配置连接 AI 模型的 API 设置。"
+		},
+		"general": {
+			"title": "常规设置",
+			"description": "配置 Caret 的基本行为和语言设置。"
+		},
+		"features": {
+			"title": "功能设置",
+			"description": "启用或禁用 Caret 的各种功能。"
+		},
+		"browser": {
+			"title": "浏览器设置",
+			"description": "配置网络搜索和浏览器相关功能。"
+		},
+		"terminal": {
+			"title": "终端设置",
+			"description": "配置终端集成和命令执行设置。"
+		},
+		"debug": {
+			"title": "调试工具",
+			"description": "开发和调试工具。"
+		},
+		"about": {
+			"title": "关于 Caret",
+			"description": "如果您有任何问题或反馈，请在此处提出问题",
+			"link": "https://github.com/aicoding-caret/caret"
+		},
+		"launchingBrowser": "正在启动浏览器...",
+		"discardChanges": "丢弃更改"
+	},
+	"labels": {
+		"version": "版本",
+		"license": "许可证",
+		"repository": "代码仓库",
+		"documentation": "文档",
+		"support": "支持",
+		"feedback": "反馈",
+		"enabled": "已启用",
+		"disabled": "已禁用",
+		"default": "默认",
+		"custom": "自定义",
+		"automatic": "自动",
+		"manual": "手动"
+	},
+	"tooltips": {
+		"saveSettings": "保存当前设置",
+		"resetSettings": "将所有设置重置为默认值",
+		"closeSettings": "关闭设置窗口",
+		"unsavedChanges": "您有未保存的更改"
+	},
+	"browser": {
+		"checkingConnection": "检查连接中...",
+		"connected": "已连接",
+		"notConnected": "未连接",
+		"remoteBrowserEnabled": "使用远程浏览器",
+		"remoteBrowserHost": "远程浏览器主机",
+		"chromeExecutablePath": "Chrome 可执行文件路径",
+		"disableToolUse": "禁用浏览器工具使用",
+		"disableToolUseDescription": "阻止 Caret 使用浏览器操作（例如启动、点击、输入）。",
+		"viewportSize": "视口大小",
+		"viewportSizeDescription": "设置浏览器视口的大小用于截图和交互。",
+		"useRemoteConnection": "使用远程浏览器连接",
+		"remoteConnectionDescription1": "启用 Caret 使用您的 Chrome",
+		"chromeNotDetected": "（在您的机器上未检测到）",
+		"remoteConnectionDescription2": "。您可以在下面指定自定义路径。使用远程浏览器连接需要以调试模式启动 Chrome",
+		"remoteConnectionDescription3": "手动启动（`--remote-debugging-port=9222`）或使用下面的按钮。输入主机地址或留空以自动发现。",
+		"launchBrowserDebug": "以调试模式启动浏览器",
+		"launchingBrowser": "正在启动浏览器...",
+		"chromePathOptional": "Chrome 可执行文件路径（可选）",
+		"chromePathPlaceholder": "例如：/usr/bin/google-chrome 或 C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe",
+		"chromePathDescription": "留空以自动检测。",
+		"customArgsOptional": "自定义浏览器参数（可选）",
+		"customArgsPlaceholder": "例如：--no-sandbox --disable-setuid-sandbox",
+		"customArgsDescription": "传递给浏览器可执行文件的空格分隔参数。",
+		"viewportWidth": "视口宽度",
+		"viewportHeight": "视口高度",
+		"detectedChromePath": "检测到的 Chrome 路径",
+		"customChromePath": "自定义 Chrome 路径",
+		"remoteBrowserDescription": "使用远程浏览器连接允许您运行单独的 Chrome 实例。您可以在下面指定自定义路径。要使用远程浏览器连接，您必须以调试模式启动 Chrome。",
+		"debugModeDescription": "您可以手动启动（<code>--remote-debugging-port=9222</code>）或使用下面的按钮。请输入主机地址。",
+		"defaultUrlPlaceholder": "http",
+		"screenshotAlt": "浏览器截图",
+		"consoleLogs": "控制台日志",
+		"noNewLogs": "（无新日志）",
+		"previousButton": "上一个",
+		"nextButton": "下一个",
+		"sessionStarted": "浏览器会话已启动",
+		"browseActionLabel": "浏览器操作",
+		"action": {
+			"launch": "在 {{text}} 启动浏览器",
+			"click": "点击 ({{coordinate}})",
+			"type": "输入 \"{{text}}\"",
+			"scrollDown": "向下滚动",
+			"scrollUp": "向上滚动",
+			"close": "关闭浏览器"
+		}
+	},
+	"terminal": {
+		"defaultProfile": "默认终端配置文件",
+		"defaultProfileDescription": "选择默认的终端配置文件。在启动新的终端会话时将使用此配置。",
+		"shellTimeout": "Shell 集成超时（秒）",
+		"timeoutPlaceholder": "输入超时秒数。",
+		"shellTimeoutDescription": "等待 shell 集成成功完成的秒数。如果超过这个时间，终端将在没有 shell 集成的情况下打开。",
+		"aggressiveReuse": "积极终端复用",
+		"aggressiveReuseDescription": "在请求新终端会话时，尽可能复用现有可用的终端。",
+		"positiveNumberError": "请输入正数。",
+		"outputLimit": "终端输出限制",
+		"outputLimitDescription": "执行命令时终端输出中包含的最大行数。如果超过此数字，中间行将被删除以节省令牌。",
+		"issuesTitle": "遇到终端问题？",
+		"checkOur": "查看我们的",
+		"quickFixesLink": "终端快速修复",
+		"orThe": "或",
+		"troubleshootingGuideLink": "完整故障排除指南"
+	},
+	"features": {
+		"enableCheckpoints": "启用检查点",
+		"enableCheckpointsDescription": "允许扩展在任务期间保存工作区的检查点。这在内部使用 git，对于大型工作区可能无法正常工作。",
+		"enableMcpMarketplace": "启用 MCP 市场",
+		"enableMcpMarketplaceDescription": "启用 MCP 市场选项卡，允许您发现和安装 MCP 服务器。",
+		"enableRichMcpDisplay": "启用丰富 MCP 显示",
+		"enableRichMcpDisplayDescription": "为 MCP 响应启用丰富格式。如果禁用，响应将显示为纯文本。",
+		"mcpDisplayMode": "MCP 显示模式",
+		"mcpDisplayModeDescription": "控制 MCP 响应的显示方式：纯文本、带有链接/图片的丰富格式或 markdown 渲染。",
+		"collapseMcpResponses": "折叠 MCP 响应",
+		"collapseMcpResponsesDescription": "设置 MCP 响应面板的默认显示模式",
+		"openaiReasoningEffort": "OpenAI 推理努力程度",
+		"openaiReasoningEffortDescription": "OpenAI 模型系列的推理努力程度（适用于所有 OpenAI 模型提供商）",
+		"reasoningEffort": {
+			"minimal": "最小",
+			"low": "低",
+			"medium": "中",
+			"high": "高"
+		},
+		"strictPlanMode": "启用严格计划模式",
+		"strictPlanModeDescription": "在计划模式下强制严格的工具使用，防止文件编辑。",
+		"focusChain": "启用焦点链",
+		"focusChainDescription": "启用增强的任务进度跟踪和在整个任务过程中的自动焦点链列表管理。",
+		"focusChainReminderInterval": "焦点链提醒间隔",
+		"focusChainReminderIntervalDescription": "提醒 Caret 其焦点链检查列表的间隔（以消息为单位，1-100）。较低的值提供更频繁的提醒。",
+		"autoCompact": "启用自动紧凑",
+		"autoCompactDescription": "启用高级上下文管理系统，该系统使用基于 LLM 的压缩技术适用于下一代模型。",
+		"learnMore": "了解更多"
+	},
+	"autoApprove": {
+		"title": "自动批准设置",
+		"tooltip": "配置各种操作的自动批准设置",
+		"label": "自动批准",
+		"actionsHeader": "操作",
+		"quickSettingsHeader": "快速设置",
+		"maxRequestsLabel": "最大请求数",
+		"maxRequestsTooltip": "可自动批准的最大连续请求数",
+		"removeFromQuickAccess": "从快速访问菜单中移除",
+		"addToQuickAccess": "添加到快速访问菜单",
+		"enableAutoApprove": {
+			"label": "启用自动批准",
+			"shortName": "已启用",
+			"description": "开启或关闭自动批准功能。"
+		},
+		"enableAll": {
+			"label": "全部切换",
+			"shortName": "全部",
+			"description": "开启或关闭所有操作。"
+		},
+		"readFiles": {
+			"label": "读取项目文件",
+			"shortName": "读取",
+			"description": "允许 Caret 读取工作区内的文件。"
+		},
+		"readFilesExternally": {
+			"label": "读取任何文件",
+			"shortName": "全部读取",
+			"description": "允许 Caret 读取您计算机上的任何文件。"
+		},
+		"editFiles": {
+			"label": "编辑项目文件",
+			"shortName": "编辑",
+			"description": "允许 Caret 修改工作区内的文件。"
+		},
+		"editFilesExternally": {
+			"label": "编辑任何文件",
+			"shortName": "全部编辑",
+			"description": "允许 Caret 修改您计算机上的任何文件。"
+		},
+		"executeSafeCommands": {
+			"label": "执行安全命令",
+			"shortName": "安全命令",
+			"description": "允许 Caret 执行安全的终端命令。如果模型认为某个命令可能具有破坏性，仍将需要批准。"
+		},
+		"executeAllCommands": {
+			"label": "执行所有命令",
+			"shortName": "所有命令",
+			"description": "允许 Caret 执行任何终端命令。请自行承担风险。"
+		},
+		"useBrowser": {
+			"label": "使用浏览器",
+			"shortName": "浏览器",
+			"description": "允许 Caret 在浏览器中启动并与任何网站交互。"
+		},
+		"useMcp": {
+			"label": "使用 MCP 服务器",
+			"shortName": "MCP",
+			"description": "允许 Caret 使用已配置的 MCP 服务器，这些服务器可以修改文件系统或与 API 交互。"
+		},
+		"enableNotifications": {
+			"label": "启用通知",
+			"shortName": "通知",
+			"description": "当 Caret 需要批准某个步骤或任务完成时，接收系统通知。"
+		}
+	},
+	"telemetry": {
+		"label": "允许匿名错误和使用情况报告",
+		"description": "您可以通过发送匿名使用数据和错误报告来帮助改进 Caret。匿名使用和错误数据用于帮助改进 Caret 产品。绝不会发送任何代码、提示或个人信息，也不包含任何个人身份信息。",
+		"telemetryOverview": "遥测概览",
+		"and": "和",
+		"privacyPolicy": "隐私政策",
+		"forMoreDetails": "了解更多详情。",
+		"title": "遥测数据"
+	},
+	"debug": {
+		"resetWorkspaceState": "重置工作区状态",
+		"resetGlobalState": "重置全局状态",
+		"resetGlobalStateDescription": "重置扩展程序的所有全局状态和秘密存储。",
+		"title": "调试设置",
+		"description": "管理调试模式和相关设置。",
+		"errorInSeconds": "{{current}}/{{total}} 秒后出错"
+	},
+	"modelPicker": {
+		"extensionFetches": "扩展程序自动获取可用的最新模型列表 ",
+		"unsureWhichModel": "如果您不确定选择哪个模型，Caret 最适合与 ",
+		"freeOptions": "要查找当前可用的免费选项，请尝试搜索“免费”。",
+		"seeMore": "查看更多"
+	},
+	"apiOptions": {
+		"apiProvider": "API 提供商",
+		"searchAndSelectProvider": "搜索并选择提供商...",
+		"clearSearch": "清除搜索",
+		"clineProviderHidden": "Caret 提供商已隐藏 - 请改用 Caret API 提供商"
+	},
+	"clineAccountInfoCard": {
+		"loginError": "获取登录 URL 失败：",
+		"viewBillingAndUsage": "查看账单和使用情况",
+		"signUpWithCline": "使用 Caret 注册"
+	},
+	"apiKeyField": {
+		"placeholder": "输入 API 密钥...",
+		"apiKeyLabel": "{{providerName}} API 密钥",
+		"defaultHelpText": "此密钥存储在本地，仅用于从此扩展程序发出 API 请求。",
+		"signupText": "您可以通过在此处注册来获取 {{providerName}} API 密钥。"
+	},
+	"baseUrlField": {
+		"label": "使用自定义基础 URL",
+		"placeholder": "默认: https://api.example.com"
+	},
+	"modelInfoView": {
+		"inputPriceLabel": "输入价格：",
+		"outputPriceStandardLabel": "输出价格（标准）：",
+		"outputPriceThinkingBudgetLabel": "输出价格（思考预算 > 0）：",
+		"outputPriceLabel": "输出价格：",
+		"basedOnInputTokens": "（基于输入令牌）",
+		"doesNotSupportImages": "不支持图像",
+		"supportsImages": "支持图像",
+		"contextWindowLabel": "上下文窗口：",
+		"cacheWritesPriceLabel": "缓存写入价格：",
+		"cacheReadsPriceLabel": "缓存读取价格：",
+		"inputPrice": "输入价格",
+		"outputPriceStandard": "输出价格（标准）",
+		"outputPriceThinking": "输出价格（思考预算 > 0）",
+		"outputPrice": "输出价格",
+		"doesNotSupportBrowser": "不支持浏览器使用",
+		"supportsBrowser": "支持浏览器使用",
+		"doesNotSupportCache": "不支持提示缓存",
+		"supportsCache": "支持提示缓存",
+		"contextWindow": "上下文窗口",
+		"cacheWritesPrice": "缓存写入价格",
+		"cacheReadsPrice": "缓存读取价格",
+		"supportsImagesLabel": "支持图像：",
+		"supportsComputerUseLabel": "支持计算机使用：",
+		"supportsCacheLabel": "支持提示缓存：",
+		"doesNotSupportImagesLabel": "不支持图像：",
+		"doesNotSupportComputerUseLabel": "不支持计算机使用：",
+		"doesNotSupportCacheLabel": "不支持提示缓存："
+	},
+	"ollamaModelPicker": {
+		"searchPlaceholder": "搜索并选择模型...",
+		"clearSearch": "清除搜索"
+	},
+	"preferredLanguageSetting": {
+		"english": "🇺🇸 英语",
+		"korean": "🇰🇷 韩语",
+		"chinese": "🇨🇳 中文",
+		"japanese": "🇯🇵 日语"
+	},
+	"clineProvider": {
+		"sortUnderlyingProviderRouting": "排序底层提供商路由",
+		"defaultOption": "默认",
+		"priceOption": "价格",
+		"throughputOption": "吞吐量",
+		"latencyOption": "延迟",
+		"defaultSortingDescription": "默认行为是在提供商（如 AWS、Google Vertex、Anthropic）之间进行请求负载均衡，优先考虑价格同时考虑提供商的正常运行时间",
+		"priceSortingDescription": "按价格对提供商进行排序，优先选择成本最低的提供商",
+		"throughputSortingDescription": "按吞吐量对提供商进行排序，优先选择吞吐量最高的提供商（可能会增加成本）",
+		"latencySortingDescription": "按响应时间对提供商进行排序，优先选择延迟最低的提供商"
+	},
+	"claude": {
+		"systemPrompt": "系统提示",
+		"maxTokens": "最大标记",
+		"apiVersion": "API版本"
+	},
+	"sapAiCoreModelPicker": {
+		"deployedModelsHeader": "── 已部署模型 ──",
+		"notDeployedModelsHeader": "── 未部署模型 ──"
+	},
+	"api-configuration": {
+		"title": "API 配置"
+	},
+	"providers": {
+		"caret": {
+			"name": "Caret",
+			"login": "登录",
+			"profile": "Profile",
+			"logout": "Logout",
+			"apiKeyConfigured": "Caret已登录",
+			"description": "Caret登录用户可以使用免费提供的积分访问Google最新的Gemini模型",
+			"features": "无需单独API密钥即可享受以下功能",
+			"feature1": "Gemini 2.5 Pro：强大的推理能力",
+			"feature2": "Gemini 2.5 Flash：快速高效的响应",
+			"feature3": "无需单独API密钥即可立即访问",
+			"feature4": "价格：使用免费计划积分",
+			"visit": "获取Caret的API密钥：",
+			"baseUrlPlaceholder": "默认: http://localhost:4000",
+			"baseUrlLabel": "基础 URL（可选）",
+			"apiKeyPlaceholder": "默认: noop",
+			"apiKeyLabel": "API 密钥",
+			"modelIdPlaceholder": "例如 anthropic/claude-sonnet-4-20250514",
+			"modelIdLabel": "模型 ID",
+			"usePromptCachingLabel": "使用提示缓存 (GA)",
+			"promptCachingHelpText": "提示缓存需要受支持的提供商和模型",
+			"extendedThinkingHelpText": "Sonnet-4、o3-mini、Deepseek R1 等模型支持扩展思考。更多信息请参见",
+			"thinkingModeConfigurationLinkText": "思考模式配置",
+			"modelConfigurationLabel": "模型配置",
+			"supportsImagesLabel": "支持图像",
+			"contextWindowSizeLabel": "上下文窗口大小",
+			"maxOutputTokensLabel": "最大输出令牌",
+			"temperatureLabel": "温度",
+			"usePromptCachingDescription": "提示缓存需要受支持的提供商和模型",
+			"extendedThinkingDescription1": "Sonnet-4、o3-mini、Deepseek R1 等模型支持扩展思考。更多信息请参见",
+			"extendedThinkingLink": "思考模式配置",
+			"description1": "LiteLLM 提供统一接口以访问 100 多个 LLM API。请参阅其",
+			"quickstartGuideLink": "快速入门指南",
+			"description2": "了解更多信息。",
+			"unifiedInterfaceHelpText": "LiteLLM 提供统一接口以访问各种 LLM 提供商的模型。请参阅其",
+			"quickstartGuideLinkText": "快速入门指南",
+			"forMoreInformationText": "了解更多信息。",
+			"modelPicker": {
+				"starIconFilled": "★",
+				"starIconEmpty": "☆",
+				"featuredModelDescriptionBest": "Recommended for Caret's agent coding",
+				"featuredModelLabelBest": "Best",
+				"featuredModelDescriptionNew": "Cutting-edge models for complex, long-horizon tasks",
+				"featuredModelLabelNew": "New",
+				"featuredModelDescriptionFree": "Advanced model with 262K context for complex coding",
+				"featuredModelLabelFree": "Free",
+				"modelLabel": "모델",
+				"searchPlaceholder": "모델 검색 및 선택...",
+				"clearSearch": "검색 지우기",
+				"switchTo1M": "1M 컨텍스트 창 모델로 전환",
+				"switchToOneMContext": "1M 컨텍스트 창 모델로 전환",
+				"switchToTwoHundredKContext": "Switch to 200K context window model",
+				"fetchModelsDescription": "The extension automatically fetches the latest list of models available on ",
+				"linkText": "OpenRouter.",
+				"unsureModelChoice": "If you're unsure which model to choose, Caret works best with ",
+				"recommendedModel": "anthropic/claude-3-7-sonnet-latest.",
+				"searchFreeOptions": "To find free options currently available, try searching for \"free\"."
+			}
+		},
+		"openrouter": {
+			"name": "OpenRouter",
+			"description": "使用单个 API 密钥访问各种开源和专有模型。",
+			"balanceDisplay": {
+				"loading": "加载中...",
+				"tooltip": "剩余余额: {{remainingBalance}}\\n限制: {{limit}}\\n使用量: {{usage}}",
+				"label": "余额: {{formattedBalance}}"
+			},
+			"apiKeyPlaceholder": "输入API密钥...",
+			"apiKeyLabel": "OpenRouter API密钥",
+			"getApiKeyButton": "获取OpenRouter API密钥",
+			"apiKeyHelpText": "此密钥本地存储，仅用于此扩展的API请求。",
+			"sortUnderlyingProviderRoutingCheckbox": "对底层提供商路由进行排序",
+			"defaultOption": "默认",
+			"priceOption": "价格",
+			"throughputOption": "吞吐量",
+			"latencyOption": "延迟",
+			"defaultSortingDescription": "默认行为是在提供商（如AWS、Google Vertex、Anthropic）之间进行请求负载平衡，在考虑提供商正常运行时间的同时优先考虑价格",
+			"priceSortingDescription": "按价格对提供商进行排序，优先选择最低成本的提供商",
+			"throughputSortingDescription": "按吞吐量对提供商进行排序，优先选择吞吐量最高的提供商（可能增加成本）",
+			"latencySortingDescription": "按响应时间对提供商进行排序，优先选择延迟最低的提供商",
+			"authError": "打开OpenRouter认证失败：",
+			"modelPicker": {
+				"starIconFilled": "★",
+				"starIconEmpty": "☆",
+				"featuredModelDescriptionBest": "Recommended for Caret's agent coding",
+				"featuredModelLabelBest": "Best",
+				"featuredModelDescriptionNew": "Cutting-edge models for complex, long-horizon tasks",
+				"featuredModelLabelNew": "New",
+				"featuredModelDescriptionFree": "Advanced model with 262K context for complex coding",
+				"featuredModelLabelFree": "Free",
+				"modelLabel": "模型",
+				"searchPlaceholder": "搜索并选择模型...",
+				"clearSearch": "清除搜索",
+				"switchTo1M": "切换到 1M 上下文窗口模型",
+				"switchToOneMContext": "切换到 1M 上下文窗口模型",
+				"switchToTwoHundredKContext": "Switch to 200K context window model",
+				"fetchModelsDescription": "The extension automatically fetches the latest list of models available on ",
+				"linkText": "OpenRouter.",
+				"unsureModelChoice": "If you're unsure which model to choose, Caret works best with ",
+				"recommendedModel": "anthropic/claude-3-7-sonnet-latest.",
+				"searchFreeOptions": "To find free options currently available, try searching for \"free\"."
+			}
+		},
+		"gemini": {
+			"name": "Google Gemini",
+			"description": "使用 Google AI API 访问 Google 的 Gemini 模型系列。需要 API 密钥。",
+			"baseUrlPlaceholder": "默认: https://generativelanguage.googleapis.com"
+		},
+		"openai": {
+			"name": "OpenAI 兼容",
+			"description": "连接到与 OpenAI API 兼容的任何模型端点。",
+			"baseUrlPlaceholder": "输入基础 URL...",
+			"baseUrlLabel": "基础 URL",
+			"modelIdPlaceholder": "输入模型 ID...",
+			"modelIdLabel": "模型 ID",
+			"customHeadersLabel": "自定义标头",
+			"addHeaderButton": "添加标头",
+			"headerNamePlaceholder": "标头名称",
+			"headerValuePlaceholder": "标头值",
+			"removeHeaderButton": "删除",
+			"azureApiVersionLabel": "设置 Azure API 版本",
+			"azureApiVersionPlaceholder": "默认: {{defaultValue}}",
+			"modelConfigurationLabel": "模型配置",
+			"supportsImagesCheckbox": "支持图像",
+			"supportsBrowserUseCheckbox": "支持浏览器使用",
+			"enableR1FormatCheckbox": "启用 R1 消息格式",
+			"contextWindowSizeLabel": "上下文窗口大小",
+			"maxOutputTokensLabel": "最大输出令牌",
+			"inputPriceLabel": "输入价格 / 100万令牌",
+			"outputPriceLabel": "输出价格 / 100万令牌",
+			"temperatureLabel": "温度",
+			"notePrefix": "注意:",
+			"noteText": "Caret 使用复杂的提示，与 Claude 模型配合使用效果最佳。能力较弱的模型可能无法按预期工作。",
+			"refreshModelsError": "刷新 OpenAI 模型失败:",
+			"providerName": "OpenAI 兼容"
+		},
+		"anthropic": {
+			"name": "Anthropic",
+			"description": "使用 Anthropic API 直接访问 Claude 模型系列。需要 API 密钥。",
+			"switchTo1MContext": "切换到 1M 上下文窗口模型",
+			"switchTo200KContext": "切换到 200K 上下文窗口模型"
+		},
+		"bedrock": {
+			"name": "Amazon Bedrock",
+			"description": "Amazon Bedrock 提供对来自 Amazon 和领先 AI 初创公司的广泛基础模型的访问。",
+			"apiKey": "API 密钥",
+			"awsProfile": "AWS 配置文件",
+			"awsCredentials": "AWS 凭据",
+			"profileNamePlaceholder": "输入配置文件名称（空则为默认）",
+			"profileNameLabel": "AWS 配置文件名称",
+			"bedrockApiKeyPlaceholder": "输入 Bedrock API 密钥",
+			"bedrockApiKeyLabel": "AWS Bedrock API 密钥",
+			"accessKeyPlaceholder": "输入访问密钥...",
+			"accessKeyLabel": "AWS 访问密钥",
+			"secretKeyPlaceholder": "输入密钥...",
+			"secretKeyLabel": "AWS 密钥",
+			"sessionTokenPlaceholder": "输入会话令牌...",
+			"sessionTokenLabel": "AWS 会话令牌",
+			"awsRegionLabel": "AWS 区域",
+			"selectRegionPlaceholder": "选择区域...",
+			"useCustomVpcEndpoint": "使用自定义 VPC 端点",
+			"vpcEndpointPlaceholder": "输入 VPC 端点 URL（可选）",
+			"useCrossRegionInference": "使用跨区域推理",
+			"usePromptCaching": "使用提示缓存",
+			"profileCredentialsHelpText": "使用来自 ~/.aws/credentials 的 AWS 配置文件凭据。留空配置文件名称以使用默认配置文件。这些凭据仅在本地存储，仅用于从此扩展程序发出 API 请求。",
+			"defaultCredentialsHelpText": "通过提供上述密钥或使用默认 AWS 凭据提供者（即 ~/.aws/credentials 或环境变量）进行身份验证。这些凭据仅在本地存储，仅用于从此扩展程序发出 API 请求。",
+			"modelLabel": "模型",
+			"selectModelPlaceholder": "选择模型...",
+			"customModelOption": "自定义",
+			"customModelDescription": "在 Bedrock 中使用应用程序推理配置文件时选择\"自定义\"。在模型 ID 字段中输入应用程序推理配置文件 ARN。",
+			"customModelIdPlaceholder": "输入自定义模型 ID...",
+			"modelIdLabel": "模型 ID",
+			"baseInferenceModelLabel": "基础推理模型",
+			"selectBaseModelPlaceholder": "选择模型..."
+		},
+		"vscode-lm": {
+			"name": "VS Code LM API",
+			"description": "通过 VS Code 语言模型 API 使用其他扩展程序提供的模型（例如 GitHub Copilot）。",
+			"languageModelLabel": "语言模型",
+			"selectModelPlaceholder": "选择模型...",
+			"descriptionPart1": "VS Code 语言模型 API 允许您运行其他 VS Code 扩展程序提供的模型（包括但不限于 GitHub Copilot）。最简单的入门方法是安装",
+			"copilotExtensionLinkText": "Copilot 扩展程序",
+			"descriptionPart2": "来自 VS Marketplace 并启用 Claude 4 Sonnet。",
+			"noteText": "注意：这是一个非常实验性的集成，可能无法按预期工作。"
+		},
+		"deepseek": {
+			"name": "DeepSeek",
+			"description": "DeepSeek 开发在代码和数学方面具有强大能力的开源模型。"
+		},
+		"openai-native": {
+			"name": "OpenAI",
+			"description": "使用 OpenAI 官方 API 直接访问 GPT 模型。需要 API 密钥。",
+			"providerName": "OpenAI"
+		},
+		"ollama": {
+			"name": "Ollama",
+			"description": "使用 Ollama 在您的计算机上本地运行模型。请参阅其快速入门指南以开始使用。",
+			"baseUrlLabel": "使用自定义基础 URL",
+			"baseUrlPlaceholder": "默认: http://localhost:11434",
+			"apiKeyHelpText": "用于经过身份验证的 Ollama 实例或云服务的可选 API 密钥。本地安装请留空。",
+			"apiKeyPlaceholder": "输入 API 密钥（可选）...",
+			"modelLabel": "模型",
+			"modelPickerPlaceholder": {
+				"search": "搜索并选择模型...",
+				"example": "例如 llama3.1"
+			},
+			"fetchModelsError": "无法从 Ollama 服务器获取模型。请确保 Ollama 正在运行且可访问，或在上方手动输入模型 ID。",
+			"modelContextWindowLabel": "模型上下文窗口",
+			"requestTimeoutPlaceholder": "默认: 30000 (30 秒)",
+			"requestTimeoutLabel": "请求超时（毫秒）",
+			"requestTimeoutDescription": "在超时之前等待 API 响应的最大毫秒数。",
+			"descriptionPart1": "Ollama 允许您在计算机上本地运行模型。有关如何开始的说明，请参阅其 ",
+			"quickstartGuideLinkText": "快速入门指南。",
+			"notePrefix": "注意：",
+			"noteText": "Caret 使用复杂的提示，与 Claude 模型配合使用效果最佳。能力较弱的模型可能无法按预期工作。",
+			"fetchModelsErrorLog": "获取 Ollama 模型失败：",
+			"providerName": "Ollama",
+			"contextWindowPlaceholder": "例如 32768"
+		},
+		"vertex": {
+			"name": "GCP Vertex AI",
+			"description": "Google Cloud Vertex AI 提供各种 AI 模型，包括 Google 的最先进模型。",
+			"projectIdPlaceholder": "输入项目 ID...",
+			"projectIdLabel": "Google Cloud 项目 ID",
+			"regionLabel": "Google Cloud 区域",
+			"selectRegionPlaceholder": "选择区域...",
+			"setupDescription": "要使用Google Cloud Vertex AI，您需要 ",
+			"setupLink1": "1) 创建 Google Cloud 账户 › 启用 Vertex AI API › 启用所需的 Claude 模型，",
+			"setupLink2": " 2) 安装 Google Cloud CLI › 配置应用程序默认凭据。",
+			"descriptionPart1": "要使用 Google Cloud Vertex AI，您需要",
+			"linkText1": "1) 创建 Google Cloud 账户 › 启用 Vertex AI API › 启用所需的 Claude 模型，",
+			"linkText2": "2) 安装 Google Cloud CLI › 配置应用程序默认凭据。"
+		},
+		"litellm": {
+			"name": "LiteLLM",
+			"description": "LiteLLM 提供统一接口以访问 100 多个 LLM API。",
+			"baseUrlPlaceholder": "默认: http://localhost:4000",
+			"baseUrlLabel": "基础 URL（可选）",
+			"apiKeyPlaceholder": "默认: noop",
+			"apiKeyLabel": "API 密钥",
+			"modelIdPlaceholder": "例如 anthropic/claude-sonnet-4-20250514",
+			"modelIdLabel": "模型 ID",
+			"usePromptCachingLabel": "使用提示缓存 (GA)",
+			"promptCachingHelpText": "提示缓存需要受支持的提供商和模型",
+			"extendedThinkingHelpText": "Sonnet-4、o3-mini、Deepseek R1 等模型支持扩展思考。更多信息请参见",
+			"thinkingModeConfigurationLinkText": "思考模式配置",
+			"modelConfigurationLabel": "模型配置",
+			"supportsImagesLabel": "支持图像",
+			"contextWindowSizeLabel": "上下文窗口大小",
+			"maxOutputTokensLabel": "最大输出令牌",
+			"temperatureLabel": "温度",
+			"usePromptCachingDescription": "提示缓存需要受支持的提供商和模型",
+			"extendedThinkingDescription1": "Sonnet-4、o3-mini、Deepseek R1 等模型支持扩展思考。更多信息请参见",
+			"extendedThinkingLink": "思考模式配置",
+			"description1": "LiteLLM 提供统一接口以访问 100 多个 LLM API。请参阅其",
+			"quickstartGuideLink": "快速入门指南",
+			"description2": "了解更多信息。",
+			"unifiedInterfaceHelpText": "LiteLLM 提供统一接口以访问各种 LLM 提供商的模型。请参阅其",
+			"quickstartGuideLinkText": "快速入门指南",
+			"forMoreInformationText": "了解更多信息。"
+		},
+		"mistral": {
+			"name": "Mistral",
+			"description": "Mistral AI 开发高性能开源和商业模型。",
+			"providerName": "Mistral"
+		},
+		"zai": {
+			"name": "Z AI",
+			"description": "智谱 AI 提供双语（中文和英文）对话模型。",
+			"entrypointLabel": "Z AI 入口点",
+			"entrypointDescription": "请根据您的位置选择合适的 API 入口点。如果您在中国，请选择 open.bigmodel.cn。否则，请选择 api.z.ai。",
+			"providerName": "Z AI"
+		},
+		"groq": {
+			"name": "Groq",
+			"description": "Groq 通过其语言处理单元 (LPU) 提供极快的推理速度。",
+			"providerName": "Groq",
+			"modelLabel": "模型",
+			"searchPlaceholder": "搜索并选择模型...",
+			"clearSearch": "清除搜索",
+			"fetchModelsError": "获取 Groq 模型失败:",
+			"fetchModelsDescription": "扩展程序会自动从以下位置获取最新的可用模型列表: ",
+			"groqLinkText": "Groq.",
+			"unsureModelChoice": "如果您不确定选择哪个模型，Caret 在以下模型上效果最佳: ",
+			"recommendedModel": "llama-3.3-70b-versatile.",
+			"recommendedModelId": "llama-3.3-70b-versatile",
+			"modelDocumentationUrl": "https://console.groq.com/docs/models"
+		},
+		"cerebras": {
+			"name": "Cerebras",
+			"description": "Cerebras 构建用于训练和运行大规模 AI 模型的硬件。",
+			"sotaDescription": "SOTA 编码模型，速度约为 2000 令牌/秒（免费套餐 $0）",
+			"noSubscription": "• 如果您没有 Cerebras 订阅，请使用此选项",
+			"contextWindow": "• 64K 上下文窗口",
+			"rateLimits": "• 速率限制：150K TPM, 1M TPH/TPD, 10 RPM, 100 RPH/RPD",
+			"upgrade": "升级以获得更高限制：https://cloud.cerebras.ai/?utm=cline"
+		},
+		"vercel-ai-gateway": {
+			"name": "Vercel AI Gateway",
+			"description": "Vercel AI Gateway 提供与各种模型提供商的可靠连接。",
+			"apiKeyLabel": "Vercel AI Gateway API 密钥",
+			"getApiKeyLinkText": "您可以通过在此处注册来获取 Vercel AI Gateway API 密钥。",
+			"modelIdPlaceholder": "输入模型 ID（例如 openai/gpt-4o）...",
+			"modelIdLabel": "模型 ID",
+			"fetchModelsError": "无法从 Vercel AI Gateway 获取模型。",
+			"noteText": "注意：免费套餐用户将看到 $0 费用，因为这些请求由 Vercel AI Gateway 免费提供。",
+			"fetchModelsErrorLog": "获取 Vercel AI Gateway 模型失败："
+		},
+		"baseten": {
+			"name": "Baseten",
+			"description": "Baseten 是一个用于部署和提供自定义 AI 模型的平台。",
+			"modelNotStatic": "模型 {{newModelId}} 不在静态 basetenModels 列表中",
+			"fetchModelsError": "刷新 Baseten 模型失败:",
+			"searchPlaceholder": "搜索并选择模型...",
+			"clearSearch": "清除搜索",
+			"infoDescription": "扩展程序自动获取以下平台上可用的最新模型列表",
+			"infoLinkText": "Baseten",
+			"recommendedModel": "moonshotai/Kimi-K2-Instruct.",
+			"unsureWhichModel": "如果您不确定选择哪个模型，我们建议",
+			"modelLabel": "模型",
+			"apiKeyHelp": "此密钥存储在本地，仅用于从此扩展程序发出 API 请求。您可以通过在此处注册来获取 {{providerName}} API 密钥。",
+			"basetenUrl": "https://www.baseten.co/products/model-apis/",
+			"basetenSignupUrl": "https://baseten.co/"
+		},
+		"requesty": {
+			"name": "Requesty",
+			"description": "Requesty 是一个 AI 驱动的请求路由和管理平台。",
+			"useCustomBaseUrlLabel": "使用自定义基础 URL",
+			"customBaseUrlPlaceholder": "自定义基础 URL",
+			"modelLabel": "模型",
+			"searchPlaceholder": "搜索并选择模型...",
+			"clearSearch": "清除搜索",
+			"requestyUrl": "https://app.requesty.ai/router/list",
+			"info": {
+				"fullText": {
+					"part1": "扩展程序自动获取以下平台上可用的最新模型列表",
+					"part2": "如果您不确定选择哪个模型，Caret 与以下模型配合使用效果最佳"
+				},
+				"linkText": "Requesty.",
+				"recommendedModel": "anthropic/claude-3-7-sonnet-latest."
+			}
+		},
+		"fireworks": {
+			"name": "Fireworks AI",
+			"description": "Fireworks AI 是一个供开发人员试验和部署生成式 AI 模型的平台。",
+			"providerName": "Fireworks",
+			"modelLabel": "模型"
+		},
+		"together": {
+			"name": "Together",
+			"description": "Together AI 提供一个云平台，用于运行领先的开源模型。",
+			"modelIdPlaceholder": "输入模型 ID...",
+			"modelIdLabel": "模型 ID",
+			"notePrefix": "注意：",
+			"noteText": "Caret 使用复杂的提示，与 Claude 模型配合使用效果最佳。能力较弱的模型可能无法按预期工作。",
+			"providerName": "Together"
+		},
+		"qwen": {
+			"name": "阿里云通义千问",
+			"description": "阿里云通义千问是一个功能强大的大型语言模型，适用于各种自然语言处理任务。",
+			"apiLineLabel": "阿里云 API 线路",
+			"apiLineDescription": "请根据您的位置选择合适的 API 接口。如果您在中国，请选择中国 API 接口。否则，请选择国际 API 接口。",
+			"providerName": "通义千问",
+			"apiLineOptions": {
+				"international": "国际 API",
+				"china": "中国 API"
+			}
+		},
+		"qwen-code": {
+			"name": "通义千问代码",
+			"description": "通义千问代码是阿里巴巴的一个专用 AI 模型，用于代码生成和补全。",
+			"apiConfigurationTitle": "通义千问代码 API 配置",
+			"oauthCredentialsPathPlaceholder": "~/.qwen/oauth_creds.json",
+			"oauthCredentialsPathLabel": "OAuth 凭据路径",
+			"oauthCredentialsPathDescription": "您的通义千问 OAuth 凭据文件的路径。使用 ~/.qwen/oauth_creds.json 或提供自定义路径。",
+			"oauthAuthenticationDescription": "通义千问代码是一个基于 OAuth 的 API，需要通过官方通义千问客户端进行身份验证。您需要先设置 OAuth 凭据。",
+			"getStartedTitle": "开始使用：",
+			"installClientStep": "安装官方通义千问客户端",
+			"authenticateStep": "使用您的账户进行身份验证",
+			"credentialsStoredStep": "OAuth 凭据将自动存储",
+			"setupInstructionsLinkText": "设置说明"
+		},
+		"doubao": {
+			"name": "字节跳动豆包",
+			"description": "豆包是字节跳动开发的一系列对话式 AI 模型。",
+			"providerName": "豆包",
+			"modelLabel": "模型"
+		},
+		"lmstudio": {
+			"name": "LM Studio",
+			"description": "LM Studio 允许您在本地机器上发现、下载和运行 LLM。有关如何开始的说明，请参阅其 ",
+			"contextWindowLabel": "上下文窗口",
+			"baseUrlPlaceholder": "默认: http://localhost:1234",
+			"modelPlaceholder": "例如 meta-llama-3.1-8b-instruct",
+			"contextWindowTooltip": "不可编辑 - 该值由连接的端点返回",
+			"parseModelsError": "解析 LM Studio 模型失败：",
+			"description1": "LM Studio 允许您在本地机器上发现、下载和运行 LLM。有关如何开始的说明，请参阅其 ",
+			"quickstartGuideLink": "快速入门指南。",
+			"description2": "您还需要启动 LM Studio 的 ",
+			"localServerLink": "本地服务器",
+			"description3": " 功能，并使用 `lms server start` 命令将其与此扩展程序一起使用。",
+			"noteBody": "Caret 使用复杂的提示，与 Claude 模型配合使用效果最佳。能力较弱的模型可能无法按预期工作。"
+		},
+		"moonshot": {
+			"name": "月之暗面",
+			"description": "月之暗面 AI 专注于具有长上下文窗口的模型。",
+			"entrypoint": "Moonshot 入口点"
+		},
+		"huggingface": {
+			"name": "Hugging Face",
+			"description": "Hugging Face 为各种开源模型提供推理 API。",
+			"apiKeyPlaceholder": "输入 API 密钥...",
+			"apiKeyLabel": "Hugging Face API 密钥",
+			"apiKeyHelpText": "此密钥存储在本地，仅用于从此扩展程序发出 API 请求。我们在这里不显示价格，因为它取决于您的 Hugging Face 提供商设置，并且无法通过其 API 一致提供。",
+			"getApiKeyLinkText": "在此处获取您的 API 密钥",
+			"modelLabel": "模型",
+			"searchPlaceholder": "搜索模型...",
+			"clearSearch": "清除搜索",
+			"fetchModelsError": "获取 Hugging Face 模型失败:",
+			"apiKeyUrl": "https://huggingface.co/settings/tokens"
+		},
+		"nebius": {
+			"name": "Nebius AI Studio",
+			"description": "Nebius AI 提供基于 Yandex 技术的 AI 服务。",
+			"apiKeyHelpText": "此密钥存储在本地，仅用于从此扩展程序发出 API 请求。（注意：Caret 使用复杂的提示，与 Claude 模型配合使用效果最佳。能力较弱的模型可能无法按预期工作。）"
+		},
+		"asksage": {
+			"name": "AskSage",
+			"description": "AskSage 提供专为研究和学术用途设计的 AI 模型。",
+			"apiKeyHelpText": "此密钥存储在本地，仅用于从此扩展程序发出 API 请求。",
+			"apiUrlPlaceholder": "输入 AskSage API URL...",
+			"apiUrlLabel": "AskSage API URL",
+			"modelLabel": "模型"
+		},
+		"xai": {
+			"name": "X AI",
+			"description": "xAI 开发 Grok，一个旨在真实的大型语言模型。",
+			"notePrefix": "注意：",
+			"noteText": "Caret 使用复杂的提示，与 Claude 模型配合使用效果最佳。能力较弱的模型可能无法按预期工作。",
+			"reasoningEffortLabel": "推理努力程度",
+			"reasoningEffortDescription": "高努力程度可能会产生更彻底的分析，但需要更长时间并使用更多令牌。",
+			"providerName": "xAI",
+			"modifyReasoningEffort": "修改推理努力程度",
+			"reasoningEffortOptions": {
+				"low": "低",
+				"high": "高"
+			}
+		},
+		"sambanova": {
+			"name": "SambaNova",
+			"description": "SambaNova 为企业级 AI 应用提供高性能模型。",
+			"providerName": "SambaNova"
+		},
+		"huawei-cloud-maas": {
+			"name": "华为云 MaaS",
+			"description": "华为云 MaaS（模型即服务）提供各种 AI 模型。",
+			"providerName": "华为云 MaaS"
+		},
+		"dify": {
+			"name": "Dify.ai",
+			"description": "Dify.ai 是一个用于构建和运行 LLM 驱动应用程序的平台。",
+			"baseUrlLabel": "基础 URL",
+			"baseUrlPlaceholder": "请输入您的 Dify 基础 URL..."
+		},
+		"cline": {
+			"name": "Caret",
+			"description": "Caret 提供高质量的 AI 模型，针对编码任务进行了优化。"
+		},
+		"claude-code": {
+			"name": "Claude Code",
+			"description": "Claude Code 是 Anthropic 的一个专用模型，针对代码相关任务进行了优化。",
+			"cliPath": "CLI 路径",
+			"cliPathDescription": "'claude-code' CLI 可执行文件的路径。",
+			"cliPathPlaceholder": "claude",
+			"model": "模型"
+		},
+		"sap-ai-core": {
+			"name": "SAP AI Core",
+			"description": "SAP AI Core 是在 SAP 生态系统内部署和管理 AI 模型的服务。",
+			"clientIdLabel": "AI Core 客户端 ID",
+			"clientIdSetMessage": "客户端 ID 已设置。要更改它，请重新输入值。",
+			"clientSecretPlaceholder": "输入 AI Core 客户端密钥...",
+			"clientSecretLabel": "AI Core 客户端密钥",
+			"clientSecretSetMessage": "客户端密钥已设置。要更改它，请重新输入值。",
+			"baseUrlPlaceholder": "输入 AI Core 基础 URL...",
+			"baseUrlLabel": "AI Core 基础 URL",
+			"tokenUrlPlaceholder": "输入 AI Core 认证 URL...",
+			"tokenUrlLabel": "AI Core 认证 URL",
+			"resourceGroupPlaceholder": "输入 AI Core 资源组...",
+			"resourceGroupLabel": "AI Core 资源组",
+			"credentialsHelpText": "这些凭据存储在本地，仅用于从此扩展程序发出 API 请求。",
+			"apiAccessInfoLinkText": "您可以在此处找到有关 SAP AI Core API 访问的更多信息。",
+			"orchestrationModeLabel": "编排模式",
+			"orchestrationModeDescriptionEnabled": "启用后，无需单独部署即可访问所有可用模型。",
+			"orchestrationModeDescriptionDisabled": "禁用后，仅提供对 AI Core 服务实例中已部署模型的访问。",
+			"loadingModels": "正在加载模型...",
+			"modelFetchError": "获取模型失败。请检查您的配置。",
+			"noModelsFound": "无法从 SAP AI Core 服务实例获取模型。请检查您的 SAP AI Core 配置或确保您的部署已在服务实例中部署并运行",
+			"configureCredentialsPrompt": "请配置您的 SAP AI Core 凭据以查看可用模型。",
+			"fetchModelsErrorLog": "获取 SAP AI Core 模型时出错:",
+			"clientIdPlaceholder": "输入 AI Core 客户端 ID...",
+			"retryButton": "重试",
+			"selectModelPlaceholder": "选择模型..."
+		}
+	},
+	"persona": {
+		"enablePersonaSystem": "启用人格系统",
+		"description": "启用人格系统以自定义您的 AI 助手的个性和响应风格。"
+	},
+	"about": {
+		"feedbackPrompt": "如果您有任何问题或反馈，我们随时欢迎。",
+		"version": "版本",
+		"title": "关于",
+		"description": "检查 Caret 版本并查看相关信息。",
+		"documentation": "文档"
+	},
+	"thinkingBudget": {
+		"enable": "启用思考预算",
+		"budgetText": {
+			"part1": "思考预算: ",
+			"part2": "{{value}} 令牌"
+		},
+		"ariaLabel": "将思考预算设置为 {{value}} 令牌",
+		"description": "控制模型用于内部推理的最大令牌数。较高的值允许更彻底的分析，但会增加成本。"
+	},
+	"validation": {
+		"apiKey": {
+			"required": "您必须提供有效的 API 密钥或选择其他提供商。"
+		},
+		"region": {
+			"required": "您必须选择与 AWS Bedrock 一起使用的区域。"
+		},
+		"googleCloud": {
+			"projectIdAndRegion": "您必须提供有效的 Google Cloud 项目 ID 和区域。"
+		},
+		"openai": {
+			"baseUrlApiKeyModel": "您必须提供有效的基础 URL、API 密钥和模型 ID。"
+		},
+		"modelId": {
+			"required": "您必须提供有效的模型 ID。",
+			"unavailable": "您提供的模型 ID 不可用。请选择其他模型。"
+		},
+		"modelSelector": {
+			"required": "您必须提供有效的模型选择器。"
+		},
+		"baseUrl": {
+			"required": "您必须提供有效的基础 URL 或选择其他提供商。"
+		},
+		"clientId": {
+			"required": "您必须提供有效的客户端 ID 或选择其他提供商。"
+		},
+		"clientSecret": {
+			"required": "您必须提供有效的客户端密钥或选择其他提供商。"
+		},
+		"authUrl": {
+			"required": "您必须提供有效的认证 URL 或选择其他提供商。"
+		}
+	}
+}

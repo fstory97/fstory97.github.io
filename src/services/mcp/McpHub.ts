@@ -634,7 +634,9 @@ export class McpHub {
 	}
 
 	private removeAllFileWatchers() {
-		this.fileWatchers.forEach((watcher) => watcher.close())
+		for (const watcher of this.fileWatchers.values()) {
+			watcher.close()
+		}
 		this.fileWatchers.clear()
 	}
 
@@ -870,10 +872,11 @@ export class McpHub {
 				toolArguments ? Object.keys(toolArguments) : undefined,
 			)
 
+			// CARET MODIFICATION: Explicit any type to handle Zod-parsed MCP result types
 			return {
 				...result,
 				content: result.content ?? [],
-			}
+			} as any
 		} catch (error) {
 			this.telemetryService.captureMcpToolCall(
 				ulid,

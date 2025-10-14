@@ -1,0 +1,729 @@
+{
+	"button": {
+		"freeStart": "무료로 시작하기",
+		"useOwnKey": "자신의 API 키 사용하기",
+		"letsGo": "시작하기!",
+		"save": "저장",
+		"cancel": "취소",
+		"done": "완료",
+		"runCommand": "명령 실행",
+		"reject": "거절",
+		"setupApiOrLocal": "내 API 키 사용 또는 로컬 LLM 설정",
+		"notifyCaretAccount": "Caret 구독 서비스 알림받기",
+		"saveAndStart": "저장하고 시작하기",
+		"retry": "재시도",
+		"approve": "승인",
+		"proceed": "계속",
+		"proceedAnyways": "그냥 계속",
+		"proceedWhileRunning": "실행하며 계속",
+		"resumeTask": "작업 재개",
+		"startNewTaskWithContext": "컨텍스트와 함께 새 작업 시작",
+		"condenseConversation": "대화 요약",
+		"reportGitHubIssue": "GitHub 이슈 보고"
+	},
+	"error": {
+		"generic": "오류가 발생했습니다.",
+		"apiKeyRequired": "API 키가 필요합니다",
+		"openaiApiKeyRequired": "OpenAI API 키가 필요합니다",
+		"anthropicApiKeyRequired": "Anthropic API 키가 필요합니다",
+		"geminiApiKeyRequired": "Gemini API 키가 필요합니다"
+	},
+	"imageAlt": {
+		"caretBanner": "Caret 로고 배너"
+	},
+	"title": {
+		"apiKeySettings": "API 키 설정"
+	},
+	"text": {
+		"finalThoughts": "{{appName}}와(과) 함께 멋진 개발 여정을 시작해보세요!"
+	},
+	"link": {
+		"learnMoreCaretGit": "Caret GitHub에서 더 알아보기"
+	},
+	"apiSetup": {
+		"backButton": "뒤로",
+		"title": "Caret 시작하기",
+		"description": "Caret은 다양한 LLM을 지원합니다. Caret 서비스에 가입하여 무료로 이용하거나, ChatGPT, Claude, Gemma API를 사용하거나, 로컬 LLM을 구성할 수 있습니다.",
+		"instructions": "도움말:",
+		"supportLinks": {
+			"llmList": "지원되는 LLM 목록",
+			"geminiCredit": "무료 Gemini API 크레딧 받기"
+		},
+		"saveButton": "저장하고 시작하기",
+		"help": {
+			"title": "도움이 필요하신가요?",
+			"button": "문서 방문하기"
+		}
+	},
+	"rules": {
+		"tab": {
+			"rules": "규칙",
+			"workflows": "워크플로우"
+		},
+		"section": {
+			"personaManagement": "페르소나 관리",
+			"globalRules": "전역 규칙",
+			"workspaceRules": "작업공간 규칙",
+			"globalWorkflows": "전역 워크플로우",
+			"localWorkflows": "로컬 워크플로우"
+		},
+		"subTitle": {
+			"caretRules": "Caret 규칙 (.caretrules)",
+			"CaretRules": "Caret 규칙 (.Caretrules)",
+			"cursorRules": "Cursor 규칙 (.cursorrules)",
+			"windsurfRules": "Windsurf 규칙 (.windsurfrules)"
+		},
+		"button": {
+			"selectPersonaTemplate": "템플릿 캐릭터 선택",
+			"changePersonaTemplate": "페르소나 템플릿 변경"
+		},
+		"description": {
+			"rulesDescription": "규칙을 통해 Caret에게 시스템 수준의 지침을 제공할 수 있습니다. 프로젝트별 또는 모든 대화에 대한 컨텍스트와 선호사항을 지속적으로 포함하는 방법으로 생각하세요.",
+			"workflowsDescription": "워크플로우를 통해 서비스 배포나 PR 제출과 같은 반복적인 작업들을 Caret이 수행할 수 있도록 일련의 단계를 정의할 수 있습니다. 워크플로우를 실행하려면 채팅에서 /워크플로우명을 입력하세요.",
+			"personaManagement": "Choose an AI persona that matches your coding style and preferences."
+		},
+		"action": {
+			"newRuleFile": "새 규칙 파일..."
+		},
+		"title": "Caret 규칙 및 워크플로우 관리",
+		"toggleError": "규칙 토글 오류",
+		"docsLink": "Docs"
+	},
+	"persona": {
+		"description": "페르소나 시스템을 활성화하여 다양한 AI 캐릭터로 맞춤형 상호작용을 경험하세요.",
+		"management": "페르소나 관리",
+		"docs": "문서",
+		"availablePersonas": "사용 가능한 페르소나",
+		"selectDescription": "원하는 페르소나를 선택하거나 새로운 페르소나를 생성하세요.",
+		"select": "선택",
+		"createNew": "새 페르소나 생성",
+		"creating": "생성 중...",
+		"uploadNormal": "아바타 업로드",
+		"uploadThinking": "추론 아바타 업로드",
+		"default": {
+			"name": "기본 Caret",
+			"description": "기본 AI 코딩 어시스턴트 페르소나입니다."
+		}
+	},
+	"mode": {
+		"chatbot": {
+			"label": "💬 챗봇",
+			"title": "챗봇 모드",
+			"description": "전문가 상담 및 분석 모드"
+		},
+		"agent": {
+			"label": "🤖 Agent",
+			"title": "Agent Mode",
+			"description": "Collaborative development and implementation"
+		},
+		"plan": {
+			"label": "📋 계획",
+			"title": "계획 모드",
+			"description": "전략 수립 및 설계"
+		},
+		"act": {
+			"label": "⚡ 실행",
+			"title": "실행 모드",
+			"description": "구현 및 실행"
+		},
+		"tooltip": {
+			"chatbot": "챗봇 모드에서 Caret은 전문가 상담과 분석을 제공합니다",
+			"agent": "에이전트 모드에서 Caret은 솔루션 구현을 위해 협업합니다",
+			"plan": "Plan 모드에서 전략과 계획을 수립합니다",
+			"act": "Act 모드에서 계획을 실행하고 구현합니다",
+			"toggle": "전환: {{metaKey}}+Shift+A"
+		}
+	},
+	"settings": {
+		"uiLanguage": {
+			"label": "UI 언어",
+			"description": "Caret UI의 표시 언어를 선택하세요.",
+			"option": {
+				"ko": "Korean (한국어)",
+				"en": "English",
+				"ja": "Japanese (日本語)",
+				"zh": "Chinese (中文)"
+			}
+		},
+		"preferredLanguage": {
+			"label": "AI 응답 언어",
+			"description": "Caret이 소통에 사용해야 하는 언어입니다."
+		},
+		"modeSystem": {
+			"options": {
+				"caret": "Caret",
+				"Caret": "Caret",
+				"cline": "Caret"
+			},
+			"label": "모드 설정",
+			"description": "Caret의 계획/실행 모드를 사용하려면 Caret 모드 설정을 활성화하세요."
+		},
+		"separateModels": {
+			"label": "챗봇 모드와 에이전트 모드에 다른 모델 사용",
+			"description": "챗봇 모드와 에이전트 모드 간 전환 시 이전에 사용된 API와 모델이 유지됩니다. 예를 들어 전문가 상담(챗봇)에는 강력한 추론 모델을, 협업 개발(에이전트)에는 저렴한 코딩 모델을 사용할 때 유용할 수 있습니다."
+		},
+		"openAIReasoningEffort": {
+			"high": "높음 (더 상세하고, 느리며, 비용이 높음)",
+			"label": "OpenAI 추론 노력",
+			"description": "OpenAI 모델의 추론 노력을 조정합니다. 노력이 높을수록 더 상세한 응답을 얻을 수 있지만, 속도가 느려지고 비용이 더 많이 들 수 있습니다."
+		},
+		"apiKey": {
+			"placeholder": "API 키를 입력하세요...",
+			"getYourKeyAn": "여기서 가입하여 {{providerName}} API 키를 얻을 수 있습니다.",
+			"getYourKeyA": "여기서 가입하여 {{providerName}} API 키를 얻을 수 있습니다.",
+			"label": "{{providerName}} API 키",
+			"helpText": "이 키는 로컬에 저장되며 이 확장 프로그램에서 API 요청을 하는 데만 사용됩니다."
+		},
+		"baseUrl": {
+			"label": "사용자 정의 기본 URL 사용",
+			"placeholder": "기본값: https://api.example.com"
+		},
+		"modelSelector": {
+			"label": "모델",
+			"placeholder": "모델을 선택하세요..."
+		},
+		"modelIdField": {
+			"label": "모델"
+		},
+		"requesty": {
+			"modelLabel": "모델",
+			"searchPlaceholder": "모델 검색 및 선택...",
+			"clearSearch": "검색 지우기",
+			"info": {
+				"fullText": "이 확장 프로그램은 <0>Requesty</0>에서 사용 가능한 최신 모델 목록을 자동으로 가져옵니다. 어떤 모델을 선택해야 할지 잘 모르겠다면, Caret은 <1>anthropic/claude-3-7-sonnet-latest</1>와 가장 잘 작동합니다."
+			}
+		},
+		"sapAiCore": {
+			"modelLabel": "모델",
+			"info": {},
+			"placeholder": "Select a model...",
+			"deployedModels": "── Deployed Models ──",
+			"notDeployedModels": "── Not Deployed Models ──"
+		},
+		"vertex": {
+			"projectIdPlaceholder": "프로젝트 ID 입력...",
+			"projectIdLabel": "Google Cloud 프로젝트 ID",
+			"regionLabel": "Google Cloud 지역",
+			"selectRegionPlaceholder": "지역을 선택하세요...",
+			"setupDescription": "Google Cloud Vertex AI를 사용하려면 다음이 필요합니다: ",
+			"setupLink1": "1) Google Cloud 계정 생성 › Vertex AI API 활성화 › 원하는 Claude 모델 활성화,",
+			"setupLink2": " 2) Google Cloud CLI 설치 › 애플리케이션 기본 자격 증명 구성."
+		},
+		"terminalOutputLineLimit": {
+			"label": "터미널 출력 라인 제한",
+			"description": "명령 실행 시 터미널 출력에 포함할 최대 라인 수입니다. 초과 시 중간 라인이 제거되어 토큰을 절약합니다."
+		},
+		"thinkingBudget": {
+			"enable": "확장된 사고 활성화",
+			"budgetText": "<strong>예산:</strong> {{value}} 토큰",
+			"ariaLabel": "사고 예산: {{value}} 토큰",
+			"description": "예산이 높을수록 더 포괄적이고 미묘한 추론을 얻을 수 있습니다."
+		},
+		"useCustomPrompt": {
+			"label": "압축 프롬프트 사용",
+			"description": "더 작은 컨텍스트 창(예: 8k 이하)에 최적화된 시스템 프롬프트입니다.",
+			"warning": "Mcp 및 포커스 체인을 지원하지 않습니다."
+		},
+		"loading": "Loading...",
+		"signUpDescription": "Sign up for an account to get access to the latest models, billing dashboard to view usage and credits, and more upcoming features.",
+		"termsOfService": "Terms of Service",
+		"privacyPolicy": "Privacy Policy",
+		"byContining": "By continuing, you agree to the",
+		"subscription": "Subscription Plan",
+		"subscriptionFree": "Free",
+		"subscriptionBasic": "Basic",
+		"payAsYouGo": "Pay as you go",
+		"organization": "Organization",
+		"payAsYouGoDescription": "* Additional charges apply after all subscription usage is exhausted.",
+		"title": "Account"
+	},
+	"account": {
+		"signUpWithCaret": "로그인 & 가입",
+		"viewBillingUsage": "결제 및 사용량 보기",
+		"dashboard": "대시보드",
+		"addCredits": "크레딧 추가",
+		"currentBalance": "현재 잔액",
+		"logOut": "로그아웃",
+		"loading": "로딩 중...",
+		"signUpDescription": "계정에 가입하여 최신 모델, 사용량 및 크레딧을 볼 수 있는 결제 대시보드 및 더 많은 예정된 기능에 액세스하세요.",
+		"termsOfService": "서비스 약관",
+		"privacyPolicy": "개인정보 처리방침",
+		"byContining": "계속 진행하면 다음에 동의하는 것으로 간주됩니다.",
+		"subscription": "구독 플랜",
+		"subscriptionFree": "무료",
+		"subscriptionBasic": "베이직",
+		"payAsYouGo": "사용량 기반 결제",
+		"organization": "조직",
+		"payAsYouGoDescription": "* 모든 구독 사용량이 소진된 후 추가 요금이 적용됩니다.",
+		"title": "계정",
+		"manageAccount": "계정 관리",
+		"accountInformation": "계정 정보",
+		"email": "이메일",
+		"displayName": "이름",
+		"spend": "비용",
+		"usageSummary": "사용량 요약",
+		"timeframe": "기간",
+		"dailyUsage": "일간 사용량",
+		"monthlyUsage": "월간 사용량",
+		"promptTokens": "프롬프트 토큰",
+		"completionTokens": "완료 토큰",
+		"totalTokens": "총 토큰 수",
+		"totalCost": "총 비용",
+		"logout": "로그아웃",
+		"termsOfServiceUrl": "https://github.com/aicoding-caret/caret",
+		"privacyPolicyUrl": "https://github.com/aicoding-caret/caret"
+	},
+	"common": {
+		"and": "및",
+		"scrollToBottom": "맨 아래로 스크롤",
+		"defaultValue": "0",
+		"seeMore": "더 보기"
+	},
+	"chat": {
+		"caretHasQuestion": "캐럿이 질문이 있습니다",
+		"typeMessage": "메시지를 입력하세요...",
+		"typeTaskHere": "작업을 입력하세요...",
+		"apiRequestCancelled": "API 요청이 취소되었습니다",
+		"apiStreamingFailed": "API 스트리밍이 실패했습니다",
+		"apiRequest": "API 요청",
+		"apiRequestFailed": "API 요청 실패",
+		"apiRequestPending": "API 요청 중...",
+		"errorBlockTitle": {
+			"apiRequest": "API 요청",
+			"apiRequestFailed": "API 요청 실패"
+		},
+		"caretWantsToCreateNewFile": "캐럿이 새 파일을 생성하려고 합니다:",
+		"placeholderHint": "@ 입력으로 컨텍스트, / 입력으로 슬래시 명령어 및 워크플로우, Shift 키를 누른 채 드래그하여 파일/이미지 추가",
+		"caretIsUsingBrowser": "캐럿이 브라우저를 사용하고 있습니다:",
+		"caretWantsToUseBrowser": "캐럿이 브라우저를 사용하려고 합니다:",
+		"executeCommand": "Caret이 다음 명령을 실행하려고 합니다:",
+		"cancel": "취소",
+		"errorLabel": "오류",
+		"addContext": "컨텍스트 추가",
+		"addFilesImages": "파일/이미지 추가",
+		"selectModelApiProvider": "모델/API 제공자 선택",
+		"image": {
+			"dimensionError": "이미지 크기가 7500px를 초과할 수 없습니다.",
+			"unsupportedFileError": "지원되지 않는 파일 형식입니다. 이미지만 드롭할 수 있습니다."
+		},
+		"mistakeLimitReached": "실수 한도 도달",
+		"maxRequestsReached": "자동 승인 최대 요청 도달",
+		"useMcpServer": "{{serverName}}의 {{type}} 사용",
+		"mcpTool": "도구",
+		"mcpResource": "리소스",
+		"taskCompleted": "작업 완료",
+		"thinking": "생각 중",
+		"commandOutput": "명령 출력",
+		"commandApprovalRequired": "이 명령을 실행하려면 승인이 필요합니다.",
+		"mcpArguments": "인수",
+		"mcpNotification": "MCP 알림: ",
+		"loadingMcpDocumentation": "MCP 문서 로드 중",
+		"seeNewChanges": "새 변경사항 보기",
+		"shellIntegrationUnavailable": "셸 통합을 사용할 수 없음",
+		"shellIntegrationWarning": "Caret이 명령어 출력을 보는 데 문제가 있을 수 있습니다. VSCode를 업데이트하고(<code>CMD/CTRL + Shift + P</code> → \"업데이트\") 지원되는 셸(zsh, bash, fish, PowerShell)을 사용하고 있는지 확인하세요(<code>CMD/CTRL + Shift + P</code> → \"터미널: 기본 프로필 선택\").",
+		"stillHavingTrouble": "아직도 문제가 있나요?",
+		"wantsToStartNewTask": "Caret이 새 작업을 시작하려고 합니다:",
+		"wantsToCondense": "Caret이 대화를 요약하려고 합니다:",
+		"wantsToCreateGithubIssue": "Caret이 Github 이슈를 생성하려고 합니다:",
+		"tool": {
+			"outsideWorkspace": "작업 공간 외부",
+			"editFile": "기존 파일 편집됨",
+			"createFile": "새 파일 생성됨",
+			"readFile": "파일 읽기",
+			"wantsToListFilesTopLevel": "이 디렉토리의 파일 목록을 보려고 합니다",
+			"listedFilesTopLevel": "이 디렉토리의 파일 목록을 표시했습니다",
+			"wantsToListFilesRecursive": "이 디렉토리의 모든 파일 목록을 보려고 합니다",
+			"listedFilesRecursive": "이 디렉토리의 모든 파일 목록을 표시했습니다",
+			"wantsToListCodeDefinitionNames": "이 디렉토리의 소스 코드 정의 이름을 나열하려고 합니다",
+			"listedCodeDefinitionNames": "이 디렉토리의 소스 코드 정의 이름을 나열했습니다",
+			"searchFiles": "정규식 {{regex}}로 파일 검색",
+			"summarizeTask": "작업 요약됨",
+			"summary": "요약",
+			"externalUrl": "외부 URL",
+			"wantsToWebFetch": "이 URL에서 콘텐츠를 가져오려고 합니다",
+			"webFetched": "이 URL에서 콘텐츠를 가져왔습니다"
+		},
+		"quoteSelection": "선택 영역 인용",
+		"quoteSelectionInReply": "답장에서 선택 영역 인용",
+		"dismissQuote": "인용 취소"
+	},
+	"mcp": {
+		"installed": "설치됨",
+		"marketplace": "마켓플레이스",
+		"remoteServers": "원격 서버",
+		"noServersInstalled": "설치된 MCP 서버가 없습니다",
+		"configureServers": "MCP 서버 구성",
+		"noMatchingServers": "일치하는 MCP 서버를 찾을 수 없습니다",
+		"noServersFound": "마켓플레이스에서 MCP 서버를 찾을 수 없습니다",
+		"autoApprove": "자동 승인",
+		"autoApproveAllTools": "모든 도구 자동 승인",
+		"title": "MCP Servers",
+		"description": "The Model Context Protocol enables communication with locally running MCP servers that provide additional tools and resources to extend Caret's capabilities."
+	},
+	"history": {
+		"deleteAllHistory": "모든 기록 삭제",
+		"fuzzySearchPlaceholder": "기록 검색...",
+		"sortNewest": "최신순",
+		"sortOldest": "오래된순",
+		"sortMostExpensive": "비용 높은순",
+		"sortMostTokens": "토큰 많은순",
+		"sortMostRelevant": "관련성 높은순",
+		"filterWorkspace": "워크스페이스",
+		"filterFavorites": "즐겨찾기",
+		"selectAll": "모두 선택",
+		"selectNone": "선택 해제",
+		"title": "History"
+	},
+	"historyPreview": {
+		"recentTasks": "최근 작업",
+		"favorited": "즐겨찾기",
+		"tokens": "토큰: {{tokensIn}} In, {{tokensOut}} Out",
+		"cache": "캐시: +{{cacheWrites}}, →{{cacheReads}}",
+		"apiCost": "API 비용: ${{totalCost}}",
+		"viewAllHistory": "모든 기록 보기",
+		"noRecentTasks": "최근 작업 없음"
+	},
+	"checkmarkControl": {
+		"checkpointRestored": "체크포인트 (복원됨)",
+		"checkpoint": "체크포인트",
+		"compare": "비교",
+		"restore": "복원",
+		"restoreFiles": "파일 복원",
+		"restoreFilesDescription": "이 체크포인트에서 파일 변경 사항만 복원합니다.",
+		"restoreTaskOnly": "작업만 복원",
+		"restoreTaskOnlyDescription": "이 체크포인트에서 작업만 복원합니다.",
+		"restoreFilesAndTask": "파일 및 작업 복원",
+		"restoreFilesAndTaskDescription": "이 체크포인트에서 파일 변경 사항과 작업을 모두 복원합니다."
+	},
+	"clineRulesToggleModal": {},
+	"taskTimelineTooltip": {
+		"taskMessage": "작업 메시지",
+		"userMessage": "사용자 메시지",
+		"assistantResponse": "어시스턴트 응답",
+		"fileRead": "파일 읽기: {{tool}}",
+		"fileEdit": "파일 편집: {{path}}",
+		"newFile": "새 파일: {{path}}",
+		"webFetch": "웹 가져오기: {{path}}",
+		"unknownFile": "알 수 없는 파일",
+		"unknownUrl": "알 수 없는 URL",
+		"tool": "도구: {{tool}}",
+		"toolUse": "도구 사용",
+		"terminalCommand": "터미널 명령",
+		"terminalOutput": "터미널 출력",
+		"browserAction": "브라우저 작업",
+		"browserResult": "브라우저 결과",
+		"taskCompleted": "작업 완료",
+		"checkpointCreated": "체크포인트 생성됨",
+		"unknown": "알 수 없음",
+		"assistantMessage": "어시스턴트 메시지",
+		"planningResponse": "계획 응답",
+		"fileReadApproval": "파일 읽기 승인: {{tool}}",
+		"fileEditApproval": "파일 편집 승인: {{path}}",
+		"newFileApproval": "새 파일 승인: {{path}}",
+		"toolApproval": "도구 승인: {{tool}}",
+		"terminalCommandApproval": "터미널 명령 승인",
+		"browserActionApproval": "브라우저 작업 승인",
+		"unknownMessageType": "알 수 없는 메시지 유형"
+	},
+	"taskHeader.task": "작업",
+	"taskHeader.cache": "캐시",
+	"taskHeader.tokens": "토큰",
+	"taskHeader.closeTask": "작업 닫기",
+	"taskHeader.seeMore": "더 보기",
+	"taskHeader.seeLess": "접기",
+	"taskHeader.promptTokens": "프롬프트 토큰",
+	"taskHeader.completionTokens": "완료 토큰",
+	"taskHeader.tokensWrittenToCache": "캐시에 쓰인 토큰",
+	"taskHeader.tokensReadFromCache": "캐시에서 읽은 토큰",
+	"taskHeader.disablingCheckpoints": "체크포인트 비활성화.",
+	"taskHeader.seeHereForInstructions": "여기에서 지침을 확인하세요.",
+	"taskHeader.currentTokens": "이 요청에 사용된 현재 토큰",
+	"taskHeader.contextWindowUsage": "컨텍스트 창 사용량",
+	"taskHeader.maxContextWindow": "이 모델의 최대 컨텍스트 창 크기",
+	"taskHeader.allStepsCompleted": "모든 {{totalCount}}개 단계가 완료되었습니다!",
+	"taskHeader.newStepsGenerated": "대화에 따라 새로운 단계가 생성될 수 있습니다.",
+	"taskHeader.editFocusChainList": "포커스 체인 목록 편집",
+	"modelInfoView": {
+		"tokensSuffix": "/백만 토큰"
+	},
+	"modelInfo": {
+		"supportsImages": "이미지 지원",
+		"doesNotSupportImages": "이미지 미지원",
+		"supportsBrowserUse": "브라우저 사용 지원",
+		"doesNotSupportBrowserUse": "브라우저 사용 미지원",
+		"supportsPromptCaching": "프롬프트 캐싱 지원",
+		"doesNotSupportPromptCaching": "프롬프트 캐싱 미지원",
+		"maxOutput": "최대 출력",
+		"inputPrice": "입력 가격",
+		"outputPrice": "출력 가격",
+		"outputPriceStandard": "출력 가격 (표준)",
+		"outputPriceThinkingBudget": "출력 가격 (추론 예산 > 0)",
+		"basedOnInputTokens": "(입력 토큰 기반)",
+		"cacheWritesPrice": "캐시 쓰기 가격",
+		"cacheReadsPrice": "캐시 읽기 가격",
+		"freeRequestsPerMinute": "* 분당 최대 {{count}}회 요청 무료. 이후에는 프롬프트 크기에 따라 요금이 부과됩니다.",
+		"forMoreInfo": "자세한 정보는 가격 세부 정보를 참조하세요.",
+		"tokensSuffix": "/백만 토큰"
+	},
+	"providers": {
+		"caret": {
+			"name": "Caret",
+			"description": "Caret은 다양한 LLM을 지원합니다. Caret 서비스에 가입하여 무료로 이용하거나, ChatGPT, Claude, Gemma API를 사용하거나, 로컬 LLM을 구성할 수 있습니다.",
+			"login": "Caret 계정으로 로그인 및 가입",
+			"or": "또는",
+			"apiKeyConfigured": "API 키가 구성되었습니다. 로그인이 필요하지 않습니다.",
+			"features": "기능:",
+			"feature1": "최신 모델에 대한 액세스",
+			"feature2": "사용량 및 크레딧을 볼 수 있는 결제 대시보드",
+			"feature3": "프롬프트 플레이그라운드",
+			"feature4": "더 많은 예정된 기능",
+			"visit": "방문",
+			"getApiKey": "하여 API 키를 받으세요."
+		},
+		"openAICompatible": {
+			"description": "OpenAI와 호환되는 모든 API 엔드포인트를 사용하세요."
+		},
+		"claudeCode": {
+			"cliPath": "CLI 경로",
+			"cliPathDescription": "'claude-code' CLI 실행 파일의 경로입니다."
+		},
+		"sapAiCore": {
+			"description": "SAP AI Core에 배포된 모델을 사용하세요.",
+			"pricingNote": "가격은 직접적인 USD 가격이 아닌 SAP의 용량 단위를 사용하여 계산됩니다."
+		},
+		"zAi": {
+			"glm45Description": "GLM-4.5는 Zhipu의 최신 주요 모델입니다. 추론, 코딩 및 에이전트의 포괄적인 기능은 최대 128k의 컨텍스트 길이로 오픈 소스 모델 중 최첨단(SOTA) 수준에 도달했습니다."
+		},
+		"groq": {
+			"modelLabel": "모델"
+		},
+		"cerebras": {
+			"sotaDescription": "초당 약 2000 토큰의 SOTA 코딩 모델 (무료 등급 $0)",
+			"noSubscription": "• Cerebras 구독이 없는 경우 이것을 사용하세요",
+			"contextWindow": "• 64K 컨텍스트 창",
+			"rateLimits": "• 속도 제한: 150K TPM, 1M TPH/TPD, 10 RPM, 100 RPH/RPD",
+			"upgrade": "더 높은 한도를 위해 업그레이드: https://cloud.cerebras.ai/?utm=cline"
+		},
+		"vercelAiGateway": {
+			"description": "Vercel AI 게이트웨이를 통해 모델을 사용하세요."
+		},
+		"baseten": {
+			"apiKeyHelp": "이 키는 로컬에 저장되며 이 확장 프로그램에서 API 요청을 하는 데만 사용됩니다. 여기에서 가입하여 {{providerName}} API 키를 얻을 수 있습니다."
+		},
+		"requesty": {
+			"claudeDescription": "Anthropic의 가장 지능적인 모델. 최고 수준의 지능과 능력을 갖추고 있습니다."
+		},
+		"fireworks": {
+			"kimiK2Description": "Kimi K2는 320억 개의 활성 매개변수와 1조 개의 총 매개변수를 가진 최첨단 전문가 혼합(MoE) 언어 모델입니다. Muon 옵티마이저로 훈련된 Kimi K2는 프론티어 지식, 추론 및 코딩 작업 전반에 걸쳐 뛰어난 성능을 달성하면서 에이전트 기능에 대해 세심하게 최적화되었습니다."
+		},
+		"qwenCode": {
+			"description": "Qwen3 Coder Plus - 대규모 코드베이스를 위한 1M 컨텍스트 창을 갖춘 고성능 코딩 모델"
+		},
+		"lmStudio": {
+			"contextWindowLabel": "컨텍스트 창"
+		},
+		"huggingFace": {
+			"modelLabel": "모델",
+			"advancedReasoning": "코딩, 수학 및 일반 기능 전반에 걸쳐 우수한 성능을 갖춘 고급 추론 모델입니다."
+		},
+		"dify": {
+			"workflowDescription": "Dify 워크플로우 - 모델 선택은 Dify 애플리케이션에서 구성됩니다."
+		},
+		"nebius": {
+			"apiKeyHelpText": "여기에서 가입하여 {{providerName}} API 키를 얻을 수 있습니다."
+		}
+	},
+	"caretProvider": {
+		"futureSupport": "향후 지원",
+		"futureProviders": "ChatGPT, Claude는 향후 지원예정입니다",
+		"modelLabel": "모델",
+		"geminiProModel": "Gemini 2.5 Pro",
+		"geminiFlashModel": "Gemini 2.5 Flash",
+		"bestLabel": "최고",
+		"valueLabel": "가성비",
+		"geminiProDescription": "최고 성능의 모델로 복잡한 작업과 추론에 최적화되어 있습니다",
+		"geminiFlashDescription": "빠르고 효율적인 모델로 일반적인 작업에 적합하며 가성비가 우수합니다",
+		"tagBest": "최고",
+		"tagCostEffective": "가성비"
+	},
+	"apiOptions": {
+		"apiProvider": "API 제공자",
+		"selectModel": "모델을 선택하세요...",
+		"selectRegion": "지역을 선택하세요...",
+		"enterApiKey": "API 키를 입력하세요...",
+		"caretComplexPrompts": "Caret은 복잡한 프롬프트를 사용하며 Claude 모델에서 가장 잘 작동합니다. 성능이 낮은 모델은 예상대로 작동하지 않을 수 있습니다.",
+		"note": "참고:",
+		"model": "모델",
+		"custom": "사용자 정의",
+		"modelId": "모델 ID",
+		"enterModelId": "사용자 정의 모델 ID를 입력하세요...",
+		"baseInferenceModel": "기본 추론 모델",
+		"askSageApiKey": "AskSage API 키",
+		"askSageApiUrl": "AskSage API URL",
+		"enterAskSageUrl": "AskSage API URL을 입력하세요...",
+		"anthropicApiKey": "Anthropic API 키",
+		"anthropicBaseUrl": "Anthropic 기본 URL",
+		"anthropicBaseUrlPlaceholder": "기본값: https://api.anthropic.com",
+		"openAiApiKey": "OpenAI API 키",
+		"deepSeekApiKey": "DeepSeek API 키",
+		"alibabaApiLine": "Alibaba API 라인",
+		"chinaApi": "중국 API",
+		"internationalApi": "국제 API",
+		"qwenApiKey": "Qwen API 키",
+		"doubaoApiKey": "Doubao API 키",
+		"mistralApiKey": "Mistral API 키",
+		"openRouterApiKey": "OpenRouter API 키",
+		"openRouterRecommended": "OpenRouter는 높은 속도 제한과 다양한 모델로 권장됩니다.",
+		"awsCredentials": "AWS 자격 증명",
+		"awsProfile": "AWS 프로필",
+		"awsProfileName": "AWS 프로필 이름",
+		"awsProfilePlaceholder": "프로필 이름 입력 (비어있으면 기본값)",
+		"awsAccessKey": "AWS 액세스 키",
+		"awsSecretKey": "AWS 시크릿 키",
+		"awsSessionToken": "AWS 세션 토큰",
+		"awsRegion": "AWS 지역",
+		"gcpProjectId": "Google Cloud 프로젝트 ID",
+		"gcpRegion": "Google Cloud 지역",
+		"languageModel": "언어 모델",
+		"apiKey": "API 키",
+		"fireworksApiKey": "Fireworks API 키",
+		"maxCompletionTokens": "최대 완료 토큰",
+		"maxContextTokens": "최대 컨텍스트 토큰",
+		"enterSecretKey": "시크릿 키를 입력하세요...",
+		"enterAccessKey": "액세스 키를 입력하세요...",
+		"enterSessionToken": "세션 토큰을 입력하세요...",
+		"enterVpcEndpoint": "VPC 엔드포인트 URL을 입력하세요 (선택사항)",
+		"enterCustomModelId": "사용자 정의 모델 ID를 입력하세요...",
+		"enterProjectId": "프로젝트 ID를 입력하세요...",
+		"useCustomBaseUrl": "사용자 정의 기본 URL 사용",
+		"defaultAnthropicUrl": "기본값: https://api.anthropic.com",
+		"thisKeyStoredLocally": "이 키는 로컬에 저장되며 이 확장 프로그램에서 API 요청을 위해서만 사용됩니다.",
+		"getApiKeySignUp": "여기에서 가입하여 API 키를 얻을 수 있습니다.",
+		"getAnthropicApiKey": "여기에서 가입하여 Anthropic API 키를 얻을 수 있습니다.",
+		"getOpenAiApiKey": "여기에서 가입하여 OpenAI API 키를 얻을 수 있습니다.",
+		"getGeminiApiKey": "여기에서 가입하여 Gemini API 키를 얻을 수 있습니다.",
+		"comingSoon": "향후 추가 예정",
+		"providerComingSoon": "{{provider}} 지원이 향후 업데이트에서 추가될 예정입니다.",
+		"millionTokens": "백만 토큰",
+		"tokens": "토큰",
+		"systemMessages": {
+			"viewedTopLevelFiles": "Caret이 이 디렉토리의 최상위 파일들을 확인했습니다:",
+			"wantsToViewTopLevelFiles": "Caret이 이 디렉토리의 최상위 파일들을 확인하려고 합니다:",
+			"viewedFilesRecursively": "Caret이 이 디렉토리의 모든 파일들을 재귀적으로 확인했습니다:",
+			"wantsToViewFilesRecursively": "Caret이 이 디렉토리의 모든 파일들을 재귀적으로 확인하려고 합니다:",
+			"viewedCodeDefinitions": "Caret이 이 디렉토리에서 사용된 소스 코드 정의명들을 확인했습니다:",
+			"wantsToViewCodeDefinitions": "Caret이 이 디렉토리에서 사용된 소스 코드 정의명들을 확인하려고 합니다:",
+			"wantsToSearchDirectory": "Caret이 이 디렉토리에서 검색하려고 합니다:",
+			"fetchedContentFromUrl": "Caret이 이 URL에서 콘텐츠를 가져왔습니다:",
+			"wantsToFetchContentFromUrl": "Caret이 이 URL에서 콘텐츠를 가져오려고 합니다:",
+			"taskCompleted": "작업 완료"
+		},
+		"geminiApiKey": "Gemini API 키",
+		"geminiModelStrong": "Gemini 2.5 Pro Preview 06-05 (강력함)",
+		"geminiModelCostEffective": "Gemini 2.5 Flash Preview 05-20 (가성비)",
+		"reasoningEnabled": "추론 기능 기본 활성화",
+		"loading": "Loading..."
+	},
+	"welcome": {
+		"whatCanIDo": "무엇을 도와드릴까요?",
+		"recentTasks": "최근 작업",
+		"noRecentTasks": "최근 작업이 없습니다",
+		"viewAllHistory": "모든 기록 보기",
+		"quickWinsTitle": "Caret과 함께하는 빠른 <span>[작업]</span>",
+		"title": "Welcome to Caret! 🎉",
+		"subtitle": "Your AI-powered coding assistant",
+		"description": "Caret is an AI coding assistant that helps you write, debug, and improve your code. Let's get started!",
+		"getStarted": "Get Started",
+		"learnMore": "Learn More"
+	},
+	"telemetry": {
+		"helpImprove": "Caret 개발 지원하기",
+		"description": "Caret은 오픈소스 프로젝트입니다. GitHub에서 기여, 이슈 보고, 피드백을 공유해주세요.",
+		"githubLinkPrefix": "자세히 보기",
+		"githubLink": "github.com/aicoding-caret/caret",
+		"closeBannerAria": "배너 닫기"
+	},
+	"autoApprove": {
+		"addQuickAccess": "빠른 액세스 메뉴에 추가",
+		"removeQuickAccess": "빠른 액세스 메뉴에서 제거",
+		"autoApproveLabel": "자동 승인:"
+	},
+	"task": {
+		"deleteTask": "작업 삭제",
+		"deleteTaskAriaLabel": "작업 삭제",
+		"copyTask": "작업 복사"
+	},
+	"announcement": {
+		"newVersion": "🎉  v{{version}}의 새로운 기능",
+		"features": {
+			"freeStealth": {
+				"title": "무료 스텔스 모델",
+				"description": "복잡한 코딩 작업을 위해 설계된 262K 컨텍스트 윈도우를 가진 고급 스텔스 모델. Caret 프로바이더에서 무료로 이용 가능합니다."
+			},
+			"focusChain": {
+				"title": "집중 체인",
+				"description": "자동 할 일 목록 관리, 복잡한 작업을 관리 가능한 단계로 나누고 실시간 진행 상황 추적 및 수동적 알림을 통해 Caret이 장기 작업에 집중할 수 있도록 도움니다."
+			},
+			"autoCompact": {
+				"title": "자동 압축",
+				"description": "대화가 모델의 컨텍스트 윈도우 제한에 근접할 때 작업과 다음 단계를 자동으로 요약합니다. 이는 Caret이 긴 작업 세션에서 궤도를 유지하는 데 크게 도움이 됩니다!"
+			},
+			"deepPlanning": {
+				"title": "심층 계획",
+				"description": "새로운 /deep-planning 슬래시 명령으로 Caret을 코드를 작성하기 전에 코드베이스를 조사하고 명확한 질문을 하며 포괄적인 계획을 세우는 건축가로 변환합니다."
+			}
+		},
+		"previousUpdates": "이전 업데이트:",
+		"previousFeatures": {
+			"claude1M": {
+				"title": "Claude Sonnet 4용 1M 컨텍스트",
+				"description": "Caret/OpenRouter 사용자는 즉시 액세스, Anthropic 사용자는 Tier 4가 필요하며, Bedrock 사용자는 지원되는 지역에 있어야 합니다."
+			},
+			"optimizedClaude4": {
+				"title": "Claude 4에 최적화",
+				"description": "Caret은 이제 Claude 4 모델 제품군에서 작동하도록 최적화되어 성능, 신뢰성 및 새로운 기능이 향상되었습니다."
+			},
+			"workflows": {
+				"title": "워크플로우",
+				"description": "슬래시 명령을 통해 대화에 주입할 수 있는 워크플로우 파일을 생성하고 관리하여 반복적인 작업을 쉽게 자동화할 수 있습니다."
+			}
+		},
+		"joinUs": "다음에서 함께하세요",
+		"forMoreUpdates": "더 많은 업데이트를 확인하세요!"
+	},
+	"browserTool": {
+		"title": "브라우저 도구",
+		"description": "웹 브라우저 실행 및 상호작용",
+		"placeholder": "URL 입력...",
+		"launchButton": "브라우저 실행"
+	},
+	"browser": {
+		"connectionInfo": "브라우저 연결 정보",
+		"popover": {
+			"title": "브라우저 연결",
+			"statusLabel": "상태:",
+			"connected": "연결됨",
+			"disconnected": "연결 끊김",
+			"typeLabel": "유형:",
+			"remote": "원격",
+			"local": "로컬",
+			"remoteHostLabel": "원격 호스트:"
+		}
+	},
+	"rulesModal": {
+		"tooltip": {},
+		"ariaLabel": {}
+	},
+	"navbar": {
+		"chat": "채팅",
+		"newTaskTooltip": "새 작업",
+		"mcp": "MCP",
+		"mcpServersTooltip": "MCP 서버",
+		"history": "기록",
+		"historyTooltip": "기록",
+		"account": "계정",
+		"accountTooltip": "계정",
+		"settings": "설정",
+		"settingsTooltip": "설정"
+	}
+}
