@@ -348,7 +348,7 @@
 		"watch": "npm-run-all -p watch:*",
 		"watch:esbuild": "node esbuild.mjs --watch",
 		"watch:tsc": "tsc --noEmit --watch --project tsconfig.json",
-		"package": "npm run check-types && npm run build:webview && npm run lint && node esbuild.mjs --production",
+		"package": "npm run clean && npm run check-types && npm run build:webview && npm run lint && node esbuild.mjs --production",
 		"protos": "node caret-scripts/build/build-proto.mjs",
 		"postprotos": "biome format src/shared/proto src/core/controller src/hosts/ webview-ui/src/services src/generated --write --no-errors-on-unmatched",
 		"clean": "rimraf dist dist-standalone webview-ui/build src/generated out/",

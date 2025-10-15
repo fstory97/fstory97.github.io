@@ -212,6 +212,7 @@ Caret extends Cline with powerful new capabilities while maintaining 100% compat
 | **F08** | **Feature Config System** | Modular feature management | [📖 Details](caret-docs/features/f08-feature-config-system.md) |
 | **F09** | **Enhanced Provider Setup** | Advanced AI provider configuration | [📖 Details](caret-docs/features/f09-enhanced-provider-setup.md) |
 | **F10** | **Input History System** | Terminal-like command history | [📖 Details](caret-docs/features/f10-input-history-system.md) |
+| **F11** | **Knowledge Parity System** | Ensures AI and developers share the same knowledge for seamless collaboration | [📖 Details](caret-docs/features/f11-ai-developer-knowledge-parity.md) |
 
 </div>
 

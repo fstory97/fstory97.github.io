@@ -40,6 +40,9 @@ Caret은 Cline을 기반으로 한 자율 AI 코딩 어시스턴트로, 다음�
 - **[F10: 입력 히스토리 시스템](./f10-input-history-system.md)**
   채팅 입력 자동 완성 및 히스토리 관리
 
+- **[F11: AI-개발자 지식 동기화 시스템](./f11-ai-developer-knowledge-parity.md)**
+  AI와 개발자 간의 1:1 지식 동기화를 통해 진정한 AI 파트너십을 구현하는 핵심 시스템
+
 ---
 
 ## 기능 맵
@@ -59,7 +62,8 @@ Caret 기능
     ├── Feature Config
     ├── Provider Setup
     ├── LiteLLM 모델 가져오기
-    └── 입력 히스토리
+    ├── 입력 히스토리
+    └── 지식 동기화 시스템
 ```
 
 ## 개발 가이드

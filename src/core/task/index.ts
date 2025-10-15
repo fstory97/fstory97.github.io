@@ -1709,12 +1709,14 @@ export class Task {
 			if (autoApprovalSettings.enableNotifications) {
 				showSystemNotification({
 					subtitle: "Max Requests Reached",
-					message: `Cline has auto-approved ${autoApprovalSettings.maxRequests.toString()} API requests.`,
+					// CARET MODIFICATION: Brand name changed from Cline to Caret
+					message: `Caret has auto-approved ${autoApprovalSettings.maxRequests.toString()} API requests.`,
 				})
 			}
 			const { response, text, images, files } = await this.ask(
 				"auto_approval_max_req_reached",
-				`Cline has auto-approved ${autoApprovalSettings.maxRequests.toString()} API requests. Would you like to reset the count and proceed with the task?`,
+				// CARET MODIFICATION: Brand name changed from Cline to Caret
+				`Caret has auto-approved ${autoApprovalSettings.maxRequests.toString()} API requests. Would you like to reset the count and proceed with the task?`,
 			)
 			// if we get past the promise it means the user approved and did not start a new task
 			this.taskState.consecutiveAutoApprovedRequestsCount = 0
