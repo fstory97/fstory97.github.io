@@ -25,6 +25,13 @@
 
 # Changelog
 
+## [0.3.01] - 2025-10-15
+
+### 🐛 Bug Fix
+- **Terminal Branding**: Fixed terminal name and icon reverting to "Cline" after upstream merge. Restored custom Caret terminal branding with name "Caret" and custom light/dark icons.
+
+---
+
 ## [0.3.0] - 2025-10-13
 
 ### 🎉 Cline v3.32.7 Upstream Merge
