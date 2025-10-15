@@ -279,8 +279,8 @@
 		"completionTokens": "Completion tokens",
 		"totalTokens": "Tokens",
 		"totalCost": "Cost",
-		"termsOfServiceUrl": "https://github.com/aicoding-caret/caret",
-		"privacyPolicyUrl": "https://github.com/aicoding-caret/caret"
+		"termsOfServiceUrl": "https://caretive.ai/terms.en.html",
+		"privacyPolicyUrl": "https://caretive.ai/privacy.en.html"
 	},
 	"common": {
 		"and": "and",

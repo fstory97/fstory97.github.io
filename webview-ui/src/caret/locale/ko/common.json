@@ -270,8 +270,8 @@
 		"totalTokens": "총 토큰 수",
 		"totalCost": "총 비용",
 		"logout": "로그아웃",
-		"termsOfServiceUrl": "https://github.com/aicoding-caret/caret",
-		"privacyPolicyUrl": "https://github.com/aicoding-caret/caret"
+		"termsOfServiceUrl": "https://caretive.ai/terms.ko.html",
+		"privacyPolicyUrl": "https://caretive.ai/privacy.ko.html"
 	},
 	"common": {
 		"and": "및",

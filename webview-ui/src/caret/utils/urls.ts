@@ -64,6 +64,29 @@ export const CARET_LOCALIZED_URLS = {
 		ja: "https://docs.caret.team/ja/getting-started/what-is-caret",
 		zh: "https://docs.caret.team/zh/getting-started/what-is-caret",
 	},
+
+	// 터미널 트러블슈팅 가이드
+	TERMINAL_QUICK_FIXES: {
+		ko: "https://docs.caret.team/ko/troubleshooting/terminal-quick-fixes",
+		en: "https://docs.caret.team/en/troubleshooting/terminal-quick-fixes",
+		ja: "https://docs.caret.team/ja/troubleshooting/terminal-quick-fixes",
+		zh: "https://docs.caret.team/zh/troubleshooting/terminal-quick-fixes",
+	},
+
+	TERMINAL_TROUBLESHOOTING_GUIDE: {
+		ko: "https://docs.caret.team/ko/troubleshooting/terminal-integration-guide",
+		en: "https://docs.caret.team/en/troubleshooting/terminal-integration-guide",
+		ja: "https://docs.caret.team/ja/troubleshooting/terminal-integration-guide",
+		zh: "https://docs.caret.team/zh/troubleshooting/terminal-integration-guide",
+	},
+
+	// 자동 압축 가이드
+	AUTO_COMPACT_GUIDE: {
+		ko: "https://docs.caret.team/ko/features/auto-compact",
+		en: "https://docs.caret.team/en/features/auto-compact",
+		ja: "https://docs.caret.team/ja/features/auto-compact",
+		zh: "https://docs.caret.team/zh/features/auto-compact",
+	},
 } as const
 
 export type CaretUrlKey = keyof typeof CARET_URLS

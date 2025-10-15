@@ -259,8 +259,8 @@
 		"completionTokens": "完成 Token",
 		"totalTokens": "总 Token 数",
 		"totalCost": "总费用",
-		"termsOfServiceUrl": "https://github.com/aicoding-caret/caret",
-		"privacyPolicyUrl": "https://github.com/aicoding-caret/caret"
+		"termsOfServiceUrl": "https://caretive.ai/terms.en.html",
+		"privacyPolicyUrl": "https://caretive.ai/privacy.en.html"
 	},
 	"account": {
 		"signUpWithCaret": "登录和注册",
