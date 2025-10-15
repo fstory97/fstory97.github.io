@@ -166,6 +166,7 @@ export async function ensureLocalClineDirExists(clinerulePath: string, defaultRu
 
 /**
  * Create a rule file or workflow file
+ * CARET MODIFICATION: Use .caretrules instead of .clinerules for workspace rules
  */
 export const createRuleFile = async (isGlobal: boolean, filename: string, cwd: string, type: string) => {
 	try {
@@ -179,14 +180,15 @@ export const createRuleFile = async (isGlobal: boolean, filename: string, cwd: s
 				filePath = path.join(globalClineRulesFilePath, filename)
 			}
 		} else {
-			const localClineRulesFilePath = path.resolve(cwd, GlobalFileNames.clineRules)
+			// CARET MODIFICATION: Use .caretrules instead of .clinerules for workspace rules
+			const localCaretRulesFilePath = path.resolve(cwd, GlobalFileNames.caretRules)
 
-			const hasError = await ensureLocalClineDirExists(localClineRulesFilePath, "default-rules.md")
+			const hasError = await ensureLocalClineDirExists(localCaretRulesFilePath, "default-rules.md")
 			if (hasError === true) {
 				return { filePath: null, fileExists: false }
 			}
 
-			await fs.mkdir(localClineRulesFilePath, { recursive: true })
+			await fs.mkdir(localCaretRulesFilePath, { recursive: true })
 
 			if (type === "workflow") {
 				const localWorkflowsFilePath = path.resolve(cwd, GlobalFileNames.workflows)
@@ -200,8 +202,8 @@ export const createRuleFile = async (isGlobal: boolean, filename: string, cwd: s
 
 				filePath = path.join(localWorkflowsFilePath, filename)
 			} else {
-				// clinerules file creation
-				filePath = path.join(localClineRulesFilePath, filename)
+				// CARET MODIFICATION: Create in .caretrules directory
+				filePath = path.join(localCaretRulesFilePath, filename)
 			}
 		}
 

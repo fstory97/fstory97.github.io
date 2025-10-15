@@ -1,9 +1,9 @@
-import { ClineToolSet } from "../../../../../src/core/prompts/system-prompt/registry/ClineToolSet"
-import { PromptBuilder } from "../../../../../src/core/prompts/system-prompt/registry/PromptBuilder"
-import { PromptRegistry } from "../../../../../src/core/prompts/system-prompt/registry/PromptRegistry"
-import { Logger } from "../../../../../src/services/logging/Logger"
-import { ModelFamily } from "../../../../../src/shared/prompts"
-import { ClineDefaultTool } from "../../../../../src/shared/tools"
+import { ClineToolSet } from "@core/prompts/system-prompt/registry/ClineToolSet"
+import { PromptBuilder } from "@core/prompts/system-prompt/registry/PromptBuilder"
+import { PromptRegistry } from "@core/prompts/system-prompt/registry/PromptRegistry"
+import { Logger } from "@services/logging/Logger"
+import { ModelFamily } from "@shared/prompts"
+import { ClineDefaultTool } from "@shared/tools"
 import { CARET_MODES } from "../../../../shared/constants/PromptSystemConstants"
 import { IPromptSystem } from "../IPromptSystem"
 import { JsonTemplateLoader } from "../JsonTemplateLoader"
@@ -65,12 +65,32 @@ export class CaretJsonAdapter implements IPromptSystem {
 				continue
 			}
 
-			const sectionContent = this.getDynamicSection(template, isChatbotMode, context)
-			if (sectionContent.trim()) {
-				promptParts.push(sectionContent)
-				Logger.debug(`[CaretJsonAdapter] ✅ ${name}: loaded (${sectionContent.length} chars)`)
+			// CARET MODIFICATION: Use Cline's actual user instructions system for CARET_USER_INSTRUCTIONS
+			if (name === "CARET_USER_INSTRUCTIONS") {
+				const clineUserInstructions = await this.getClineUserInstructions(context, isChatbotMode)
+				if (clineUserInstructions) {
+					promptParts.push(clineUserInstructions)
+					Logger.debug(
+						`[CaretJsonAdapter] ✅ ${name}: loaded from Cline system (${clineUserInstructions.length} chars)`,
+					)
+				} else {
+					// Fallback to JSON template if Cline system fails
+					const sectionContent = this.getDynamicSection(template, isChatbotMode, context)
+					if (sectionContent.trim()) {
+						promptParts.push(sectionContent)
+						Logger.debug(`[CaretJsonAdapter] ✅ ${name}: loaded from JSON template (${sectionContent.length} chars)`)
+					} else {
+						Logger.debug(`[CaretJsonAdapter] ⚠️ ${name}: empty content`)
+					}
+				}
 			} else {
-				Logger.debug(`[CaretJsonAdapter] ⚠️ ${name}: empty content`)
+				const sectionContent = this.getDynamicSection(template, isChatbotMode, context)
+				if (sectionContent.trim()) {
+					promptParts.push(sectionContent)
+					Logger.debug(`[CaretJsonAdapter] ✅ ${name}: loaded (${sectionContent.length} chars)`)
+				} else {
+					Logger.debug(`[CaretJsonAdapter] ⚠️ ${name}: empty content`)
+				}
 			}
 
 			// Insert Cline tools section after CARET_USER_INSTRUCTIONS
@@ -110,6 +130,43 @@ export class CaretJsonAdapter implements IPromptSystem {
 		)
 
 		return finalPrompt
+	}
+
+	/**
+	 * Gets user instructions from Cline's actual system (.caretrules, .clinerules, etc.)
+	 * CARET MODIFICATION: This ensures .caretrules content is actually passed to AI
+	 */
+	private async getClineUserInstructions(context: CaretSystemPromptContext, isChatbotMode: boolean): Promise<string | null> {
+		try {
+			// Import Cline's getUserInstructions function
+			const { getUserInstructions } = await import("@core/prompts/system-prompt/components/user_instructions")
+
+			// Get the appropriate variant for the model using PromptRegistry
+			const registry = PromptRegistry.getInstance()
+			await registry.load()
+
+			// Use GENERIC family to get default variant
+			const variant = registry.getVariantMetadata(ModelFamily.GENERIC)
+			if (!variant) {
+				Logger.warn(`[CaretJsonAdapter] ⚠️ No variant found for GENERIC family`)
+				return null
+			}
+
+			// Call Cline's getUserInstructions with the context
+			// This will include .caretrules, .clinerules, etc. based on priority
+			const userInstructions = await getUserInstructions(variant, context as any)
+
+			if (userInstructions) {
+				Logger.info(`[CaretJsonAdapter] ✅ Loaded Cline user instructions (${userInstructions.length} chars)`)
+			} else {
+				Logger.info(`[CaretJsonAdapter] ℹ️ No Cline user instructions found`)
+			}
+
+			return userInstructions || null
+		} catch (error) {
+			Logger.error(`[CaretJsonAdapter] ❌ Error loading Cline user instructions:`, error)
+			return null
+		}
 	}
 
 	/**

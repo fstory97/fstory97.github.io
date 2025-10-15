@@ -14,6 +14,7 @@ import {
 	refreshClineRulesToggles,
 } from "@core/context/instructions/user-instructions/cline-rules"
 import {
+	getLocalCaretRules,
 	getLocalCursorRules,
 	getLocalWindsurfRules,
 	refreshExternalRulesToggles,
@@ -1338,12 +1339,24 @@ export class Task {
 				: ""
 
 		const { globalToggles, localToggles } = await refreshClineRulesToggles(this.controller, this.cwd)
-		const { windsurfLocalToggles, cursorLocalToggles } = await refreshExternalRulesToggles(this.controller, this.cwd)
+		// CARET MODIFICATION: Get caretLocalToggles from refreshExternalRulesToggles
+		const { caretLocalToggles, windsurfLocalToggles, cursorLocalToggles } = await refreshExternalRulesToggles(
+			this.controller,
+			this.cwd,
+			{ clineLocalToggles: localToggles },
+		)
 
 		const globalClineRulesFilePath = await ensureRulesDirectoryExists()
 		const globalClineRulesFileInstructions = await getGlobalClineRules(globalClineRulesFilePath, globalToggles)
 
+		// CARET MODIFICATION: Load .caretrules content for AI prompt
+		Logger.info(`[Task] Loading workspace rules for AI prompt...`)
+		const localCaretRulesFileInstructions = await getLocalCaretRules(this.cwd, caretLocalToggles)
+		Logger.info(`[Task] .caretrules loaded: ${localCaretRulesFileInstructions ? "YES" : "NO"}`)
+
 		const localClineRulesFileInstructions = await getLocalClineRules(this.cwd, localToggles)
+		Logger.info(`[Task] .clinerules loaded: ${localClineRulesFileInstructions ? "YES" : "NO"}`)
+
 		const [localCursorRulesFileInstructions, localCursorRulesDirInstructions] = await getLocalCursorRules(
 			this.cwd,
 			cursorLocalToggles,
@@ -1376,6 +1389,7 @@ export class Task {
 			focusChainSettings: this.stateManager.getGlobalSettingsKey("focusChainSettings"),
 			globalClineRulesFileInstructions,
 			localClineRulesFileInstructions,
+			localCaretRulesFileInstructions, // CARET MODIFICATION: Pass .caretrules content to AI
 			localCursorRulesFileInstructions,
 			localCursorRulesDirInstructions,
 			localWindsurfRulesFileInstructions,

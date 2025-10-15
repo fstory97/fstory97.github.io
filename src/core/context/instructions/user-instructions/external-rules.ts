@@ -50,6 +50,7 @@ export async function refreshExternalRulesToggles(
 	Logger.debug(`[CARET] Rules path: ${localCaretRulesFilePath}`)
 	Logger.debug(`[CARET] Current toggles: ${JSON.stringify(localCaretRulesToggles)}`)
 	const caretDirectorySegment = path.basename(GlobalFileNames.caretRules)
+	// CARET MODIFICATION: Use default empty string to allow all file extensions (not "*.*" which filters everything)
 	const updatedLocalCaretToggles = await synchronizeRuleToggles(localCaretRulesFilePath, localCaretRulesToggles, "", [
 		[caretDirectorySegment, "workflows"],
 	])
@@ -80,34 +81,58 @@ export async function refreshExternalRulesToggles(
 	const cursorHasFiles = Object.keys(updatedLocalCursorToggles).length > 0
 	const windsurfHasFiles = Object.keys(updatedLocalWindsurfToggles).length > 0
 
+	Logger.info(`[refreshExternalRulesToggles] Rule priority check:`)
+	Logger.info(
+		`[refreshExternalRulesToggles] - .caretrules: ${caretHasFiles ? `YES (${Object.keys(updatedLocalCaretToggles).length} files)` : "NO"}`,
+	)
+	Logger.info(
+		`[refreshExternalRulesToggles] - .clinerules: ${clineHasFiles ? `YES (${Object.keys(localClineRulesToggles).length} files)` : "NO"}`,
+	)
+	Logger.info(
+		`[refreshExternalRulesToggles] - .cursorrules: ${cursorHasFiles ? `YES (${Object.keys(updatedLocalCursorToggles).length} files)` : "NO"}`,
+	)
+	Logger.info(
+		`[refreshExternalRulesToggles] - .windsurfrules: ${windsurfHasFiles ? `YES (${Object.keys(updatedLocalWindsurfToggles).length} files)` : "NO"}`,
+	)
+
 	let effectiveCaretToggles = updatedLocalCaretToggles
 	let effectiveClineToggles = localClineRulesToggles
 	let effectiveCursorToggles = updatedLocalCursorToggles
 	let effectiveWindsurfToggles = updatedLocalWindsurfToggles
 	let activeSource: RulePrioritySource = null
 
+	// CARET MODIFICATION: Priority system - only one rule source is active
 	if (caretHasFiles) {
 		activeSource = "caret"
+		Logger.info(`[refreshExternalRulesToggles] ✅ ACTIVE: .caretrules (highest priority)`)
+		// Keep caretToggles, disable others
 		effectiveClineToggles = {}
 		effectiveCursorToggles = {}
 		effectiveWindsurfToggles = {}
 	} else if (clineHasFiles) {
 		activeSource = "cline"
-		effectiveCaretToggles = cloneToggles(localClineRulesToggles)
-		effectiveClineToggles = {}
+		Logger.info(`[refreshExternalRulesToggles] ✅ ACTIVE: .clinerules (no .caretrules found)`)
+		// Keep clineToggles, disable others
+		effectiveCaretToggles = {}
 		effectiveCursorToggles = {}
 		effectiveWindsurfToggles = {}
 	} else if (cursorHasFiles) {
 		activeSource = "cursor"
+		Logger.info(`[refreshExternalRulesToggles] ✅ ACTIVE: .cursorrules (no .caretrules/.clinerules found)`)
+		// Keep cursorToggles, disable others
 		effectiveCaretToggles = {}
 		effectiveClineToggles = {}
 		effectiveWindsurfToggles = {}
 	} else if (windsurfHasFiles) {
 		activeSource = "windsurf"
+		Logger.info(`[refreshExternalRulesToggles] ✅ ACTIVE: .windsurfrules (no other rules found)`)
+		// Keep windsurfToggles, disable others
 		effectiveCaretToggles = {}
 		effectiveClineToggles = {}
 		effectiveCursorToggles = {}
 	} else {
+		Logger.warn(`[refreshExternalRulesToggles] ⚠️ No rules found in any directory`)
+		// No rules found, disable all
 		effectiveCaretToggles = {}
 		effectiveClineToggles = {}
 		effectiveCursorToggles = {}
@@ -212,6 +237,9 @@ export const getLocalCaretRules = async (cwd: string, toggles: ClineRulesToggles
 
 	let caretRulesFileInstructions: string | undefined
 
+	Logger.info(`[getLocalCaretRules] Starting to load .caretrules from: ${caretRulesFilePath}`)
+	Logger.info(`[getLocalCaretRules] Toggles: ${JSON.stringify(toggles, null, 2)}`)
+
 	if (await fileExistsAtPath(caretRulesFilePath)) {
 		if (await isDirectory(caretRulesFilePath)) {
 			// CARET MODIFICATION: Handle .caretrules as directory (like .clinerules)
@@ -220,12 +248,19 @@ export const getLocalCaretRules = async (cwd: string, toggles: ClineRulesToggles
 					[path.basename(GlobalFileNames.caretRules), "workflows"],
 				])
 
+				Logger.info(`[getLocalCaretRules] Found ${rulesFilePaths.length} rule files: ${JSON.stringify(rulesFilePaths)}`)
+
 				const rulesFilesTotalContent = await getRuleFilesTotalContent(rulesFilePaths, cwd, toggles)
 				if (rulesFilesTotalContent) {
+					Logger.info(
+						`[getLocalCaretRules] Successfully loaded .caretrules content (${rulesFilesTotalContent.length} chars)`,
+					)
 					caretRulesFileInstructions = formatResponse.caretRulesLocalDirectoryInstructions(cwd, rulesFilesTotalContent)
+				} else {
+					Logger.warn(`[getLocalCaretRules] No content loaded from .caretrules (all files disabled or empty)`)
 				}
-			} catch {
-				console.error(`Failed to read .caretrules directory at ${caretRulesFilePath}`)
+			} catch (error) {
+				Logger.error(`[getLocalCaretRules] Failed to read .caretrules directory at ${caretRulesFilePath}: ${error}`)
 			}
 		} else {
 			// Handle .caretrules as a file (fallback)
@@ -233,14 +268,20 @@ export const getLocalCaretRules = async (cwd: string, toggles: ClineRulesToggles
 				if (caretRulesFilePath in toggles && toggles[caretRulesFilePath] !== false) {
 					const ruleFileContent = (await fs.readFile(caretRulesFilePath, "utf8")).trim()
 					if (ruleFileContent) {
+						Logger.info(`[getLocalCaretRules] Loaded .caretrules file (${ruleFileContent.length} chars)`)
 						caretRulesFileInstructions = formatResponse.caretRulesLocalFileInstructions(cwd, ruleFileContent)
 					}
 				}
-			} catch {
-				console.error(`Failed to read .caretrules file at ${caretRulesFilePath}`)
+			} catch (error) {
+				Logger.error(`[getLocalCaretRules] Failed to read .caretrules file at ${caretRulesFilePath}: ${error}`)
 			}
 		}
+	} else {
+		Logger.info(`[getLocalCaretRules] .caretrules does not exist at ${caretRulesFilePath}`)
 	}
 
+	Logger.info(
+		`[getLocalCaretRules] Returning instructions: ${caretRulesFileInstructions ? "YES (" + caretRulesFileInstructions.substring(0, 100) + "...)" : "NO"}`,
+	)
 	return caretRulesFileInstructions
 }

@@ -1,3 +1,4 @@
+import { Logger } from "@/services/logging/Logger"
 import { SystemPromptSection } from "../templates/placeholders"
 import { TemplateEngine } from "../templates/TemplateEngine"
 import type { PromptVariant, SystemPromptContext } from "../types"
@@ -12,6 +13,7 @@ export async function getUserInstructions(variant: PromptVariant, context: Syste
 	const customInstructions = buildUserInstructions(
 		context.globalClineRulesFileInstructions,
 		context.localClineRulesFileInstructions,
+		context.localCaretRulesFileInstructions, // CARET MODIFICATION: Include .caretrules content
 		context.localCursorRulesFileInstructions,
 		context.localCursorRulesDirInstructions,
 		context.localWindsurfRulesFileInstructions,
@@ -34,12 +36,20 @@ export async function getUserInstructions(variant: PromptVariant, context: Syste
 function buildUserInstructions(
 	globalClineRulesFileInstructions?: string,
 	localClineRulesFileInstructions?: string,
+	localCaretRulesFileInstructions?: string, // CARET MODIFICATION: Add .caretrules parameter
 	localCursorRulesFileInstructions?: string,
 	localCursorRulesDirInstructions?: string,
 	localWindsurfRulesFileInstructions?: string,
 	clineIgnoreInstructions?: string,
 	preferredLanguageInstructions?: string,
 ): string | undefined {
+	Logger.info(`[buildUserInstructions] Building AI prompt with rules:`)
+	Logger.info(`[buildUserInstructions] - globalClineRules: ${globalClineRulesFileInstructions ? "YES" : "NO"}`)
+	Logger.info(`[buildUserInstructions] - localCaretRules: ${localCaretRulesFileInstructions ? "YES" : "NO"}`)
+	Logger.info(`[buildUserInstructions] - localClineRules: ${localClineRulesFileInstructions ? "YES" : "NO"}`)
+	Logger.info(`[buildUserInstructions] - localCursorRules: ${localCursorRulesFileInstructions ? "YES" : "NO"}`)
+	Logger.info(`[buildUserInstructions] - localWindsurfRules: ${localWindsurfRulesFileInstructions ? "YES" : "NO"}`)
+
 	const customInstructions = []
 	if (preferredLanguageInstructions) {
 		customInstructions.push(preferredLanguageInstructions)
@@ -47,7 +57,17 @@ function buildUserInstructions(
 	if (globalClineRulesFileInstructions) {
 		customInstructions.push(globalClineRulesFileInstructions)
 	}
+	// CARET MODIFICATION: Add .caretrules content to AI prompt (highest priority for workspace rules)
+	if (localCaretRulesFileInstructions) {
+		Logger.info(
+			`[buildUserInstructions] ✅ Adding .caretrules to AI prompt (${localCaretRulesFileInstructions.length} chars)`,
+		)
+		customInstructions.push(localCaretRulesFileInstructions)
+	}
 	if (localClineRulesFileInstructions) {
+		Logger.info(
+			`[buildUserInstructions] ✅ Adding .clinerules to AI prompt (${localClineRulesFileInstructions.length} chars)`,
+		)
 		customInstructions.push(localClineRulesFileInstructions)
 	}
 	if (localCursorRulesFileInstructions) {
@@ -63,7 +83,10 @@ function buildUserInstructions(
 		customInstructions.push(clineIgnoreInstructions)
 	}
 	if (customInstructions.length === 0) {
+		Logger.warn(`[buildUserInstructions] ⚠️ No custom instructions to add to AI prompt`)
 		return undefined
 	}
+
+	Logger.info(`[buildUserInstructions] ✅ Final AI prompt includes ${customInstructions.length} instruction blocks`)
 	return customInstructions.join("\n\n")
 }

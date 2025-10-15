@@ -1,4 +1,5 @@
 import { refreshClineRulesToggles } from "@core/context/instructions/user-instructions/cline-rules"
+import { refreshExternalRulesToggles } from "@core/context/instructions/user-instructions/external-rules"
 import { createRuleFile as createRuleFileImpl } from "@core/context/instructions/user-instructions/rule-helpers"
 import { getWorkspaceBasename } from "@core/workspace"
 import { RuleFile, RuleFileRequest } from "@shared/proto/cline/file"
@@ -53,7 +54,9 @@ export async function createRuleFile(controller: Controller, request: RuleFileRe
 		if (request.type === "workflow") {
 			await refreshWorkflowToggles(controller, cwd)
 		} else {
-			await refreshClineRulesToggles(controller, cwd)
+			// CARET MODIFICATION: Refresh both Cline and external rules (includes .caretrules)
+			const clineToggles = await refreshClineRulesToggles(controller, cwd)
+			await refreshExternalRulesToggles(controller, cwd, { clineLocalToggles: clineToggles.localToggles })
 		}
 		await controller.postStateToWebview()
 
