@@ -42,6 +42,7 @@ export interface GlobalState {
 	multiRootEnabled: boolean
 	lastDismissedInfoBannerVersion: number
 	lastDismissedModelBannerVersion: number
+  caretUserProfile: CaretUser | undefined //caret
 }
 
 export interface Settings {
@@ -72,6 +73,8 @@ export interface Settings {
 	browserSettings: BrowserSettings
 	liteLlmBaseUrl: string | undefined
 	liteLlmUsePromptCache: boolean | undefined
+	caretBaseUrl: string | undefined // caret
+	caretUsePromptCache: boolean | undefined // caret
 	fireworksModelMaxCompletionTokens: number | undefined
 	fireworksModelMaxTokens: number | undefined
 	qwenApiLine: string | undefined
@@ -122,6 +125,8 @@ export interface Settings {
 	planModeLmStudioModelId: string | undefined
 	planModeLiteLlmModelId: string | undefined
 	planModeLiteLlmModelInfo: ModelInfo | undefined
+	planModeCaretModelId: string | undefined // caret
+	planModeCaretModelInfo: ModelInfo | undefined // caret
 	planModeRequestyModelId: string | undefined
 	planModeRequestyModelInfo: ModelInfo | undefined
 	planModeTogetherModelId: string | undefined
@@ -154,6 +159,8 @@ export interface Settings {
 	actModeLmStudioModelId: string | undefined
 	actModeLiteLlmModelId: string | undefined
 	actModeLiteLlmModelInfo: ModelInfo | undefined
+	actModeCaretModelId: string | undefined // caret
+	actModeCaretModelInfo: ModelInfo | undefined // caret
 	actModeRequestyModelId: string | undefined
 	actModeRequestyModelInfo: ModelInfo | undefined
 	actModeTogetherModelId: string | undefined
@@ -235,6 +242,9 @@ export interface Secrets {
 	difyApiKey: string | undefined
 	ocaApiKey: string | undefined
 	ocaRefreshToken: string | undefined
+
+	caretAuthToken: string | undefined //caret
+	caretApiKey: string | undefined //caret
 }
 
 export interface LocalState {

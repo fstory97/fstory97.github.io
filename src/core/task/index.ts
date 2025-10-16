@@ -1268,7 +1268,7 @@ export class Task {
 	 * Migrates the disableBrowserTool setting from VSCode configuration to browserSettings
 	 */
 	private async migrateDisableBrowserToolSetting(): Promise<void> {
-		const config = vscode.workspace.getConfiguration("cline")
+		const config = vscode.workspace.getConfiguration("caret")
 		const disableBrowserTool = config.get<boolean>("disableBrowserTool")
 
 		if (disableBrowserTool !== undefined) {
@@ -1362,6 +1362,19 @@ export class Task {
 			cursorLocalToggles,
 		)
 		const localWindsurfRulesFileInstructions = await getLocalWindsurfRules(this.cwd, windsurfLocalToggles)
+		// Apply priority system: Use the highest priority rule that exists and is enabled
+		let activeRuleInstructions: string | undefined
+		if (localCaretRulesFileInstructions) {
+			activeRuleInstructions = localCaretRulesFileInstructions
+		} else if (localClineRulesFileInstructions) {
+			activeRuleInstructions = localClineRulesFileInstructions
+		} else if (localCursorRulesFileInstructions) {
+			activeRuleInstructions = localCursorRulesFileInstructions
+		} else if (localCursorRulesDirInstructions) {
+			activeRuleInstructions = localCursorRulesDirInstructions
+		} else if (localWindsurfRulesFileInstructions) {
+			activeRuleInstructions = localWindsurfRulesFileInstructions
+		}
 
 		const clineIgnoreContent = this.clineIgnoreController.clineIgnoreContent
 		let clineIgnoreInstructions: string | undefined
@@ -1660,7 +1673,7 @@ export class Task {
 			if (autoApprovalSettings.enabled && autoApprovalSettings.enableNotifications) {
 				showSystemNotification({
 					subtitle: "Error",
-					message: "Cline is having trouble. Would you like to continue the task?",
+					message: "Caret is having trouble. Would you like to continue the task?",
 				})
 			}
 			const { response, text, images, files } = await this.ask(

@@ -112,7 +112,7 @@ const headerStyle: CSSProperties = {
 }
 
 const BrowserSessionRow = memo((props: BrowserSessionRowProps) => {
-	const { messages, isLast, onHeightChange, lastModifiedMessage, onSetQuote } = props
+	const { messages, isLast, onHeightChange, lastModifiedMessage } = props
 	const { browserSettings } = useExtensionState()
 	const prevHeightRef = useRef(0)
 	const [maxActionHeight, setMaxActionHeight] = useState(0)
@@ -407,7 +407,7 @@ const BrowserSessionRow = memo((props: BrowserSessionRowProps) => {
 					}}>
 					{displayState.screenshot ? (
 						<img
-							alt="Browser screenshot"
+							alt={t("browser.screenshotAlt", "Browser screenshot")}
 							onClick={() =>
 								FileServiceClient.openImage(StringRequest.create({ value: displayState.screenshot })).catch(
 									(err) => console.error("Failed to open image:", err),
@@ -448,10 +448,12 @@ const BrowserSessionRow = memo((props: BrowserSessionRowProps) => {
 							padding: `9px 8px ${consoleLogsExpanded ? 0 : 8}px 8px`,
 						}}>
 						<span className={`codicon codicon-chevron-${consoleLogsExpanded ? "down" : "right"}`}></span>
-						<span style={consoleLogsTextStyle}>Console Logs</span>
+						<span style={consoleLogsTextStyle}>{t("browser.consoleLogs", "Console Logs")}</span>
 					</div>
 					{consoleLogsExpanded && (
-						<CodeBlock source={`${"```"}shell\n${displayState.consoleLogs || "(No new logs)"}\n${"```"}`} />
+						<CodeBlock
+							source={`${"```"}shell\n${displayState.consoleLogs || t("browser.noNewLogs", "(No new logs)")}\n${"```"}`}
+						/>
 					)}
 				</div>
 			</div>
@@ -463,18 +465,21 @@ const BrowserSessionRow = memo((props: BrowserSessionRowProps) => {
 			{pages.length > 1 && (
 				<div style={paginationContainerStyle}>
 					<div>
-						Step {currentPageIndex + 1} of {pages.length}
+						{t("paginationStep", "browser", {
+							currentPage: currentPageIndex + 1,
+							totalPages: pages.length,
+						})}
 					</div>
 					<div style={paginationButtonGroupStyle}>
 						<VSCodeButton
 							disabled={currentPageIndex === 0 || isBrowsing}
 							onClick={() => setCurrentPageIndex((i) => i - 1)}>
-							Previous
+							{t("paginationPrevious", "browser")}
 						</VSCodeButton>
 						<VSCodeButton
 							disabled={currentPageIndex === pages.length - 1 || isBrowsing}
 							onClick={() => setCurrentPageIndex((i) => i + 1)}>
-							Next
+							{t("paginationNext", "browser")}
 						</VSCodeButton>
 					</div>
 				</div>
@@ -525,7 +530,9 @@ const BrowserSessionRowContent = memo(
 			return (
 				<>
 					<div style={headerStyle}>
-						<span style={browserSessionStartedTextStyle}>Browser Session Started</span>
+						<span style={browserSessionStartedTextStyle}>
+							{t("browser.sessionStarted", "Browser Session Started")}
+						</span>
 					</div>
 					<div style={codeBlockContainerStyle}>
 						<CodeBlock forceWrap={true} source={`${"```"}shell\n${message.text}\n${"```"}`} />
@@ -581,17 +588,17 @@ const BrowserActionBox = ({ action, coordinate, text }: { action: BrowserAction;
 	const getBrowserActionText = (action: BrowserAction, coordinate?: string, text?: string) => {
 		switch (action) {
 			case "launch":
-				return `Launch browser at ${text}`
+				return t("browser.action.launch", "settings", { text: text || "" })
 			case "click":
-				return `Click (${coordinate?.replace(",", ", ")})`
+				return t("browser.action.click", "settings", { coordinate: coordinate?.replace(",", ", ") || "" })
 			case "type":
-				return `Type "${text}"`
+				return t("browser.action.type", "settings", { text: text || "" })
 			case "scroll_down":
-				return "Scroll down"
+				return t("browser.action.scrollDown", "settings")
 			case "scroll_up":
-				return "Scroll up"
+				return t("browser.action.scrollUp", "settings")
 			case "close":
-				return "Close browser"
+				return t("browser.action.close", "settings")
 			default:
 				return action
 		}
@@ -601,7 +608,7 @@ const BrowserActionBox = ({ action, coordinate, text }: { action: BrowserAction;
 			<div style={browserActionBoxContainerInnerStyle}>
 				<div style={browseActionRowContainerStyle}>
 					<span style={browseActionRowStyle}>
-						<span style={browseActionTextStyle}>Browse Action: </span>
+						<span style={browseActionTextStyle}>{t("browseActionLabel", "settings")}: </span>
 						{getBrowserActionText(action, coordinate, text)}
 					</span>
 				</div>

@@ -24,7 +24,7 @@ export const AccountWelcomeView = () => {
 			<p className="text-[var(--vscode-descriptionForeground)] text-xs text-center m-0">
 				{t("account.byContining", "common")}{" "}
 				<VSCodeLink href={t("account.termsOfServiceUrl", "common")}>{t("account.termsOfService", "common")}</VSCodeLink>{" "}
-				{t("common.and", "common")}{" "}
+				{t("common.common.and", "common")}{" "}
 				<VSCodeLink href={t("account.privacyPolicyUrl", "common")}>{t("account.privacyPolicy", "common")}</VSCodeLink>
 			</p>
 		</div>

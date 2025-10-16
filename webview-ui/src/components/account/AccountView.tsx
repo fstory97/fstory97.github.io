@@ -5,11 +5,10 @@ import { VSCodeButton, VSCodeDivider, VSCodeDropdown, VSCodeOption, VSCodeTag } 
 import deepEqual from "fast-deep-equal"
 import { memo, useCallback, useEffect, useRef, useState } from "react"
 import { useInterval } from "react-use"
-// CARET MODIFICATION: Import CaretAccountView for Caret account system
 import CaretAccountView from "@/caret/components/CaretAccountView"
 import { t } from "@/caret/utils/i18n"
 import { type ClineUser, handleSignOut } from "@/context/ClineAuthContext"
-// CARET MODIFICATION: Import useExtensionState to access caretUser profile
+// CARET MODIFICATION: Import CaretUser and useExtensionState for Caret account system
 import { useExtensionState } from "@/context/ExtensionStateContext"
 import { AccountServiceClient } from "@/services/grpc-client"
 import VSCodeButtonLink from "../common/VSCodeButtonLink"
@@ -39,16 +38,9 @@ type CachedData = {
 }
 
 const AccountView = ({ onDone, clineUser, organizations, activeOrganization }: AccountViewProps) => {
-	// CARET MODIFICATION: Access caretUser directly from ExtensionState for Caret account system
-	const { caretUser } = useExtensionState()
-
-	// CARET MODIFICATION: Debug logging to check which account view is displayed
-	console.log("[AccountView] Rendering with:", {
-		hasCaretUser: !!caretUser,
-		caretUserId: caretUser?.id,
-		hasClineUser: !!clineUser,
-		clineUserUid: clineUser?.uid,
-	})
+	const { apiConfiguration } = useExtensionState()
+	console.log("<===== account view apiConfiguration=====>", apiConfiguration)
+	const caretUser = apiConfiguration?.caretUserProfile
 
 	return (
 		<div className="fixed inset-0 flex flex-col overflow-hidden pt-[10px] pl-[20px]">
@@ -58,7 +50,7 @@ const AccountView = ({ onDone, clineUser, organizations, activeOrganization }: A
 			</div>
 			<div className="flex-grow overflow-hidden pr-[8px] flex flex-col">
 				<div className="h-full mb-[5px]">
-					{/* CARET MODIFICATION: 3-way branching - Priority to caretUser, fallback to clineUser, then AccountWelcomeView */}
+					{/* CARET MODIFICATION: Priority to caretUser, fallback to clineUser, then AccountWelcomeView */}
 					{caretUser?.id ? (
 						<CaretAccountView caretUser={caretUser} />
 					) : clineUser?.uid ? (

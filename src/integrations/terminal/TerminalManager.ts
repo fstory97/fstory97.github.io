@@ -2,6 +2,8 @@ import { arePathsEqual } from "@utils/path"
 import { getShellForProfile } from "@utils/shell"
 import pWaitFor from "p-wait-for"
 import * as vscode from "vscode"
+// CLINE BUG FIX: Reference centralized VSCode type extensions to prevent duplicate declarations
+/// <reference path="../../types/vscode-extensions.d.ts" />
 import { mergePromise, TerminalProcess, TerminalProcessResultPromise } from "./TerminalProcess"
 import { TerminalInfo, TerminalRegistry } from "./TerminalRegistry"
 

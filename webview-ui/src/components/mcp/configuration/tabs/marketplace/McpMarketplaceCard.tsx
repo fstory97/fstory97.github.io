@@ -2,6 +2,7 @@ import { McpMarketplaceItem, McpServer } from "@shared/mcp"
 import { StringRequest } from "@shared/proto/cline/common"
 import { useEffect, useMemo, useRef, useState } from "react"
 import styled from "styled-components"
+import { t } from "@/caret/utils/i18n"
 import { useExtensionState } from "@/context/ExtensionStateContext"
 import { McpServiceClient } from "@/services/grpc-client"
 
@@ -74,7 +75,7 @@ const McpMarketplaceCard = ({ item, installedServers, setError }: McpMarketplace
 					{/* Logo */}
 					{item.logoUrl && (
 						<img
-							alt={`${item.name} logo`}
+							alt={t("mcp.logoAlt", "{{name}} logo", { name: item.name })}
 							src={item.logoUrl}
 							style={{
 								width: 42,
@@ -136,7 +137,11 @@ const McpMarketplaceCard = ({ item, installedServers, setError }: McpMarketplace
 								}}
 								style={{}}>
 								<StyledInstallButton $isInstalled={isInstalled} disabled={isInstalled || isDownloading}>
-									{isInstalled ? "Installed" : isDownloading ? "Installing..." : "Install"}
+									{isInstalled
+										? t("mcp.installed", "Installed")
+										: isDownloading
+											? t("mcp.installing", "Installing...")
+											: t("mcp.install", "Install")}
 								</StyledInstallButton>
 							</div>
 						</div>
@@ -212,7 +217,11 @@ const McpMarketplaceCard = ({ item, installedServers, setError }: McpMarketplace
 								<span style={{ wordBreak: "break-all" }}>{item.downloadCount?.toLocaleString() ?? 0}</span>
 							</div>
 							{item.requiresApiKey && (
-								<span className="codicon codicon-key" style={{ flexShrink: 0 }} title="Requires API key" />
+								<span
+									className="codicon codicon-key"
+									style={{ flexShrink: 0 }}
+									title={t("mcp.requiresApiKey", "Requires API key")}
+								/>
 							)}
 						</div>
 					</div>

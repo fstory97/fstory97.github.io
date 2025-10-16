@@ -201,7 +201,7 @@ const RequestyModelPicker: React.FC<RequestyModelPickerProps> = ({ isPopup, base
 							setIsDropdownVisible(true)
 						}}
 						onKeyDown={handleKeyDown}
-						placeholder="Search and select a model..."
+						placeholder={t("providers.requesty.searchPlaceholder", "settings")}
 						style={{
 							width: "100%",
 							zIndex: REQUESTY_MODEL_PICKER_Z_INDEX,
@@ -210,7 +210,7 @@ const RequestyModelPicker: React.FC<RequestyModelPickerProps> = ({ isPopup, base
 						value={searchTerm}>
 						{searchTerm && (
 							<div
-								aria-label="Clear search"
+								aria-label={t("providers.requesty.clearSearch", "settings")}
 								className="input-icon-button codicon codicon-close"
 								onClick={() => {
 									handleModelChange("")
@@ -230,6 +230,7 @@ const RequestyModelPicker: React.FC<RequestyModelPickerProps> = ({ isPopup, base
 						<DropdownList ref={dropdownListRef}>
 							{modelSearchResults.map((item, index) => (
 								<DropdownItem
+									// biome-ignore lint/security/noDangerouslySetInnerHtml: <explanation>
 									dangerouslySetInnerHTML={{
 										__html: item.html,
 									}}
@@ -240,7 +241,9 @@ const RequestyModelPicker: React.FC<RequestyModelPickerProps> = ({ isPopup, base
 										setIsDropdownVisible(false)
 									}}
 									onMouseEnter={() => setSelectedIndex(index)}
-									ref={(el) => (itemRefs.current[index] = el)}
+									ref={(el) => {
+										itemRefs.current[index] = el
+									}}
 								/>
 							))}
 						</DropdownList>
@@ -266,9 +269,17 @@ const RequestyModelPicker: React.FC<RequestyModelPickerProps> = ({ isPopup, base
 					</VSCodeLink>
 					If you're unsure which model to choose, Cline works best with{" "}
 					<VSCodeLink
+						href={t("providers.requesty.requestyUrl", "settings")}
+						key="requesty"
+						style={{ display: "inline", fontSize: "inherit" }}>
+						{t("providers.requesty.info.linkText", "settings")}
+					</VSCodeLink>{" "}
+					{t("providers.requesty.info.fullText.part2", "settings")}{" "}
+					<VSCodeLink
+						key="claude"
 						onClick={() => handleModelChange("anthropic/claude-3-7-sonnet-latest")}
 						style={{ display: "inline", fontSize: "inherit" }}>
-						anthropic/claude-3-7-sonnet-latest.
+						{t("providers.requesty.info.recommendedModel", "settings")}
 					</VSCodeLink>
 				</p>
 			)}
@@ -446,7 +457,7 @@ export const ModelDescriptionMarkdown = memo(
 									paddingLeft: 3,
 									backgroundColor: isPopup ? CODE_BLOCK_BG_COLOR : "var(--vscode-sideBar-background)",
 								}}>
-								See more
+								{t("common.seeMore")}
 							</VSCodeLink>
 						</div>
 					)}

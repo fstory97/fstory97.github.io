@@ -455,6 +455,10 @@ export class StateManager {
 			liteLlmBaseUrl,
 			liteLlmApiKey,
 			liteLlmUsePromptCache,
+			caretBaseUrl, // caret
+			caretApiKey, // caret
+			caretUsePromptCache, // caret
+			caretUserProfile, // caret
 			qwenApiLine,
 			moonshotApiLine,
 			zaiApiLine,
@@ -504,6 +508,8 @@ export class StateManager {
 			planModeLmStudioModelId,
 			planModeLiteLlmModelId,
 			planModeLiteLlmModelInfo,
+			planModeCaretModelId, // caret
+			planModeCaretModelInfo, // caret
 			planModeRequestyModelId,
 			planModeRequestyModelInfo,
 			planModeTogetherModelId,
@@ -538,6 +544,8 @@ export class StateManager {
 			actModeLmStudioModelId,
 			actModeLiteLlmModelId,
 			actModeLiteLlmModelInfo,
+			actModeCaretModelId, // caret
+			actModeCaretModelInfo, // caret
 			actModeRequestyModelId,
 			actModeRequestyModelInfo,
 			actModeTogetherModelId,
@@ -558,6 +566,9 @@ export class StateManager {
 			actModeOcaModelInfo,
 		} = apiConfiguration
 
+		const hasCaretUserProfile = Object.hasOwn(apiConfiguration, "caretUserProfile")
+		const caretUserProfileToStore = hasCaretUserProfile ? caretUserProfile : this.globalStateCache["caretUserProfile"]
+
 		// Batch update global state keys
 		this.setGlobalStateBatch({
 			// Plan mode configuration updates
@@ -576,6 +587,8 @@ export class StateManager {
 			planModeLmStudioModelId,
 			planModeLiteLlmModelId,
 			planModeLiteLlmModelInfo,
+			planModeCaretModelId, // caret
+			planModeCaretModelInfo, // caret
 			planModeRequestyModelId,
 			planModeRequestyModelInfo,
 			planModeTogetherModelId,
@@ -611,6 +624,8 @@ export class StateManager {
 			actModeLmStudioModelId,
 			actModeLiteLlmModelId,
 			actModeLiteLlmModelInfo,
+			actModeCaretModelId, // caret
+			actModeCaretModelInfo, // caret
 			actModeRequestyModelId,
 			actModeRequestyModelInfo,
 			actModeTogetherModelId,
@@ -654,6 +669,9 @@ export class StateManager {
 			openRouterProviderSorting,
 			liteLlmBaseUrl,
 			liteLlmUsePromptCache,
+			caretBaseUrl, // caret
+			caretUsePromptCache, // caret
+			caretUserProfile: caretUserProfileToStore, // caret
 			qwenApiLine,
 			moonshotApiLine,
 			zaiApiLine,
@@ -692,6 +710,7 @@ export class StateManager {
 			doubaoApiKey,
 			mistralApiKey,
 			liteLlmApiKey,
+			caretApiKey, // caret
 			fireworksApiKey,
 			asksageApiKey,
 			xaiApiKey,
@@ -955,6 +974,8 @@ export class StateManager {
 			doubaoApiKey: this.secretsCache["doubaoApiKey"],
 			mistralApiKey: this.secretsCache["mistralApiKey"],
 			liteLlmApiKey: this.secretsCache["liteLlmApiKey"],
+			caretApiKey: this.secretsCache["caretApiKey"], // caret
+			caretAuthToken: this.secretsCache["caretAuthToken"], // caret
 			fireworksApiKey: this.secretsCache["fireworksApiKey"],
 			asksageApiKey: this.secretsCache["asksageApiKey"],
 			xaiApiKey: this.secretsCache["xaiApiKey"],
@@ -1000,6 +1021,9 @@ export class StateManager {
 				this.taskStateCache["openRouterProviderSorting"] || this.globalStateCache["openRouterProviderSorting"],
 			liteLlmBaseUrl: this.taskStateCache["liteLlmBaseUrl"] || this.globalStateCache["liteLlmBaseUrl"],
 			liteLlmUsePromptCache: this.taskStateCache["liteLlmUsePromptCache"] || this.globalStateCache["liteLlmUsePromptCache"],
+      caretBaseUrl: this.globalStateCache["caretBaseUrl"], // caret
+			caretUsePromptCache: this.globalStateCache["caretUsePromptCache"], // caret
+			caretUserProfile: this.globalStateCache["caretUserProfile"], // caret
 			qwenApiLine: this.taskStateCache["qwenApiLine"] || this.globalStateCache["qwenApiLine"],
 			moonshotApiLine: this.taskStateCache["moonshotApiLine"] || this.globalStateCache["moonshotApiLine"],
 			zaiApiLine: this.taskStateCache["zaiApiLine"] || this.globalStateCache["zaiApiLine"],
@@ -1050,6 +1074,8 @@ export class StateManager {
 				this.taskStateCache["planModeLiteLlmModelId"] || this.globalStateCache["planModeLiteLlmModelId"],
 			planModeLiteLlmModelInfo:
 				this.taskStateCache["planModeLiteLlmModelInfo"] || this.globalStateCache["planModeLiteLlmModelInfo"],
+      planModeCaretModelId: this.globalStateCache["planModeCaretModelId"], // caret
+      planModeCaretModelInfo: this.globalStateCache["planModeCaretModelInfo"], // caret     
 			planModeRequestyModelId:
 				this.taskStateCache["planModeRequestyModelId"] || this.globalStateCache["planModeRequestyModelId"],
 			planModeRequestyModelInfo:
@@ -1113,6 +1139,8 @@ export class StateManager {
 			actModeLiteLlmModelId: this.taskStateCache["actModeLiteLlmModelId"] || this.globalStateCache["actModeLiteLlmModelId"],
 			actModeLiteLlmModelInfo:
 				this.taskStateCache["actModeLiteLlmModelInfo"] || this.globalStateCache["actModeLiteLlmModelInfo"],
+      actModeCaretModelId: this.globalStateCache["actModeCaretModelId"], // caret
+			actModeCaretModelInfo: this.globalStateCache["actModeCaretModelInfo"], // caret
 			actModeRequestyModelId:
 				this.taskStateCache["actModeRequestyModelId"] || this.globalStateCache["actModeRequestyModelId"],
 			actModeRequestyModelInfo:

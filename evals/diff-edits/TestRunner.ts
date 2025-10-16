@@ -55,7 +55,7 @@ class NodeTestRunner {
 	private processingFunctionsHash: string | null = null
 	private caseIdMap: Map<string, string> = new Map() // test_id -> case_id mapping
 
-	constructor(isReplay: boolean, provider: string = "openrouter") {
+	constructor(isReplay: boolean, provider: string = 
 		this.provider = provider
 		if (!isReplay) {
 			if (provider === "openai") {

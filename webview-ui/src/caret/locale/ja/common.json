@@ -610,7 +610,8 @@
 		"description": "Caretはオープンソースプロジェクトです。GitHubで貢献、問題報告、フィードバックをお願いします。",
 		"githubLinkPrefix": "詳細はこちら",
 		"githubLink": "github.com/aicoding-caret/caret",
-		"closeBannerAria": "バナーを閉じる"
+		"closeBannerAria": "バナーを閉じる",
+		"settingsLink": "この設定は設定でオフにできます。"
 	},
 	"history": {
 		"title": "履歴",

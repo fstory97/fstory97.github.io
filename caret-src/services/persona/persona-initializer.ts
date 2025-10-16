@@ -295,7 +295,6 @@ export class PersonaInitializer {
 		try {
 			const globalRulesDir = await ensureRulesDirectoryExists()
 			const customInstructionsPath = path.join(globalRulesDir, GlobalFileNames.customInstructions)
-
 			if (await fileExistsAtPath(customInstructionsPath)) {
 				await fs.unlink(customInstructionsPath)
 				Logger.info("[CARET-PERSONA] PersonaInitializer: 레거시 custom_instructions.md 파일을 정리했습니다.")

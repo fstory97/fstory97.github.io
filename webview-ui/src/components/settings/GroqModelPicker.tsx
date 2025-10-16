@@ -61,7 +61,7 @@ const GroqModelPicker: React.FC<GroqModelPickerProps> = ({ isPopup, currentMode 
 				})
 			})
 			.catch((err) => {
-				console.error("Failed to refresh Groq models:", err)
+				console.error(t("providers.groq.fetchModelsError", "settings"), err)
 			})
 	})
 
@@ -203,7 +203,7 @@ const GroqModelPicker: React.FC<GroqModelPickerProps> = ({ isPopup, currentMode 
 							setIsDropdownVisible(true)
 						}}
 						onKeyDown={handleKeyDown}
-						placeholder="Search and select a model..."
+						placeholder={t("providers.groq.searchPlaceholder", "settings")}
 						style={{
 							width: "100%",
 							zIndex: GROQ_MODEL_PICKER_Z_INDEX,
@@ -212,7 +212,7 @@ const GroqModelPicker: React.FC<GroqModelPickerProps> = ({ isPopup, currentMode 
 						value={searchTerm}>
 						{searchTerm && (
 							<div
-								aria-label="Clear search"
+								aria-label={t("providers.groq.clearSearch", "settings")}
 								className="input-icon-button codicon codicon-close flex justify-center items-center h-full"
 								onClick={() => {
 									setSearchTerm("")
@@ -256,13 +256,15 @@ const GroqModelPicker: React.FC<GroqModelPickerProps> = ({ isPopup, currentMode 
 				<ModelInfoView isPopup={isPopup} modelInfo={selectedModelInfo} selectedModelId={selectedModelId} />
 			) : (
 				<p className="text-xs mt-0 text-[var(--vscode-descriptionForeground)]">
-					The extension automatically fetches the latest list of models available on{" "}
-					<VSCodeLink className="inline text-inherit" href="https://console.groq.com/docs/models">
-						Groq.
+					{t("providers.groq.fetchModelsDescription", "settings")}{" "}
+					<VSCodeLink className="inline text-inherit" href={t("providers.groq.modelDocumentationUrl", "settings")}>
+						{t("providers.groq.groqLinkText", "settings")}
 					</VSCodeLink>
-					If you're unsure which model to choose, Cline works best with{" "}
-					<VSCodeLink className="inline text-inherit" onClick={() => handleModelChange("llama-3.3-70b-versatile")}>
-						llama-3.3-70b-versatile.
+					{t("providers.groq.unsureModelChoice", "settings")}{" "}
+					<VSCodeLink
+						className="inline text-inherit"
+						onClick={() => handleModelChange(t("providers.groq.recommendedModelId", "settings"))}>
+						{t("providers.groq.recommendedModel", "settings")}
 					</VSCodeLink>
 				</p>
 			)}

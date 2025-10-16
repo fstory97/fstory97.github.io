@@ -1,5 +1,6 @@
 // CARET MODIFICATION: Added useMemo for i18n reactivity
 import { VSCodeButton, VSCodeTextField } from "@vscode/webview-ui-toolkit/react"
+// CARET MODIFICATION: Added useMemo for i18n reactivity
 import React, { useEffect, useRef, useState } from "react"
 import { useClickAway, useWindowSize } from "react-use"
 import { t } from "@/caret/utils/i18n"

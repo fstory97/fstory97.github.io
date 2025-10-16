@@ -19,6 +19,10 @@ import "./utils/path" // necessary to have access to String.prototype.toPosix
 
 import path from "node:path"
 import type { ExtensionContext } from "vscode"
+// CARET MODIFICATION: Import CaretProviderWrapper for image injection and PersonaInitializer
+import { JsonTemplateLoader } from "@caret/core/prompts/system/JsonTemplateLoader"
+import { CaretGlobalManager } from "@caret/managers/CaretGlobalManager"
+import { PersonaInitializer } from "@caret/services/persona/persona-initializer"
 import { HostProvider } from "@/hosts/host-provider"
 import { vscodeHostBridgeClient } from "@/hosts/vscode/hostbridge/client/host-grpc-client"
 import { readTextFromClipboard, writeTextToClipboard } from "@/utils/env"
@@ -62,13 +66,35 @@ export async function activate(context: vscode.ExtensionContext) {
 
 	const webview = (await initialize(context)) as VscodeWebviewProvider
 
-	Logger.log("Cline extension activated")
+	// CARET MODIFICATION: Initialize CaretGlobalManager with 'caret' as default for new installations
+	const initialMode = context.workspaceState.get<"caret" | "cline">("caret.promptSystem.mode", "caret")
+	CaretGlobalManager.initialize(initialMode)
+
+	// CARET MODIFICATION: Initialize CaretModeManager with extension context
+	const { CaretModeManager } = await import("@caret/core/modes/CaretModeManager")
+	CaretModeManager.setContext(context)
+
+	// CARET MODIFICATION: Initialize JsonTemplateLoader
+	const sectionsDirPath = vscode.Uri.joinPath(context.extensionUri, "caret-src", "core", "prompts", "sections").fsPath
+	await JsonTemplateLoader.getInstance().initialize(sectionsDirPath)
+
+	Logger.log("Caret extension activated")
+
+	// CARET MODIFICATION: Initialize persona system on extension activation
+	try {
+		const personaInitializer = new PersonaInitializer(context)
+		await personaInitializer.initialize()
+		Logger.log("Persona system initialized successfully")
+	} catch (error) {
+		Logger.error(`Failed to initialize persona system: ${error}`)
+	}
 
 	const testModeWatchers = await initializeTestMode(webview)
 	// Initialize test mode and add disposables to context
 	context.subscriptions.push(...testModeWatchers)
 
-	vscode.commands.executeCommand("setContext", "cline.isDevMode", IS_DEV && IS_DEV === "true")
+	// CARET MODIFICATION: Changed context key from cline.isDevMode to caret.isDevMode to avoid conflicts with Cline extension
+	vscode.commands.executeCommand("setContext", "caret.isDevMode", IS_DEV && IS_DEV === "true")
 
 	context.subscriptions.push(
 		vscode.window.registerWebviewViewProvider(VscodeWebviewProvider.SIDEBAR_ID, webview, {
@@ -187,7 +213,7 @@ export async function activate(context: vscode.ExtensionContext) {
 			.then((module) => {
 				const devTaskCommands = module.registerTaskCommands(webview.controller)
 				context.subscriptions.push(...devTaskCommands)
-				Logger.log("Cline dev task commands registered")
+				Logger.log("Caret dev task commands registered")
 			})
 			.catch((error) => {
 				Logger.log("Failed to register dev task commands: " + error)
@@ -283,8 +309,8 @@ export async function activate(context: vscode.ExtensionContext) {
 						)
 					}
 
-					// Add to Cline (Always available)
-					const addAction = new vscode.CodeAction("Add to Cline", vscode.CodeActionKind.QuickFix)
+					// Add to Caret (Always available)
+					const addAction = new vscode.CodeAction("Add to Caret", vscode.CodeActionKind.QuickFix)
 					addAction.command = {
 						command: commands.AddToChat,
 						title: "Add to Cline",
@@ -292,8 +318,8 @@ export async function activate(context: vscode.ExtensionContext) {
 					}
 					actions.push(addAction)
 
-					// Explain with Cline (Always available)
-					const explainAction = new vscode.CodeAction("Explain with Cline", vscode.CodeActionKind.RefactorExtract) // Using a refactor kind
+					// Explain with Caret (Always available)
+					const explainAction = new vscode.CodeAction("Explain with Caret", vscode.CodeActionKind.RefactorExtract) // Using a refactor kind
 					explainAction.command = {
 						command: commands.ExplainCode,
 						title: "Explain with Cline",
@@ -301,8 +327,8 @@ export async function activate(context: vscode.ExtensionContext) {
 					}
 					actions.push(explainAction)
 
-					// Improve with Cline (Always available)
-					const improveAction = new vscode.CodeAction("Improve with Cline", vscode.CodeActionKind.RefactorRewrite) // Using a refactor kind
+					// Improve with Caret (Always available)
+					const improveAction = new vscode.CodeAction("Improve with Caret", vscode.CodeActionKind.RefactorRewrite) // Using a refactor kind
 					improveAction.command = {
 						command: commands.ImproveCode,
 						title: "Improve with Cline",
@@ -310,9 +336,9 @@ export async function activate(context: vscode.ExtensionContext) {
 					}
 					actions.push(improveAction)
 
-					// Fix with Cline (Only if diagnostics exist)
+					// Fix with Caret (Only if diagnostics exist)
 					if (context.diagnostics.length > 0) {
-						const fixAction = new vscode.CodeAction("Fix with Cline", vscode.CodeActionKind.QuickFix)
+						const fixAction = new vscode.CodeAction("Fix with Caret", vscode.CodeActionKind.QuickFix)
 						fixAction.isPreferred = true
 						fixAction.command = {
 							command: commands.FixWithCline,
@@ -507,7 +533,7 @@ export async function deactivate() {
 	// Clean up test mode
 	cleanupTestMode()
 
-	Logger.log("Cline extension deactivated")
+	Logger.log("Caret extension deactivated")
 }
 
 // TODO: Find a solution for automatically removing DEV related content from production builds.

@@ -1,5 +1,6 @@
 import { isGPT5ModelFamily, isLocalModel, isNextGenModelFamily } from "@utils/model-utils"
 import { ApiProviderInfo } from "@/core/api"
+import { Logger } from "@/services/logging/Logger"
 import { ModelFamily } from "@/shared/prompts"
 import { PromptRegistry } from "./registry/PromptRegistry"
 import type { SystemPromptContext } from "./types"
@@ -33,6 +34,7 @@ export function getModelFamily(providerInfo: ApiProviderInfo): ModelFamily {
 
 /**
  * Get the system prompt by id
+ * CARET MODIFICATION: Support dual mode switching between Caret and Cline prompt systems
  */
 export async function getSystemPrompt(context: SystemPromptContext): Promise<string> {
 	// CARET MODIFICATION: F06 - JSON System Prompt (Hybrid Mode)

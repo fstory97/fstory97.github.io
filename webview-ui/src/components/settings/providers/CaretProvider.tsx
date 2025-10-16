@@ -8,7 +8,7 @@ import { handleLogin } from "../CaretAuthHandler"
 import CaretModelPicker from "../CaretModelPicker"
 import { ModelInfoView } from "../common/ModelInfoView"
 import { normalizeApiConfiguration } from "../utils/providerUtils"
-
+  
 /**
  * Props for the CaretProvider component
  */
@@ -22,8 +22,8 @@ interface CaretProviderProps {
  * The Caret provider configuration component
  */
 export const CaretProvider = ({ showModelOptions, isPopup, currentMode }: CaretProviderProps) => {
-	const { apiConfiguration, caretUser } = useExtensionState()
-	const _caretUserProfile = apiConfiguration?.caretUserProfile
+	const { apiConfiguration } = useExtensionState()
+	const caretUser = apiConfiguration?.caretUserProfile
 
 	// Get the normalized configuration
 	const { selectedModelId, selectedModelInfo } = normalizeApiConfiguration(apiConfiguration, currentMode)
@@ -33,7 +33,7 @@ export const CaretProvider = ({ showModelOptions, isPopup, currentMode }: CaretP
 
 	// Show profile page if authenticated
 	if (caretUser) {
-		const _name = caretUser.displayName
+		const name = caretUser.displayName
 		return (
 			<div style={{ display: "flex", flexDirection: "column", gap: 10, marginTop: 2 }}>
 				<p style={{ color: "var(--vscode-descriptionForeground)", fontSize: 13, margin: 0 }}>

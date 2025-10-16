@@ -36,6 +36,7 @@ import { getDistinctId } from "@/services/logging/distinctId"
 // CARET MODIFICATION: Import Logger for feature config debug logging
 import { Logger } from "@/services/logging/Logger"
 import { telemetryService } from "@/services/telemetry"
+import { CaretUser } from "@/shared/CaretAccount"
 import { ShowMessageType } from "@/shared/proto/host/window"
 import { getLatestAnnouncementId } from "@/utils/announcements"
 import { getCwd, getDesktopDir } from "@/utils/path"
@@ -201,6 +202,45 @@ export class Controller {
 
 	async setUserInfo(info?: UserInfo) {
 		this.stateManager.setGlobalState("userInfo", info)
+	}
+
+	// CARET MODIFICATION: Integrate CaretGlobalManager userInfo with StateManager setSecret
+	async syncCaretUserInfoToSecret() {
+		try {
+			const caretUserInfo = CaretGlobalManager.userInfo
+			const customToken = CaretGlobalManager.authToken as string
+			if (caretUserInfo) {
+				console.log("[Controller] 🔑 Syncing Caret user info to secret storage", caretUserInfo)
+				this.stateManager.setGlobalState("caretUserProfile", caretUserInfo)
+				this.stateManager.setGlobalState("caretBaseUrl", "http://localhost:4000")
+				this.stateManager.setGlobalState("planModeCaretModelId", caretUserInfo.models[0])
+				this.stateManager.setGlobalState("actModeCaretModelId", caretUserInfo.models[1])
+				this.stateManager.setSecret("caretApiKey", caretUserInfo.apiKey)
+				this.stateManager.setSecret("caretAuthToken", customToken)
+				console.log("[Controller] ✅ Caret user info stored in secret storage")
+			} else {
+				console.log("[Controller] ⚠️ No Caret user info available to sync")
+			}
+		} catch (error) {
+			console.error("[Controller] ❌ Failed to sync Caret user info to secret:", error)
+		}
+	}
+
+	// CARET MODIFICATION: Retrieve Caret user info from secret storage
+	async getCaretUserInfoFromSecret(): Promise<CaretUser | undefined> {
+		try {
+			const userInfo = this.stateManager.getGlobalStateKey("caretUserProfile")
+			if (userInfo) {
+				console.log("[Controller] 📋 Retrieved Caret user info from secret storage")
+				return userInfo
+			} else {
+				console.log("[Controller] ⚠️ No Caret user info found in secret storage")
+				return undefined
+			}
+		} catch (error) {
+			console.error("[Controller] ❌ Failed to retrieve Caret user info from secret:", error)
+			return undefined
+		}
 	}
 
 	async initTask(
@@ -380,9 +420,16 @@ export class Controller {
 
 	async handleAuthCallback(customToken: string, provider: string | null = null) {
 		try {
-			await this.authService.handleAuthCallback(customToken, provider ? provider : "google")
+			if (provider !== "caret") {
+				await this.authService.handleAuthCallback(customToken, provider ? provider : "google")
+			}
 
-			const clineProvider: ApiProvider = "cline"
+			if (customToken && provider === "caret") {
+				this.syncCaretUserInfoToSecret()
+			}
+
+			// const clineProvider: ApiProvider = "cline"
+			const defaultProvider: ApiProvider = getCurrentFeatureConfig().defaultProvider as ApiProvider // Use openrouter as default instead of cline
 
 			// Get current settings to determine how to update providers
 			const planActSeparateModelsSetting = this.stateManager.getGlobalSettingsKey("planActSeparateModelsSetting")
@@ -397,14 +444,14 @@ export class Controller {
 			if (planActSeparateModelsSetting) {
 				// Only update the current mode's provider
 				if (currentMode === "plan") {
-					updatedConfig.planModeApiProvider = clineProvider
+					updatedConfig.planModeApiProvider = defaultProvider
 				} else {
-					updatedConfig.actModeApiProvider = clineProvider
+					updatedConfig.actModeApiProvider = defaultProvider
 				}
 			} else {
 				// Update both modes to keep them in sync
-				updatedConfig.planModeApiProvider = clineProvider
-				updatedConfig.actModeApiProvider = clineProvider
+				updatedConfig.planModeApiProvider = defaultProvider
+				updatedConfig.actModeApiProvider = defaultProvider
 			}
 
 			// Update the API configuration through cache service

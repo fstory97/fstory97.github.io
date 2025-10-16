@@ -317,7 +317,7 @@ const PreWithCopyButton = ({ children, ...preProps }: React.HTMLAttributes<HTMLP
 	}
 
 	return (
-		<WithCopyButton ariaLabel="Copy code" onCopy={handleCopy} position="top-right">
+		<WithCopyButton ariaLabel={t("markdownBlock.copyCode", "chat")} onCopy={handleCopy} position="top-right">
 			<pre {...preProps} ref={preRef}>
 				{children}
 			</pre>
@@ -412,7 +412,7 @@ const MarkdownBlock = memo(({ markdown, compact }: MarkdownBlockProps) => {
 								<button
 									className="codicon codicon-link-external bg-transparent border-0 appearance-none p-0 ml-0.5 leading-none align-middle opacity-70 hover:opacity-100 transition-opacity text-[1em] relative top-[1px] text-[var(--vscode-textPreformat-foreground)] translate-y-[-2px]"
 									onClick={() => FileServiceClient.openFileRelativePath({ value: filePath })}
-									title={`Open ${filePath} in editor`}
+									title={t("markdownBlock.openFileInEditor", "chat", { filePath })}
 									type="button"
 								/>
 							</>

@@ -24,6 +24,7 @@ export type ApiProvider =
 	| "cline"
 	| "caret"
 	| "litellm"
+	| "caret"
 	| "moonshot"
 	| "nebius"
 	| "fireworks"
@@ -40,6 +41,7 @@ export type ApiProvider =
 	| "vercel-ai-gateway"
 	| "zai"
 	| "oca"
+	| "caret"
 
 export interface ApiHandlerSecrets {
 	apiKey?: string // anthropic
@@ -85,6 +87,11 @@ export interface ApiHandlerOptions {
 	ulid?: string // Used to identify the task in API requests
 	liteLlmBaseUrl?: string
 	liteLlmUsePromptCache?: boolean
+	caretBaseUrl?: string // caret
+	caretApiKey?: string // caret
+	caretUsePromptCache?: boolean // caret
+	caretUserProfile?: CaretUser // caret
+	caretAuthToken?: string // caret
 	openAiHeaders?: Record<string, string> // Custom headers for OpenAI requests
 	anthropicBaseUrl?: string
 	openRouterProviderSorting?: string
@@ -140,6 +147,8 @@ export interface ApiHandlerOptions {
 	planModeLmStudioModelId?: string
 	planModeLiteLlmModelId?: string
 	planModeLiteLlmModelInfo?: LiteLLMModelInfo
+	planModeCaretModelId?: string // caret
+	planModeCaretModelInfo?: ModelInfo // caret
 	planModeRequestyModelId?: string
 	planModeRequestyModelInfo?: ModelInfo
 	planModeTogetherModelId?: string
@@ -175,6 +184,8 @@ export interface ApiHandlerOptions {
 	actModeLmStudioModelId?: string
 	actModeLiteLlmModelId?: string
 	actModeLiteLlmModelInfo?: LiteLLMModelInfo
+	actModeCaretModelId?: string // caret
+	actModeCaretModelInfo?: ModelInfo // caret
 	actModeRequestyModelId?: string
 	actModeRequestyModelInfo?: ModelInfo
 	actModeTogetherModelId?: string
@@ -193,13 +204,6 @@ export interface ApiHandlerOptions {
 	actModeVercelAiGatewayModelInfo?: ModelInfo
 	actModeOcaModelId?: string
 	actModeOcaModelInfo?: OcaModelInfo
-	// CARET MODIFICATION: Caret model fields
-	planModeCaretModelId?: string
-	planModeCaretModelInfo?: ModelInfo
-	actModeCaretModelId?: string
-	actModeCaretModelInfo?: ModelInfo
-	// CARET MODIFICATION: Caret account profile (CaretUser type, not string)
-	caretUserProfile?: CaretUser
 }
 
 export type ApiConfiguration = ApiHandlerOptions &
@@ -1022,7 +1026,8 @@ export const openAiModelInfoSaneDefaults: OpenAiCompatibleModelInfo = {
 // Gemini
 // https://ai.google.dev/gemini-api/docs/models/gemini
 export type GeminiModelId = keyof typeof geminiModels
-export const geminiDefaultModelId: GeminiModelId = "gemini-2.5-pro"
+// CARET MODIFICATION: Changed default from pro to flash for better cost-performance balance
+export const geminiDefaultModelId: GeminiModelId = "gemini-2.5-flash"
 export const geminiModels = {
 	"gemini-2.5-pro": {
 		maxTokens: 65536,
@@ -2300,6 +2305,56 @@ export const mistralModels = {
 		supportsPromptCache: false,
 		inputPrice: 0.4,
 		outputPrice: 2.0,
+	},
+} as const satisfies Record<string, ModelInfo>
+
+// Caret
+// https://docs.caret.team/docs/
+export type CaretModelId = keyof typeof caretModels
+export interface CaretModelInfo extends ModelInfo {
+	temperature?: number
+}
+export const caretDefaultModelId = "gemini/gemini-2.5-flash"
+export const caretModels = {
+	"gemini/gemini-2.5-pro": {
+		maxTokens: 65536,
+		contextWindow: 1_048_576,
+		supportsImages: true,
+		supportsPromptCache: true,
+		supportsGlobalEndpoint: true,
+		inputPrice: 2.5,
+		outputPrice: 15,
+		cacheReadsPrice: 0.625,
+		thinkingConfig: {
+			maxBudget: 32767,
+		},
+		tiers: [
+			{
+				contextWindow: 200000,
+				inputPrice: 1.25,
+				outputPrice: 10,
+				cacheReadsPrice: 0.31,
+			},
+			{
+				contextWindow: Infinity,
+				inputPrice: 2.5,
+				outputPrice: 15,
+				cacheReadsPrice: 0.625,
+			},
+		],
+	},
+	"gemini/gemini-2.5-flash": {
+		maxTokens: 65536,
+		contextWindow: 1_048_576,
+		supportsImages: true,
+		supportsPromptCache: true,
+		supportsGlobalEndpoint: true,
+		inputPrice: 0.3,
+		outputPrice: 2.5,
+		thinkingConfig: {
+			maxBudget: 24576,
+			outputPrice: 3.5,
+		},
 	},
 } as const satisfies Record<string, ModelInfo>
 
@@ -3719,19 +3774,19 @@ export const qwenCodeModels = {
 export type QwenCodeModelId = keyof typeof qwenCodeModels
 export const qwenCodeDefaultModelId: QwenCodeModelId = "qwen3-coder-plus"
 
-// CARET MODIFICATION: Caret Models
-export const caretModels = {
-	"claude-sonnet-4-5": {
-		maxTokens: 8192,
-		contextWindow: 200000,
-		supportsImages: true,
-		supportsPromptCache: true,
-		inputPrice: 3,
-		outputPrice: 15,
-		cacheWritesPrice: 3.75,
-		cacheReadsPrice: 0.3,
-		description: "Claude 4.5 Sonnet via Caret API",
-	},
-} as const satisfies Record<string, ModelInfo>
-export type CaretModelId = keyof typeof caretModels
-export const caretDefaultModelId: CaretModelId = "claude-sonnet-4-5"
+// // CARET MODIFICATION: Caret Models
+// export const caretModels = {
+// 	"claude-sonnet-4-5": {
+// 		maxTokens: 8192,
+// 		contextWindow: 200000,
+// 		supportsImages: true,
+// 		supportsPromptCache: true,
+// 		inputPrice: 3,
+// 		outputPrice: 15,
+// 		cacheWritesPrice: 3.75,
+// 		cacheReadsPrice: 0.3,
+// 		description: "Claude 4.5 Sonnet via Caret API",
+// 	},
+// } as const satisfies Record<string, ModelInfo>
+// export type CaretModelId = keyof typeof caretModels
+// export const caretDefaultModelId: CaretModelId = "claude-sonnet-4-5"

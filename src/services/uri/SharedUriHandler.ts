@@ -51,9 +51,24 @@ export class SharedUriHandler {
 
 					Logger.info(`SharedUriHandler - Auth callback received for ${provider} - ${path}`)
 
-					const token = query.get("refreshToken") || query.get("idToken") || query.get("code")
+					const token = query.get("token") || query.get("refreshToken") || query.get("idToken") || query.get("code")
+
+					const state = query.get("state")
+					const apiKey = query.get("apiKey")
+			
+					console.log("Params", token, state, apiKey)
+
 					if (token) {
-						await visibleWebview.controller.handleAuthCallback(token, provider)
+						const { CaretGlobalManager } = await import("@caret/managers/CaretGlobalManager")
+
+						// TODO: Validate state parameter against stored nonce
+						console.log("SharedUriHandler: State validation:", state)
+
+						// Set token in CaretGlobalManager (will initialize Apollo Client)
+						await CaretGlobalManager.setTokenFromCallback(token)
+
+						// Notify webview of successful authentication
+						await visibleWebview.controller.handleAuthCallback(token, provider || "caret")
 						return true
 					}
 					Logger.warn("SharedUriHandler: Missing idToken parameter for auth callback")

@@ -83,8 +83,9 @@ export class GitOperations {
 		// Configure repo with git settings
 		await git.addConfig("core.worktree", cwd)
 		await git.addConfig("commit.gpgSign", "false")
-		await git.addConfig("user.name", "Cline Checkpoint")
-		await git.addConfig("user.email", "checkpoint@cline.bot")
+		// CARET MODIFICATION: Changed "Cline" to "Caret" for brand consistency
+		await git.addConfig("user.name", "Caret Checkpoint")
+		await git.addConfig("user.email", "checkpoint@caret.bot")
 
 		// Set up LFS patterns
 		const lfsPatterns = await getLfsPatterns(cwd)

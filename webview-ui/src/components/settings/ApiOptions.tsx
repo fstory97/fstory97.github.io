@@ -99,11 +99,12 @@ const ApiOptions = ({
 	// Use full context state for immediate save payload
 	const { apiConfiguration } = useExtensionState()
 
+	// CARET MODIFICATION: Use i18n context to detect language changes
+	const { language } = useCaretI18nContext()
+
 	// CARET MODIFICATION: Get feature config directly (consistent with ChatRow and TaskHeader pattern)
 	const featureConfig = getCurrentFeatureConfig()
 
-	// CARET MODIFICATION: Use i18n context to detect language changes
-	const { language } = useCaretI18nContext()
 
 	const { selectedProvider } = normalizeApiConfiguration(apiConfiguration, currentMode)
 

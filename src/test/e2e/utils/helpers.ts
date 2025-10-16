@@ -84,7 +84,7 @@ export class E2ETestHelper {
 
 				try {
 					const title = await frame.title()
-					if (title.startsWith("Cline")) {
+					if (title.startsWith("Caret") || title.startsWith("Cline")) {
 						this.cachedFrame = frame
 						return frame
 					}
@@ -119,7 +119,7 @@ export class E2ETestHelper {
 
 	public async signin(webview: Frame): Promise<void> {
 		const byokButton = webview.getByRole("button", {
-			name: "Use your own API key",
+			name: /Use Your Own API Key|Use your own API key/,
 		})
 		await expect(byokButton).toBeVisible()
 
@@ -130,7 +130,7 @@ export class E2ETestHelper {
 			name: "OpenRouter API Key",
 		})
 		await apiKeyInput.fill("test-api-key")
-		await webview.getByRole("button", { name: "Let's go!" }).click()
+		await webview.getByRole("button", { name: /Let's Go!|Let's go!/ }).click()
 
 		// Verify start up page is no longer visible
 		await expect(webview.locator("#api-provider div").first()).not.toBeVisible()
@@ -138,7 +138,15 @@ export class E2ETestHelper {
 	}
 
 	public static async openClineSidebar(page: Page): Promise<void> {
-		await page.getByRole("tab", { name: /Cline/ }).locator("a").click()
+		// Try Caret first, fallback to Cline for compatibility
+		const caretTab = page.getByRole("tab", { name: /Caret/ }).locator("a")
+		const clineTab = page.getByRole("tab", { name: /Cline/ }).locator("a")
+
+		try {
+			await caretTab.click({ timeout: 2000 })
+		} catch {
+			await clineTab.click()
+		}
 	}
 
 	public static async runCommandPalette(page: Page, command: string): Promise<void> {

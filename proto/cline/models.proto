@@ -210,6 +210,7 @@ enum ApiProvider {
   QWEN_CODE = 33;
   DIFY = 34;
   OCA = 35;
+  CARET = 36;
 }
 
 // Model info for OpenAI-compatible models
@@ -228,6 +229,23 @@ message OpenAiCompatibleModelInfo {
   repeated ModelTier tiers = 12;
   optional double temperature = 13;
   optional bool is_r1_format_required = 14;
+}
+
+// Model info for Caret models
+message CaretModelInfo {
+  optional int64 max_tokens = 1;
+  optional int64 context_window = 2;
+  optional bool supports_images = 3;
+  bool supports_prompt_cache = 4;
+  optional double input_price = 5;
+  optional double output_price = 6;
+  optional ThinkingConfig thinking_config = 7;
+  optional bool supports_global_endpoint = 8;
+  optional double cache_writes_price = 9;
+  optional double cache_reads_price = 10;
+  optional string description = 11;
+  repeated ModelTier tiers = 12;
+  optional double temperature = 13;
 }
 
 // Model info for LiteLLM models
@@ -327,6 +345,11 @@ message ModelsApiConfiguration {
   optional string oca_refresh_token = 75;
   optional string oca_mode = 76;
   optional bool aws_use_global_inference = 77;
+  
+  // CARET MODIFICATION: Caret-specific fields (72 + 1000 = 1072+ to avoid Cline conflicts)
+  optional string caret_base_url = 1073;
+  optional string caret_api_key = 1074;
+  optional bool caret_use_prompt_cache = 1075;
 
   // Plan mode configurations
   optional ApiProvider plan_mode_api_provider = 100;
@@ -362,6 +385,8 @@ message ModelsApiConfiguration {
   optional OpenRouterModelInfo plan_mode_vercel_ai_gateway_model_info = 130;
   optional string plan_mode_oca_model_id = 131;
   optional OcaModelInfo plan_mode_oca_model_info = 132;
+  optional string plan_mode_caret_model_id = 190;
+  optional LiteLLMModelInfo plan_mode_caret_model_info = 191;
 
 
   // Act mode configurations
@@ -398,4 +423,7 @@ message ModelsApiConfiguration {
   optional OpenRouterModelInfo act_mode_vercel_ai_gateway_model_info = 230;
   optional string act_mode_oca_model_id = 231;
   optional OcaModelInfo act_mode_oca_model_info = 232;
+
+  optional string act_mode_caret_model_id = 301;
+  optional CaretModelInfo act_mode_caret_model_info = 302; // caret
 }

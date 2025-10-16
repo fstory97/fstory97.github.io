@@ -10,28 +10,24 @@ import type { CaretModeSystem } from "./ModeSystem"
 export interface CaretSettings {
 	/** Global Caret brand mode (caret/cline) */
 	modeSystem: CaretModeSystem
-
 	/** Future: AI persona configuration */
 	persona?: {
 		id: string
 		name: string
 		config: Record<string, any>
 	}
-
 	/** Future: Enhanced i18n settings */
 	i18n?: {
 		uiLanguage: string
 		autoDetect: boolean
 		fallbackLanguage: string
 	}
-
 	/** Future: Custom UI features */
 	ui?: {
 		theme: string
 		layout: string
 		customizations: Record<string, any>
 	}
-
 	/** Version for migration handling */
 	version?: number
 }

@@ -1,4 +1,5 @@
 import {
+  CaretModelInfo,
 	LiteLLMModelInfo,
 	OpenAiCompatibleModelInfo,
 	OpenRouterModelInfo,
@@ -10,6 +11,7 @@ import {
 import {
 	ApiConfiguration,
 	ApiProvider,
+  CaretModelInfo as AppCaretModelInfo,
 	LiteLLMModelInfo as AppLiteLLMModelInfo,
 	OpenAiCompatibleModelInfo as AppOpenAiCompatibleModelInfo,
 	BedrockModelId,
@@ -131,6 +133,52 @@ function convertProtoOcaModelInfoToOcaModelInfo(info: ProtoOcaModelInfo | undefi
 		surveyId: info.surveyId,
 		banner: info.banner,
 		modelName: info.modelName,
+	}
+}
+
+// Convert application CaretModelInfo to proto CaretModelInfo
+function convertCaretModelInfoToProto(info: AppCaretModelInfo | undefined): CaretModelInfo | undefined {
+	if (!info) {
+		return undefined
+	}
+
+	return {
+		maxTokens: info.maxTokens,
+		contextWindow: info.contextWindow,
+		supportsImages: info.supportsImages,
+		supportsPromptCache: info.supportsPromptCache ?? false,
+		inputPrice: info.inputPrice,
+		outputPrice: info.outputPrice,
+		thinkingConfig: convertThinkingConfigToProto(info.thinkingConfig),
+		supportsGlobalEndpoint: info.supportsGlobalEndpoint,
+		cacheWritesPrice: info.cacheWritesPrice,
+		cacheReadsPrice: info.cacheReadsPrice,
+		description: info.description,
+		tiers: info.tiers || [],
+		temperature: info.temperature,
+	}
+}
+
+// Convert proto CaretModelInfo to application CaretModelInfo
+function convertProtoToCaretModelInfo(info: CaretModelInfo | undefined): AppCaretModelInfo | undefined {
+	if (!info) {
+		return undefined
+	}
+
+	return {
+		maxTokens: info.maxTokens,
+		contextWindow: info.contextWindow,
+		supportsImages: info.supportsImages,
+		supportsPromptCache: info.supportsPromptCache,
+		inputPrice: info.inputPrice,
+		outputPrice: info.outputPrice,
+		thinkingConfig: convertProtoToThinkingConfig(info.thinkingConfig),
+		supportsGlobalEndpoint: info.supportsGlobalEndpoint,
+		cacheWritesPrice: info.cacheWritesPrice,
+		cacheReadsPrice: info.cacheReadsPrice,
+		description: info.description,
+		tiers: info.tiers.length > 0 ? info.tiers : undefined,
+		temperature: info.temperature,
 	}
 }
 
@@ -273,6 +321,8 @@ function convertApiProviderToProto(provider: string | undefined): ProtoApiProvid
 			return ProtoApiProvider.CLINE
 		case "litellm":
 			return ProtoApiProvider.LITELLM
+    case "caret": // caret
+			return ProtoApiProvider.CARET
 		case "moonshot":
 			return ProtoApiProvider.MOONSHOT
 		case "huggingface":
@@ -353,6 +403,8 @@ export function convertProtoToApiProvider(provider: ProtoApiProvider): ApiProvid
 			return "cline"
 		case ProtoApiProvider.LITELLM:
 			return "litellm"
+    case ProtoApiProvider.CARET: // caret
+			return "caret"
 		case ProtoApiProvider.MOONSHOT:
 			return "moonshot"
 		case ProtoApiProvider.HUGGINGFACE:
@@ -402,6 +454,9 @@ export function convertApiConfigurationToProto(config: ApiConfiguration): ProtoA
 		liteLlmBaseUrl: config.liteLlmBaseUrl,
 		liteLlmApiKey: config.liteLlmApiKey,
 		liteLlmUsePromptCache: config.liteLlmUsePromptCache,
+    caretBaseUrl: config.caretBaseUrl, // caret
+		caretApiKey: config.caretApiKey, // caret
+		caretUsePromptCache: config.caretUsePromptCache, // caret
 		openAiHeaders: config.openAiHeaders || {},
 		anthropicBaseUrl: config.anthropicBaseUrl,
 		openRouterApiKey: config.openRouterApiKey,
@@ -487,6 +542,8 @@ export function convertApiConfigurationToProto(config: ApiConfiguration): ProtoA
 		planModeLmStudioModelId: config.planModeLmStudioModelId,
 		planModeLiteLlmModelId: config.planModeLiteLlmModelId,
 		planModeLiteLlmModelInfo: convertLiteLLMModelInfoToProto(config.planModeLiteLlmModelInfo),
+    planModeCaretModelId: config.planModeCaretModelId, // caret
+		planModeCaretModelInfo: convertCaretModelInfoToProto(config.planModeCaretModelInfo), // caret
 		planModeRequestyModelId: config.planModeRequestyModelId,
 		planModeRequestyModelInfo: convertModelInfoToProtoOpenRouter(config.planModeRequestyModelInfo),
 		planModeTogetherModelId: config.planModeTogetherModelId,
@@ -522,6 +579,8 @@ export function convertApiConfigurationToProto(config: ApiConfiguration): ProtoA
 		actModeLmStudioModelId: config.actModeLmStudioModelId,
 		actModeLiteLlmModelId: config.actModeLiteLlmModelId,
 		actModeLiteLlmModelInfo: convertLiteLLMModelInfoToProto(config.actModeLiteLlmModelInfo),
+    actModeCaretModelId: config.actModeCaretModelId, // caret
+		actModeCaretModelInfo: convertCaretModelInfoToProto(config.actModeCaretModelInfo), // caret
 		actModeRequestyModelId: config.actModeRequestyModelId,
 		actModeRequestyModelInfo: convertModelInfoToProtoOpenRouter(config.actModeRequestyModelInfo),
 		actModeTogetherModelId: config.actModeTogetherModelId,
@@ -553,6 +612,9 @@ export function convertProtoToApiConfiguration(protoConfig: ProtoApiConfiguratio
 		liteLlmBaseUrl: protoConfig.liteLlmBaseUrl,
 		liteLlmApiKey: protoConfig.liteLlmApiKey,
 		liteLlmUsePromptCache: protoConfig.liteLlmUsePromptCache,
+    caretBaseUrl: protoConfig.caretBaseUrl, // caret
+		caretApiKey: protoConfig.caretApiKey, // caret
+		caretUsePromptCache: protoConfig.caretUsePromptCache, // caret
 		openAiHeaders: Object.keys(protoConfig.openAiHeaders || {}).length > 0 ? protoConfig.openAiHeaders : undefined,
 		anthropicBaseUrl: protoConfig.anthropicBaseUrl,
 		openRouterApiKey: protoConfig.openRouterApiKey,
@@ -641,6 +703,8 @@ export function convertProtoToApiConfiguration(protoConfig: ProtoApiConfiguratio
 		planModeLmStudioModelId: protoConfig.planModeLmStudioModelId,
 		planModeLiteLlmModelId: protoConfig.planModeLiteLlmModelId,
 		planModeLiteLlmModelInfo: convertProtoToLiteLLMModelInfo(protoConfig.planModeLiteLlmModelInfo),
+    planModeCaretModelId: protoConfig.planModeCaretModelId, // caret
+		planModeCaretModelInfo: convertProtoToCaretModelInfo(protoConfig.planModeCaretModelInfo), // caret
 		planModeRequestyModelId: protoConfig.planModeRequestyModelId,
 		planModeRequestyModelInfo: convertProtoToModelInfo(protoConfig.planModeRequestyModelInfo),
 		planModeTogetherModelId: protoConfig.planModeTogetherModelId,
@@ -677,6 +741,8 @@ export function convertProtoToApiConfiguration(protoConfig: ProtoApiConfiguratio
 		actModeLmStudioModelId: protoConfig.actModeLmStudioModelId,
 		actModeLiteLlmModelId: protoConfig.actModeLiteLlmModelId,
 		actModeLiteLlmModelInfo: convertProtoToLiteLLMModelInfo(protoConfig.actModeLiteLlmModelInfo),
+    actModeCaretModelId: protoConfig.actModeCaretModelId, // caret
+		actModeCaretModelInfo: convertProtoToCaretModelInfo(protoConfig.actModeCaretModelInfo), // caret
 		actModeRequestyModelId: protoConfig.actModeRequestyModelId,
 		actModeRequestyModelInfo: convertProtoToModelInfo(protoConfig.actModeRequestyModelInfo),
 		actModeTogetherModelId: protoConfig.actModeTogetherModelId,

@@ -1,6 +1,6 @@
 // CARET MODIFICATION: Import getDefaultModeForModeSystem for mode initialization
 import { getDefaultModeForModeSystem } from "@caret/shared/ModeSystem"
-import { ANTHROPIC_MIN_THINKING_BUDGET, ApiProvider, fireworksDefaultModelId, type OcaModelInfo } from "@shared/api"
+import { ANTHROPIC_MIN_THINKING_BUDGET, ApiProvider, fireworksDefaultModelId, ModelInfo, type OcaModelInfo } from "@shared/api"
 import { ExtensionContext } from "vscode"
 import { Controller } from "@/core/controller"
 import { ClineAuthProvider } from "@/services/auth/providers/ClineAuthProvider"
@@ -14,6 +14,7 @@ import { DEFAULT_MCP_DISPLAY_MODE } from "@/shared/McpDisplayMode"
 import { OpenaiReasoningEffort } from "@/shared/storage/types"
 import { readTaskHistoryFromState } from "../disk"
 import { GlobalStateAndSettings, LocalState, SecretKey, Secrets } from "../state-keys"
+import { CaretUser } from "@/shared/CaretAccount"
 export async function readSecretsFromDisk(context: ExtensionContext): Promise<Secrets> {
 	const [
 		apiKey,
@@ -35,6 +36,8 @@ export async function readSecretsFromDisk(context: ExtensionContext): Promise<Se
 		mistralApiKey,
 		fireworksApiKey,
 		liteLlmApiKey,
+    caretApiKey,
+		caretAuthToken,
 		asksageApiKey,
 		xaiApiKey,
 		sambanovaApiKey,
@@ -74,6 +77,8 @@ export async function readSecretsFromDisk(context: ExtensionContext): Promise<Se
 		context.secrets.get("mistralApiKey") as Promise<Secrets["mistralApiKey"]>,
 		context.secrets.get("fireworksApiKey") as Promise<Secrets["fireworksApiKey"]>,
 		context.secrets.get("liteLlmApiKey") as Promise<Secrets["liteLlmApiKey"]>,
+    context.secrets.get("caretApiKey") as Promise<string | undefined>, // caret
+		context.secrets.get("caretAuthToken") as Promise<string | undefined>, // caret
 		context.secrets.get("asksageApiKey") as Promise<Secrets["asksageApiKey"]>,
 		context.secrets.get("xaiApiKey") as Promise<Secrets["xaiApiKey"]>,
 		context.secrets.get("sambanovaApiKey") as Promise<Secrets["sambanovaApiKey"]>,
@@ -119,6 +124,8 @@ export async function readSecretsFromDisk(context: ExtensionContext): Promise<Se
 		asksageApiKey,
 		fireworksApiKey,
 		liteLlmApiKey,
+    caretApiKey,
+		caretAuthToken,
 		doubaoApiKey,
 		mistralApiKey,
 		openAiNativeApiKey,
@@ -199,6 +206,9 @@ export async function readGlobalStateFromDisk(context: ExtensionContext): Promis
 		const liteLlmBaseUrl = context.globalState.get<GlobalStateAndSettings["liteLlmBaseUrl"]>("liteLlmBaseUrl")
 		const liteLlmUsePromptCache =
 			context.globalState.get<GlobalStateAndSettings["liteLlmUsePromptCache"]>("liteLlmUsePromptCache")
+    const caretBaseUrl = context.globalState.get("caretBaseUrl") as string | undefined
+	  const caretUsePromptCache = context.globalState.get("caretUsePromptCache") as boolean | undefined
+	
 		// CARET MODIFICATION: Load Caret account profile for account system
 		const caretUserProfile = context.globalState.get<GlobalStateAndSettings["caretUserProfile"]>("caretUserProfile")
 		// CARET MODIFICATION: Load input history for chat persistence
@@ -304,6 +314,9 @@ export async function readGlobalStateFromDisk(context: ExtensionContext): Promis
 			context.globalState.get<GlobalStateAndSettings["planModeLiteLlmModelId"]>("planModeLiteLlmModelId")
 		const planModeLiteLlmModelInfo =
 			context.globalState.get<GlobalStateAndSettings["planModeLiteLlmModelInfo"]>("planModeLiteLlmModelInfo")
+    const planModeCaretModelId = context.globalState.get("planModeCaretModelId") as string | undefined
+    const planModeCaretModelInfo = context.globalState.get("planModeCaretModelInfo") as ModelInfo | undefined
+      
 		const planModeRequestyModelId =
 			context.globalState.get<GlobalStateAndSettings["planModeRequestyModelId"]>("planModeRequestyModelId")
 		const planModeRequestyModelInfo =
@@ -370,6 +383,9 @@ export async function readGlobalStateFromDisk(context: ExtensionContext): Promis
 			context.globalState.get<GlobalStateAndSettings["actModeLiteLlmModelId"]>("actModeLiteLlmModelId")
 		const actModeLiteLlmModelInfo =
 			context.globalState.get<GlobalStateAndSettings["actModeLiteLlmModelInfo"]>("actModeLiteLlmModelInfo")
+    const actModeCaretModelId = context.globalState.get("actModeCaretModelId") as string | undefined // caret
+    const actModeCaretModelInfo = context.globalState.get("actModeCaretModelInfo") as ModelInfo | undefined // caret
+      
 		const actModeRequestyModelId =
 			context.globalState.get<GlobalStateAndSettings["actModeRequestyModelId"]>("actModeRequestyModelId")
 		const actModeRequestyModelInfo =
@@ -471,9 +487,9 @@ export async function readGlobalStateFromDisk(context: ExtensionContext): Promis
 			openRouterProviderSorting,
 			liteLlmBaseUrl,
 			liteLlmUsePromptCache,
-			// CARET MODIFICATION: Include Caret account profile in state
-			caretUserProfile,
-			// CARET MODIFICATION: Include input history in state
+      caretBaseUrl, // caret
+		  caretUsePromptCache, // caret
+		  caretUserProfile, // caret
 			inputHistory,
 			fireworksModelMaxCompletionTokens,
 			fireworksModelMaxTokens,
@@ -505,6 +521,8 @@ export async function readGlobalStateFromDisk(context: ExtensionContext): Promis
 			planModeLmStudioModelId,
 			planModeLiteLlmModelId,
 			planModeLiteLlmModelInfo,
+      planModeCaretModelId, // caret
+		  planModeCaretModelInfo, // caret
 			planModeRequestyModelId,
 			planModeRequestyModelInfo,
 			planModeTogetherModelId,
@@ -539,6 +557,8 @@ export async function readGlobalStateFromDisk(context: ExtensionContext): Promis
 			actModeLmStudioModelId,
 			actModeLiteLlmModelId,
 			actModeLiteLlmModelInfo,
+      actModeCaretModelId, // caret
+		  actModeCaretModelInfo, // caret
 			actModeRequestyModelId,
 			actModeRequestyModelInfo,
 			actModeTogetherModelId,

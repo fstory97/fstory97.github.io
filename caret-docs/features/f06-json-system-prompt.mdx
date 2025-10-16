@@ -1,0 +1,304 @@
+# JSON 기반 시스템 프롬프트 (f06) - 기술 인프라 레이어
+
+## 📋 **문서 목적**
+
+이 문서는 **Caret의 하이브리드 프롬프트 시스템 아키텍처**를 설명합니다. JSON과 Cline 원본 시스템을 선택적으로 활용하여 효율성과 안정성을 동시에 달성한 f06 기술 인프라의 설계 철학, 구현 방식, 핵심 컴포넌트를 다룹니다.
+
+**대상 독자**: Caret 개발팀, 시스템 아키텍트, 프롬프트 시스템 개발자
+
+---
+
+**역할**: f07 Chatbot/Agent 사용자 경험의 **기술적 기반**을 제공하는 인프라 레이어  
+**방식**: JSON + Cline 원본 하이브리드 시스템  
+**구현 상태**: ✅ **완료** - f07과 함께 운영 중  
+
+## 🎯 **f06의 역할: 기술 인프라 제공**
+
+f06은 **사용자 경험을 담당하는 f07의 기술적 기반**을 제공합니다:
+
+```typescript
+// f07(사용자 경험) + f06(기술 인프라) 하이브리드 구조
+if (currentMode === "caret") {
+    // 사용자는 "Agent Mode" 경험 (f07)
+    // 기술적으로는 CaretPromptWrapper 사용 (f06)
+    return await CaretPromptWrapper.getCaretSystemPrompt(context)
+} else {
+    // 기존 Cline 시스템 100% 보존
+    return await registry.get(context)
+}
+```
+
+### **f06 + f07 하이브리드 장점**
+
+1. **안전성**: Cline 코어 로직 완전 보존
+2. **사용자 경험**: 직관적인 chatbot/agent 용어 (f07)  
+3. **유지보수**: 최소한의 Cline 파일 수정 (3-5개)
+
+## 🏗️ **현재 구현된 시스템 아키텍처**
+
+### **핵심 구현 컴포넌트**
+
+```
+caret-src/core/
+├── modes/CaretModeManager.ts       # 모드 상태 관리 (globalState)
+├── prompts/CaretPromptWrapper.ts   # 독립적 프롬프트 생성
+└── controller/caretSystem/         # gRPC 서비스 구현
+    ├── SetCaretMode.ts
+    └── GetCaretMode.ts
+```
+
+### **도구 제한 시스템**
+
+```typescript
+// CaretModeManager에서 도구 권한 관리
+static isToolAllowed(toolName: string): boolean {
+    const allowed = this.caretMode === "agent" || (() => {
+        if (this.caretMode === "chatbot") {
+            // CHATBOT 모드: 읽기 전용 도구만
+            const allowedInChatbot = [
+                "read_file", "list_files", "search_files",
+                "list_code_definition_names", "ask_followup_question",
+                "web_fetch", "attempt_completion"
+            ]
+            return allowedInChatbot.includes(toolName)
+        }
+        return false
+    })()
+    
+    return allowed
+}
+```
+
+## 📊 **시스템 구성 요소**
+
+| 컴포넌트 | 역할 | 구현 방식 |
+|----------|------|----------|
+| **CaretJsonAdapter** | 하이브리드 프롬프트 생성 | JSON 섹션 + Cline 도구 통합 |
+| **CaretModeManager** | 모드 상태 관리 | globalState 기반 단일 저장소 |
+| **CaretPromptWrapper** | 프롬프트 시스템 진입점 | 독립적 프롬프트 생성 |
+| **gRPC 서비스** | 모드 제어 인터페이스 | SetCaretMode/GetCaretMode |
+
+## 🔧 **하이브리드 시스템 아키텍처**
+
+### **CaretJsonAdapter - 하이브리드 프롬프트 생성기**
+
+최종 구현된 시스템의 핵심은 **선택적 기술 활용**입니다:
+
+```typescript
+// CaretJsonAdapter.ts - 하이브리드 접근법
+export class CaretJsonAdapter implements PromptAdapter {
+    async generatePrompt(context: CaretSystemPromptContext): Promise<string> {
+        // 1. JSON 시스템 활용 영역 (단순한 정적 컨텐츠)
+        const baseIntro = await this.getJsonSection("BASE_PROMPT_INTRO")
+        const modeSystem = await this.getJsonSection("CHATBOT_AGENT_MODES") 
+        const systemInfo = await this.getJsonSection("CARET_SYSTEM_INFO")
+        
+        // 2. Cline 원본 활용 영역 (복잡한 도구 정의)
+        const toolsSection = await this.getClineToolsSection(context, isChatbotMode)
+        
+        return [baseIntro, modeSystem, toolsSection, systemInfo].join('\n\n')
+    }
+    
+    // 핵심: Cline의 완전한 도구 시스템 활용
+    private async getClineToolsSection(context: CaretSystemPromptContext): Promise<string> {
+        // 모든 도구 정의 로드 (browser_action, execute_command 등의 완전한 파라미터 포함)
+        await PromptRegistry.getInstance().load()
+        
+        // CARET MODIFICATION: ModelFamily 호환성 보장
+        const mockVariant = {
+            // ModelFamily.GENERIC 강제 설정으로 모든 기본 도구 로드
+            // next-gen 등 신규 모델 패밀리는 아직 도구 variant가 없음
+            family: ModelFamily.GENERIC,
+            tools: [] as readonly ClineDefaultTool[],  // 빈 배열로 전체 도구 자동 로드
+            // ... 기타 필수 필드들
+        }
+        
+        const toolPrompts = await PromptBuilder.getToolsPrompts(mockVariant, context)
+        
+        // Caret 모드별 필터링 적용
+        return this.filterToolsByMode(toolPrompts, isChatbotMode)
+    }
+}
+```
+
+### **기술 선택 기준**
+
+| 영역 | 기술 선택 | 선택 이유 |
+|------|----------|----------|
+| **모드 설명** | JSON | `AGENT_BEHAVIOR_DIRECTIVES.json`에서 관리 |
+| **도구 정의** | Cline 원본 | 복잡한 파라미터, 동적 검증 로직 |
+| **시스템 정보** | JSON | `CARET_SYSTEM_INFO.json`에서 관리 |
+| **행동 규칙** | JSON | `AGENT_BEHAVIOR_DIRECTIVES.json`에서 관리 |
+
+## 🎯 **ModelFamily 도구 시스템 분석**
+
+### **도구 로딩 문제 분석 및 해결**
+
+Cline의 도구 시스템은 **ModelFamily별로 다른 도구 variant**를 제공하여 모델 특성에 맞는 최적화를 수행합니다.
+
+#### **1. ModelFamily 구분 이유**
+```typescript
+// src/core/prompts/system-prompt/tools/execute_command.ts
+const generic: ClineToolSpec = {
+    variant: ModelFamily.GENERIC,
+    name: "execute_command",
+    parameters: [
+        {
+            name: "requires_approval",
+            required: true,  // 기본 모델: 승인 필수
+        }
+    ]
+}
+
+const gpt: ClineToolSpec = {
+    variant: ModelFamily.GPT, 
+    name: "bash",  // GPT는 다른 이름 사용
+    parameters: [
+        {
+            name: "requires_approval",
+            required: false,  // GPT: 승인 선택사항 (더 자율적)
+        }
+    ]
+}
+```
+
+#### **2. 도구 variant 분포 현황**
+```typescript
+// 도구별 지원 ModelFamily 분석
+browser_action: [GENERIC]                    // ❌ next-gen 미지원
+execute_command: [GENERIC, GPT]              // ❌ next-gen 미지원  
+read_file: [GENERIC, NEXT_GEN, GPT, GEMINI] // ✅ next-gen 지원
+ask_followup_question: [GENERIC, GPT]        // ❌ next-gen 미지원
+```
+
+#### **3. 문제 발생 시나리오**
+```typescript
+// Gemini 2.5 등 next-gen 모델 사용시
+const modelFamily = getModelFamily(providerInfo) // → "next-gen"
+const tools = ClineToolSet.getTools(modelFamily) // → MCP 도구들만 7개 반환
+// browser_action, execute_command 등은 GENERIC/GPT에만 있어서 누락
+```
+
+#### **4. CaretJsonAdapter 해결책**
+```typescript
+// CARET MODIFICATION: next-gen 모델 호환성
+const mockVariant = {
+    // 강제로 GENERIC 사용하여 모든 기본 도구 로드
+    family: ModelFamily.GENERIC,  
+    tools: [],  // 빈 배열 → ClineToolSet.getTools(GENERIC) 호출
+}
+
+// 결과: browser_action, execute_command 등 모든 기본 도구 로드 성공
+const toolPrompts = await PromptBuilder.getToolsPrompts(mockVariant, context)
+```
+
+#### **5. 모델별 도구 차이점 분석**
+| 모델 패밀리 | 도구 특징 | 예시 |
+|------------|----------|------|
+| **GENERIC** | 보수적, 승인 필수 | `requires_approval: true` |
+| **GPT** | 자율적, 다른 이름 사용 | `bash` vs `execute_command` |
+| **NEXT_GEN** | 일부 도구만 최적화 | `read_file` 정도만 지원 |
+| **GEMINI** | 기본 도구들 지원 | GENERIC과 유사 |
+
+#### **6. 트러블슈팅 가이드**
+```typescript
+// 도구 누락 문제 진단
+DEBUG [CaretJsonAdapter] family=next-gen, toolPrompts=7  // ❌ 문제 상황
+DEBUG [CaretJsonAdapter] family=GENERIC, toolPrompts=15+ // ✅ 해결 후
+```
+
+## 🔧 **핵심 구현 컴포넌트**
+
+### **1. CaretModeManager (모드 상태 관리)**
+```typescript
+export class CaretModeManager {
+    private static caretMode: "chatbot" | "agent" = "agent"
+    private static context: vscode.ExtensionContext | undefined = undefined
+
+    static async initialize(): Promise<void> {
+        // globalState에서 모드 로드
+        const savedMode = this.context.globalState.get<"chatbot" | "agent">("caret.mode", "agent")
+        this.caretMode = savedMode
+    }
+
+    static async setCaretMode(mode: "chatbot" | "agent"): Promise<void> {
+        this.caretMode = mode
+        // globalState에 저장
+        await this.context.globalState.update("caret.mode", mode)
+    }
+}
+```
+
+### **2. CaretPromptWrapper (프롬프트 생성)**
+```typescript
+export class CaretPromptWrapper {
+    static async getCaretSystemPrompt(context: SystemPromptContext): Promise<string> {
+        // CaretModeManager에서 현재 모드 조회
+        const caretMode = CaretModeManager.getCurrentCaretMode()
+        
+        // 모드별 프롬프트 생성 로직
+        return await this.promptManager.getPrompt({
+            ...context,
+            mode: caretMode === "chatbot" ? CARET_MODES.CHATBOT : CARET_MODES.AGENT
+        })
+    }
+}
+```
+
+## 🔄 **Cline 호환성 보장**
+
+### **최소 수정 원칙**
+현재 구현된 Cline 파일 수정 사항:
+
+```typescript
+// 수정된 Cline 파일: 3개
+1. src/core/prompts/system-prompt/index.ts - CaretPromptWrapper 분기
+2. src/extension.ts - CaretModeManager 초기화
+3. webview-ui/src/context/ExtensionStateContext.tsx - localStorage 동기화
+
+// 완전 독립 구현: caret-src/ 디렉토리
+- CaretModeManager.ts
+- CaretPromptWrapper.ts  
+- gRPC 서비스들
+```
+
+### **기존 Cline 사용자 보호**
+```typescript
+// system-prompt/index.ts 분기 로직
+if (currentMode === "caret") {
+    const { CaretPromptWrapper } = await import("@caret/core/prompts/CaretPromptWrapper")
+    return await CaretPromptWrapper.getCaretSystemPrompt(context)
+} else {
+    return await registry.get(context) // 기존 Cline 동작 100% 보존
+}
+```
+
+## 📈 **현재 구현 상태**
+
+### **완료된 기능** ✅
+- **모드 관리**: CaretModeManager (globalState 기반)
+- **프롬프트 시스템**: CaretPromptWrapper (독립적 생성)
+- **도구 제한**: isToolAllowed 메서드
+- **gRPC 통신**: SetCaretMode/GetCaretMode 서비스
+- **UI 동기화**: ExtensionStateContext localStorage 동기화
+- **Cline 호환성**: 100% 보존
+
+## 🔧 **기술적 특징**
+
+### **1. 단일 경로 통합**
+- **globalState**: 모든 모드 상태 관리 통합
+- **ExtensionStateContext**: 웹뷰와 백엔드 동기화
+- **중복 제거**: VS Code config 제거로 단일 저장소 달성
+
+### **2. 안전한 분기**
+- **최소 침습**: 3개 파일만 수정으로 Cline 안정성 확보
+- **완전 분리**: caret-src 디렉토리로 독립 구현
+- **후진 호환**: 기존 Cline 사용자 워크플로우 100% 보존
+
+---
+
+## 🔗 **관련 문서**
+
+- **[f07-chatbot-agent.mdx](./f07-chatbot-agent.mdx)**: 사용자 경험 레이어
+- **[t06-phase5-1-caret-mode-fix.md](../work-logs/luke/t06-phase5-1-caret-mode-fix.md)**: 통합 구현 계획
+- **[caret-architecture-and-implementation-guide.mdx](../development/caret-architecture-and-implementation-guide.mdx)**: 전체 아키텍처 가이드

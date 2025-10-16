@@ -132,13 +132,14 @@ export class CaretGlobalManager {
 			const vsCodeCallbackUrl = `${uriScheme}://caretive.caret/auth`
 
 			// Build external auth URL
-			// `https://auth.caret.team/login?state=${encodeURIComponent(nonce)}&callback_url=${encodeURIComponent(vsCodeCallbackUrl)}`
+      // `https://auth.caret.team/login?state=${encodeURIComponent(nonce)}&callback_url=${encodeURIComponent(vsCodeCallbackUrl)}`
 
 			const authUrl = vscode.Uri.parse(
-				`http://localhost:3000/login?state=${encodeURIComponent(nonce)}&callback_url=${encodeURIComponent(vsCodeCallbackUrl)}`,
+				`https://caret.team/login?state=${encodeURIComponent(nonce)}&callback_url=${encodeURIComponent(vsCodeCallbackUrl)}`
 			)
 
 			console.log("[CARET-GLOBAL-MANAGER] 🌐 Opening external auth URL:", authUrl.toString())
+			// @ts-ignore: VS Code API deprecation warning
 			const success = await vscode.env.openExternal(authUrl)
 			if (!success) {
 				throw new Error("Failed to open external URL")
@@ -149,9 +150,9 @@ export class CaretGlobalManager {
 		}
 	}
 
-	public async setTokenFromCallback(token: string): Promise<void> {
+  public async setTokenFromCallback(token: string): Promise<void> {
 		console.log("[CARET-GLOBAL-MANAGER] 🔑 Setting token from callback")
-
+		
 		this._jwtToken = token
 
 		// Fetch user profile using Apollo Client
@@ -171,7 +172,7 @@ export class CaretGlobalManager {
 	 * Logout from Auth0
 	 */
 	public async logout(): Promise<void> {
-		// TODO: implement logout - logout api call
+    // TODO: implement logout - logout api call
 		this._jwtToken = undefined
 		this._userInfo = undefined
 	}
@@ -205,7 +206,7 @@ export class CaretGlobalManager {
 		return CaretGlobalManager.get().logout()
 	}
 
-	public static async setTokenFromCallback(token: string): Promise<void> {
+  public static async setTokenFromCallback(token: string): Promise<void> {
 		return CaretGlobalManager.get().setTokenFromCallback(token)
 	}
 

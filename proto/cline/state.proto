@@ -427,6 +427,10 @@ message ApiConfiguration {
   optional string oca_refresh_token = 68;
   optional string oca_mode = 69;
   optional bool aws_use_global_inference = 70;
+
+  optional string caret_base_url = 90;
+  optional string caret_api_key = 91;
+  optional bool caret_use_prompt_cache = 92;
   
   // Plan mode configurations
   optional ApiProvider plan_mode_api_provider = 100;

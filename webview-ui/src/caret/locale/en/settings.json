@@ -674,7 +674,7 @@
 			"feature3": "Instant access without separate API keys",
 			"feature4": "Pricing: Use with free plan credits",
 			"visit": "Get Caret's API key:",
-			"baseUrlPlaceholder": "Default: http://caret.team:4000",
+			"baseUrlPlaceholder": "Default: https://api.caret.team",
 			"baseUrlLabel": "Base URL (optional)",
 			"apiKeyPlaceholder": "Default: noop",
 			"apiKeyLabel": "API Key",

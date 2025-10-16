@@ -4,6 +4,8 @@ import { setVscodeHostProviderMock } from "@/test/host-provider-test-utils"
 import "should"
 import * as sinon from "sinon"
 import * as vscode from "vscode"
+// CLINE BUG FIX: Import centralized VSCode type extensions to prevent duplicate declarations
+import "../../types/vscode-extensions"
 import { TerminalProcess } from "./TerminalProcess"
 import { TerminalRegistry } from "./TerminalRegistry"
 

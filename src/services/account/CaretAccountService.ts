@@ -16,8 +16,8 @@ import { WebviewProvider } from "@/core/webview/WebviewProvider"
 
 export class CaretAccountService {
 	private static instance: CaretAccountService
-	// private readonly _baseUrl = "https://api.caret.team" // CARET MODIFICATION: Use Caret API server
-	private readonly _baseUrl = "http://localhost:4000" // CARET MODIFICATION: Use Caret API server
+	private readonly _baseUrl = "https://api.caret.team" // CARET MODIFICATION: Use Caret API server
+	// private readonly _baseUrl = "http://localhost:4000" // CARET MODIFICATION: Use Caret API server
 
 	constructor() {
 		// CARET MODIFICATION: No additional dependencies needed

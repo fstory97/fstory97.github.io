@@ -143,7 +143,6 @@ export class CaretProviderWrapper implements vscode.WebviewViewProvider {
 			const templateDir = path.join(this.context.extensionUri.fsPath, "assets", "template_characters")
 			const allFiles = await fs.readdir(templateDir)
 			const imageFiles = allFiles.filter((file) => file.endsWith(".png"))
-
 			let templateInjectionScript = "\n"
 			for (const file of imageFiles) {
 				try {

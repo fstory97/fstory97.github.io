@@ -64,7 +64,8 @@ export async function generateCommitMessage(stateManager: StateManager, scm?: vs
 
 async function performCommitGeneration(stateManager: StateManager, gitDiff: string, inputBox: any) {
 	try {
-		vscode.commands.executeCommand("setContext", "cline.isGeneratingCommit", true)
+		// CARET MODIFICATION: Changed context key from cline.isGeneratingCommit to caret.isGeneratingCommit to avoid conflicts with Cline extension
+		vscode.commands.executeCommand("setContext", "caret.isGeneratingCommit", true)
 
 		const prompts = [PROMPT.instruction]
 
@@ -113,13 +114,13 @@ async function performCommitGeneration(stateManager: StateManager, gitDiff: stri
 			message: `Failed to generate commit message: ${errorMessage}`,
 		})
 	} finally {
-		vscode.commands.executeCommand("setContext", "cline.isGeneratingCommit", false)
+		vscode.commands.executeCommand("setContext", "caret.isGeneratingCommit", false)
 	}
 }
 
 export function abortCommitGeneration() {
 	commitGenerationAbortController?.abort()
-	vscode.commands.executeCommand("setContext", "cline.isGeneratingCommit", false)
+	vscode.commands.executeCommand("setContext", "caret.isGeneratingCommit", false)
 }
 
 /**

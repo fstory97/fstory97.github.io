@@ -65,6 +65,17 @@ export class BrowserToolHandler implements IFullyManagedTool {
 		const coordinate: string | undefined = block.params.coordinate
 		const text: string | undefined = block.params.text
 
+		// CARET MODIFICATION: Add debug logging for browser_action parameter issues
+		console.log(`[DEBUG BrowserToolHandler] block.params:`, JSON.stringify(block.params, null, 2))
+		console.log(`[DEBUG BrowserToolHandler] action:`, action)
+		console.log(`[DEBUG BrowserToolHandler] coordinate:`, coordinate)
+		console.log(`[DEBUG BrowserToolHandler] text:`, text)
+		console.log(`[DEBUG BrowserToolHandler] url:`, url)
+		console.log(
+			`[DEBUG BrowserToolHandler] browserActions includes action:`,
+			browserActions.includes(action as BrowserAction),
+		)
+
 		// Validate action parameter - following original pattern
 		if (!action || !browserActions.includes(action)) {
 			// if the block is complete and we don't have a valid action this is a mistake
@@ -96,7 +107,7 @@ export class BrowserToolHandler implements IFullyManagedTool {
 				} else {
 					// Show notification for approval if auto approval enabled
 					showNotificationForApprovalIfAutoApprovalEnabled(
-						`Cline wants to use a browser and launch ${url}`,
+						`Caret wants to use a browser and launch ${url}`,
 						config.autoApprovalSettings.enabled,
 						config.autoApprovalSettings.enableNotifications,
 					)

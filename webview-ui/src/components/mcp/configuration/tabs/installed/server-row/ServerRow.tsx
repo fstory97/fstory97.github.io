@@ -360,7 +360,7 @@ const ServerRow = ({
 												data-tool="all-tools"
 												onChange={handleAutoApproveChange}
 												style={{ marginBottom: -10 }}>
-												Auto-approve all tools
+												{t("serverRow.autoApproveAllTools", "chat")}
 											</VSCodeCheckbox>
 										)}
 									</div>
@@ -370,7 +370,7 @@ const ServerRow = ({
 											padding: "10px 0",
 											color: "var(--vscode-descriptionForeground)",
 										}}>
-										No tools found
+										{t("serverRow.noToolsFound", "chat")}
 									</div>
 								)}
 							</VSCodePanelView>
@@ -398,14 +398,16 @@ const ServerRow = ({
 											padding: "10px 0",
 											color: "var(--vscode-descriptionForeground)",
 										}}>
-										No resources found
+										{t("serverRow.noResourcesFound", "chat")}
 									</div>
 								)}
 							</VSCodePanelView>
 						</VSCodePanels>
 
 						<div style={{ margin: "10px 7px" }}>
-							<label style={{ display: "block", marginBottom: "4px", fontSize: "13px" }}>Request Timeout</label>
+							<label style={{ display: "block", marginBottom: "4px", fontSize: "13px" }}>
+								{t("serverRow.requestTimeout", "chat")}
+							</label>
 							<VSCodeDropdown onChange={handleTimeoutChange} style={{ width: "100%" }} value={timeoutValue}>
 								{TimeoutOptions}
 							</VSCodeDropdown>
@@ -418,7 +420,9 @@ const ServerRow = ({
 								width: "calc(100% - 14px)",
 								margin: "0 7px 3px 7px",
 							}}>
-							{server.status === "connecting" || isRestarting ? "Restarting..." : "Restart Server"}
+							{server.status === "connecting" || isRestarting
+								? t("serverRow.restarting", "chat")
+								: t("serverRow.restartServer", "chat")}
 						</VSCodeButton>
 
 						<DangerButton
