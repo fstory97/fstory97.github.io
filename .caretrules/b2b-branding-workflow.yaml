@@ -1,0 +1,64 @@
+workflow: b2b-branding
+version: 4.0
+description: "Enterprise branding workflow focusing on immutability and surface-level changes, with clear separation between backend and frontend configurations."
+
+principles:
+  - name: "Immutable Core"
+    description: "NEVER directly modify core source files like `src/`, `caret-src/`, or `proto/`. All branding is managed via scripts and configs in the `caret-b2b` submodule."
+  - name: "Surface-Level Changes Only"
+    description: "Branding does NOT involve changing internal logic (function names, variables). Target ONLY user-visible areas."
+    targets:
+      - "UI Text: Language files in `webview-ui/src/caret/locale`"
+      - "Assets: Logos, icons, and images"
+      - "Metadata: `package.json` fields like name, description, author"
+      - "VSCode Integrations: Command and menu names in `package.json`'s `contributes` section"
+
+system_design:
+  - name: "Separated Config Model"
+    components:
+      - type: "Backend (`brand-config.json`)"
+        details: "Manages changes for `package.json` metadata and backend-related configurations like `feature-config.json`."
+      - type: "Frontend (`brand-config-front.json`)"
+        details: "Manages changes for all frontend assets, including `locale` file content modifications and `assets` folder replacements."
+  - name: "Blacklist Protection"
+    details: "Core files and directories (`*.proto`, `caret-scripts/`, etc.) are automatically excluded from any conversion process to ensure system stability."
+
+config_rules:
+  - file: "`brand-config.json` (Backend)"
+    guidelines:
+      - "FOCUS ON METADATA: Target user-visible text in `package.json` (e.g., `displayName`, `description`, `contributes` titles)."
+      - "NO INTERNAL LOGIC: Never add function names, variable names, or any internal code identifiers."
+  - file: "`brand-config-front.json` (Frontend)"
+    guidelines:
+      - "LOCALE MAPPINGS: Define rules to modify text content within `webview-ui/src/caret/locale/` files."
+      - "ASSET REPLACEMENT: The script automatically replaces the root `/assets` folder with the brand-specific one. No config needed for this."
+      - "FILE REPLACEMENTS: Define direct file replacements for specific UI components if necessary (e.g., `announcement.json`)."
+
+procedure:
+  - step: 1
+    action: "Analyze"
+    details: "Identify all user-visible areas requiring brand changes in both backend and frontend."
+  - step: 2
+    action: "Configure"
+    details: "Modify `brand-config.json` and `brand-config-front.json` according to the config rules."
+  - step: 3
+    action: "Execute (OS-Independent)"
+    from_root:
+      - "npm run brand:status - Check current brand"
+      - "npm run brand:codecenter - Convert to CodeCenter"
+      - "npm run brand:codecenter:dry - Test conversion without changes (dry-run)"
+      - "npm run brand:caret - Revert to Caret"
+      - "npm run brand:cline - Revert to Cline"
+    from_caret_b2b:
+      - "cd caret-b2b"
+      - "npm run brand:status"
+      - "npm run brand:codecenter"
+    note: "These npm scripts work on all operating systems (Windows, Mac, Linux)."
+  - step: 4
+    action: "Verify"
+    details: "Confirm that the `npm run compile` step completes without errors."
+  - step: 5
+    action: "Commit"
+    details: "Commit the changes ONLY within the `caret-b2b` submodule."
+
+v4_update_note: "This document has been updated to v4 to reflect the separated backend/frontend configuration model and OS-independent execution methods. This provides greater clarity for AI developers and prevents errors caused by incorrect assumptions about a single config file or platform-specific commands."
