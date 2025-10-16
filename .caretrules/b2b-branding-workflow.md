@@ -1,29 +1,85 @@
-# B2B Branding Workflow - Caret-B2B Conversion Guide
+# B2B Branding Workflow
 
-## Core Principle
-The main Caret repository must remain brand-agnostic. All branding-specific logic, assets, and configurations are isolated within the `caret-b2b` submodule.
-**Restoration**: The primary method for reverting changes is `git`. The scripted backup is a secondary safety measure, not for scripted restoration.
+Enterprise branding workflow for Caret, focusing on immutability and surface-level changes with clear separation between backend and frontend configurations.
 
-## 1. Pre-Work Analysis
-When keywords like `b2b`, `brand`, `codecenter`, or `conversion` appear, **this document must be read first**.
+## Core Principles
 
-## 2. Frontend Conversion Process (`convert-frontend.js`)
+### 1. Immutable Core
+**NEVER directly modify core source files** like `src/`, `caret-src/`, or `proto/`. All branding is managed via scripts and configs in the `caret-b2b` submodule.
 
-### Key Insight: How Locale Files are Handled
-Locale files (e.g., `announcement.json`) are **NOT** replaced by copying files from the brand's source folder. Instead, the original Caret files located at `webview-ui/src/caret/locale/` are modified in-place based on rules defined in `brand-config-front.json`.
+### 2. Surface-Level Changes Only
+Branding does **NOT** involve changing internal logic (function names, variables). Target **ONLY** user-visible areas:
 
-### Step-by-Step Flow:
-1.  **Backup**: The original `webview-ui/src/caret/locale` and `assets` directories are backed up to `caret-b2b/brands/{brand-name}/backup/`. The `backup` directory is for **storing original files only**, not for sourcing brand-specific files.
-2.  **Asset Replacement**: The entire `/assets` directory is replaced with the contents of `caret-b2b/brands/{brand-name}/assets/`.
-3.  **Locale Modification**: The script reads mapping rules from `brand-config-front.json` and applies them to the files inside `webview-ui/src/caret/locale/`. This is an **in-place modification**.
+- **UI Text**: Language files in `webview-ui/src/caret/locale`
+- **Assets**: Logos, icons, and images
+- **Metadata**: `package.json` fields like name, description, author
+- **VSCode Integrations**: Command and menu names in `package.json`'s `contributes` section
 
-## 3. Backend Conversion Process (`convert-backend.js`)
-- Modifies root files like `package.json` based on rules in `brand-config.json`.
-- The process is generally simpler and involves text-based replacements.
+## System Design
 
-## 4. Key Files to Check
-- **Frontend Logic**: `caret-b2b/tools/convert-frontend.js`
-- **Backend Logic**: `caret-b2b/tools/convert-backend.js`
-- **Frontend Config**: `caret-b2b/brands/{brand-name}/brand-config-front.json`
-- **Backend Config**: `caret-b2b/brands/{brand-name}/brand-config.json`
-- **Utilities**: `caret-b2b/tools/converter-utils.js`
+### Separated Config Model
+- **Backend (`brand-config.json`)**: Manages changes for `package.json` metadata and backend-related configurations like `feature-config.json`
+- **Frontend (`brand-config-front.json`)**: Manages changes for all frontend assets, including `locale` file content modifications and `assets` folder replacements
+
+### Blacklist Protection
+Core files and directories (`*.proto`, `caret-scripts/`, etc.) are automatically excluded from any conversion process to ensure system stability.
+
+## Config Rules
+
+### `brand-config.json` (Backend)
+- **FOCUS ON METADATA**: Target user-visible text in `package.json` (e.g., `displayName`, `description`, `contributes` titles)
+- **NO INTERNAL LOGIC**: Never add function names, variable names, or any internal code identifiers
+
+### `brand-config-front.json` (Frontend)
+- **LOCALE MAPPINGS**: Define rules to modify text content within `webview-ui/src/caret/locale/` files
+- **ASSET REPLACEMENT**: The script automatically replaces the root `/assets` folder with the brand-specific one. No config needed for this
+- **FILE REPLACEMENTS**: Define direct file replacements for specific UI components if necessary (e.g., `announcement.json`)
+
+## Procedure
+
+### Step 1: Analyze
+Identify all user-visible areas requiring brand changes in both backend and frontend.
+
+### Step 2: Configure
+Modify `brand-config.json` and `brand-config-front.json` according to the config rules.
+
+### Step 3: Execute (OS-Independent)
+
+**Run branding script from project root** (recommended):
+
+```bash
+# Check current brand
+npm run brand:status
+
+# Convert to CodeCenter
+npm run brand:codecenter
+
+# Test conversion without changes (dry-run)
+npm run brand:codecenter:dry
+
+# Revert to Caret
+npm run brand:caret
+
+# Revert to Cline
+npm run brand:cline
+```
+
+**Alternative: Run from caret-b2b directory**:
+
+```bash
+cd caret-b2b
+npm run brand:status
+npm run brand:codecenter
+```
+
+**These npm scripts work on all operating systems** (Windows, Mac, Linux).
+
+### Step 4: Verify
+Confirm that the `npm run compile` step completes without errors.
+
+### Step 5: Commit
+Commit the changes **ONLY** within the `caret-b2b` submodule.
+
+---
+
+**Version 4**: This document has been updated to reflect the separated backend/frontend configuration model and OS-independent execution methods. This provides greater clarity for AI developers and prevents errors caused by incorrect assumptions about a single config file or platform-specific commands.
