@@ -19,6 +19,11 @@ export interface TerminalInfo {
 export class TerminalRegistry {
 	private static terminals: TerminalInfo[] = []
 	private static nextTerminalId = 1
+	private static context: vscode.ExtensionContext
+
+	public static initialize(context: vscode.ExtensionContext) {
+		TerminalRegistry.context = context
+	}
 
 	static createTerminal(cwd?: string | vscode.Uri | undefined, shellPath?: string): TerminalInfo {
 		const terminalOptions: vscode.TerminalOptions = {
@@ -26,19 +31,12 @@ export class TerminalRegistry {
 			name: "Caret",
 			// CARET MODIFICATION: Use custom Caret shell icon instead of default VSCode robot icon
 			iconPath: (() => {
+				if (!TerminalRegistry.context) {
+					throw new Error("TerminalRegistry has not been initialized.")
+				}
 				return {
-					light: vscode.Uri.joinPath(
-						vscode.extensions.getExtension("caretive.caret")!.extensionUri,
-						"assets",
-						"icons",
-						"robot_panel_light.png",
-					),
-					dark: vscode.Uri.joinPath(
-						vscode.extensions.getExtension("caretive.caret")!.extensionUri,
-						"assets",
-						"icons",
-						"robot_panel_dark.png",
-					),
+					light: vscode.Uri.joinPath(TerminalRegistry.context.extensionUri, "assets", "icons", "robot_panel_light.png"),
+					dark: vscode.Uri.joinPath(TerminalRegistry.context.extensionUri, "assets", "icons", "robot_panel_dark.png"),
 				}
 			})(),
 			env: {

@@ -36,6 +36,7 @@ import { focusChatInput, getContextForCommand } from "./hosts/vscode/commandUtil
 import { abortCommitGeneration, generateCommitMessage } from "./hosts/vscode/commit-message-generator"
 import { VscodeDiffViewProvider } from "./hosts/vscode/VscodeDiffViewProvider"
 import { VscodeWebviewProvider } from "./hosts/vscode/VscodeWebviewProvider"
+import { TerminalRegistry } from "./integrations/terminal/TerminalRegistry"
 import { ExtensionRegistryInfo } from "./registry"
 import { AuthService } from "./services/auth/AuthService"
 import { ClineAuthProvider } from "./services/auth/providers/ClineAuthProvider"
@@ -56,6 +57,7 @@ https://github.com/microsoft/vscode-webview-ui-toolkit-samples/tree/main/framewo
 // This method is called when your extension is activated
 // Your extension is activated the very first time the command is executed
 export async function activate(context: vscode.ExtensionContext) {
+	TerminalRegistry.initialize(context)
 	setupHostProvider(context)
 
 	const webview = (await initialize(context)) as VscodeWebviewProvider
