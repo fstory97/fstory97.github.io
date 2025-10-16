@@ -705,7 +705,7 @@
 		"litellm": {
 			"name": "LiteLLM",
 			"description": "LiteLLMは、100以上のLLM APIへの統合インターフェースを提供します。",
-			"baseUrlPlaceholder": "デフォルト: http://localhost:4000",
+			"baseUrlPlaceholder": "デフォルト: https://localhost:4000",
 			"baseUrlLabel": "ベースURL（オプション）",
 			"apiKeyPlaceholder": "デフォルト: noop",
 			"apiKeyLabel": "APIキー",

@@ -678,7 +678,7 @@
 		"litellm": {
 			"name": "LiteLLM",
 			"description": "LiteLLM은 100개 이상의 LLM API에 대한 통합 인터페이스를 제공합니다.",
-			"baseUrlPlaceholder": "기본값: http://localhost:4000",
+			"baseUrlPlaceholder": "기본값: https://localhost:4000",
 			"apiKeyPlaceholder": "기본값: noop",
 			"modelIdPlaceholder": "예: anthropic/claude-sonnet-4-20250514",
 			"usePromptCachingLabel": "프롬프트 캐싱 사용 (GA)",

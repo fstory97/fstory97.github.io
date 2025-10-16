@@ -475,7 +475,7 @@
 			"feature3": "无需单独API密钥即可立即访问",
 			"feature4": "价格：使用免费计划积分",
 			"visit": "获取Caret的API密钥：",
-			"baseUrlPlaceholder": "默认: http://localhost:4000",
+			"baseUrlPlaceholder": "默认: https://api.caret.team",
 			"baseUrlLabel": "基础 URL（可选）",
 			"apiKeyPlaceholder": "默认: noop",
 			"apiKeyLabel": "API 密钥",

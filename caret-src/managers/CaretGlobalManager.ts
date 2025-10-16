@@ -134,7 +134,7 @@ export class CaretGlobalManager {
       // `https://auth.caret.team/login?state=${encodeURIComponent(nonce)}&callback_url=${encodeURIComponent(vsCodeCallbackUrl)}`
 
 			const authUrl = vscode.Uri.parse(
-				`http://localhost:3000/login?state=${encodeURIComponent(nonce)}&callback_url=${encodeURIComponent(vsCodeCallbackUrl)}`
+				`https://caret.team/login?state=${encodeURIComponent(nonce)}&callback_url=${encodeURIComponent(vsCodeCallbackUrl)}`
 			)
 
 			console.log("[CARET-GLOBAL-MANAGER] 🌐 Opening external auth URL:", authUrl.toString())

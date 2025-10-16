@@ -52,7 +52,8 @@ export class CaretHandler implements ApiHandler {
 			}
 			try {
 				this.client = new OpenAI({
-					baseURL: "http://localhost:4000",
+					// baseURL: "http://localhost:4000",
+					baseURL: "https://api.caret.team",
 					apiKey: this.options.caretApiKey,
 				})
 			} catch (error) {
