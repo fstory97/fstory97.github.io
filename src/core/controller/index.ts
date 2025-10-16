@@ -183,6 +183,37 @@ export class Controller {
 		}
 	}
 
+	async handleCaretSignOut() {
+		try {
+			// AuthService now handles its own storage cleanup in handleDeauth()
+			this.stateManager.setGlobalState("userInfo", undefined)
+			this.stateManager.setGlobalState("caretUserProfile", undefined)
+			this.stateManager.setGlobalState("caretBaseUrl", "https://api.caret.team")
+			this.stateManager.setSecret("caretApiKey", undefined)
+			this.stateManager.setSecret("caretAuthToken", undefined)
+
+			// Update API providers through cache service
+			const apiConfiguration = this.stateManager.getApiConfiguration()
+			const updatedConfig = {
+				...apiConfiguration,
+				planModeApiProvider: "caret" as ApiProvider,
+				actModeApiProvider: "caret" as ApiProvider,
+			}
+			this.stateManager.setApiConfiguration(updatedConfig)
+
+			await this.postStateToWebview()
+			HostProvider.window.showMessage({
+				type: ShowMessageType.INFORMATION,
+				message: "Successfully logged out of Caret",
+			})
+		} catch (_error) {
+			HostProvider.window.showMessage({
+				type: ShowMessageType.INFORMATION,
+				message: "CaretLogout failed",
+			})
+		}
+	}
+
 	// Oca Auth methods
 	async handleOcaSignOut() {
 		try {
@@ -212,7 +243,7 @@ export class Controller {
 			if (caretUserInfo) {
 				console.log("[Controller] 🔑 Syncing Caret user info to secret storage", caretUserInfo)
 				this.stateManager.setGlobalState("caretUserProfile", caretUserInfo)
-				this.stateManager.setGlobalState("caretBaseUrl", "http://localhost:4000")
+				this.stateManager.setGlobalState("caretBaseUrl", "https://api.caret.team")
 				this.stateManager.setGlobalState("planModeCaretModelId", caretUserInfo.models[0])
 				this.stateManager.setGlobalState("actModeCaretModelId", caretUserInfo.models[1])
 				this.stateManager.setSecret("caretApiKey", caretUserInfo.apiKey)
