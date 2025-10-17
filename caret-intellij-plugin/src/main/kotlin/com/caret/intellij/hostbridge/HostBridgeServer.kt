@@ -1,5 +1,7 @@
 package com.caret.intellij.hostbridge
 
+import com.caret.intellij.hostbridge.services.WorkspaceServiceImpl
+import com.caret.intellij.hostbridge.services.EnvServiceImpl
 import com.intellij.openapi.project.Project
 import io.grpc.Server
 import io.grpc.ServerBuilder
@@ -25,10 +27,10 @@ class HostBridgeServer(
     fun start(): Int {
         try {
             // gRPC 서버 빌드 및 시작
-            // TODO: proto 컴파일 후 실제 서비스 구현체 등록
             server = ServerBuilder.forPort(requestedPort)
-                // .addService(WorkspaceServiceImpl(project))
-                // .addService(EnvServiceImpl(project))
+                .addService(WorkspaceServiceImpl(project))
+                .addService(EnvServiceImpl(project))
+                // TODO: 추후 구현
                 // .addService(WindowServiceImpl(project))
                 // .addService(DiffServiceImpl(project))
                 // .addService(TestingServiceImpl(project))
