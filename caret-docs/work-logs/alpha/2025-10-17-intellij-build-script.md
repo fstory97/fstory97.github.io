@@ -392,8 +392,51 @@ VSCode 구현체를 상세 분석한 결과:
 
 **예상 일정**: 8-11주 (2-2.5개월)
 
+---
+
+## ✅ Phase 2 완료 (2025-10-17)
+
+### 구현 완료 내역
+
+**실제 소요 시간**: 약 1.5시간 (예상: 2-2.5시간)
+
+#### 구현 항목
+1. **WorkspaceServiceImpl.kt** (236 lines)
+   - 7개 RPC 메서드 완전 구현
+   - IntelliJ Platform API 통합
+   - Kotlin Coroutines 기반 async 처리
+
+2. **EnvServiceImpl.kt** (242 lines)
+   - 7개 RPC 메서드 완전 구현
+   - System integration (클립보드, 버전 정보)
+   - Telemetry streaming 지원
+
+3. **HostBridgeServer.kt**
+   - WorkspaceServiceImpl 등록
+   - EnvServiceImpl 등록
+   - gRPC 서버 빌더 통합
+
+#### 통계
+- **코드**: ~480 lines
+- **RPC Methods**: 14 methods
+- **Services**: 2 services
+- **Commit**: `00cdbe123`
+
+#### 검증 필요
+- [ ] IntelliJ IDEA에서 프로젝트 열기
+- [ ] Gradle 빌드 성공 확인
+- [ ] Proto 파일 컴파일 확인
+- [ ] HostBridgeServer 인스턴스 생성 가능 확인
+
+#### 다음 단계
+- **Phase 3**: JCEF Webview 통합 (예상: 1-1.5시간)
+- **Phase 4**: E2E 테스트 및 검증
+
+**상세 보고서**: [2025-10-17-intellij-phase2-completion-report.md](./2025-10-17-intellij-phase2-completion-report.md)
+
 ## 📚 참고 자료
 
 - JetBrains 플러그인 저장소: `https://github.com/cline/intellij-plugin`
 - 관련 커밋: `30c121509`, `2687ae149`, `b5fde0adb`
 - 워크플로우: `.github/workflows/trigger-jetbrains-tests.yml`
+- **Phase 2 완료 보고서**: [2025-10-17-intellij-phase2-completion-report.md](./2025-10-17-intellij-phase2-completion-report.md)
