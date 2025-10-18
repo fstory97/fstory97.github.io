@@ -283,17 +283,102 @@ class WebViewMessageRouter(
     
     /**
      * Route to DiffService methods
-     * Phase 4: JsonObject 사용
+     * Phase 8: Actual gRPC implementation
      */
     private suspend fun routeDiffService(method: String, data: JsonObject): Any {
-        return when (method) {
-            "openDiff" -> {
-                val leftPath = data.get("leftPath")?.asString ?: ""
-                val rightPath = data.get("rightPath")?.asString ?: ""
-                // TODO: Implement actual gRPC call
-                mapOf("opened" to true)
+        return withContext(Dispatchers.IO) {
+            when (method) {
+                "openDiff" -> {
+                    val path = data.get("path")?.asString ?: ""
+                    val content = data.get("content")?.asString ?: ""
+                    val request = OpenDiffRequest.newBuilder()
+                        .setPath(path)
+                        .setContent(content)
+                        .build()
+                    val response = hostBridgeServer.diffService.openDiff(request)
+                    mapOf("diffId" to (response.diffId ?: ""))
+                }
+                "getDocumentText" -> {
+                    val diffId = data.get("diffId")?.asString ?: ""
+                    val request = GetDocumentTextRequest.newBuilder()
+                        .setDiffId(diffId)
+                        .build()
+                    val response = hostBridgeServer.diffService.getDocumentText(request)
+                    mapOf("content" to (response.content ?: ""))
+                }
+                "replaceText" -> {
+                    val diffId = data.get("diffId")?.asString ?: ""
+                    val content = data.get("content")?.asString ?: ""
+                    val startLine = data.get("startLine")?.asInt ?: 0
+                    val endLine = data.get("endLine")?.asInt ?: 0
+                    val request = ReplaceTextRequest.newBuilder()
+                        .setDiffId(diffId)
+                        .setContent(content)
+                        .setStartLine(startLine)
+                        .setEndLine(endLine)
+                        .build()
+                    hostBridgeServer.diffService.replaceText(request)
+                    mapOf("success" to true)
+                }
+                "scrollDiff" -> {
+                    val diffId = data.get("diffId")?.asString ?: ""
+                    val line = data.get("line")?.asInt ?: 0
+                    val request = ScrollDiffRequest.newBuilder()
+                        .setDiffId(diffId)
+                        .setLine(line)
+                        .build()
+                    hostBridgeServer.diffService.scrollDiff(request)
+                    mapOf("success" to true)
+                }
+                "truncateDocument" -> {
+                    val diffId = data.get("diffId")?.asString ?: ""
+                    val endLine = data.get("endLine")?.asInt ?: 0
+                    val request = TruncateDocumentRequest.newBuilder()
+                        .setDiffId(diffId)
+                        .setEndLine(endLine)
+                        .build()
+                    hostBridgeServer.diffService.truncateDocument(request)
+                    mapOf("success" to true)
+                }
+                "saveDocument" -> {
+                    val diffId = data.get("diffId")?.asString ?: ""
+                    val request = SaveDocumentRequest.newBuilder()
+                        .setDiffId(diffId)
+                        .build()
+                    hostBridgeServer.diffService.saveDocument(request)
+                    mapOf("success" to true)
+                }
+                "closeAllDiffs" -> {
+                    val request = CloseAllDiffsRequest.newBuilder().build()
+                    hostBridgeServer.diffService.closeAllDiffs(request)
+                    mapOf("success" to true)
+                }
+                "openMultiFileDiff" -> {
+                    val title = data.get("title")?.asString ?: "Multi-File Diff"
+                    val diffsArray = data.getAsJsonArray("diffs")
+                    val requestBuilder = OpenMultiFileDiffRequest.newBuilder()
+                        .setTitle(title)
+                    
+                    diffsArray?.forEach { diffElement ->
+                        val diffObj = diffElement.asJsonObject
+                        val filePath = diffObj.get("filePath")?.asString ?: ""
+                        val leftContent = diffObj.get("leftContent")?.asString ?: ""
+                        val rightContent = diffObj.get("rightContent")?.asString ?: ""
+                        
+                        val contentDiff = ContentDiff.newBuilder()
+                            .setFilePath(filePath)
+                            .setLeftContent(leftContent)
+                            .setRightContent(rightContent)
+                            .build()
+                        
+                        requestBuilder.addDiffs(contentDiff)
+                    }
+                    
+                    hostBridgeServer.diffService.openMultiFileDiff(requestBuilder.build())
+                    mapOf("success" to true)
+                }
+                else -> throw IllegalArgumentException("Unknown DiffService method: $method")
             }
-            else -> throw IllegalArgumentException("Unknown DiffService method: $method")
         }
     }
     
