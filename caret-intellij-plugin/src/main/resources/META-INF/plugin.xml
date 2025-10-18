@@ -37,34 +37,7 @@
                     anchor="right"
                     factoryClass="com.caret.intellij.ui.CaretToolWindowFactory"/>
         
-        <!-- Settings -->
-        <applicationConfigurable 
-            parentId="tools" 
-            instance="com.caret.intellij.settings.CaretSettingsConfigurable"
-            id="com.caret.intellij.settings.CaretSettingsConfigurable"
-            displayName="Caret"/>
-        
         <!-- Project Service -->
         <projectService serviceImplementation="com.caret.intellij.services.CaretProjectService"/>
-        
-        <!-- Application Service -->
-        <applicationService serviceImplementation="com.caret.intellij.services.CaretApplicationService"/>
     </extensions>
-
-    <!-- Actions -->
-    <actions>
-        <action id="com.caret.intellij.actions.OpenCaretAction"
-                class="com.caret.intellij.actions.OpenCaretAction"
-                text="Open Caret"
-                description="Open Caret AI Assistant">
-            <add-to-group group-id="ToolsMenu" anchor="last"/>
-            <keyboard-shortcut keymap="$default" first-keystroke="ctrl alt C"/>
-        </action>
-    </actions>
-
-    <!-- Startup Activity -->
-    <applicationListeners>
-        <listener class="com.caret.intellij.listeners.CaretApplicationListener"
-                  topic="com.intellij.ide.AppLifecycleListener"/>
-    </applicationListeners>
 </idea-plugin>
