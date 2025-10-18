@@ -832,8 +832,8 @@ export class Controller {
 		const autoCondenseThreshold = this.stateManager.getGlobalSettingsKey("autoCondenseThreshold")
 
 		// CARET MODIFICATION: F11 - Input History System
-		// Retrieve input history from CaretGlobalManager
-		const inputHistory = await CaretGlobalManager.getInputHistory()
+		// Retrieve input history from StateManager
+		const inputHistory = this.stateManager.getGlobalSettingsKey("inputHistory")
 		// CARET MODIFICATION: F01 - Mode System (직접 CaretGlobalManager에서 읽기)
 		const modeSystem = CaretGlobalManager.currentMode
 		Logger.debug(`[postStateToWebview] modeSystem=${modeSystem}, isInitialized=${CaretGlobalManager.isInitialized()}`)

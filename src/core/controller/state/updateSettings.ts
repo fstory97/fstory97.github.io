@@ -305,6 +305,11 @@ export async function updateSettings(controller: Controller, request: UpdateSett
 			controller.stateManager.setGlobalState("currentPersona", request.currentPersona)
 		}
 
+		// CARET MODIFICATION: F11 - Input History System
+		if (request.inputHistory !== undefined) {
+			controller.stateManager.setGlobalState("inputHistory", request.inputHistory)
+		}
+
 		// Post updated state to webview
 		await controller.postStateToWebview()
 

@@ -6,6 +6,7 @@ export type ApiStreamChunk =
 	| ApiStreamAnthropicThinkingChunk
 	| ApiStreamAnthropicRedactedThinkingChunk
 	| ApiStreamUsageChunk
+	| ApiStreamToolUseChunk // CARET MODIFICATION: Support Task tool for subagent feature (F12)
 
 export interface ApiStreamTextChunk {
 	type: "text"
@@ -41,4 +42,12 @@ export interface ApiStreamUsageChunk {
 	cacheReadTokens?: number
 	thoughtsTokenCount?: number // openrouter
 	totalCost?: number // openrouter
+}
+
+// CARET MODIFICATION: Support Task tool for subagent feature (F12)
+export interface ApiStreamToolUseChunk {
+	type: "tool_use"
+	id: string
+	name: string
+	input: any
 }

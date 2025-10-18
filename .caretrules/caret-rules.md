@@ -53,6 +53,10 @@
 
 ### Technology Stack
 - **Framework**: Mocha (backend), Vitest (frontend), Biome (NOT Prettier)
+- **Build System**: TypeScript (type check ONLY) + esbuild (bundling)
+  - ⚠️ **CRITICAL**: tsconfig.json has `noEmit: true` - tsc NEVER generates .js files
+  - Only esbuild creates dist/extension.js
+  - See `.caretrules/build-system.md` for detailed rules
 - **Actual test scripts**:
   - `npm test` - Full test suite (unit + integration)
   - `npm run test:unit` - Backend unit tests
@@ -66,7 +70,10 @@
 2. CARET MODIFICATION comment added?
 3. 1-3 lines max?
 4. Complete replacement not commenting?
-5. `npm run compile` passes?
+5. Build system check:
+   - ✅ No .js/.js.map files in `src/` or `caret-src/`
+   - ✅ `npm run compile` passes
+   - ✅ VSCode reload (Developer: Reload Window) to load new code
 
 ### Naming Conventions
 - **Utilities**: kebab-case (`brand-utils.ts`)
@@ -141,6 +148,8 @@ See `caret-docs/development-en/workflows/` for detailed procedures:
 - Start with unit tests
 - Comment out old code
 - Skip CARET MODIFICATION comment
+- Run `tsc` without `--noEmit` (tsconfig.json has noEmit: true)
+- Allow .js/.js.map files in `src/` or `caret-src/` directories
 
 ---
 

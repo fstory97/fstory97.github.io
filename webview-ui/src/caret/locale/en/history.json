@@ -18,5 +18,26 @@
 		"deleteSelected": "Delete {{count}} Selected{{size}}",
 		"deleteAllHistory": "Delete All History{{size}}",
 		"export": "EXPORT"
+	},
+	"historyView": {
+		"history": "History",
+		"done": "Done",
+		"fuzzySearchPlaceholder": "Fuzzy search history...",
+		"clearSearch": "Clear search",
+		"newest": "Newest",
+		"oldest": "Oldest",
+		"mostExpensive": "Most Expensive",
+		"mostTokens": "Most Tokens",
+		"mostRelevant": "Most Relevant",
+		"workspace": "Workspace",
+		"favorites": "Favorites",
+		"selectAll": "Select all",
+		"selectNone": "Select none",
+		"deleteSelected": "Delete selected",
+		"deleteAllHistory": "Delete all history",
+		"export": "Export",
+		"deleteSelectedWithCount": "Delete {{count}} selected",
+		"deleteAllHistoryWithSize": "Delete all history ({{size}})",
+		"selectedWithSize": "Selected ({{size}})"
 	}
 }

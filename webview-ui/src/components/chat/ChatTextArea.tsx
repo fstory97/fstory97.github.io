@@ -18,7 +18,6 @@ import styled from "styled-components"
 import { useInputHistory } from "@/caret/hooks/useInputHistory"
 // CARET MODIFICATION: Import i18n for Chatbot/Agent mode labels
 import { t } from "@/caret/utils/i18n"
-import { useCaretI18n } from "@/caret/hooks/useCaretI18n"
 import ContextMenu from "@/components/chat/ContextMenu"
 import { CHAT_CONSTANTS } from "@/components/chat/chat-view/constants"
 import SlashCommandMenu from "@/components/chat/SlashCommandMenu"

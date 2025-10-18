@@ -31,9 +31,6 @@ export type Platform = "aix" | "darwin" | "freebsd" | "linux" | "openbsd" | "sun
 
 export const DEFAULT_PLATFORM = "unknown"
 
-// CARET MODIFICATION: Caret 전역 브랜드 모드 타입 임포트 - caret-src에서
-import type { CaretModeSystem } from "@caret/shared/ModeSystem"
-
 export interface ExtensionState {
 	isNewUser: boolean
 	welcomeViewCompleted: boolean

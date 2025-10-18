@@ -1,6 +1,5 @@
 import { CaretExtensionState } from '../src/contexts/ExtensionStateContext';
-import { McpDisplayMode, DEFAULT_MCP_DISPLAY_MODE } from '../../src/shared/McpDisplayMode';
-import { Mode } from '../../src/shared/storage/types';
+import { DEFAULT_MCP_DISPLAY_MODE } from '../../src/shared/McpDisplayMode';
 import { DEFAULT_AUTO_APPROVAL_SETTINGS } from '../../src/shared/AutoApprovalSettings';
 import { DEFAULT_BROWSER_SETTINGS } from '../../src/shared/BrowserSettings';
 import { DEFAULT_FOCUS_CHAIN_SETTINGS } from '../../src/shared/FocusChainSettings';

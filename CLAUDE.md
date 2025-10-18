@@ -359,9 +359,37 @@ const menuItems = useMemo(() => getMenuItems(), [language])
 ## Common Issues
 
 ### Build Issues
+
+#### TypeScript Compilation
+- **Critical**: TypeScript (`tsc`) is configured with `noEmit: true` in `tsconfig.json`
+- This means `tsc` ONLY checks types and NEVER generates .js files
+- Only `esbuild.mjs` creates the bundled output at `dist/extension.js`
+
+#### Stray .js Files Problem
+If changes aren't reflected after `npm run compile`:
+```bash
+# 1. Check for stray .js files in source directories
+find src caret-src -name "*.js" -o -name "*.js.map"
+
+# 2. If found, delete them
+find src caret-src -name "*.js" -o -name "*.js.map" | xargs rm -f
+
+# 3. Clean build
+npm run clean
+npm run compile
+
+# 4. Reload VS Code window
+# Command: Developer: Reload Window (Cmd+Shift+P)
+```
+
+**Why this happens**: Someone ran `tsc` without `--noEmit` before `noEmit: true` was added to tsconfig.json, or VSCode is loading old .js files instead of the bundled dist/extension.js.
+
+#### Standard Build Issues
 - Run `npm run clean` to clear build artifacts
 - Ensure protobuf generation is up to date with `npm run protos`
 - Check that both root and webview-ui dependencies are installed
+
+**See also**: `.caretrules/build-system.md` for detailed build system rules
 
 ### Testing Issues
 - Linux requires specific system libraries (see CONTRIBUTING.md)

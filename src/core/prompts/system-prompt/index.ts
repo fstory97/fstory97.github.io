@@ -1,6 +1,5 @@
 import { isGPT5ModelFamily, isLocalModel, isNextGenModelFamily } from "@utils/model-utils"
 import { ApiProviderInfo } from "@/core/api"
-import { Logger } from "@/services/logging/Logger"
 import { ModelFamily } from "@/shared/prompts"
 import { PromptRegistry } from "./registry/PromptRegistry"
 import type { SystemPromptContext } from "./types"

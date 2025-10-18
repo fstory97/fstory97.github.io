@@ -14,7 +14,7 @@ import { DEFAULT_MCP_DISPLAY_MODE } from "@/shared/McpDisplayMode"
 import { OpenaiReasoningEffort } from "@/shared/storage/types"
 import { readTaskHistoryFromState } from "../disk"
 import { GlobalStateAndSettings, LocalState, SecretKey, Secrets } from "../state-keys"
-import { CaretUser } from "@/shared/CaretAccount"
+
 export async function readSecretsFromDisk(context: ExtensionContext): Promise<Secrets> {
 	const [
 		apiKey,

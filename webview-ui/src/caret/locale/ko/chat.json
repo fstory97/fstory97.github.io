@@ -213,27 +213,6 @@
 		"noTitle": "제목 없음",
 		"errorDisplayingLinkPreview": "이 링크 미리보기를 표시하는 중 문제가 발생했습니다"
 	},
-	"historyView": {
-		"history": "기록",
-		"done": "완료",
-		"fuzzySearchPlaceholder": "기록 퍼지 검색...",
-		"clearSearch": "검색 지우기",
-		"newest": "최신순",
-		"oldest": "오래된순",
-		"mostExpensive": "가장 비싼순",
-		"mostTokens": "가장 많은 토큰순",
-		"mostRelevant": "가장 관련성 높은순",
-		"workspace": "작업 공간",
-		"favorites": "즐겨찾기",
-		"selectAll": "모두 선택",
-		"selectNone": "선택 해제",
-		"deleteSelected": "선택된 항목 삭제",
-		"deleteAllHistory": "모든 기록 삭제",
-		"export": "내보내기",
-		"deleteSelectedWithCount": "{{count}}개 선택된 항목 삭제",
-		"deleteAllHistoryWithSize": "모든 기록 삭제 ({{size}})",
-		"selectedWithSize": "선택됨 ({{size}})"
-	},
 	"imagePreview": {
 		"timeoutLoadingImage": "이미지 로딩 시간 초과: {{url}}",
 		"failedToLoadImage": "이미지 로딩 실패: {{url}}",

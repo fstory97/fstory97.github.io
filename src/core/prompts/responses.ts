@@ -1,5 +1,4 @@
 import { Anthropic } from "@anthropic-ai/sdk"
-import { GlobalFileNames } from "@core/storage/disk"
 import * as diff from "diff"
 import * as path from "path"
 import { Mode } from "@/shared/storage/types"

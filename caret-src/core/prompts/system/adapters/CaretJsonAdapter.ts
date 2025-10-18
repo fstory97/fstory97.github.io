@@ -4,7 +4,7 @@ import { PromptRegistry } from "@core/prompts/system-prompt/registry/PromptRegis
 import { Logger } from "@services/logging/Logger"
 import { ModelFamily } from "@shared/prompts"
 import { ClineDefaultTool } from "@shared/tools"
-import { CARET_MODES } from "../../../../shared/constants/PromptSystemConstants"
+import { API_PROVIDERS, CARET_MODES } from "../../../../shared/constants/PromptSystemConstants"
 import { IPromptSystem } from "../IPromptSystem"
 import { JsonTemplateLoader } from "../JsonTemplateLoader"
 import { CaretSystemPromptContext } from "../types"
@@ -32,6 +32,13 @@ export class CaretJsonAdapter implements IPromptSystem {
 		// CARET MODIFICATION: Add debug logging for mode verification
 		Logger.debug(`[CaretJsonAdapter] 🎯 Mode: ${context.mode}, isChatbotMode: ${isChatbotMode}`)
 
+		// CARET MODIFICATION: F12 - Check if Claude Code provider is active for Task tool injection
+		const isClaudeCodeProvider = context.providerInfo?.providerId === API_PROVIDERS.CLAUDE_CODE
+		Logger.debug(
+			`[CaretJsonAdapter] 🔍 Provider detection: providerId="${context.providerInfo?.providerId}", isClaudeCodeProvider=${isClaudeCodeProvider}, API_PROVIDERS.CLAUDE_CODE="${API_PROVIDERS.CLAUDE_CODE}"`,
+		)
+		Logger.debug(`[CaretJsonAdapter] loading JSON templates...`)
+
 		const sectionNames = [
 			"BASE_PROMPT_INTRO",
 			"CHATBOT_AGENT_MODES", // CARET MODIFICATION: Explicit mode system with PLAN/ACT rejection
@@ -41,6 +48,7 @@ export class CaretJsonAdapter implements IPromptSystem {
 			"CARET_CAPABILITIES",
 			"CARET_USER_INSTRUCTIONS",
 			// CARET_TOOL_SYSTEM removed - replaced with Cline original tool system (inserted after CARET_USER_INSTRUCTIONS)
+			isClaudeCodeProvider ? "CLAUDE_CODE_TASK_TOOL" : null, // CARET MODIFICATION: F12 - Claude Code Task tool for subagent support
 			"CARET_FILE_EDITING",
 			"CARET_BEHAVIOR_RULES",
 			"CARET_TASK_OBJECTIVE",
@@ -55,7 +63,7 @@ export class CaretJsonAdapter implements IPromptSystem {
 
 		const promptParts: string[] = []
 
-		Logger.debug(`[CaretJsonAdapter] 🔧 Starting prompt generation...`)
+		Logger.debug(`[CaretJsonAdapter] 🔧 2Starting prompt generation...`)
 
 		// Process JSON sections first
 		for (const name of sectionNames) {
@@ -82,6 +90,15 @@ export class CaretJsonAdapter implements IPromptSystem {
 					} else {
 						Logger.debug(`[CaretJsonAdapter] ⚠️ ${name}: empty content`)
 					}
+				}
+			} else if (name === "CLAUDE_CODE_TASK_TOOL") {
+				// CARET MODIFICATION: F12 - Format Task tool description for Claude Code
+				const taskToolContent = this.formatTaskToolDescription(template)
+				if (taskToolContent.trim()) {
+					promptParts.push(taskToolContent)
+					Logger.debug(`[CaretJsonAdapter] ✅ ${name}: loaded and formatted (${taskToolContent.length} chars)`)
+				} else {
+					Logger.debug(`[CaretJsonAdapter] ⚠️ ${name}: empty content after formatting`)
 				}
 			} else {
 				const sectionContent = this.getDynamicSection(template, isChatbotMode, context)
@@ -451,6 +468,50 @@ export class CaretJsonAdapter implements IPromptSystem {
 			`[CaretJsonAdapter] 📋 Custom instructions built: ${customInstructions.length} sections, ${result.length} chars`,
 		)
 		return result
+	}
+
+	/**
+	 * CARET MODIFICATION: F12 - Format Task tool description from JSON to Cline tool format
+	 * Converts CLAUDE_CODE_TASK_TOOL.json into the standard tool description format
+	 */
+	private formatTaskToolDescription(template: any): string {
+		if (!template || !template.name) {
+			Logger.warn(`[CaretJsonAdapter] ⚠️ Invalid Task tool template structure`)
+			return ""
+		}
+
+		let content = `## ${template.name.toLowerCase()}\n`
+		content += `Description: ${template.description || "No description provided"}\n`
+
+		// Format parameters from input_schema
+		if (template.input_schema?.properties) {
+			content += "Parameters:\n"
+			const required = template.input_schema.required || []
+			
+			for (const [paramName, paramDef] of Object.entries(template.input_schema.properties)) {
+				const param = paramDef as any
+				const isRequired = required.includes(paramName)
+				content += `- ${paramName}: (${isRequired ? "required" : "optional"}) ${param.description || param.type}\n`
+			}
+		}
+
+		// Add usage example
+		content += "Usage:\n"
+		content += `<${template.name.toLowerCase()}>\n`
+		
+		if (template.input_schema?.properties) {
+			for (const paramName of Object.keys(template.input_schema.properties)) {
+				content += `<${paramName}>${paramName} here</${paramName}>\n`
+			}
+		}
+		
+		content += `</${template.name.toLowerCase()}>\n`
+
+		Logger.debug(
+			`[CaretJsonAdapter] 🔧 Formatted Task tool: ${template.name} (${content.length} chars)`,
+		)
+
+		return content
 	}
 
 	/**

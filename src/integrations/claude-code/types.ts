@@ -15,6 +15,13 @@ type AssistantMessage = {
 	session_id: string
 }
 
+// CARET MODIFICATION: Support Task tool's user message with tool_result (F12)
+type UserMessage = {
+	type: "user"
+	message: Anthropic.Messages.Message
+	session_id: string
+}
+
 type ErrorMessage = {
 	type: "error"
 }
@@ -31,4 +38,4 @@ type ResultMessage = {
 	session_id: string
 }
 
-export type ClaudeCodeMessage = InitMessage | AssistantMessage | ErrorMessage | ResultMessage
+export type ClaudeCodeMessage = InitMessage | AssistantMessage | UserMessage | ErrorMessage | ResultMessage

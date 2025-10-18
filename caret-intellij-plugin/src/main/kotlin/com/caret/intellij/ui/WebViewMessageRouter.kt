@@ -6,6 +6,9 @@ import kotlinx.coroutines.withContext
 import com.google.gson.Gson
 import com.google.gson.JsonObject
 import com.google.gson.JsonParser
+import bot.cline.host.proto.*
+import bot.cline.proto.EmptyRequest
+import bot.cline.proto.StringRequest
 
 /**
  * WebViewMessageRouter - Route messages between WebView and HostBridge services
@@ -26,7 +29,7 @@ class WebViewMessageRouter(
     private val hostBridgeServer: HostBridgeServer,
     private val sendMessageToWebView: (Any) -> Unit
 ) {
-    private val gson = Gson()  // Phase 4: JSON serialization
+    private val gson = Gson()
     
     /**
      * Route incoming message from WebView to appropriate HostBridge service
@@ -95,47 +98,92 @@ class WebViewMessageRouter(
     
     /**
      * Route to WorkspaceService methods
-     * Phase 4: JsonObject 사용
+     * Phase 6: Actual gRPC implementation
      */
     private suspend fun routeWorkspaceService(method: String, data: JsonObject): Any {
-        return when (method) {
-            "getWorkspacePaths" -> {
-                // Call HostBridge WorkspaceService.getWorkspacePaths
-                // TODO: Implement actual gRPC call
-                mapOf("workspacePath" to "/path/to/workspace")
+        return withContext(Dispatchers.IO) {
+            when (method) {
+                "getWorkspacePaths" -> {
+                    val request = GetWorkspacePathsRequest.newBuilder().build()
+                    val response = hostBridgeServer.workspaceService.getWorkspacePaths(request)
+                    mapOf(
+                        "id" to (response.id ?: ""),
+                        "paths" to response.pathsList
+                    )
+                }
+                "saveOpenDocumentIfDirty" -> {
+                    val filePath = data.get("filePath")?.asString ?: ""
+                    val request = SaveOpenDocumentIfDirtyRequest.newBuilder()
+                        .setFilePath(filePath)
+                        .build()
+                    val response = hostBridgeServer.workspaceService.saveOpenDocumentIfDirty(request)
+                    mapOf("wasSaved" to (response.wasSaved ?: false))
+                }
+                "openClineSidebarPanel" -> {
+                    val request = OpenClineSidebarPanelRequest.newBuilder().build()
+                    hostBridgeServer.workspaceService.openClineSidebarPanel(request)
+                    mapOf("success" to true)
+                }
+                "openProblemsPanel" -> {
+                    val request = OpenProblemsPanelRequest.newBuilder().build()
+                    hostBridgeServer.workspaceService.openProblemsPanel(request)
+                    mapOf("success" to true)
+                }
+                "openTerminalPanel" -> {
+                    val request = OpenTerminalRequest.newBuilder().build()
+                    hostBridgeServer.workspaceService.openTerminalPanel(request)
+                    mapOf("success" to true)
+                }
+                "openInFileExplorerPanel" -> {
+                    val path = data.get("path")?.asString ?: ""
+                    val request = OpenInFileExplorerPanelRequest.newBuilder()
+                        .setPath(path)
+                        .build()
+                    hostBridgeServer.workspaceService.openInFileExplorerPanel(request)
+                    mapOf("success" to true)
+                }
+                else -> throw IllegalArgumentException("Unknown WorkspaceService method: $method")
             }
-            "saveOpenDocumentIfDirty" -> {
-                val path = data.get("path")?.asString ?: ""
-                // TODO: Implement actual gRPC call
-                mapOf("saved" to true)
-            }
-            "openClineSidebarPanel" -> {
-                // TODO: Implement actual gRPC call
-                mapOf("opened" to true)
-            }
-            else -> throw IllegalArgumentException("Unknown WorkspaceService method: $method")
         }
     }
     
     /**
      * Route to EnvService methods
-     * Phase 4: JsonObject 사용
+     * Phase 6: Actual gRPC implementation
      */
     private suspend fun routeEnvService(method: String, data: JsonObject): Any {
-        return when (method) {
-            "clipboardWriteText" -> {
-                val text = data.get("text")?.asString ?: ""
-                // TODO: Implement actual gRPC call
-                mapOf("success" to true)
+        return withContext(Dispatchers.IO) {
+            when (method) {
+                "clipboardWriteText" -> {
+                    val text = data.get("text")?.asString ?: ""
+                    val request = StringRequest.newBuilder()
+                        .setValue(text)
+                        .build()
+                    hostBridgeServer.envService.clipboardWriteText(request)
+                    mapOf("success" to true)
+                }
+                "clipboardReadText" -> {
+                    val request = EmptyRequest.newBuilder().build()
+                    val response = hostBridgeServer.envService.clipboardReadText(request)
+                    mapOf("text" to response.value)
+                }
+                "getHostVersion" -> {
+                    val request = EmptyRequest.newBuilder().build()
+                    val response = hostBridgeServer.envService.getHostVersion(request)
+                    mapOf(
+                        "platform" to (response.platform ?: ""),
+                        "version" to (response.version ?: ""),
+                        "clineType" to (response.clineType ?: ""),
+                        "clineVersion" to (response.clineVersion ?: "")
+                    )
+                }
+                "getIdeRedirectUri" -> {
+                    val request = EmptyRequest.newBuilder().build()
+                    val response = hostBridgeServer.envService.getIdeRedirectUri(request)
+                    mapOf("uri" to response.value)
+                }
+                else -> throw IllegalArgumentException("Unknown EnvService method: $method")
             }
-            "getHostVersion" -> {
-                // TODO: Implement actual gRPC call
-                mapOf(
-                    "version" to "1.0.0",
-                    "hostType" to "intellij"
-                )
-            }
-            else -> throw IllegalArgumentException("Unknown EnvService method: $method")
         }
     }
     

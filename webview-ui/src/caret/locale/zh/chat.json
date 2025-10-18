@@ -211,27 +211,6 @@
 		"noTitle": "无标题",
 		"errorDisplayingLinkPreview": "显示此链接预览时出现问题"
 	},
-	"historyView": {
-		"history": "历史记录",
-		"done": "完成",
-		"fuzzySearchPlaceholder": "模糊搜索历史记录...",
-		"clearSearch": "清除搜索",
-		"newest": "最新",
-		"oldest": "最旧",
-		"mostExpensive": "最昂贵",
-		"mostTokens": "最多令牌",
-		"mostRelevant": "最相关",
-		"workspace": "工作区",
-		"favorites": "收藏",
-		"selectAll": "全选",
-		"selectNone": "取消全选",
-		"deleteSelected": "删除选中项",
-		"deleteAllHistory": "删除所有历史记录",
-		"export": "导出",
-		"deleteSelectedWithCount": "删除 {{count}} 个选中项",
-		"deleteAllHistoryWithSize": "删除所有历史记录 ({{size}})",
-		"selectedWithSize": "已选中 ({{size}})"
-	},
 	"imagePreview": {
 		"timeoutLoadingImage": "加载图像超时: {{url}}",
 		"failedToLoadImage": "加载图像失败: {{url}}",

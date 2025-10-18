@@ -211,27 +211,6 @@
 		"noTitle": "タイトルなし",
 		"errorDisplayingLinkPreview": "このリンクプレビューの表示中に問題が発生しました"
 	},
-	"historyView": {
-		"history": "履歴",
-		"done": "完了",
-		"fuzzySearchPlaceholder": "履歴のあいまい検索...",
-		"clearSearch": "検索をクリア",
-		"newest": "最新",
-		"oldest": "最古",
-		"mostExpensive": "最も高価",
-		"mostTokens": "最も多くのトークン",
-		"mostRelevant": "最も関連性の高い",
-		"workspace": "ワークスペース",
-		"favorites": "お気に入り",
-		"selectAll": "すべて選択",
-		"selectNone": "選択を解除",
-		"deleteSelected": "選択を削除",
-		"deleteAllHistory": "すべての履歴を削除",
-		"export": "エクスポート",
-		"deleteSelectedWithCount": "選択された{{count}}件を削除",
-		"deleteAllHistoryWithSize": "すべての履歴を削除 ({{size}})",
-		"selectedWithSize": "選択済み ({{size}})"
-	},
 	"imagePreview": {
 		"timeoutLoadingImage": "画像の読み込みがタイムアウトしました: {{url}}",
 		"failedToLoadImage": "画像の読み込みに失敗しました: {{url}}",

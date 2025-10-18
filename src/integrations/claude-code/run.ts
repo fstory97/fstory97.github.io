@@ -3,6 +3,8 @@ import fs from "node:fs/promises"
 import os from "node:os"
 import path from "node:path"
 import type Anthropic from "@anthropic-ai/sdk"
+// CARET MODIFICATION: Import for dynamic tool configuration (F12)
+import { getClaudeCodeDisallowedTools } from "@caret/integrations/claude-code-tools"
 import { execa } from "execa"
 import readline from "readline"
 import { getCwd } from "@/utils/path"
@@ -159,24 +161,8 @@ Anthropic is aware of this issue and is considering a fix: https://github.com/an
 
 // We want the model to use our custom tool format instead of built-in tools.
 // Disabling built-in tools prevents tool-only responses and ensures text output.
-const claudeCodeTools = [
-	"Task",
-	"Bash",
-	"Glob",
-	"Grep",
-	"LS",
-	"exit_plan_mode",
-	"Read",
-	"Edit",
-	"MultiEdit",
-	"Write",
-	"NotebookRead",
-	"NotebookEdit",
-	"WebFetch",
-	"TodoRead",
-	"TodoWrite",
-	"WebSearch",
-].join(",")
+// CARET MODIFICATION: Dynamic tool configuration for F12 subagent support
+const claudeCodeTools = getClaudeCodeDisallowedTools()
 
 const CLAUDE_CODE_TIMEOUT = 600000 // 10 minutes
 // https://github.com/sindresorhus/execa/blob/main/docs/api.md#optionsmaxbuffer
