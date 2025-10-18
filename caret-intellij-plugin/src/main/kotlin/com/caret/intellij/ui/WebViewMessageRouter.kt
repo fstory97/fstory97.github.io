@@ -384,15 +384,18 @@ class WebViewMessageRouter(
     
     /**
      * Route to TestingService methods
-     * Phase 4: JsonObject 사용
+     * Phase 9: Actual gRPC implementation
      */
     private suspend fun routeTestingService(method: String, data: JsonObject): Any {
-        return when (method) {
-            "runTests" -> {
-                // TODO: Implement actual gRPC call
-                mapOf("testsPassed" to 0, "testsFailed" to 0)
+        return withContext(Dispatchers.IO) {
+            when (method) {
+                "getWebviewHtml" -> {
+                    val request = GetWebviewHtmlRequest.newBuilder().build()
+                    val response = hostBridgeServer.testingService.getWebviewHtml(request)
+                    mapOf("html" to (response.html ?: ""))
+                }
+                else -> throw IllegalArgumentException("Unknown TestingService method: $method")
             }
-            else -> throw IllegalArgumentException("Unknown TestingService method: $method")
         }
     }
     

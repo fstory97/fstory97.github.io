@@ -4,6 +4,7 @@ import com.caret.intellij.hostbridge.services.WorkspaceServiceImpl
 import com.caret.intellij.hostbridge.services.EnvServiceImpl
 import com.caret.intellij.hostbridge.services.WindowServiceImpl
 import com.caret.intellij.hostbridge.services.DiffServiceImpl
+import com.caret.intellij.hostbridge.services.TestingServiceImpl
 import com.intellij.openapi.project.Project
 import io.grpc.Server
 import io.grpc.ServerBuilder
@@ -25,6 +26,8 @@ class HostBridgeServer(
         private set
     lateinit var diffService: DiffServiceImpl
         private set
+    lateinit var testingService: TestingServiceImpl
+        private set
     
     fun start(): Int {
         try {
@@ -32,12 +35,14 @@ class HostBridgeServer(
             envService = EnvServiceImpl(shutdownCallback = { shutdown() })
             windowService = WindowServiceImpl(project)
             diffService = DiffServiceImpl(project)
+            testingService = TestingServiceImpl(project)
             
             server = ServerBuilder.forPort(requestedPort)
                 .addService(workspaceService)
                 .addService(envService)
                 .addService(windowService)
                 .addService(diffService)
+                .addService(testingService)
                 .build()
                 .start()
             
