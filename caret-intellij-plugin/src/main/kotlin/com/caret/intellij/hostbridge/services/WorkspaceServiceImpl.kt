@@ -9,7 +9,7 @@ import com.intellij.openapi.fileEditor.FileEditorManager
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.vfs.LocalFileSystem
 import com.intellij.openapi.vfs.VirtualFile
-import host.*
+import bot.cline.host.proto.*
 import io.grpc.Status
 import io.grpc.StatusException
 import kotlinx.coroutines.Dispatchers
@@ -132,14 +132,13 @@ class WorkspaceServiceImpl(
                 ?: throw StatusException(Status.NOT_FOUND.withDescription("File not found: ${request.path}"))
             
             ApplicationManager.getApplication().invokeLater {
-                // Open Project tool window and select the file
+                // Open Project tool window and reveal the file
                 val toolWindowManager = com.intellij.openapi.wm.ToolWindowManager.getInstance(project)
                 val projectWindow = toolWindowManager.getToolWindow("Project")
-                projectWindow?.show {
-                    // Select file in project view
-                    com.intellij.ide.SelectInManager.getInstance(project)
-                        .selectIn(virtualFile, com.intellij.ide.impl.ProjectViewSelectInTarget.ID, false)
-                }
+                projectWindow?.show()
+                
+                // Alternative: Use FileEditorManager to open and reveal the file
+                FileEditorManager.getInstance(project).openFile(virtualFile, true)
             }
             
             OpenInFileExplorerPanelResponse.newBuilder().build()

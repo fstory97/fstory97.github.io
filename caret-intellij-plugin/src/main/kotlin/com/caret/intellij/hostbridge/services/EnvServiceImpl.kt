@@ -4,7 +4,11 @@ import com.intellij.ide.plugins.PluginManagerCore
 import com.intellij.openapi.application.ApplicationInfo
 import com.intellij.openapi.diagnostic.Logger
 import com.intellij.openapi.extensions.PluginId
-import host.*
+import bot.cline.host.proto.*
+import bot.cline.proto.StringRequest
+import bot.cline.proto.Empty
+import bot.cline.proto.String as ClineString
+import bot.cline.proto.EmptyRequest
 import io.grpc.Status
 import io.grpc.StatusException
 import kotlinx.coroutines.Dispatchers
@@ -27,7 +31,7 @@ class EnvServiceImpl(
     
     private val logger = Logger.getInstance(EnvServiceImpl::class.java)
     
-    override suspend fun clipboardWriteText(request: cline.StringRequest): cline.Empty = withContext(Dispatchers.IO) {
+    override suspend fun clipboardWriteText(request: StringRequest): Empty = withContext(Dispatchers.IO) {
         try {
             logger.info("[EnvService] clipboardWriteText: ${request.value.take(50)}...")
             
@@ -35,7 +39,7 @@ class EnvServiceImpl(
             val selection = StringSelection(request.value)
             clipboard.setContents(selection, null)
             
-            cline.Empty.getDefaultInstance()
+            Empty.getDefaultInstance()
             
         } catch (e: Exception) {
             logger.error("[EnvService] clipboardWriteText failed", e)
@@ -43,7 +47,7 @@ class EnvServiceImpl(
         }
     }
     
-    override suspend fun clipboardReadText(request: cline.EmptyRequest): cline.String = withContext(Dispatchers.IO) {
+    override suspend fun clipboardReadText(request: EmptyRequest): ClineString = withContext(Dispatchers.IO) {
         try {
             logger.info("[EnvService] clipboardReadText called")
             
@@ -56,7 +60,7 @@ class EnvServiceImpl(
                 ""
             }
             
-            cline.String.newBuilder()
+            ClineString.newBuilder()
                 .setValue(text)
                 .build()
                 
@@ -66,7 +70,7 @@ class EnvServiceImpl(
         }
     }
     
-    override suspend fun getHostVersion(request: cline.EmptyRequest): GetHostVersionResponse = withContext(Dispatchers.IO) {
+    override suspend fun getHostVersion(request: EmptyRequest): GetHostVersionResponse = withContext(Dispatchers.IO) {
         try {
             logger.info("[EnvService] getHostVersion called")
             
@@ -93,7 +97,7 @@ class EnvServiceImpl(
         }
     }
     
-    override suspend fun getIdeRedirectUri(request: cline.EmptyRequest): cline.String = withContext(Dispatchers.IO) {
+    override suspend fun getIdeRedirectUri(request: EmptyRequest): ClineString = withContext(Dispatchers.IO) {
         try {
             logger.info("[EnvService] getIdeRedirectUri called")
             
@@ -101,7 +105,7 @@ class EnvServiceImpl(
             // This will be used for deep linking back to the IDE
             val uri = "idea://caret"
             
-            cline.String.newBuilder()
+            ClineString.newBuilder()
                 .setValue(uri)
                 .build()
                 
@@ -111,7 +115,7 @@ class EnvServiceImpl(
         }
     }
     
-    override suspend fun getTelemetrySettings(request: cline.EmptyRequest): GetTelemetrySettingsResponse = withContext(Dispatchers.IO) {
+    override suspend fun getTelemetrySettings(request: EmptyRequest): GetTelemetrySettingsResponse = withContext(Dispatchers.IO) {
         try {
             logger.info("[EnvService] getTelemetrySettings called")
             
@@ -127,7 +131,7 @@ class EnvServiceImpl(
         }
     }
     
-    override fun subscribeToTelemetrySettings(request: cline.EmptyRequest): Flow<TelemetrySettingsEvent> = callbackFlow {
+    override fun subscribeToTelemetrySettings(request: EmptyRequest): Flow<TelemetrySettingsEvent> = callbackFlow {
         try {
             logger.info("[EnvService] subscribeToTelemetrySettings called")
             
@@ -149,14 +153,14 @@ class EnvServiceImpl(
         }
     }
     
-    override suspend fun shutdown(request: cline.EmptyRequest): cline.Empty = withContext(Dispatchers.IO) {
+    override suspend fun shutdown(request: EmptyRequest): Empty = withContext(Dispatchers.IO) {
         try {
             logger.info("[EnvService] shutdown requested")
             
             // Trigger graceful shutdown callback
             shutdownCallback()
             
-            cline.Empty.getDefaultInstance()
+            Empty.getDefaultInstance()
             
         } catch (e: Exception) {
             logger.error("[EnvService] shutdown failed", e)

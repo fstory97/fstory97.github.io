@@ -8,11 +8,6 @@ import io.grpc.ServerBuilder
 import java.io.IOException
 import java.util.concurrent.TimeUnit
 
-/**
- * HostBridge gRPC 서버
- * Caret Core와 IntelliJ 플러그인 간 통신을 담당
- * proto/host/*.proto 정의를 기반으로 5개 서비스 제공
- */
 class HostBridgeServer(
     private val project: Project,
     private val requestedPort: Int = 0
@@ -20,30 +15,19 @@ class HostBridgeServer(
     private var server: Server? = null
     private var actualPort: Int = -1
     
-    // Phase 4: 서비스 인스턴스 접근을 위한 속성
     lateinit var workspaceService: WorkspaceServiceImpl
         private set
     lateinit var envService: EnvServiceImpl
         private set
     
-    /**
-     * gRPC 서버 시작
-     * @return 실제 할당된 포트 번호
-     */
     fun start(): Int {
         try {
-            // Phase 4: 서비스 인스턴스 생성 및 저장
             workspaceService = WorkspaceServiceImpl(project)
-            envService = EnvServiceImpl(project)
+            envService = EnvServiceImpl(shutdownCallback = { shutdown() })
             
-            // gRPC 서버 빌드 및 시작
             server = ServerBuilder.forPort(requestedPort)
                 .addService(workspaceService)
                 .addService(envService)
-                // TODO: 추후 구현
-                // .addService(WindowServiceImpl(project))
-                // .addService(DiffServiceImpl(project))
-                // .addService(TestingServiceImpl(project))
                 .build()
                 .start()
             
@@ -51,7 +35,6 @@ class HostBridgeServer(
             
             println("[Caret] HostBridge gRPC server started on port $actualPort")
             
-            // JVM 종료 시 서버도 정상 종료
             Runtime.getRuntime().addShutdownHook(object : Thread() {
                 override fun run() {
                     System.err.println("[Caret] Shutting down HostBridge server...")
@@ -66,9 +49,6 @@ class HostBridgeServer(
         }
     }
     
-    /**
-     * 서버 정상 종료
-     */
     fun shutdown() {
         server?.let {
             it.shutdown()
@@ -86,15 +66,9 @@ class HostBridgeServer(
         }
     }
     
-    /**
-     * 서버가 종료될 때까지 대기
-     */
     fun blockUntilShutdown() {
         server?.awaitTermination()
     }
     
-    /**
-     * 현재 포트 번호
-     */
     fun getPort(): Int = actualPort
 }

@@ -194,6 +194,6 @@ class CaretWebView(private val project: Project) : Disposable {
     
     override fun dispose() {
         scope.cancel()
-        hostBridgeServer.stop()
+        hostBridgeServer.shutdown()
     }
 }

@@ -84,8 +84,10 @@ protobuf {
 sourceSets {
     main {
         proto {
-            // Shared proto files from caret main repo
-            srcDir("../proto/host")
+            // Reference original proto directory from caret main repo
+            // This includes proto/caret/, proto/cline/, proto/host/
+            // Allows imports like "cline/common.proto" to work correctly
+            srcDir("../proto")
         }
         java {
             srcDirs("build/generated/source/proto/main/grpc")
@@ -93,17 +95,19 @@ sourceSets {
             srcDirs("build/generated/source/proto/main/java")
             srcDirs("build/generated/source/proto/main/kotlin")
         }
-        resources {
-            // Include Caret Core (TypeScript) bundled executable
-            srcDir("../dist") {
-                include("extension.js")
-                into("caret-core")
-            }
-            // Include WebView UI build artifacts
-            srcDir("../webview-ui/build") {
-                into("webview")
-            }
-        }
+    }
+}
+
+// Process resources to include Caret Core and WebView UI
+tasks.named<ProcessResources>("processResources") {
+    // Include Caret Core (TypeScript) bundled executable
+    from("../dist") {
+        include("extension.js")
+        into("caret-core")
+    }
+    // Include WebView UI build artifacts
+    from("../webview-ui/build") {
+        into("webview")
     }
 }
 
@@ -168,6 +172,11 @@ tasks {
     
     test {
         useJUnitPlatform()
+    }
+    
+    // Disable instrumentCode task (not needed, causes Java path issues)
+    named("instrumentCode") {
+        enabled = false
     }
     
     // Custom task: Generate proto files before build
