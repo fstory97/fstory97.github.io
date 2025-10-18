@@ -189,21 +189,95 @@ class WebViewMessageRouter(
     
     /**
      * Route to WindowService methods
-     * Phase 4: JsonObject 사용
+     * Phase 7: Actual gRPC implementation
      */
     private suspend fun routeWindowService(method: String, data: JsonObject): Any {
-        return when (method) {
-            "showInformationMessage" -> {
-                val message = data.get("message")?.asString ?: ""
-                // TODO: Implement actual gRPC call
-                mapOf("result" to "ok")
+        return withContext(Dispatchers.IO) {
+            when (method) {
+                "showTextDocument" -> {
+                    val path = data.get("path")?.asString ?: ""
+                    val request = ShowTextDocumentRequest.newBuilder()
+                        .setPath(path)
+                        .build()
+                    val response = hostBridgeServer.windowService.showTextDocument(request)
+                    mapOf(
+                        "documentPath" to response.documentPath,
+                        "isActive" to response.isActive
+                    )
+                }
+                "showOpenDialogue" -> {
+                    val canSelectMany = data.get("canSelectMany")?.asBoolean ?: false
+                    val request = ShowOpenDialogueRequest.newBuilder()
+                        .setCanSelectMany(canSelectMany)
+                        .build()
+                    val response = hostBridgeServer.windowService.showOpenDialogue(request)
+                    mapOf("paths" to response.pathsList)
+                }
+                "showMessage" -> {
+                    val message = data.get("message")?.asString ?: ""
+                    val typeStr = data.get("type")?.asString ?: "INFORMATION"
+                    val type = when (typeStr) {
+                        "ERROR" -> ShowMessageType.ERROR
+                        "WARNING" -> ShowMessageType.WARNING
+                        else -> ShowMessageType.INFORMATION
+                    }
+                    val request = ShowMessageRequest.newBuilder()
+                        .setMessage(message)
+                        .setType(type)
+                        .build()
+                    val response = hostBridgeServer.windowService.showMessage(request)
+                    mapOf("selectedOption" to (response.selectedOption ?: ""))
+                }
+                "showInputBox" -> {
+                    val title = data.get("title")?.asString ?: ""
+                    val prompt = data.get("prompt")?.asString ?: ""
+                    val value = data.get("value")?.asString ?: ""
+                    val request = ShowInputBoxRequest.newBuilder()
+                        .setTitle(title)
+                        .setPrompt(prompt)
+                        .setValue(value)
+                        .build()
+                    val response = hostBridgeServer.windowService.showInputBox(request)
+                    mapOf("response" to (response.response ?: ""))
+                }
+                "showSaveDialog" -> {
+                    val request = ShowSaveDialogRequest.newBuilder().build()
+                    val response = hostBridgeServer.windowService.showSaveDialog(request)
+                    mapOf("selectedPath" to (response.selectedPath ?: ""))
+                }
+                "openFile" -> {
+                    val filePath = data.get("filePath")?.asString ?: ""
+                    val request = OpenFileRequest.newBuilder()
+                        .setFilePath(filePath)
+                        .build()
+                    hostBridgeServer.windowService.openFile(request)
+                    mapOf("success" to true)
+                }
+                "openSettings" -> {
+                    val query = data.get("query")?.asString ?: ""
+                    val request = OpenSettingsRequest.newBuilder()
+                        .setQuery(query)
+                        .build()
+                    hostBridgeServer.windowService.openSettings(request)
+                    mapOf("success" to true)
+                }
+                "getOpenTabs" -> {
+                    val request = GetOpenTabsRequest.newBuilder().build()
+                    val response = hostBridgeServer.windowService.getOpenTabs(request)
+                    mapOf("paths" to response.pathsList)
+                }
+                "getVisibleTabs" -> {
+                    val request = GetVisibleTabsRequest.newBuilder().build()
+                    val response = hostBridgeServer.windowService.getVisibleTabs(request)
+                    mapOf("paths" to response.pathsList)
+                }
+                "getActiveEditor" -> {
+                    val request = GetActiveEditorRequest.newBuilder().build()
+                    val response = hostBridgeServer.windowService.getActiveEditor(request)
+                    mapOf("filePath" to (response.filePath ?: ""))
+                }
+                else -> throw IllegalArgumentException("Unknown WindowService method: $method")
             }
-            "showErrorMessage" -> {
-                val message = data.get("message")?.asString ?: ""
-                // TODO: Implement actual gRPC call
-                mapOf("result" to "ok")
-            }
-            else -> throw IllegalArgumentException("Unknown WindowService method: $method")
         }
     }
     
