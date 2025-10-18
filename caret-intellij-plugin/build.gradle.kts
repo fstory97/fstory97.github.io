@@ -33,6 +33,9 @@ dependencies {
     implementation("io.github.microutils:kotlin-logging-jvm:3.0.5")
     implementation("ch.qos.logback:logback-classic:1.4.14")
     
+    // JSON serialization
+    implementation("com.google.code.gson:gson:2.10.1")
+    
     // Testing
     testImplementation("org.jetbrains.kotlin:kotlin-test")
     testImplementation("io.mockk:mockk:1.13.8")

@@ -3,7 +3,9 @@ package com.caret.intellij.ui
 import com.caret.intellij.hostbridge.HostBridgeServer
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import org.json.JSONObject
+import com.google.gson.Gson
+import com.google.gson.JsonObject
+import com.google.gson.JsonParser
 
 /**
  * WebViewMessageRouter - Route messages between WebView and HostBridge services
@@ -24,14 +26,16 @@ class WebViewMessageRouter(
     private val hostBridgeServer: HostBridgeServer,
     private val sendMessageToWebView: (Any) -> Unit
 ) {
+    private val gson = Gson()  // Phase 4: JSON serialization
     
     /**
      * Route incoming message from WebView to appropriate HostBridge service
+     * Phase 4: Gson으로 JSON 파싱
      */
     suspend fun routeMessage(messageJson: String) {
         try {
-            val json = JSONObject(messageJson)
-            val type = json.optString("type")
+            val json = JsonParser.parseString(messageJson).asJsonObject
+            val type = json.get("type")?.asString ?: ""
             
             when (type) {
                 "grpc_request" -> handleGrpcRequest(json)
@@ -47,12 +51,13 @@ class WebViewMessageRouter(
     
     /**
      * Handle gRPC service request
+     * Phase 4: JsonObject 사용
      */
-    private suspend fun handleGrpcRequest(json: JSONObject) {
-        val service = json.optString("service")
-        val method = json.optString("method")
-        val requestId = json.optString("requestId")
-        val data = json.optJSONObject("data") ?: JSONObject()
+    private suspend fun handleGrpcRequest(json: JsonObject) {
+        val service = json.get("service")?.asString ?: ""
+        val method = json.get("method")?.asString ?: ""
+        val requestId = json.get("requestId")?.asString ?: ""
+        val data = json.getAsJsonObject("data") ?: JsonObject()
         
         try {
             // Route to appropriate service based on service name
@@ -90,8 +95,9 @@ class WebViewMessageRouter(
     
     /**
      * Route to WorkspaceService methods
+     * Phase 4: JsonObject 사용
      */
-    private suspend fun routeWorkspaceService(method: String, data: JSONObject): Any {
+    private suspend fun routeWorkspaceService(method: String, data: JsonObject): Any {
         return when (method) {
             "getWorkspacePaths" -> {
                 // Call HostBridge WorkspaceService.getWorkspacePaths
@@ -99,7 +105,7 @@ class WebViewMessageRouter(
                 mapOf("workspacePath" to "/path/to/workspace")
             }
             "saveOpenDocumentIfDirty" -> {
-                val path = data.optString("path")
+                val path = data.get("path")?.asString ?: ""
                 // TODO: Implement actual gRPC call
                 mapOf("saved" to true)
             }
@@ -113,11 +119,12 @@ class WebViewMessageRouter(
     
     /**
      * Route to EnvService methods
+     * Phase 4: JsonObject 사용
      */
-    private suspend fun routeEnvService(method: String, data: JSONObject): Any {
+    private suspend fun routeEnvService(method: String, data: JsonObject): Any {
         return when (method) {
             "clipboardWriteText" -> {
-                val text = data.optString("text")
+                val text = data.get("text")?.asString ?: ""
                 // TODO: Implement actual gRPC call
                 mapOf("success" to true)
             }
@@ -134,16 +141,17 @@ class WebViewMessageRouter(
     
     /**
      * Route to WindowService methods
+     * Phase 4: JsonObject 사용
      */
-    private suspend fun routeWindowService(method: String, data: JSONObject): Any {
+    private suspend fun routeWindowService(method: String, data: JsonObject): Any {
         return when (method) {
             "showInformationMessage" -> {
-                val message = data.optString("message")
+                val message = data.get("message")?.asString ?: ""
                 // TODO: Implement actual gRPC call
                 mapOf("result" to "ok")
             }
             "showErrorMessage" -> {
-                val message = data.optString("message")
+                val message = data.get("message")?.asString ?: ""
                 // TODO: Implement actual gRPC call
                 mapOf("result" to "ok")
             }
@@ -153,12 +161,13 @@ class WebViewMessageRouter(
     
     /**
      * Route to DiffService methods
+     * Phase 4: JsonObject 사용
      */
-    private suspend fun routeDiffService(method: String, data: JSONObject): Any {
+    private suspend fun routeDiffService(method: String, data: JsonObject): Any {
         return when (method) {
             "openDiff" -> {
-                val leftPath = data.optString("leftPath")
-                val rightPath = data.optString("rightPath")
+                val leftPath = data.get("leftPath")?.asString ?: ""
+                val rightPath = data.get("rightPath")?.asString ?: ""
                 // TODO: Implement actual gRPC call
                 mapOf("opened" to true)
             }
@@ -168,8 +177,9 @@ class WebViewMessageRouter(
     
     /**
      * Route to TestingService methods
+     * Phase 4: JsonObject 사용
      */
-    private suspend fun routeTestingService(method: String, data: JSONObject): Any {
+    private suspend fun routeTestingService(method: String, data: JsonObject): Any {
         return when (method) {
             "runTests" -> {
                 // TODO: Implement actual gRPC call
@@ -181,9 +191,10 @@ class WebViewMessageRouter(
     
     /**
      * Handle ping message (health check)
+     * Phase 4: JsonObject 사용
      */
-    private suspend fun handlePing(json: JSONObject) {
-        val requestId = json.optString("requestId")
+    private suspend fun handlePing(json: JsonObject) {
+        val requestId = json.get("requestId")?.asString ?: ""
         sendMessageToWebView(mapOf(
             "type" to "pong",
             "requestId" to requestId,

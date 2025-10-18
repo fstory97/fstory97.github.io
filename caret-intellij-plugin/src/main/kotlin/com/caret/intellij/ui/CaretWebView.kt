@@ -13,6 +13,7 @@ import org.cef.handler.CefLoadHandlerAdapter
 import java.awt.BorderLayout
 import java.io.File
 import javax.swing.JPanel
+import com.google.gson.Gson
 
 /**
  * CaretWebView - JCEF browser component for Caret UI
@@ -27,6 +28,7 @@ import javax.swing.JPanel
 class CaretWebView(private val project: Project) : Disposable {
     
     private val scope = CoroutineScope(Dispatchers.Default + SupervisorJob())
+    private val gson = Gson()  // Phase 4: JSON serialization
     private val hostBridgeServer: HostBridgeServer
     private val browser: JBCefBrowser
     private val jsQuery: JBCefJSQuery
@@ -178,14 +180,12 @@ class CaretWebView(private val project: Project) : Disposable {
     
     /**
      * Send message from Kotlin to WebView (Kotlin → JavaScript)
+     * Phase 4: Gson을 사용한 안전한 JSON 직렬화
      */
     fun sendMessageToWebView(message: Any) {
         val messageJson = when (message) {
             is String -> message
-            else -> {
-                // TODO: Use proper JSON serialization (kotlinx.serialization or Gson)
-                message.toString()
-            }
+            else -> gson.toJson(message)
         }
         
         val jsCode = "window.__dispatchMessageFromKotlin($messageJson)"

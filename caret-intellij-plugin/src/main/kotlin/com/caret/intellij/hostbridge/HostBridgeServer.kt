@@ -20,16 +20,26 @@ class HostBridgeServer(
     private var server: Server? = null
     private var actualPort: Int = -1
     
+    // Phase 4: 서비스 인스턴스 접근을 위한 속성
+    lateinit var workspaceService: WorkspaceServiceImpl
+        private set
+    lateinit var envService: EnvServiceImpl
+        private set
+    
     /**
      * gRPC 서버 시작
      * @return 실제 할당된 포트 번호
      */
     fun start(): Int {
         try {
+            // Phase 4: 서비스 인스턴스 생성 및 저장
+            workspaceService = WorkspaceServiceImpl(project)
+            envService = EnvServiceImpl(project)
+            
             // gRPC 서버 빌드 및 시작
             server = ServerBuilder.forPort(requestedPort)
-                .addService(WorkspaceServiceImpl(project))
-                .addService(EnvServiceImpl(project))
+                .addService(workspaceService)
+                .addService(envService)
                 // TODO: 추후 구현
                 // .addService(WindowServiceImpl(project))
                 // .addService(DiffServiceImpl(project))
