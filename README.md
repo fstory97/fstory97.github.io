@@ -54,6 +54,16 @@
 
 ---
 
+## 🎁 NEW: Official Caret AI Provider - Free $10 Credits!
+
+**Exciting news!** Caret now offers its own official AI provider integration:
+
+- 🎉 **Promotional Offer**: All users receive **$10 free credits** during the promotional period
+- 💳 **Paid Credit Purchase**: Coming soon - additional credits will be available for purchase
+- 🚀 **Easy Setup**: Select "Caret" as your AI provider in settings to get started
+
+---
+
 ## 🚀 Latest Update: Cline v3.32.7 Fully Integrated!
 
 **Caret v0.3.0** now includes **all features from Cline v3.32.7** while maintaining 100% backward compatibility with Caret's unique extensions!

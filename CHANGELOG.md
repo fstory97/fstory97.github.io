@@ -25,6 +25,23 @@
 
 # Changelog
 
+## [0.3.1] - 2025-10-20
+
+### 🆕 New Features
+- **Caret Provider**: Added official Caret AI provider integration
+  - 🎁 **Promotion**: $10 free credits for all users during promotional period
+  - 💰 Paid credit purchase system coming soon
+
+### 🐛 Bug Fixes
+- **Terminal Branding**: Fixed terminal logo and name reverting to "Cline" after upstream merge
+- **Input System Prompt**: Fixed system prompt input handling bugs
+- **LiteLLM Model List**: Improved model fetching from `/v1/models` endpoint with health check filtering
+
+### 🔄 Updates
+- **Cline v3.32.7 Merge**: Merged latest Cline upstream improvements
+
+---
+
 ## [0.3.01] - 2025-10-15
 
 ### 🐛 Bug Fix
