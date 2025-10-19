@@ -15,7 +15,7 @@
 	},
 	"community": {
 		"header": "🌱 コミュニティに参加してください",
-		"body": "Caretを使用している他の開発者たちと一緒にコミュニケーションしてみてください！オープンソースであるCaretは、GitHubリポジトリで課題を報告し、機能を提案し、一緒に成長していくプロジェクトです。<br/><br/>💻 <strong>コード寄与</strong>、🐛 <strong>バグ報告</strong>、💡 <strong>アイデア提案</strong>、💰 <strong>金銭的寄与</strong>、📖 <strong>文書化</strong>など、様々な方法で参加することができます。<br/><br/>🎁 <strong>貢献者特典</strong>：サービス利用クレジット、GitHub貢献者登録、公式ウェブサイト登録、新機能優先アクセス",
+		"body": "Caretを使用している他の開発者たちと一緒にコミュニケーションしてみてください！オープンソースであるCaretは、GitHubリポジトリで課題を報告し、機能を提案し、一緒に成長していくプロジェクトです。<br/><br/>💻 <strong>コード寄与</strong>、🐛 <strong>バグ報告</strong>、💡 <strong>アイデア提案</strong>、💰 <strong>金銭的寄与</strong>、📖 <strong>文書化</strong>など、様々な方法で参加することができます。<br/><br/>🎁 <strong>貢献者特典</strong>：サービス利用クレジット、GitHub貢献者登録、公式ウェブサイト登録、新機能優先アクセス<br/><br/>詳細を見る <a href=\"#\" data-external-url=\"https://github.com/aicoding-caret/caret\">github.com/aicoding-caret/caret</a>",
 		"githubLink": "GitHubリポジトリ"
 	},
 	"educationOffer": {

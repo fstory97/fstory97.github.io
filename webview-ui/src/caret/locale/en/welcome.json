@@ -20,7 +20,7 @@
 	},
 	"community": {
 		"header": "🌱 Join Our Community",
-		"body": "Connect with other developers using Caret! As an open-source project, Caret grows through your participation in our GitHub repository - report issues, suggest features, and help us evolve together.<br/><br/>💻 <strong>Code Contribution</strong>, 🐛 <strong>Bug Reports</strong>, 💡 <strong>Ideas & Suggestions</strong>, 💰 <strong>Financial Support</strong>, 📖 <strong>Documentation</strong> - there are many ways to participate!<br/><br/>🎁 <strong>Contributor Benefits</strong>: Service credits, GitHub recognition, website listing, priority access to new features",
+		"body": "Connect with other developers using Caret! As an open-source project, Caret grows through your participation in our GitHub repository - report issues, suggest features, and help us evolve together.<br/><br/>💻 <strong>Code Contribution</strong>, 🐛 <strong>Bug Reports</strong>, 💡 <strong>Ideas & Suggestions</strong>, 💰 <strong>Financial Support</strong>, 📖 <strong>Documentation</strong> - there are many ways to participate!<br/><br/>🎁 <strong>Contributor Benefits</strong>: Service credits, GitHub recognition, website listing, priority access to new features<br/><br/>Learn more <a href=\"#\" data-external-url=\"https://github.com/aicoding-caret/caret\">github.com/aicoding-caret/caret</a>",
 		"githubLink": "GitHub Repository"
 	},
 	"educationOffer": {

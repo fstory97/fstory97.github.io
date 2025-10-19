@@ -1,7 +1,11 @@
 import { VSCodeButton } from "@vscode/webview-ui-toolkit/react"
-import React from "react"
+import React, { useEffect, useRef } from "react"
+import { UiServiceClient } from "@/services/grpc-client"
 import { useCaretI18n } from "../hooks/useCaretI18n"
 import { t } from "../utils/i18n"
+import { CaretWebviewLogger } from "../utils/webview-logger"
+
+const logger = new CaretWebviewLogger("CaretWelcomeSection")
 
 interface ButtonConfig {
 	textKey: string
@@ -28,6 +32,7 @@ const CaretWelcomeSection: React.FC<CaretWelcomeSectionProps> = ({
 	allowHtml = false,
 }) => {
 	const { currentLanguage } = useCaretI18n()
+	const sectionRef = useRef<HTMLDivElement>(null)
 
 	const sectionStyle = {
 		marginBottom: "10px",
@@ -38,8 +43,33 @@ const CaretWelcomeSection: React.FC<CaretWelcomeSectionProps> = ({
 		fontSize: "0.85rem",
 	}
 
+	// Handle external links with data-external-url attribute
+	useEffect(() => {
+		if (!allowHtml || !sectionRef.current) return
+
+		const handleLinkClick = (event: MouseEvent) => {
+			const target = event.target as HTMLElement
+			if (target.tagName === "A" && target.hasAttribute("data-external-url")) {
+				event.preventDefault()
+				const url = target.getAttribute("data-external-url")
+				if (url) {
+					UiServiceClient.openUrl({ value: url }).catch((error) => {
+						logger.error(`Failed to open external link ${url}:`, error)
+					})
+				}
+			}
+		}
+
+		const section = sectionRef.current
+		section.addEventListener("click", handleLinkClick)
+
+		return () => {
+			section.removeEventListener("click", handleLinkClick)
+		}
+	}, [allowHtml, bodyKey, currentLanguage])
+
 	return (
-		<div className={`caret-welcome-section ${className}`} style={sectionStyle}>
+		<div ref={sectionRef} className={`caret-welcome-section ${className}`} style={sectionStyle}>
 			{headerKey && <h3 style={{ fontSize: "1rem", marginBottom: "8px" }}>{t(headerKey, "welcome")}</h3>}
 			{bodyKey &&
 				(allowHtml ? <p dangerouslySetInnerHTML={{ __html: t(bodyKey, "welcome") }} /> : <p>{t(bodyKey, "welcome")}</p>)}
