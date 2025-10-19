@@ -42,8 +42,8 @@ export class ZAiHandler implements ApiHandler {
 					baseURL: this.useChinaApi() ? "https://open.bigmodel.cn/api/paas/v4" : "https://api.z.ai/api/paas/v4",
 					apiKey: this.options.zaiApiKey,
 					defaultHeaders: {
-						"HTTP-Referer": "https://cline.bot",
-						"X-Title": "Cline",
+						"HTTP-Referer": "https://caret.team",
+						"X-Title": "Caret",
 						"X-Cline-Version": extensionVersion,
 					},
 				})

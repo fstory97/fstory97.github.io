@@ -126,10 +126,11 @@ export async function createOcaHeaders(accessToken: string, taskId: string): Pro
 	const host = await HostProvider.env.getHostVersion({})
 	const clineVersion = ExtensionRegistryInfo.version
 
+	
 	return {
 		Authorization: `Bearer ${accessToken}`,
 		"Content-Type": "application/json",
-		client: "Cline",
+		client: "Caret",
 		"client-version": `${clineVersion}`,
 		"client-ide": host.platform || "unknown",
 		"client-ide-version": host.version || "unknown",

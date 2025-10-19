@@ -45,8 +45,8 @@ export class RequestyHandler implements ApiHandler {
 					baseURL: toRequestyServiceStringUrl(this.options.requestyBaseUrl),
 					apiKey: this.options.requestyApiKey,
 					defaultHeaders: {
-						"HTTP-Referer": "https://cline.bot",
-						"X-Title": "Cline",
+						"HTTP-Referer": "https://caret.team",
+						"X-Title": "Caret",
 					},
 				})
 			} catch (error: any) {

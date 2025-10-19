@@ -4,7 +4,8 @@ import axios from "axios"
 import { Controller } from "@/core/controller"
 
 /**
- * CARET MODIFICATION: Fetches available models from LiteLLM health endpoint
+ * CARET MODIFICATION: Fetches available models from LiteLLM /v1/models endpoint
+ * This endpoint returns only models assigned to the provided API key with health check OK
  * @param controller The controller instance
  * @param request The request containing base URL and API key
  * @returns Response with model names or error
@@ -36,30 +37,34 @@ export async function fetchLiteLlmModels(
 		}
 
 		// Prepare headers
-		const headers: Record<string, string> = {}
-		if (request.apiKey) {
-			// LiteLLM supports both x-litellm-api-key and Authorization Bearer patterns
+		const headers: Record<string, string> = {
+			accept: "application/json",
+		}
+		// Only add API key header if it's provided and not empty
+		if (request.apiKey && request.apiKey.trim() !== "") {
+			// LiteLLM requires x-litellm-api-key header for API key authentication
 			headers["x-litellm-api-key"] = request.apiKey
 		}
 
-		// Call LiteLLM health endpoint
-		const healthUrl = `${request.baseUrl.replace(/\/$/, "")}/health`
-		Logger.debug(`[CaretSystemService] 🔍 Calling health endpoint: ${healthUrl}`)
+		// Call LiteLLM /v1/models endpoint with query parameters
+		// These parameters filter out unnecessary data and return only accessible models
+		const baseUrl = request.baseUrl.replace(/\/$/, "")
+		const modelsUrl = `${baseUrl}/v1/models?return_wildcard_routes=false&include_model_access_groups=false&only_model_access_groups=false&include_metadata=false`
+		Logger.debug(`[CaretSystemService] 🔍 Calling /v1/models endpoint: ${modelsUrl}`)
 
-		const response = await axios.get(healthUrl, {
+		const response = await axios.get(modelsUrl, {
 			headers,
 			timeout: 10000, // 10 second timeout
 		})
 
-		// Extract healthy models from health response
-		const healthyEndpoints = response.data?.healthy_endpoints || []
-		Logger.debug(`[CaretSystemService] 📋 Health response received with ${healthyEndpoints.length} endpoints`)
+		// Extract model IDs from /v1/models response
+		const modelsData = response.data?.data || []
+		Logger.debug(`[CaretSystemService] 📋 Models response received with ${modelsData.length} models`)
 
-		// Extract unique model names from healthy endpoints
-		const modelNames = healthyEndpoints
-			.map((endpoint: any) => endpoint.model)
-			.filter((model: string) => model && typeof model === "string")
-			.filter((value: string, index: number, self: string[]) => self.indexOf(value) === index) // Remove duplicates
+		// Extract model IDs (these are already filtered by API key and health check)
+		const modelNames = modelsData
+			.map((model: any) => model.id)
+			.filter((id: string) => id && typeof id === "string")
 			.sort()
 
 		Logger.info(`[CaretSystemService] ✅ Successfully fetched ${modelNames.length} LiteLLM models: ${modelNames.join(", ")}`)

@@ -102,7 +102,8 @@ export class ReadFileToolHandler implements IFullyManagedTool {
 			telemetryService.captureToolUsage(config.ulid, block.name, config.api.getModel().id, true, true, workspaceContext)
 		} else {
 			// Manual approval flow
-			const notificationMessage = `Cline wants to read ${getWorkspaceBasename(absolutePath, "ReadFileToolHandler.notification")}`
+			// CARET MODIFICATION: Changed branding from Cline to Caret
+			const notificationMessage = `Caret wants to read ${getWorkspaceBasename(absolutePath, "ReadFileToolHandler.notification")}`
 
 			// Show notification
 			showNotificationForApprovalIfAutoApprovalEnabled(

@@ -72,7 +72,8 @@ async function main(): Promise<void> {
 
 	try {
 		await ClineApiServerMock.startGlobalServer()
-		console.log("Cline API Server started in-process")
+		// CARET MODIFICATION: Changed branding from Cline to Caret
+		console.log("Caret API Server started in-process")
 	} catch (error) {
 		console.error("Failed to start Cline API Server:", error)
 		process.exit(1)

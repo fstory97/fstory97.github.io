@@ -15,6 +15,13 @@ repositories {
     google()
 }
 
+// Configure Java toolchain to use Java 21
+java {
+    toolchain {
+        languageVersion.set(JavaLanguageVersion.of(21))
+    }
+}
+
 dependencies {
     // Kotlin
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")

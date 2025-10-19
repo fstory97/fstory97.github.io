@@ -133,11 +133,11 @@ export class ClineHandler implements ApiHandler {
 					const choiceWithError = choice as any
 					if (choiceWithError.error) {
 						const error = choiceWithError.error
-						console.error(`Cline Mid-Stream Error: ${error.code || error.type || "Unknown"} - ${error.message}`)
-						throw new Error(`Cline Mid-Stream Error: ${error.code || error.type || "Unknown"} - ${error.message}`)
+						console.error(`Caret Mid-Stream Error: ${error.code || error.type || "Unknown"} - ${error.message}`)
+						throw new Error(`Caret Mid-Stream Error: ${error.code || error.type || "Unknown"} - ${error.message}`)
 					} else {
 						throw new Error(
-							"Cline Mid-Stream Error: Stream terminated with error status but no error details provided",
+							"Caret Mid-Stream Error: Stream terminated with error status but no error details provided",
 						)
 					}
 				}
@@ -185,14 +185,15 @@ export class ClineHandler implements ApiHandler {
 
 			// Fallback to generation endpoint if usage chunk not returned
 			if (!didOutputUsage) {
-				console.warn("Cline API did not return usage chunk, fetching from generation endpoint")
+				// CARET MODIFICATION: Changed branding from Cline to Caret
+				console.warn("Caret API did not return usage chunk, fetching from generation endpoint")
 				const apiStreamUsage = await this.getApiStreamUsage()
 				if (apiStreamUsage) {
 					yield apiStreamUsage
 				}
 			}
 		} catch (error) {
-			console.error("Cline API Error:", error)
+			console. error("Caret API Error:", error)
 			throw error
 		}
 	}

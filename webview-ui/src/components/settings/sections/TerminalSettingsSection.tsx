@@ -4,7 +4,7 @@ import { VSCodeCheckbox, VSCodeDropdown, VSCodeOption, VSCodeTextField } from "@
 import React, { useState } from "react"
 import { useCaretI18nContext } from "@/caret/context/CaretI18nContext"
 import { t } from "@/caret/utils/i18n"
-import { getLocalizedUrl } from "@/caret/utils/urls"
+import { getLocalizedUrl } from "@/caret/constants/urls"
 import { useExtensionState } from "@/context/ExtensionStateContext"
 import { StateServiceClient } from "../../../services/grpc-client"
 import Section from "../Section"

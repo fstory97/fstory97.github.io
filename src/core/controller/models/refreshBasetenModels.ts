@@ -56,7 +56,7 @@ export async function refreshBasetenModels(
 				headers: {
 					Authorization: `Bearer ${cleanApiKey}`,
 					"Content-Type": "application/json",
-					"User-Agent": "Cline-VSCode-Extension",
+					"User-Agent": "Caret-VSCode-Extension",
 				},
 				timeout: 10000, // 10 second timeout
 			})

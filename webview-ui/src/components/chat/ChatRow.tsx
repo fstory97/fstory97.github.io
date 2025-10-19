@@ -1442,7 +1442,7 @@ export const ChatRowContent = memo(
 											marginBottom: "-1.5px",
 										}}></span>
 									<span style={{ color: normalColor, fontWeight: "bold" }}>
-										Cline wants to condense your conversation:
+										Caret wants to condense your conversation:
 									</span>
 								</div>
 								<NewTaskPreview context={message.text || ""} />

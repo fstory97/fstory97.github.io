@@ -142,6 +142,11 @@ class WebViewMessageRouter(
                     hostBridgeServer.workspaceService.openInFileExplorerPanel(request)
                     mapOf("success" to true)
                 }
+                "getDiagnostics" -> {
+                    val request = GetDiagnosticsRequest.newBuilder().build()
+                    val response = hostBridgeServer.workspaceService.getDiagnostics(request)
+                    mapOf("diagnostics" to emptyList<Any>())
+                }
                 else -> throw IllegalArgumentException("Unknown WorkspaceService method: $method")
             }
         }
@@ -181,6 +186,16 @@ class WebViewMessageRouter(
                     val request = EmptyRequest.newBuilder().build()
                     val response = hostBridgeServer.envService.getIdeRedirectUri(request)
                     mapOf("uri" to response.value)
+                }
+                "getTelemetrySettings" -> {
+                    val request = EmptyRequest.newBuilder().build()
+                    val response = hostBridgeServer.envService.getTelemetrySettings(request)
+                    mapOf("isEnabled" to response.isEnabled.name)
+                }
+                "shutdown" -> {
+                    val request = EmptyRequest.newBuilder().build()
+                    hostBridgeServer.envService.shutdown(request)
+                    mapOf("success" to true)
                 }
                 else -> throw IllegalArgumentException("Unknown EnvService method: $method")
             }

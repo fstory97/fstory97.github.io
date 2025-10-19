@@ -5,7 +5,7 @@ import { VSCodeCheckbox, VSCodeDropdown, VSCodeOption, VSCodeTextField } from "@
 import { memo } from "react"
 import { useCaretI18nContext } from "@/caret/context/CaretI18nContext"
 import { t } from "@/caret/utils/i18n"
-import { getLocalizedUrl } from "@/caret/utils/urls"
+import { getLocalizedUrl } from "@/caret/constants/urls"
 import McpDisplayModeDropdown from "@/components/mcp/chat-display/McpDisplayModeDropdown"
 import { useExtensionState } from "@/context/ExtensionStateContext"
 import Section from "../Section"

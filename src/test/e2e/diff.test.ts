@@ -33,6 +33,7 @@ e2e.describe("Diff Editor", () => {
 			await sidebar.getByTestId("chat-input").fill("edit_request")
 			await sidebar.getByTestId("send-button").click({ delay: 50 })
 
+			// CARET MODIFICATION: Changed branding from Cline to Caret
 			// Wait for the sidebar to load the file edit request
 			await sidebar.waitForSelector('span:has-text("Cline wants to edit this file:")')
 

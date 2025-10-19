@@ -224,10 +224,11 @@ export async function spawnVSCode(workspacePath: string, vsixPath?: string): Pro
 
 		// Create package.json for the extension
 		const packageJsonPath = path.join(extensionDir, "package.json")
+		// CARET MODIFICATION: Changed branding from Cline to Caret
 		const packageJson = {
-			name: "cline-activator",
-			displayName: "Cline Activator",
-			description: "Activates Cline and starts the test server",
+			name: "caret-activator",
+			displayName: "Caret Activator",
+			description: "Activates Caret and starts the test server",
 			version: "0.0.1",
 			engines: {
 				vscode: "^1.60.0",
@@ -238,7 +239,7 @@ export async function spawnVSCode(workspacePath: string, vsixPath?: string): Pro
 				commands: [
 					{
 						command: "cline-activator.activate",
-						title: "Activate Cline",
+						title: "Activate Caret",
 					},
 				],
 			},

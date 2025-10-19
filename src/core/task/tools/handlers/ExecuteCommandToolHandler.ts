@@ -158,8 +158,9 @@ export class ExecuteCommandToolHandler implements IFullyManagedTool {
 			telemetryService.captureToolUsage(config.ulid, block.name, config.api.getModel().id, true, true, workspaceContext)
 		} else {
 			// Manual approval flow
+			// CARET MODIFICATION: Changed branding from Cline to Caret
 			showNotificationForApprovalIfAutoApprovalEnabled(
-				`Cline wants to execute a command: ${actualCommand}`,
+				`Caret wants to execute a command: ${actualCommand}`,
 				config.autoApprovalSettings.enabled,
 				config.autoApprovalSettings.enableNotifications,
 			)

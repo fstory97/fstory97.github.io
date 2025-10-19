@@ -364,7 +364,6 @@ const replaceTemplateVariables = (
 
 		// CARET MODIFICATION: URL template variables replacement
 		result = result
-			.replace(/\{\{educationLink\}\}/g, getLocalizedUrl("EDUCATION_PROGRAM", language))
 			.replace(/\{\{geminiCreditLink\}\}/g, getLocalizedUrl("GEMINI_CREDIT_GUIDE", language))
 			.replace(/\{\{supportModelListLink\}\}/g, getLocalizedUrl("SUPPORT_MODEL_LIST", language))
 			.replace(/\{\{caretGithub\}\}/g, CARET_URLS.GITHUB_REPOSITORY)

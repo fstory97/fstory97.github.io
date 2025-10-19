@@ -35,6 +35,17 @@ export interface LiteLlmModelInfoResponse {
 	}>
 }
 
+// CARET MODIFICATION: Response type for /v1/models endpoint (filtered by API key)
+export interface LiteLlmAvailableModelsResponse {
+	data: Array<{
+		id: string
+		object: string
+		created: number
+		owned_by: string
+	}>
+	object: string
+}
+
 export class LiteLlmHandler implements ApiHandler {
 	private options: LiteLlmHandlerOptions
 	private client: OpenAI | undefined
