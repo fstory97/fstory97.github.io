@@ -1,6 +1,5 @@
 // CARET MODIFICATION: Branded API Provider for B2B white-label solutions
 import { Anthropic } from "@anthropic-ai/sdk"
-import { BrandApiConfig, loadBrandConfig } from "@caret/utils/brand-config-loader"
 import { ApiHandler, CommonApiHandlerOptions } from "@core/api"
 import { withRetry } from "@core/api/retry"
 import { createOpenRouterStream } from "@core/api/transform/openrouter-stream"
@@ -9,6 +8,7 @@ import { ModelInfo, openRouterDefaultModelId, openRouterDefaultModelInfo } from 
 import { shouldSkipReasoningForModel } from "@utils/model-utils"
 import axios from "axios"
 import OpenAI from "openai"
+import { BrandApiConfig, loadBrandConfig } from "../../../slexn-codecenter/utils/brand-config-loader"
 
 interface BrandedApiHandlerOptions extends CommonApiHandlerOptions {
 	brandName?: string

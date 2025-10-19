@@ -5,7 +5,7 @@ Caret의 기업용 브랜딩 작업 절차와 핵심 원칙을 정의합니다. 
 ## 📜 핵심 원칙
 
 ### 1. 원본 불변 (Immutable Core)
-`src/`, `caret-src/`, `proto/` 등 핵심 소스 파일은 **절대 직접 수정하지 않습니다.** 모든 브랜딩은 `caret-b2b` 서브모듈 내의 스크립트와 설정을 통해 관리됩니다.
+`src/`, `caret-src/`, `proto/` 등 핵심 소스 파일은 **절대 직접 수정하지 않습니다.** 모든 브랜딩은 `slexn-codecenter` 서브모듈 내의 스크립트와 설정을 통해 관리됩니다.
 
 ### 2. 표면 수준 변경 한정 (Surface-Level Changes Only)
 브랜딩은 내부 로직(함수명, 변수명 등)을 변경하는 작업이 **아닙니다.** 오직 사용자에게 직접 보이는 영역만을 대상으로 합니다:
@@ -64,10 +64,10 @@ npm run brand:caret
 npm run brand:cline
 ```
 
-**대안: caret-b2b 디렉토리에서 실행**:
+**대안: slexn-codecenter 디렉토리에서 실행**:
 
 ```bash
-cd caret-b2b
+cd slexn-codecenter
 npm run brand:status
 npm run brand:codecenter
 ```
@@ -78,7 +78,7 @@ npm run brand:codecenter
 `npm run compile` 단계가 오류 없이 완료되는지 확인합니다.
 
 ### 5단계: 커밋
-`caret-b2b` 서브모듈 내에서만 변경 사항을 커밋합니다.
+`slexn-codecenter` 서브모듈 내에서만 변경 사항을 커밋합니다.
 
 ---
 

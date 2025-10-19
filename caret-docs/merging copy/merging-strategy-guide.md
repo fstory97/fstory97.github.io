@@ -373,7 +373,7 @@ git commit -m "feat: [feature] - CARET MODIFICATION applied with docs"
 **1단계: 머징 전 Cline 변환**
 ```bash
 # 현재 Caret 상태에서 Cline으로 변환 (충돌 최소화)
-node caret-b2b/tools/brand-converter.js caret forward  # caret → cline
+node slexn-codecenter/tools/brand-converter.js caret forward  # caret → cline
 
 # Git 상태 확인 (브랜딩 요소 모두 Cline으로 정리됨)
 git status
@@ -391,7 +391,7 @@ git merge upstream/vX.XX.X
 **3단계: 머징 후 Caret 복원**
 ```bash
 # 머징 완료 후 다시 Caret 브랜딩 적용
-node caret-b2b/tools/brand-converter.js caret backward  # cline → caret
+node slexn-codecenter/tools/brand-converter.js caret backward  # cline → caret
 ```
 
 **4단계: 신기능 매핑 업데이트**
@@ -403,7 +403,7 @@ node caret-b2b/tools/brand-converter.js caret backward  # cline → caret
 #### **브랜딩 설정 확장 가이드**
 **Cline 신규 기능이 브랜딩 대상인 경우:**
 
-1. **`caret-b2b/brands/caret/brand-config.json` 업데이트**:
+1. **`slexn-codecenter/brands/brand-config.json` 업데이트**:
 ```json
 {
   "brand_mappings": {
@@ -415,7 +415,7 @@ node caret-b2b/tools/brand-converter.js caret backward  # cline → caret
 }
 ```
 
-2. **역방향 매핑도 추가 (`caret-b2b/brands/cline/brand-config.json`)**:
+2. **역방향 매핑도 추가 (필요시)**:
 ```json
 {
   "brand_mappings": {
@@ -440,7 +440,7 @@ Caret에 신규 기능이 추가되어 기업 브랜딩에 반영해야 하는 �
 ```bash
 # 기업 브랜드 설정 파일 수정
 # 예: CodeCenter 브랜딩에 새 기능 추가
-vim caret-b2b/brands/codecenter/brand-config.json
+vim slexn-codecenter/brands/brand-config.json
 ```
 
 **2단계: 매핑 업데이트**
@@ -459,13 +459,13 @@ vim caret-b2b/brands/codecenter/brand-config.json
 **3단계: 테스트 및 검증**
 ```bash
 # 변환 테스트 (DRY-RUN)
-node caret-b2b/tools/brand-converter.js codecenter forward --dry-run
+node slexn-codecenter/tools/brand-converter.js codecenter forward --dry-run
 
 # 실제 변환 적용
-node caret-b2b/tools/brand-converter.js codecenter forward
+node slexn-codecenter/tools/brand-converter.js codecenter forward
 
 # 복원 테스트
-node caret-b2b/tools/brand-converter.js codecenter backward
+node slexn-codecenter/tools/brand-converter.js codecenter backward
 ```
 
 **4단계: 고급 확장 (필요시)**
@@ -485,7 +485,7 @@ node caret-b2b/tools/brand-converter.js codecenter backward
 #### **문제 발생 시**
 ```bash
 # 브랜딩 복원
-node caret-b2b/tools/brand-converter.js caret backward  # 즉시 Caret 복원
+node slexn-codecenter/tools/brand-converter.js caret backward  # 즉시 Caret 복원
 
 # 기존 Git 롤백
 git reset --hard backup-before-phase-X

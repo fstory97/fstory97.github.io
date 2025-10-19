@@ -13,7 +13,7 @@ export default defineConfig({
 			"**/dist/**",
 			"**/cypress/**",
 			"**/.{idea,git,cache,output,temp}/**",
-			"**/caret-b2b/**/*.test.js",
+			"**/slexn-codecenter/**/*.test.js",
 			"**/caret-scripts/**/*.test.js",
 			"**/webview-ui/src/**/*.spec.tsx",
 			"**/webview-ui/src/**/*integration.test.tsx",

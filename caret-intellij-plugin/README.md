@@ -49,7 +49,7 @@ caret-intellij-plugin/
 │   ├── messages/           # i18n 리소스 번들
 │   └── icons/              # 아이콘 에셋
 ├── build.gradle.kts        # Gradle 빌드 설정
-└── caret-b2b/              # Git submodule (브랜딩 시스템)
+└── slexn-codecenter/       # Git submodule (브랜딩 시스템)
 ```
 
 ## 🚀 개발 환경 설정
@@ -95,7 +95,7 @@ git submodule update --init --recursive
 
 ## 📦 브랜딩 시스템
 
-caret-b2b submodule을 통해 멀티 브랜드 지원:
+slexn-codecenter submodule을 통해 멀티 브랜드 지원:
 
 ```bash
 # CodeCenter 브랜드로 전환
@@ -146,7 +146,7 @@ Apache 2.0 License - [LICENSE](../caret/LICENSE) 파일 참조
 ## 🔗 관련 프로젝트
 
 - [Caret VSCode Extension](https://github.com/aicoding-caret/caret)
-- [Caret B2B Branding](https://github.com/aicoding-caret/caret-b2b)
+- [CodeCenter Branding](https://github.com/aicoding-caret/slexn-codecenter)
 
 ---
 
