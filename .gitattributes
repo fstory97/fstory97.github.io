@@ -1,3 +1,6 @@
+# Line ending 통일 (모든 텍스트 파일을 LF로 통일, Windows에서는 checkout 시 CRLF로 변환하지 않음)
+* text=auto eol=lf
+
 # Caret 타입 솔루션 파일 - 충돌 시 Caret 버전 우선
 src/types/vscode-extensions.d.ts merge=ours
 src/core/api/providers/vscode-lm.ts merge=ours
