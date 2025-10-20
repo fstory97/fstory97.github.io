@@ -14,6 +14,7 @@ import { useClickAway, useWindowSize } from "react-use"
 import styled from "styled-components"
 // CARET MODIFICATION: Import PersonaManagement for persona system integration
 import PersonaManagement from "@/caret/components/PersonaManagement"
+import { useCaretI18nContext } from "@/caret/context/CaretI18nContext"
 import { t } from "@/caret/utils/i18n"
 import { CODE_BLOCK_BG_COLOR } from "@/components/common/CodeBlock"
 import Tooltip from "@/components/common/Tooltip"
@@ -22,6 +23,7 @@ import { FileServiceClient } from "@/services/grpc-client"
 import RulesToggleList from "./RulesToggleList"
 
 const ClineRulesToggleModal: React.FC = () => {
+	const { language } = useCaretI18nContext()
 	const {
 		globalClineRulesToggles = {},
 		localClineRulesToggles = {},
@@ -294,29 +296,29 @@ const ClineRulesToggleModal: React.FC = () => {
 					{/* Description text */}
 					<div className="text-xs text-[var(--vscode-descriptionForeground)] mb-4">
 						{currentView === "rules" ? (
-							<p>
-								{t("clineRulesToggleModal.rulesDescription", "chat")}{" "}
-								<VSCodeLink
-									className="text-xs"
-									href="https://docs.cline.bot/features/cline-rules"
-									style={{ display: "inline" }}>
-									{t("clineRulesToggleModal.docs", "chat")}
-								</VSCodeLink>
-							</p>
+						<p>
+							{t("clineRulesToggleModal.rulesDescription", "chat")}{" "}
+							<VSCodeLink
+								className="text-xs"
+								href={`https://docs.caret.team/${language}/features/caret-rules`}
+								style={{ display: "inline" }}>
+								{t("clineRulesToggleModal.docs", "chat")}
+							</VSCodeLink>
+						</p>
 						) : (
-							<p>
-								{t("clineRulesToggleModal.workflowsDescription", "chat")}{" "}
-								<span className="text-[var(--vscode-foreground)] font-bold">
-									{t("clineRulesToggleModal.workflowName", "chat")}
-								</span>{" "}
-								in the chat.{" "}
-								<VSCodeLink
-									className="text-xs"
-									href="https://docs.cline.bot/features/slash-commands/workflows"
-									style={{ display: "inline" }}>
-									{t("clineRulesToggleModal.docs", "chat")}
-								</VSCodeLink>
-							</p>
+						<p>
+							{t("clineRulesToggleModal.workflowsDescription", "chat")}{" "}
+							<span className="text-[var(--vscode-foreground)] font-bold">
+								{t("clineRulesToggleModal.workflowName", "chat")}
+							</span>{" "}
+							in the chat.{" "}
+							<VSCodeLink
+								className="text-xs"
+								href={`https://docs.caret.team/${language}/features/slash-commands/workflows`}
+								style={{ display: "inline" }}>
+								{t("clineRulesToggleModal.docs", "chat")}
+							</VSCodeLink>
+						</p>
 						)}
 					</div>
 

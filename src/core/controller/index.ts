@@ -161,12 +161,15 @@ export class Controller {
 			// AuthService now handles its own storage cleanup in handleDeauth()
 			this.stateManager.setGlobalState("userInfo", undefined)
 
+			// CARET MODIFICATION: Use feature-config defaultProvider instead of hardcoded "openrouter"
+			const defaultProvider: ApiProvider = getCurrentFeatureConfig().defaultProvider as ApiProvider
+
 			// Update API providers through cache service
 			const apiConfiguration = this.stateManager.getApiConfiguration()
 			const updatedConfig = {
 				...apiConfiguration,
-				planModeApiProvider: "openrouter" as ApiProvider,
-				actModeApiProvider: "openrouter" as ApiProvider,
+				planModeApiProvider: defaultProvider,
+				actModeApiProvider: defaultProvider,
 			}
 			this.stateManager.setApiConfiguration(updatedConfig)
 

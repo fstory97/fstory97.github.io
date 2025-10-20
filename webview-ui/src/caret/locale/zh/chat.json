@@ -265,12 +265,12 @@
 		"caretPreparing": "Caret MCP市场正在准备中。",
 		"caretPreparingDescription": "Caret专属MCP工具即将推出。"
 	},
-	"installedServersView": {
-		"descriptionPart1": " ",
+	"configureServersView": {
+		"mcpDescription": " ",
 		"modelContextProtocol": "模型上下文协议",
-		"descriptionPart2": " 允许与本地运行的MCP服务器通信，这些服务器提供额外的工具和资源以扩展Cline的功能。您可以使用",
+		"mcpDescriptionMiddle2": "允许与本地运行的MCP服务器通信，这些服务器提供额外的工具和资源以扩展Caret的功能。您可以使用",
 		"communityMadeServers": "社区制作的服务器",
-		"descriptionPart3": "，或者要求Cline创建特定于您工作流的新工具（例如，“添加一个获取最新npm文档的工具”）。",
+		"mcpDescriptionEnd": "，或者要求Caret创建特定于您工作流的新工具（例如，「添加一个获取最新npm文档的工具」）。",
 		"seeDemoHere": "在此处查看演示。",
 		"configureMcpServers": "配置MCP服务器",
 		"advancedMcpSettings": "高级MCP设置"

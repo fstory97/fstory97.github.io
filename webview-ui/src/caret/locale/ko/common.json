@@ -641,7 +641,8 @@
 		"description": "Caret은 오픈소스 프로젝트입니다. GitHub에서 기여, 이슈 보고, 피드백을 공유해주세요.",
 		"githubLinkPrefix": "자세히 보기",
 		"githubLink": "github.com/aicoding-caret/caret",
-		"closeBannerAria": "배너 닫기"
+		"closeBannerAria": "배너 닫기",
+		"settingsLink": "설정"
 	},
 	"autoApprove": {
 		"addQuickAccess": "빠른 액세스 메뉴에 추가",

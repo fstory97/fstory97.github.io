@@ -265,12 +265,12 @@
 		"caretPreparing": "Caret MCPマーケットプレイスを準備中。",
 		"caretPreparingDescription": "Caret専用のMCPツールがまもなく利用可能になります。"
 	},
-	"installedServersView": {
-		"descriptionPart1": " ",
+	"configureServersView": {
+		"mcpDescription": " ",
 		"modelContextProtocol": "モデルコンテキストプロトコル",
-		"descriptionPart2": "は、Clineの機能を拡張するための追加ツールとリソースを提供するローカルで実行されているMCPサーバーとの通信を可能にします。",
+		"mcpDescriptionMiddle2": "は、Caretの機能を拡張するための追加ツールとリソースを提供するローカルで実行されているMCPサーバーとの通信を可能にします。",
 		"communityMadeServers": "コミュニティ作成サーバー",
-		"descriptionPart3": "を使用するか、Clineにワークフローに固有の新しいツールを作成するように依頼できます（例：「最新のnpmドキュメントを取得するツールを追加して」）。",
+		"mcpDescriptionEnd": "を使用するか、Caretにワークフローに固有の新しいツールを作成するように依頼できます（例：「最新のnpmドキュメントを取得するツールを追加して」）。",
 		"seeDemoHere": "デモはこちらをご覧ください。",
 		"configureMcpServers": "MCPサーバーを構成",
 		"advancedMcpSettings": "高度なMCP設定"

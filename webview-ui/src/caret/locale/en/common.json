@@ -607,7 +607,8 @@
 		"description": "Caret is an open-source project. Visit our GitHub to contribute, report issues, or share feedback.",
 		"githubLinkPrefix": "Learn more at",
 		"githubLink": "github.com/aicoding-caret/caret",
-		"closeBannerAria": "Close banner"
+		"closeBannerAria": "Close banner",
+		"settingsLink": "Settings"
 	},
 	"history": {
 		"title": "History",
