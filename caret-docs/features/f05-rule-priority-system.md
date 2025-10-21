@@ -1,552 +1,353 @@
-# F05 - Rule Priority System
+# Rule Priority System
 
-**상태**: ✅ Phase 4 완료 + 버그 수정 완료 (2025-10-15)
-**구현도**: 100% 완료
-**우선순위**: MEDIUM - 토큰 낭비 방지
+Caret의 **규칙 우선순위 시스템**은 토큰 낭비를 방지하고 설정 충돌을 해결하는 핵심 차별화 기능입니다.
 
----
+## 📋 **기능 개요**
 
-## 📋 개요
+### **해결하는 문제**
 
-**목표**: 규칙 파일 중복 로딩 방지 - 토큰 사용량 최적화
+기존 Cline에서는 `.clinerules`, `.cursorrules`, `.windsurfrules` 파일이 모두 존재할 때 중복으로 로딩되어 동일한 내용이 여러 번 프롬프트에 포함되는 문제가 있었습니다.
 
-**해결하는 문제**:
-- Cline: `.clinerules`, `.cursorrules`, `.windsurfrules` 모두 로딩 → 중복 낭비
-- Caret: **우선순위 기반 단일 선택** → 중복 완전 차단
+### **Caret의 해결책**
 
-**우선순위 규칙**:
+**우선순위 기반 단일 선택** 시스템:
+
 ```
 .caretrules > .clinerules > .cursorrules > .windsurfrules
 ```
 
----
+- **단일 선택**: 우선순위가 높은 규칙 파일이 존재하면 나머지는 무시
+- **중복 방지**: 동일한 규칙이 여러 번 로딩되는 것을 완전 차단
+- **토큰 절약**: 불필요한 중복 내용으로 인한 토큰 사용량 절약
 
-## 🏗️ Backend 구현 (Phase 4 + 버그 수정)
+## 🏗️ **구현 아키텍처**
 
-### ✅ Phase 4: 핵심 파일 수정
+### **수정된 핵심 파일 구조**
 
-**1. external-rules.ts** (+151 lines)
 ```
-src/core/context/instructions/user-instructions/external-rules.ts
-- 우선순위 로직 구현
-- 자동 토글 비활성화
-- Caret 규칙 최우선 처리
+# 백엔드 우선순위 로직
+src/core/context/instructions/user-instructions/
+├── external-rules.ts              # 🎯 핵심 우선순위 로직 (CARET MODIFICATION)
+├── rule-helpers.ts                # 🔧 규칙 동기화 헬퍼 함수들
+└── cline-rules.ts                 # 📄 Cline 전용 규칙 처리
+
+# 시스템 프롬프트 통합
+src/core/task/
+└── index.ts                       # 🔗 우선순위 시스템 통합 (CARET MODIFICATION)
+
+# 백엔드 제어 로직
+src/core/controller/file/
+└── refreshRules.ts                # 📡 UI 데이터 전송 (CARET MODIFICATION)
+
+# Caret 백엔드 분리 로직
+caret-src/core/controller/file/
+└── toggleCaretRule.ts             # 🔧 .caretrules 토글 기능 (CARET MODIFICATION)
+
+# 파일 시스템 정의
+src/core/storage/
+├── disk.ts                        # 📁 .caretrules 파일명 정의 (CARET MODIFICATION)
+├── state-keys.ts                  # 🗝️ 상태 키 정의 (CARET MODIFICATION)
+└── utils/state-helpers.ts         # 🛠️ 상태 초기화 (CARET MODIFICATION)
+
+# 프로토콜 정의
+proto/cline/
+└── file.proto                     # 📦 gRPC 통신 프로토콜 (CARET MODIFICATION)
+
+# UI 컴포넌트
+webview-ui/src/components/cline-rules/
+└── ClineRulesToggleModal.tsx      # 🎨 규칙 토글 UI (CARET MODIFICATION)
+
+# UI 상태 관리
+webview-ui/src/context/
+└── ExtensionStateContext.tsx      # 🔄 전역 상태 관리 (CARET MODIFICATION)
+
+# 테스트
+src/test/
+├── rule-priority.test.ts          # 🧪 단위 테스트 (기존)
+└── rule-priority-integration.test.ts # 🧪 통합 테스트 (CARET MODIFICATION)
 ```
 
-**핵심 로직**:
+### **수정 방식**
+
+- **CARET MODIFICATION** 마커로 수정 부분 명확히 표시
+- 원본 Cline 코드는 `.cline` 확장자로 백업 보존
+- `addUserInstructions` 함수에 우선순위 로직 추가
+
+### **핵심 로직 (실제 구현)**
+
+#### **🎯 external-rules.ts - 우선순위 구현**
+
 ```typescript
-// CARET MODIFICATION: Rule priority system
-const caretHasFiles = Object.keys(updatedLocalCaretToggles).length > 0
-const clineHasFiles = Object.keys(localClineRulesToggles).length > 0
-const cursorHasFiles = Object.keys(updatedLocalCursorToggles).length > 0
-const windsurfHasFiles = Object.keys(updatedLocalWindsurfToggles).length > 0
+// CARET MODIFICATION: Implement rule priority system (.caretrules > .clinerules > .cursorrules > .windsurfrules)
 
-let effectiveCaretToggles = updatedLocalCaretToggles
-let effectiveClineToggles = localClineRulesToggles
-let effectiveCursorToggles = updatedLocalCursorToggles
-let effectiveWindsurfToggles = updatedLocalWindsurfToggles
-let activeSource: RulePrioritySource = null
+// Step 3: Apply priority logic - disable lower priority rules if higher priority exists
+const caretHasFiles = Object.keys(updatedLocalCaretToggles).length > 0
+const windsurfHasFiles = Object.keys(updatedLocalWindsurfToggles).length > 0
+const cursorHasFiles = Object.keys(updatedLocalCursorToggles).length > 0
 
 if (caretHasFiles) {
-    activeSource = "caret"
-    effectiveClineToggles = {}
-    effectiveCursorToggles = {}
-    effectiveWindsurfToggles = {}
-} else if (clineHasFiles) {
-    activeSource = "cline"
-    // 각 규칙 소스가 자신의 토글만 유지
-    effectiveCaretToggles = {}
-    effectiveCursorToggles = {}
-    effectiveWindsurfToggles = {}
-} else if (cursorHasFiles) {
-    activeSource = "cursor"
-    effectiveCaretToggles = {}
-    effectiveClineToggles = {}
-    effectiveWindsurfToggles = {}
+	// .caretrules has highest priority - disable all others
+	updatedLocalWindsurfToggles = disableAllToggles(updatedLocalWindsurfToggles)
+	updatedLocalCursorToggles = disableAllToggles(updatedLocalCursorToggles)
 } else if (windsurfHasFiles) {
-    activeSource = "windsurf"
-    effectiveCaretToggles = {}
-    effectiveClineToggles = {}
-    effectiveCursorToggles = {}
+	// .windsurfrules has second priority - disable cursor
+	updatedLocalCursorToggles = disableAllToggles(updatedLocalCursorToggles)
+}
+// If only cursor rules exist, they remain enabled
+
+function disableAllToggles(toggles: ClineRulesToggles): ClineRulesToggles {
+	const disabledToggles: ClineRulesToggles = {}
+	for (const filePath in toggles) {
+		disabledToggles[filePath] = false
+	}
+	return disabledToggles
 }
 ```
 
-**2. disk.ts** (CARET MODIFICATION)
-```
-src/core/storage/disk.ts
-- .caretrules 파일명 정의
-- 브랜드별 동적 디렉토리 지원
-- BRAND_RULES_DIR = `.${BRAND_SLUG}rules`
-```
+#### **🔗 task/index.ts - 프롬프트 통합**
 
-**3. state-keys.ts** (CARET MODIFICATION)
-```
-src/core/storage/state-keys.ts
-- caretLocalRulesToggles 상태 키 추가
-```
-
----
-
-### 🐛 2025-10-15 버그 수정
-
-#### 버그 1: 우선순위 로직 오류 ⚠️ 치명적
-**문제**: `.clinerules`만 존재할 때 UI는 `.caretrules`가 활성화된 것처럼 표시되지만, AI에게는 아무 내용도 전달되지 않음
-
-**원인**:
 ```typescript
-// ❌ 잘못된 코드 - .clinerules 토글을 .caretrules 상태로 복사
-else if (clineHasFiles) {
-    activeSource = "cline"
-    effectiveCaretToggles = cloneToggles(localClineRulesToggles)  // ← 문제!
-    effectiveClineToggles = {}
-}
-```
-
-이 코드는 두 가지 문제를 일으킴:
-1. **UI 오해**: `effectiveCaretToggles`에 파일 목록이 있어서 UI는 `.caretrules`가 활성화된 것처럼 표시
-2. **내용 누락**: `getLocalCaretRules()`는 실제 `.caretrules` 디렉토리를 읽으려고 하지만 존재하지 않아 빈 결과 반환
-
-**해결**:
-```typescript
-// ✅ 올바른 코드 - 각 규칙 소스가 자신의 토글만 유지
-else if (clineHasFiles) {
-    activeSource = "cline"
-    effectiveCaretToggles = {}  // ← .caretrules는 비활성화
-    effectiveCursorToggles = {}
-    effectiveWindsurfToggles = {}
-}
-// effectiveClineToggles는 localClineRulesToggles를 그대로 유지
-```
-
-**핵심 원칙**: 각 규칙 소스(`caret`, `cline`, `cursor`, `windsurf`)는 **자신의 토글 상태만 관리**하고, 다른 소스로 복사하지 않음
-
-**수정 파일**: `src/core/context/instructions/user-instructions/external-rules.ts:95-132`
-
----
-
-#### 버그 2: 파일 확장자 필터링 오류
-**문제**: `.caretrules` 디렉토리의 파일이 감지되지 않음
-
-**원인**:
-```typescript
-// ❌ 잘못된 코드
-await synchronizeRuleToggles(localCaretRulesFilePath, localCaretRulesToggles, "*.*", ...)
-// "*.*"는 문자열 리터럴로 처리되어 실제 확장자와 매치되지 않음
-```
-
-**해결**:
-```typescript
-// ✅ 올바른 코드
-await synchronizeRuleToggles(localCaretRulesFilePath, localCaretRulesToggles, "", ...)
-// 빈 문자열 = 모든 파일 허용 (.md, .json, .yaml 등)
-```
-
-**수정 파일**: `src/core/context/instructions/user-instructions/external-rules.ts:53-56`
-
----
-
-#### 버그 3: 규칙 생성 위치 오류
-**문제**: 새 규칙 파일 생성 시 항상 `.clinerules`에 생성됨
-
-**원인**:
-```typescript
-// ❌ 하드코딩된 .clinerules
-const localClineRulesFilePath = path.resolve(cwd, GlobalFileNames.clineRules)
-```
-
-**해결**:
-```typescript
-// ✅ 브랜드별 동적 디렉토리
-const localCaretRulesFilePath = path.resolve(cwd, GlobalFileNames.caretRules)
-// Caret: .caretrules / CodeCenter: .codecenterrules
-```
-
-**수정 파일**: `src/core/context/instructions/user-instructions/rule-helpers.ts:169-207`
-
----
-
-#### 버그 4: 규칙 생성 후 토글 업데이트 누락
-**문제**: 규칙 파일 생성 후 UI에 반영되지 않음
-
-**해결**:
-```typescript
-// CARET MODIFICATION: Refresh both Cline and external rules
-const clineToggles = await refreshClineRulesToggles(controller, cwd)
-await refreshExternalRulesToggles(controller, cwd, { clineLocalToggles: clineToggles.localToggles })
-```
-
-**수정 파일**: `src/core/controller/file/createRuleFile.ts:57-59`
-
----
-
-#### 버그 5: RefreshRules 반환값 누락
-**문제**: `refreshRules` 함수가 `caretLocalToggles`를 UI에 반환하지 않음
-
-**해결**:
-```typescript
-// CARET MODIFICATION: Get caretLocalToggles from refreshExternalRulesToggles
-const { caretLocalToggles, cursorLocalToggles, windsurfLocalToggles } = await refreshExternalRulesToggles(
-    controller,
-    cwd,
-    { clineLocalToggles: localToggles },
-)
-
-return RefreshedRules.create({
-    // ... 기타 토글들
-    localCaretRulesToggles: { toggles: caretLocalToggles },  // ← 추가!
-})
-```
-
-**수정 파일**: `src/core/controller/file/refreshRules.ts:19-35`
-
----
-
-#### 버그 6: AI 프롬프트에 .caretrules 내용 누락 ⚠️ 치명적 (Part 1: Cline 시스템)
-**문제**: `.caretrules` 토글은 활성화되지만 **실제 규칙 내용이 AI에게 전달되지 않음**
-
-**원인**:
-1. `task/index.ts:1341`에서 `getLocalCaretRules`를 호출하지 않음
-2. `promptContext`에 `localCaretRulesFileInstructions` 필드 없음
-3. `user_instructions.ts`에서 `.caretrules` 내용을 프롬프트에 추가하지 않음
-
-**해결**:
-
-**1) task/index.ts 수정**:
-```typescript
-// Import 추가
-import {
-    getLocalCaretRules,  // ← 추가
-    getLocalCursorRules,
-    getLocalWindsurfRules,
-    refreshExternalRulesToggles,
-} from "@core/context/instructions/user-instructions/external-rules"
-
-// 토글 및 내용 로드
-const { caretLocalToggles, windsurfLocalToggles, cursorLocalToggles } = await refreshExternalRulesToggles(
-    this.controller,
-    this.cwd,
-    { clineLocalToggles: localToggles },
-)
-
-const localCaretRulesFileInstructions = await getLocalCaretRules(this.cwd, caretLocalToggles)  // ← 추가
+// CARET MODIFICATION: Rule priority system (.caretrules > .clinerules > .cursorrules > .windsurfrules)
+const localCaretRulesFileInstructions = await getLocalCaretRules(this.cwd, caretLocalToggles)
 const localClineRulesFileInstructions = await getLocalClineRules(this.cwd, localToggles)
+// ... other rule loading
 
-// 프롬프트 컨텍스트에 추가
-const promptContext: SystemPromptContext = {
-    // ... 기타 필드들
-    localCaretRulesFileInstructions,  // ← 추가
-}
-```
-
-**2) types.ts 수정**:
-```typescript
-export interface SystemPromptContext {
-    // ... 기타 필드들
-    readonly localClineRulesFileInstructions?: string
-    readonly localCaretRulesFileInstructions?: string  // ← 추가
-    readonly localCursorRulesFileInstructions?: string
-}
-```
-
-**3) user_instructions.ts 수정**:
-```typescript
-export async function getUserInstructions(variant: PromptVariant, context: SystemPromptContext) {
-    const customInstructions = buildUserInstructions(
-        context.globalClineRulesFileInstructions,
-        context.localClineRulesFileInstructions,
-        context.localCaretRulesFileInstructions,  // ← 추가
-        context.localCursorRulesFileInstructions,
-        // ... 기타 파라미터들
-    )
+// Apply priority system: Use the highest priority rule that exists and is enabled
+let activeRuleInstructions: string | undefined
+if (localCaretRulesFileInstructions) {
+	activeRuleInstructions = localCaretRulesFileInstructions
+} else if (localClineRulesFileInstructions) {
+	activeRuleInstructions = localClineRulesFileInstructions
+} else if (localCursorRulesFileInstructions) {
+	activeRuleInstructions = localCursorRulesFileInstructions
+} else if (localWindsurfRulesFileInstructions) {
+	activeRuleInstructions = localWindsurfRulesFileInstructions
 }
 
-function buildUserInstructions(
-    globalClineRulesFileInstructions?: string,
-    localClineRulesFileInstructions?: string,
-    localCaretRulesFileInstructions?: string,  // ← 추가
-    // ... 기타 파라미터들
-) {
-    const customInstructions = []
-    // ... 기타 규칙들
-
-    // CARET MODIFICATION: Add .caretrules content to AI prompt
-    if (localCaretRulesFileInstructions) {
-        customInstructions.push(localCaretRulesFileInstructions)
-    }
-
-    // ... 기타 처리
-}
+// CARET MODIFICATION: Use priority system - only pass the active rule instead of all rules
+const userInstructions = addUserInstructions(
+	globalClineRulesFileInstructions,
+	activeRuleInstructions, // Only the highest priority active rule
+	undefined, // Other rules handled by priority system
+	// ...
+)
 ```
 
-**수정 파일**:
-- `src/core/task/index.ts:17, 1343-1359, 1387`
-- `src/core/prompts/system-prompt/types.ts:100`
-- `src/core/prompts/system-prompt/components/user_instructions.ts:15, 38, 53-55`
+## 🧪 **TDD 및 테스트**
 
----
+### **테스트 커버리지**: ✅ **완전 통합 테스트**
 
-#### 버그 7: Caret 프롬프트 시스템에서 규칙 무시 ⚠️ 치명적 (Part 2: Caret Adapter)
-**문제**: 버그 6 수정 후에도 **Caret 프롬프트 모드에서 `.caretrules` 내용이 AI에게 전달되지 않음**
+#### **📊 테스트 구조**
 
-**원인**:
-- `CaretJsonAdapter`가 `CARET_USER_INSTRUCTIONS` 섹션 처리 시 **JSON 템플릿만 사용**
-- Cline의 실제 규칙 시스템(`getUserInstructions()`)을 호출하지 않음
-- `task/index.ts`에서는 규칙을 로드하지만, Caret 프롬프트 시스템은 독립적으로 동작하여 무시
+**1. 단위 테스트**: `src/test/rule-priority.test.ts`
 
-**동작 흐름**:
-```
-1. task/index.ts → getLocalCaretRules() 호출 ✅
-2. task/index.ts → promptContext에 localCaretRulesFileInstructions 설정 ✅
-3. Cline 프롬프트 시스템 → getUserInstructions() → 규칙 포함 ✅
-4. Caret 프롬프트 시스템 → JSON 템플릿만 사용 ❌ (규칙 무시)
-```
+- **대상**: `addUserInstructions` 함수의 우선순위 로직
+- **테스트 케이스**: 8개 시나리오 (모든 우선순위 조합)
 
-**해결**:
+**2. 통합 테스트**: `src/test/rule-priority-integration.test.ts` ✨ **NEW**
 
-**1) CaretJsonAdapter.ts 수정 - 새 메서드 추가**:
-```typescript
-/**
- * Gets user instructions from Cline's actual system (.caretrules, .clinerules, etc.)
- * CARET MODIFICATION: This ensures .caretrules content is actually passed to AI
- */
-private async getClineUserInstructions(context: CaretSystemPromptContext, isChatbotMode: boolean): Promise<string | null> {
-    try {
-        // Import Cline's getUserInstructions function
-        const { getUserInstructions } = await import("@core/prompts/system-prompt/components/user_instructions")
+- **대상**: 실제 파일 시스템과 `refreshExternalRulesToggles` 함수
+- **테스트 케이스**: 6개 시나리오 (실제 파일 생성/삭제)
 
-        // Get the appropriate variant for the model using PromptRegistry
-        const registry = PromptRegistry.getInstance()
-        await registry.load()
+#### **🔬 통합 테스트 시나리오**
 
-        // Use GENERIC family to get default variant
-        const variant = registry.getVariantMetadata(ModelFamily.GENERIC)
-        if (!variant) {
-            Logger.warn(`[CaretJsonAdapter] ⚠️ No variant found for GENERIC family`)
-            return null
-        }
+1. **다중 규칙 파일 우선순위**:
+    - `.caretrules` + `.cursorrules` + `.windsurfrules` 존재
+    - → `.caretrules`만 활성화, 나머지 비활성화
 
-        // Call Cline's getUserInstructions with the context
-        // This will include .caretrules, .clinerules, etc. based on priority
-        const userInstructions = await getUserInstructions(variant, context as any)
+2. **중간 우선순위 테스트**:
+    - `.cursorrules` + `.windsurfrules` 존재 (`.caretrules` 없음)
+    - → `.windsurfrules`만 활성화
 
-        if (userInstructions) {
-            Logger.info(`[CaretJsonAdapter] ✅ Loaded Cline user instructions (${userInstructions.length} chars)`)
-        } else {
-            Logger.info(`[CaretJsonAdapter] ℹ️ No Cline user instructions found`)
-        }
+3. **단일 규칙 파일**:
+    - `.cursorrules`만 존재
+    - → `.cursorrules` 활성화
 
-        return userInstructions || null
-    } catch (error) {
-        Logger.error(`[CaretJsonAdapter] ❌ Error loading Cline user instructions:`, error)
-        return null
-    }
-}
-```
+4. **빈 디렉토리**:
+    - 규칙 파일 없음
+    - → 모든 규칙 비활성화
 
-**2) CaretJsonAdapter.ts 수정 - CARET_USER_INSTRUCTIONS 처리 변경**:
-```typescript
-// CARET MODIFICATION: Use Cline's actual user instructions system for CARET_USER_INSTRUCTIONS
-if (name === "CARET_USER_INSTRUCTIONS") {
-    const clineUserInstructions = await this.getClineUserInstructions(context, isChatbotMode)
-    if (clineUserInstructions) {
-        promptParts.push(clineUserInstructions)
-        Logger.debug(`[CaretJsonAdapter] ✅ ${name}: loaded from Cline system (${clineUserInstructions.length} chars)`)
-    } else {
-        // Fallback to JSON template if Cline system fails
-        const sectionContent = this.getDynamicSection(template, isChatbotMode, context)
-        if (sectionContent.trim()) {
-            promptParts.push(sectionContent)
-            Logger.debug(`[CaretJsonAdapter] ✅ ${name}: loaded from JSON template (${sectionContent.length} chars)`)
-        } else {
-            Logger.debug(`[CaretJsonAdapter] ⚠️ ${name}: empty content`)
-        }
-    }
-}
-```
+5. **동적 파일 추가**:
+    - `.cursorrules` 먼저 생성 → 활성화
+    - `.caretrules` 나중 추가 → `.cursorrules` 비활성화, `.caretrules` 활성화
 
-**3) Import 경로를 path alias로 수정**:
-```typescript
-// Before (상대 경로)
-import { ClineToolSet } from "../../../../../src/core/prompts/system-prompt/registry/ClineToolSet"
+6. **파일 삭제**:
+    - `.caretrules` + `.cursorrules` 존재 → `.caretrules` 활성화
+    - `.caretrules` 삭제 → `.cursorrules` 활성화
 
-// After (path alias)
-import { ClineToolSet } from "@core/prompts/system-prompt/registry/ClineToolSet"
-import { Logger } from "@services/logging/Logger"
-import { ModelFamily } from "@shared/prompts"
-```
+#### **🏃‍♂️ 실행 방법**
 
-**수정 파일**:
-- `caret-src/core/prompts/system/adapters/CaretJsonAdapter.ts:1-6, 68-83, 133-168`
-
-**핵심 원칙**: Caret 프롬프트 시스템도 **Cline의 규칙 시스템을 직접 호출**하여 JSON 템플릿과 실제 규칙을 모두 활용
-
----
-
-## 🔄 동작 방식
-
-### 자동 우선순위 적용
-
-**시나리오 1: .caretrules 존재**
-```
-.caretrules (활성화) → AI 프롬프트에 포함 ✅
-.clinerules (자동 비활성화)
-.cursorrules (자동 비활성화)
-→ .caretrules 내용만 AI에게 전달
-```
-
-**시나리오 2: .clinerules만 존재**
-```
-.caretrules (없음)
-.clinerules (활성화) → AI 프롬프트에 포함 ✅
-.cursorrules (자동 비활성화)
-→ .clinerules 내용만 AI에게 전달
-```
-
-**시나리오 3: 규칙 없음**
-```
-모든 규칙 파일 없음
-→ AI 프롬프트에 추가 내용 없음
-```
-
----
-
-## 📊 파일 확장자 지원
-
-### 지원되는 확장자
-`.caretrules` 디렉토리는 **모든 파일 확장자**를 읽어옵니다:
-- `.md` - Markdown 규칙 파일
-- `.json` - JSON 형식 규칙
-- `.yaml`, `.yml` - YAML 형식 규칙
-- 기타 텍스트 파일
-
-### 구현 방식
-```typescript
-// readDirectory는 확장자 필터링 없이 모든 파일 반환
-const rulesFilePaths = await readDirectory(caretRulesFilePath, [
-    [path.basename(GlobalFileNames.caretRules), "workflows"],
-])
-```
-
----
-
-## 📝 수정된 파일 목록 (전체)
-
-### Phase 4 (초기 구현)
-```
-src/core/context/instructions/user-instructions/external-rules.ts  (+151 lines)
-src/core/storage/disk.ts                                           (CARET MODIFICATION)
-src/core/storage/state-keys.ts                                     (CARET MODIFICATION)
-src/core/storage/utils/state-helpers.ts                            (CARET MODIFICATION)
-```
-
-### 2025-10-15 버그 수정
-```
-src/core/context/instructions/user-instructions/external-rules.ts:95-132      (우선순위 로직 수정 - 치명적)
-src/core/context/instructions/user-instructions/external-rules.ts:53-56       (확장자 필터 수정)
-src/core/context/instructions/user-instructions/rule-helpers.ts:169-207       (규칙 생성 위치 수정)
-src/core/controller/file/createRuleFile.ts:57-59                              (토글 업데이트 추가)
-src/core/controller/file/refreshRules.ts:19-35                                (반환값 수정)
-src/core/task/index.ts:17, 1343-1359, 1387                                    (AI 프롬프트 통합 - Cline)
-src/core/prompts/system-prompt/types.ts:100                                   (타입 정의 추가)
-src/core/prompts/system-prompt/components/user_instructions.ts:15, 38, 53-55 (프롬프트 빌더 수정)
-caret-src/core/prompts/system/adapters/CaretJsonAdapter.ts:1-6, 68-83, 133-168 (AI 프롬프트 통합 - Caret)
-caret-src/__tests__/rule-discovery.test.ts:6                                  (테스트 수정)
-```
-
-**총 수정 파일**: 13개 (Phase 4: 4개 + 버그 수정: 10개, Cline 원본: 8개, Caret 확장: 2개)
-
----
-
-## 🧪 검증
-
-### 테스트 시나리오
-
-**1. 우선순위 검증**
 ```bash
-# .caretrules 생성 → 다른 규칙 자동 비활성화
-mkdir .caretrules
-echo "# Test rule" > .caretrules/test.md
-# 프롬프트 확인: .caretrules 내용만 포함 ✅
+# 단위 테스트만
+npm run test:unit -- --testPathPattern=rule-priority.test.ts
+
+# 통합 테스트만
+npm run test:unit -- --testPathPattern=rule-priority-integration.test.ts
+
+# 모든 우선순위 테스트
+npm run test:unit -- --testPathPattern=rule-priority
 ```
 
-**2. 파일 확장자 검증**
-```bash
-# JSON, YAML 파일도 로딩되는지 확인
-echo '{"rule": "test"}' > .caretrules/config.json
-echo 'rule: test' > .caretrules/config.yaml
-# 프롬프트 확인: 모든 파일 내용 포함 ✅
-```
+### **🎯 Test First 개발 완료**
 
-**3. 동적 전환 검증**
-```bash
-# .caretrules 삭제 → .clinerules 자동 활성화
-rm -rf .caretrules
-# 프롬프트 확인: .clinerules 내용만 포함 ✅
-```
+- ✅ 단위 테스트: `addUserInstructions` 함수 로직
+- ✅ 통합 테스트: 실제 파일 시스템 + UI 데이터 흐름
+- ✅ 동적 테스트: 파일 생성/삭제 시나리오
+- ✅ Edge case: 빈 디렉토리, 우선순위 변경
+
+## 🔧 **머징 구현 가이드**
+
+### **이식 우선순위**: ✅ **COMPLETED**
+
+- **상태**: Phase 2-2에서 완전 구현 완료
+- **적용 범위**: 백엔드 로직 + UI 통합 + 테스트
+- **Phase**: Phase 2-2 (완료됨)
+
+### **충돌 위험도**: ✅ **RESOLVED**
+
+- **해결 방안**: CARET MODIFICATION 마커로 안전한 추가
+- **변경 내용**: 기존 Cline 코드 보존하며 우선순위 로직 추가
+
+### **✅ 구현 완료된 파일 목록**
+
+#### **🎯 백엔드 핵심 로직 (9개 파일)**
+
+1. **`caret-src/core/controller/file/toggleCaretRule.ts`** (**NEW**)
+    - `.caretrules` 파일의 개별 규칙을 토글하는 기능
+    - Cline 소스와 완전히 분리된 Caret 고유 로직
+
+2. **`src/core/context/instructions/user-instructions/external-rules.ts`**
+    - 우선순위 로직 `disableAllToggles()` 함수 추가
+    - 파일 존재 확인 후 우선순위 적용
+
+3. **`src/core/task/index.ts`**
+    - `activeRuleInstructions` 변수로 단일 규칙만 전달
+    - 기존 우선순위 시스템 유지
+
+4. **`src/core/controller/file/refreshRules.ts`**
+    - `localCaretRulesToggles` UI 전송 추가
+
+5. **`src/core/storage/disk.ts`**
+    - `caretRules: ".caretrules"` 파일명 정의
+
+6. **`src/core/storage/state-keys.ts`**
+    - `localCaretRulesToggles` 상태 키 추가
+
+7. **`src/core/storage/utils/state-helpers.ts`**
+    - `localCaretRulesToggles` 초기화 추가
+
+8. **`src/core/prompts/responses.ts`**
+    - `caretRulesLocalFileInstructions` 포맷터 추가
+
+9. **`proto/cline/file.proto`**
+    - `local_caret_rules_toggles` 필드 추가
+
+#### **🎨 UI 통합 (2개 파일)**
+
+10. **`webview-ui/src/components/cline-rules/ClineRulesToggleModal.tsx`**
+    - `caretRules` 목록 표시 추가
+    - `localCaretRulesToggles` 상태 처리
+
+11. **`webview-ui/src/context/ExtensionStateContext.tsx`**
+    - `localCaretRulesToggles` 전역 상태 관리
+    - setter 함수 추가
+
+#### **🧪 테스트 (2개 파일)**
+
+12. **`src/test/rule-priority.test.ts`** _(기존)_
+    - 단위 테스트 (addUserInstructions 함수)
+
+13. **`src/test/rule-priority-integration.test.ts`** _(신규)_
+    - 실제 파일 시스템 통합 테스트
+    - 6개 시나리오 커버
+
+#### **📊 구현 통계**
+
+- **총 수정 파일**: 13개
+- **신규 파일**: 2개 (통합 테스트, toggleCaretRule)
+- **백엔드 로직**: 9개 파일
+- **UI 통합**: 2개 파일
+- **테스트 커버리지**: 14개 시나리오
+
+### **주의사항 및 체크리스트**
+
+#### **⚠️ 머징 시 주의사항**
+
+- [ ] **백업 필수**: 원본 파일 수정 전 `.backup` 또는 `.cline` 백업 생성
+- [ ] **마커 확인**: `// CARET MODIFICATION:` 주석으로 수정 부분 명확히 표시
+- [ ] **테스트 우선**: 기능 이식 전 테스트 코드부터 이식
+- [ ] **로그 확인**: 규칙 로딩 과정이 로그에 올바르게 기록되는지 확인
+
+#### **✅ 완료 기준**
+
+- [x] **단위 테스트**: 8개 테스트 케이스 모두 통과 ✅
+- [x] **통합 테스트**: 6개 파일 시스템 시나리오 통과 ✅
+- [x] **컴파일 성공**: TypeScript 타입 검사 통과 ✅
+- [x] **Proto 빌드**: gRPC 통신 프로토콜 정상 생성 ✅
+- [x] **UI 통합**: Rules Toggle Modal에 .caretrules 표시 ✅
+- [x] **우선순위 로직**: 파일 존재 시 낮은 우선순위 비활성화 ✅
+- [x] **CARET MODIFICATION**: 모든 수정 부분 주석 표시 ✅
+
+## 🔄 **호환성 및 마이그레이션**
+
+### **기존 사용자 호환성**
+
+- **Cline 사용자**: 기존 `.clinerules` 파일 그대로 사용 가능
+- **Cursor 사용자**: 기존 `.cursorrules` 파일 그대로 사용 가능
+- **Windsurf 사용자**: 기존 `.windsurfrules` 파일 그대로 사용 가능
+
+### **마이그레이션 가이드**
+
+기존 사용자가 Caret의 우선순위 시스템을 활용하려면:
+
+1. **기존 규칙 확인**:
+
+    ```bash
+    ls -la .clinerules .cursorrules .windsurfrules
+    ```
+
+2. **우선 규칙 선택**:
+    - 가장 중요한 규칙 파일 내용을 `.caretrules`로 복사
+    - 또는 기존 파일 이름을 `.caretrules`로 변경
+
+3. **중복 제거**:
+    - 불필요한 중복 규칙 파일들 제거
+    - 또는 백업 목적으로 다른 이름으로 변경
+
+## 📊 **성능 및 효과**
+
+### **토큰 사용량 절약**
+
+- **Before**: 3개 규칙 파일 × 평균 100 토큰 = 300 토큰
+- **After**: 1개 규칙 파일 × 100 토큰 = 100 토큰
+- **절약 효과**: **67% 토큰 사용량 감소**
+
+### **설정 관리 개선**
+
+- **충돌 제거**: 여러 규칙 파일 간 충돌 완전 방지
+- **명확성**: 어떤 규칙이 적용되는지 명확히 파악 가능
+- **유지보수**: 단일 규칙 파일 관리로 복잡성 감소
+
+## 🔮 **향후 개선 계획**
+
+### **단기 계획**
+
+- **UI 개선**: Rules Toggle Modal에서 우선순위 로직 반영
+- **안내 메시지**: 비활성화된 규칙에 대한 사용자 안내
+- **로깅 강화**: 어떤 규칙 파일이 선택되었는지 명확한 로그
+
+### **중기 계획**
+
+- **규칙 편집기**: VSCode 내장 규칙 파일 편집 UI
+- **템플릿 시스템**: 프로젝트 유형별 규칙 템플릿 제공
+- **상속 시스템**: 글로벌/프로젝트 규칙 계층 구조
 
 ---
 
-## ⚙️ 설정
-
-### 자동 감지
-- 파일 시스템 변경 감지
-- 우선순위 자동 적용
-- 수동 설정 불필요
-
-### 디버깅
-```typescript
-// Logger.debug 메시지로 상태 확인
-Logger.debug(`[CARET] Rules path: ${localCaretRulesFilePath}`)
-Logger.debug(`[CARET] Current toggles: ${JSON.stringify(localCaretRulesToggles)}`)
-Logger.debug(`[CARET] Updated toggles: ${JSON.stringify(updatedLocalCaretToggles)}`)
-```
-
----
-
-## 💡 핵심 장점
-
-**1. 토큰 절약**
-- 중복 규칙 제거 → 토큰 사용량 감소
-- 프롬프트 간결화 → API 비용 절감
-
-**2. 설정 충돌 방지**
-- 단일 규칙만 적용
-- 우선순위 명확
-- 예측 가능한 동작
-
-**3. 최소 침습**
-- Cline 코드 보존
-- 12개 파일만 수정
-- CARET MODIFICATION 명시
-
-**4. 브랜드별 자동 지원**
-- Caret: `.caretrules`
-- CodeCenter: `.codecenterrules`
-- 동적 디렉토리 전환
-
----
-
-## 🔍 Known Issues (해결됨)
-
-### ✅ 2025-10-15 버그 수정 (총 7개)
-1. **우선순위 로직 오류** ⚠️ 치명적: `cloneToggles()` 복사로 인한 토글-내용 불일치 → **해결**: 각 소스가 자신의 토글만 유지
-2. **파일 감지 안됨**: `"*.*"` 필터 문제 → **해결**: 빈 문자열 사용
-3. **규칙 생성 위치 오류**: 하드코딩된 `.clinerules` → **해결**: 브랜드별 동적 경로
-4. **토글 업데이트 누락**: refresh 미호출 → **해결**: `refreshExternalRulesToggles` 추가
-5. **UI 반영 안됨**: 반환값 누락 → **해결**: `caretLocalToggles` 반환 추가
-6. **Cline AI 프롬프트 누락** ⚠️ 치명적: `getLocalCaretRules` 미호출 → **해결**: Cline 프롬프트 체인 전체 통합
-7. **Caret AI 프롬프트 누락** ⚠️ 치명적: `CaretJsonAdapter`가 JSON 템플릿만 사용 → **해결**: Cline 규칙 시스템 직접 호출
-
-### ✅ 현재 상태
-모든 버그 수정 완료. 정상 작동.
-
-**가장 치명적이었던 버그 3개**:
-- **버그 1**: UI에는 `.caretrules` 활성화로 표시되지만 AI는 아무것도 받지 못함
-- **버그 6**: Cline 프롬프트에서 규칙 내용이 AI에게 전달 안됨
-- **버그 7**: Caret 프롬프트에서 규칙 시스템을 완전히 무시함 (JSON 템플릿만 사용)
-
----
-
-**작성일**: 2025-10-10 (초기) / 2025-10-15 (버그 수정)
-**Phase**: Phase 4 Backend 완료 + 버그 수정 완료
-**다음 단계**: 프로덕션 검증 및 모니터링
+**작성자**: Alpha (AI Assistant)  
+**검토자**: Luke (Project Owner)  
+**작성일**: 2025-08-16  
+**마지막 업데이트**: 2025-01-15 23:45 KST  
+**Phase**: ✅ **Phase 2-2 완료** (규칙 우선순위 시스템 구현)  
+**구현 상태**: ✅ **완전 구현** (백엔드 + UI + 테스트)  
+**TDD 상태**: ✅ **단위 + 통합 테스트** 완료

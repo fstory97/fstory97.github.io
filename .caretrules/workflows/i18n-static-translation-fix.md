@@ -127,4 +127,4 @@ npm run build:webview
 
 ---
 **Workflow Version**: v1.1 (2025-09-06)
-**Related Documents**: f02-multilingual-i18n.mdx, merging-strategy-guide.md
+**Related Documents**: f02-multilingual-i18n.md, merging-strategy-guide.md
