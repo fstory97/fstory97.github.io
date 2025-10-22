@@ -610,7 +610,8 @@
 		"description": "Caret 是一个开源项目。访问我们的 GitHub 贡献代码、报告问题或分享反馈。",
 		"githubLinkPrefix": "了解更多",
 		"githubLink": "github.com/aicoding-caret/caret",
-		"closeBannerAria": "关闭横幅"
+		"closeBannerAria": "关闭横幅",
+		"settingsLink": "设置"
 	},
 	"history": {
 		"title": "History",

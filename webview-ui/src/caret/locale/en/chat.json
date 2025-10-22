@@ -266,12 +266,12 @@
 		"caretPreparing": "Caret MCP marketplace is preparing.",
 		"caretPreparingDescription": "Caret exclusive MCP tools will be available soon."
 	},
-	"installedServersView": {
-		"descriptionPart1": "The",
+	"configureServersView": {
+		"mcpDescription": "The",
 		"modelContextProtocol": "Model Context Protocol",
-		"descriptionPart2": "enables communication with locally running MCP servers that provide additional tools and resources to extend Caret's capabilities. You can use",
+		"mcpDescriptionMiddle2": "enables communication with locally running MCP servers that provide additional tools and resources to extend Caret's capabilities. You can use",
 		"communityMadeServers": "community-made servers",
-		"descriptionPart3": "or ask Caret to create new tools specific to your workflow (e.g., \"add a tool that gets the latest npm docs\").",
+		"mcpDescriptionEnd": "or ask Caret to create new tools specific to your workflow (e.g., \"add a tool that gets the latest npm docs\").",
 		"seeDemoHere": "See a demo here.",
 		"configureMcpServers": "Configure MCP Servers",
 		"advancedMcpSettings": "Advanced MCP Settings"

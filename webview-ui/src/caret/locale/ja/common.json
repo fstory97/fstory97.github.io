@@ -611,7 +611,7 @@
 		"githubLinkPrefix": "詳細はこちら",
 		"githubLink": "github.com/aicoding-caret/caret",
 		"closeBannerAria": "バナーを閉じる",
-		"settingsLink": "この設定は設定でオフにできます。"
+		"settingsLink": "設定"
 	},
 	"history": {
 		"title": "履歴",

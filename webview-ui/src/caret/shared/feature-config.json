@@ -3,8 +3,8 @@
 	"defaultPersonaEnabled": true,
 	"redirectAfterApiSetup": "persona",
 	"defaultModeSystem": "caret",
-	"firstListingProvider": "caret",
-	"defaultProvider": "openrouter",
+	"firstListingProvider": "litellm",
+	"defaultProvider": "litellm",
 	"showOnlyDefaultProvider": false,
-	"showCostInformation": true
+	"showCostInformation": false
 }
